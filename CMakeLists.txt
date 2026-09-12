@@ -109,6 +109,12 @@ endif()
 if(MINGW)
     target_link_options(emulocke PRIVATE -static-libgcc -static-libstdc++ -static)
 endif()
+if(WIN32)
+    enable_language(RC)
+    target_sources(emulocke PRIVATE assets/icons/emulocke.rc)
+    set_source_files_properties(assets/icons/emulocke.rc PROPERTIES
+        INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/assets/icons")
+endif()
 
 add_custom_command(
     TARGET emulocke POST_BUILD
