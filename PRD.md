@@ -57,6 +57,7 @@ Recorded so later work does not invent the product twice:
 - QoL tools
 - More as decided in this project
 - A native tracker adjacent to nuzlocke.app (encounter/route tracking UX), built in Emulocke. Not a fork. Not a webview of another app.
+- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. No suite UI in V1.
 
 ## Platforms
 
@@ -80,6 +81,7 @@ Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree mus
 - Emulocke source: GPL-3.0-or-later (required by linking melonDS).
 - mGBA files stay MPL-2.0 (incompatible with secondary licenses). Do not relicense those files as GPL. Ship both licenses.
 - Do not ship Nintendo BIOS, firmware, or ROMs. Users supply their own dumps and games.
+- Do not ship Pokemon sprite PNGs. `SpriteCache` downloads box/front/back art on demand into the SDL pref cache. Bundled `assets/sprites/missing-*.png` are original question-mark art, not TPC sprites.
 - V1 boots DS games with FreeBIOS so a BIOS dump is not required to play.
 
 ## Default input
@@ -113,6 +115,7 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 | One session at a time | No dual-core process. Extension selects GBA or NDS. |
 | Windows via MSVC in CI | Same CMake tree. Dynlib uses LoadLibrary. Pref path is SDL. JIT off on MSVC (no GNU `.S` assembler). |
 | Other chats are out of scope | Greenfield. Only this document and this repo set requirements. |
+| Sprite cache downloads at runtime | PokeAPI/PokéSprite/bamq host the pixels. Pref cache, not git. Box: PokéSprite then bamq Gen 9 then PokeAPI gen8 icons. Front/back: PokeAPI BW-style. Credits: PokeAPI, msikma/pokesprite, National Dex Version Delta (bamq), Smogon for fan 2D past 649. |
 
 ## V1 success
 
@@ -131,3 +134,4 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 - 2026-09-12: 21px charcoal around the screen cluster. DS split stays 5px.
 - 2026-09-12: 21px charcoal below and to the right of the field log.
 - 2026-09-12: Suite header is a tab bar. Logs is the first tab.
+- 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.

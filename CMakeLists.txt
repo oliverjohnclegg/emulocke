@@ -117,6 +117,30 @@ if(WIN32)
         INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/assets/icons")
 endif()
 
+find_package(CURL REQUIRED)
+add_library(emulocke_sprites STATIC
+    src/poke/SpriteIndex.cpp
+    src/poke/SpriteUrls.cpp
+    src/poke/HttpGet.cpp
+    src/poke/SpriteCache.cpp)
+target_include_directories(emulocke_sprites PUBLIC src)
+target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
+
+add_executable(emulocke-sprite-check
+    src/test/sprite_check.cpp
+    src/emu/Paths.cpp)
+target_include_directories(emulocke-sprite-check PRIVATE src)
+target_compile_definitions(emulocke-sprite-check PRIVATE SDL_MAIN_HANDLED)
+target_link_libraries(emulocke-sprite-check PRIVATE emulocke_sprites SDL3::SDL3)
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-sprite-check PRIVATE pthread)
+endif()
+add_custom_command(
+    TARGET emulocke-sprite-check POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:emulocke-sprite-check>/assets)
+
 add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
     src/emu/GbaSession.cpp
