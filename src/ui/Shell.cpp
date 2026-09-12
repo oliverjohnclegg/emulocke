@@ -2,17 +2,20 @@
 
 #include "application/Application.hpp"
 #include "emu/EmuSession.hpp"
+#include "ui/Suite.hpp"
+#include "ui/Theme.hpp"
 
 #include <imgui.h>
 #include <algorithm>
-#include <string>
 
 namespace emulocke {
 
 namespace {
 
+constexpr float kHinge = 12.f;
+
 void drawScreen(const char* id, ScreenTexture& tex, ImVec2 avail, bool paused, bool touch, Application& app) {
-    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.043f, 0.047f, 0.039f, 1.f));
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, kScreenWell);
     ImGui::BeginChild(id, avail, ImGuiChildFlags_Borders);
     if (tex.texture()) {
         const float maxW = ImGui::GetContentRegionAvail().x;
@@ -45,32 +48,10 @@ void drawScreen(const char* id, ScreenTexture& tex, ImVec2 avail, bool paused, b
     }
     if (paused) {
         const ImVec2 origin = ImGui::GetWindowPos();
-        ImGui::GetWindowDrawList()->AddText(ImVec2(origin.x + 12.f, origin.y + 12.f), IM_COL32(196, 43, 43, 255), "PAUSED");
+        ImGui::GetWindowDrawList()->AddText(ImVec2(origin.x + 12.f, origin.y + 12.f), kPaused, "PAUSED");
     }
     ImGui::EndChild();
     ImGui::PopStyleColor();
-}
-
-void drawSuite(ImFont* display, ImFont* body, const std::string& status, const char* romName) {
-    ImGui::BeginChild("suite", ImVec2(0, 0), ImGuiChildFlags_Borders);
-    if (display) ImGui::PushFont(display);
-    ImGui::TextUnformatted("FIELD LOG");
-    if (display) ImGui::PopFont();
-    ImGui::Separator();
-    if (body) ImGui::PushFont(body);
-    ImGui::Dummy(ImVec2(0, 12));
-    ImGui::TextDisabled("Nuzlocke suite comes later.");
-    ImGui::Spacing();
-    ImGui::TextWrapped("Damage calc, progression tracker, and QoL tools will live here. This pane stays empty until then.");
-    if (!status.empty()) {
-        ImGui::Dummy(ImVec2(0, 16));
-        ImGui::TextUnformatted(status.c_str());
-    }
-    if (romName && *romName) {
-        ImGui::TextDisabled("%s", romName);
-    }
-    if (body) ImGui::PopFont();
-    ImGui::EndChild();
 }
 
 }  // namespace
@@ -80,10 +61,10 @@ void drawShell(Application& app) {
     const bool nds = session && session->kind() == ConsoleKind::Nds;
     const float left = ImGui::GetContentRegionAvail().x * 0.52f;
     ImGui::BeginChild("left", ImVec2(left, 0), ImGuiChildFlags_None);
-    const float paneH = nds ? (ImGui::GetContentRegionAvail().y - 8.f) * 0.5f : ImGui::GetContentRegionAvail().y;
+    const float paneH = nds ? (ImGui::GetContentRegionAvail().y - kHinge) * 0.5f : ImGui::GetContentRegionAvail().y;
     drawScreen("top", app.screen(0), ImVec2(0, paneH), app.paused(), false, app);
     if (nds) {
-        ImGui::Dummy(ImVec2(0, 8));
+        ImGui::Dummy(ImVec2(0, kHinge));
         drawScreen("bottom", app.screen(1), ImVec2(0, 0), app.paused(), true, app);
     }
     ImGui::EndChild();

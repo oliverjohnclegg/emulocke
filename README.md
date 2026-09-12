@@ -13,7 +13,7 @@ Or File > Open ROM. Battery saves are written next to the ROM as `.sav`. DS boot
 
 - NDS: two stacked screens. Mouse on the bottom pane is the stylus.
 - GBA: one left pane.
-- Right column: empty field log until the suite exists.
+- Right column: empty suite pane until the tools exist.
 
 ## Build
 

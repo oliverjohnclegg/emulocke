@@ -12,7 +12,7 @@ Someone playing a Pokemon nuzlocke on GBA or DS who wants the game and the tools
 
 ## Problem
 
-Stock emulators play the game and nothing else. Existing nuzlocke tools live in a browser. The run is split across two programs. Emulocke puts both in one field kit.
+Stock emulators play the game and nothing else. Existing nuzlocke tools live in a browser. The run is split across two programs. Emulocke puts both in one window.
 
 ## Layout
 
@@ -20,7 +20,7 @@ Left column is the console. Right column is the suite.
 
 - NDS: two stacked screens (256x192), top then bottom. Mouse on the bottom pane is the stylus.
 - GBA: one left pane (240x160). No empty bottom tile.
-- Right column spans the full height. V1 is an empty expedition-log placeholder.
+- Right column spans the full height. V1 is an empty suite pane.
 
 Fixed split. Integer-scale nearest-neighbor. Letterbox, do not smear pixels.
 
@@ -97,7 +97,7 @@ Gamepad: standard SDL mapping.
 
 ## Design
 
-Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabular type. Suite pane reads as an empty log, not a fake dashboard.
+Onyx clamshell. Cool DS Lite chassis, inset screen wells, Gen 4 cream command chips, ivory on dark, scarce pokeball red. M PLUS Rounded 1c display, Fira Sans body. Suite pane is an empty SUITE chip, not a fake dashboard.
 
 ## Decisions
 
@@ -125,3 +125,4 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 
 - 2026-09-12: Initial PRD. V1 is the playable 2-pane shell. Suite is specified, not built.
 - 2026-09-12: Windows MSVC `.exe` plus GitHub Actions artifacts on push. Same sources, two native builds.
+- 2026-09-12: Visual lock is onyx clamshell with cream command chips, not field kit.

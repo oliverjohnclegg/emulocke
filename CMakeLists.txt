@@ -77,6 +77,7 @@ add_executable(emulocke
     src/application/AppLoop.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
+    src/ui/Suite.cpp
     src/ui/MenuBar.cpp
     src/emu/Paths.cpp
     src/emu/FileBytes.cpp
