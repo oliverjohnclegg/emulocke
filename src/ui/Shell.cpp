@@ -2,6 +2,7 @@
 
 #include "application/Application.hpp"
 #include "emu/EmuSession.hpp"
+#include "ui/Layout.hpp"
 
 #include <imgui.h>
 #include <algorithm>
@@ -10,11 +11,6 @@
 namespace emulocke {
 
 namespace {
-
-constexpr float kScreenGap = 5.f;
-constexpr float kSuiteWidth = 460.f;
-constexpr int kNativeW = 256;
-constexpr int kNativeH = 192;
 
 void drawScreen(const char* id, ScreenTexture& tex, ImVec2 size, bool paused, bool touch, Application& app) {
     ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.043f, 0.047f, 0.039f, 1.f));
@@ -76,10 +72,14 @@ void drawShell(Application& app) {
     const int screens = nds ? 2 : 1;
     const ImVec2 avail = ImGui::GetContentRegionAvail();
     const float gap = nds ? kScreenGap : 0.f;
-    const float consoleAvailW = avail.x - kSuiteWidth - ImGui::GetStyle().ItemSpacing.x;
+    const float insetX = kConsolePad - ImGui::GetStyle().WindowPadding.x;
+    const float insetY = kConsolePad - ImGui::GetStyle().WindowPadding.y;
+    const float consoleAvailW = avail.x - insetX - kSuiteWidth - kConsolePad;
     const int scale = std::max(1, std::min(static_cast<int>(consoleAvailW / static_cast<float>(nativeW)),
-        static_cast<int>((avail.y - gap) / static_cast<float>(nativeH * screens))));
+        static_cast<int>((avail.y - insetY - gap) / static_cast<float>(nativeH * screens))));
     const ImVec2 screen(static_cast<float>(nativeW * scale), static_cast<float>(nativeH * scale));
+    const ImVec2 cursor = ImGui::GetCursorPos();
+    ImGui::SetCursorPos(ImVec2(cursor.x + insetX, cursor.y + insetY));
     ImGui::BeginChild("left", ImVec2(screen.x, screen.y * static_cast<float>(screens) + gap), ImGuiChildFlags_None,
         ImGuiWindowFlags_NoScrollbar);
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(kScreenGap, kScreenGap));
@@ -89,7 +89,7 @@ void drawShell(Application& app) {
     }
     ImGui::PopStyleVar();
     ImGui::EndChild();
-    ImGui::SameLine();
+    ImGui::SameLine(0.f, kConsolePad);
     const char* romName = session ? session->romName().c_str() : "";
     drawSuite(app.displayFont(), app.bodyFont(), app.status(), romName);
 }

@@ -1,4 +1,5 @@
 #include "application/Application.hpp"
+#include "ui/Layout.hpp"
 
 #include <SDL3/SDL.h>
 #include <imgui.h>
@@ -12,8 +13,8 @@ bool Host::create() {
     if (scale <= 0.f) {
         scale = 1.f;
     }
-    window_ = SDL_CreateWindow("Emulocke", static_cast<int>(990 * scale), static_cast<int>(820 * scale),
-        SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    window_ = SDL_CreateWindow("Emulocke", static_cast<int>(kDefaultWindowW * scale),
+        static_cast<int>(kDefaultWindowH * scale), SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
     if (!window_) {
         return false;
     }
