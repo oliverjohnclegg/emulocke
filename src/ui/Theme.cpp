@@ -2,70 +2,86 @@
 
 #include "emu/Paths.hpp"
 
-#include <imgui.h>
+#include <string>
 
 namespace emulocke {
+namespace {
+
+ImFont* loadAssetFont(const char* file, float size) {
+    ImFontConfig cfg;
+    cfg.PixelSnapH = true;
+    const std::string path = assetPath(file);
+    return ImGui::GetIO().Fonts->AddFontFromFileTTF(
+        path.c_str(), size, &cfg, ImGui::GetIO().Fonts->GetGlyphRangesDefault());
+}
+
+}  // namespace
 
 void applyTheme() {
     ImGuiStyle& style = ImGui::GetStyle();
     style.WindowRounding = 0.f;
-    style.ChildRounding = 2.f;
-    style.FrameRounding = 2.f;
-    style.GrabRounding = 2.f;
+    style.ChildRounding = 0.f;
+    style.FrameRounding = 0.f;
+    style.GrabRounding = 0.f;
+    style.PopupRounding = 0.f;
     style.WindowPadding = ImVec2(5.f, 5.f);
     style.FramePadding = ImVec2(8.f, 3.f);
     style.ItemSpacing = ImVec2(5.f, 5.f);
     style.ScrollbarSize = 10.f;
     style.WindowBorderSize = 0.f;
     style.ChildBorderSize = 1.f;
+    style.FrameBorderSize = 1.f;
     style.PopupBorderSize = 1.f;
-    style.PopupRounding = 2.f;
     style.TabRounding = 0.f;
-    style.TabBorderSize = 0.f;
+    style.TabBorderSize = 1.f;
     style.TabBarBorderSize = 1.f;
     style.TabBarOverlineSize = 2.f;
+    style.TabMinWidthBase = 72.f;
     ImVec4* c = style.Colors;
-    c[ImGuiCol_WindowBg] = ImVec4(0.071f, 0.063f, 0.055f, 1.f);
-    c[ImGuiCol_ChildBg] = ImVec4(0.102f, 0.090f, 0.078f, 1.f);
-    c[ImGuiCol_PopupBg] = ImVec4(0.090f, 0.078f, 0.067f, 0.98f);
-    c[ImGuiCol_Border] = ImVec4(0.22f, 0.16f, 0.14f, 1.f);
-    c[ImGuiCol_Text] = ImVec4(0.843f, 0.804f, 0.745f, 1.f);
-    c[ImGuiCol_TextDisabled] = ImVec4(0.48f, 0.44f, 0.41f, 1.f);
-    c[ImGuiCol_Header] = ImVec4(0.77f, 0.17f, 0.17f, 0.45f);
-    c[ImGuiCol_HeaderHovered] = ImVec4(0.77f, 0.17f, 0.17f, 0.70f);
-    c[ImGuiCol_HeaderActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.90f);
-    c[ImGuiCol_Button] = ImVec4(0.18f, 0.14f, 0.12f, 1.f);
-    c[ImGuiCol_ButtonHovered] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
-    c[ImGuiCol_ButtonActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.80f);
-    c[ImGuiCol_FrameBg] = ImVec4(0.12f, 0.10f, 0.09f, 1.f);
-    c[ImGuiCol_FrameBgHovered] = ImVec4(0.77f, 0.17f, 0.17f, 0.35f);
-    c[ImGuiCol_FrameBgActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
-    c[ImGuiCol_MenuBarBg] = ImVec4(0.055f, 0.047f, 0.043f, 1.f);
-    c[ImGuiCol_TitleBg] = ImVec4(0.055f, 0.047f, 0.043f, 1.f);
-    c[ImGuiCol_TitleBgActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.35f);
-    c[ImGuiCol_Separator] = ImVec4(0.77f, 0.17f, 0.17f, 0.45f);
-    c[ImGuiCol_ScrollbarGrab] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
-    c[ImGuiCol_CheckMark] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
-    c[ImGuiCol_SliderGrab] = ImVec4(0.77f, 0.17f, 0.17f, 0.90f);
-    c[ImGuiCol_SliderGrabActive] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
-    c[ImGuiCol_ModalWindowDimBg] = ImVec4(0.02f, 0.018f, 0.016f, 0.72f);
-    c[ImGuiCol_Tab] = ImVec4(0.12f, 0.10f, 0.09f, 1.f);
-    c[ImGuiCol_TabHovered] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
-    c[ImGuiCol_TabSelected] = ImVec4(0.16f, 0.13f, 0.11f, 1.f);
-    c[ImGuiCol_TabSelectedOverline] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
-    c[ImGuiCol_TabDimmed] = ImVec4(0.12f, 0.10f, 0.09f, 1.f);
-    c[ImGuiCol_TabDimmedSelected] = ImVec4(0.16f, 0.13f, 0.11f, 1.f);
-    c[ImGuiCol_TabDimmedSelectedOverline] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
+    c[ImGuiCol_WindowBg] = kChassis;
+    c[ImGuiCol_ChildBg] = kPanel;
+    c[ImGuiCol_PopupBg] = kPopup;
+    c[ImGuiCol_Border] = kBorder;
+    c[ImGuiCol_Text] = kMetal;
+    c[ImGuiCol_TextDisabled] = kDisabled;
+    c[ImGuiCol_Header] = kHeader;
+    c[ImGuiCol_HeaderHovered] = kHeaderHover;
+    c[ImGuiCol_HeaderActive] = kHeaderActive;
+    c[ImGuiCol_Button] = kButton;
+    c[ImGuiCol_ButtonHovered] = kButtonHover;
+    c[ImGuiCol_ButtonActive] = kButtonActive;
+    c[ImGuiCol_FrameBg] = kFrame;
+    c[ImGuiCol_FrameBgHovered] = kHeader;
+    c[ImGuiCol_FrameBgActive] = kHeaderHover;
+    c[ImGuiCol_MenuBarBg] = kMenuStrip;
+    c[ImGuiCol_TitleBg] = kMenuStrip;
+    c[ImGuiCol_TitleBgActive] = kMenuStrip;
+    c[ImGuiCol_Separator] = kBorder;
+    c[ImGuiCol_SeparatorHovered] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.45f);
+    c[ImGuiCol_SeparatorActive] = kMetal;
+    c[ImGuiCol_NavCursor] = kMetal;
+    c[ImGuiCol_ScrollbarGrab] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.40f);
+    c[ImGuiCol_ScrollbarGrabHovered] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.70f);
+    c[ImGuiCol_ScrollbarGrabActive] = kMetal;
+    c[ImGuiCol_CheckMark] = kMetal;
+    c[ImGuiCol_SliderGrab] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.70f);
+    c[ImGuiCol_SliderGrabActive] = kMetal;
+    c[ImGuiCol_ModalWindowDimBg] = ImVec4(kChassis.x, kChassis.y, kChassis.z, 0.72f);
+    c[ImGuiCol_Tab] = kMenuStrip;
+    c[ImGuiCol_TabHovered] = kHeaderHover;
+    c[ImGuiCol_TabSelected] = kButton;
+    c[ImGuiCol_TabSelectedOverline] = kMetal;
+    c[ImGuiCol_TabDimmed] = kMenuStrip;
+    c[ImGuiCol_TabDimmedSelected] = kButton;
+    c[ImGuiCol_TabDimmedSelectedOverline] = kMetal;
 }
 
 ImFont* loadDisplayFont() {
-    const std::string path = assetPath("fonts/Oxanium-SemiBold.ttf");
-    return ImGui::GetIO().Fonts->AddFontFromFileTTF(path.c_str(), 20.f);
+    return loadAssetFont("fonts/MPLUSRounded1c-Medium.ttf", 20.f);
 }
 
 ImFont* loadBodyFont() {
-    const std::string path = assetPath("fonts/ShareTechMono-Regular.ttf");
-    return ImGui::GetIO().Fonts->AddFontFromFileTTF(path.c_str(), 15.f);
+    return loadAssetFont("fonts/FiraSans-Regular.ttf", 15.f);
 }
 
 }

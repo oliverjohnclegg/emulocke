@@ -36,11 +36,9 @@ void drawEmptyHome(Application& app) {
     ImGui::SetCursorPos(ImVec2(origin.x + (avail.x - btnSize.x) * 0.5f,
         origin.y + (avail.y - blockH) * 0.5f + msgSize.y + gap));
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(28.f, 16.f));
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.77f, 0.17f, 0.17f, 0.85f));
     if (ImGui::Button(start, btnSize)) {
         app.requestNewRun();
     }
-    ImGui::PopStyleColor();
     ImGui::PopStyleVar();
     if (display) {
         ImGui::PopFont();
