@@ -35,6 +35,17 @@ set(USE_VCPKG OFF CACHE BOOL "" FORCE)
 if(MSVC)
     set(ENABLE_JIT OFF CACHE BOOL "" FORCE)
 endif()
+if(WIN32 AND NOT MINGW)
+    FetchContent_Declare(
+        dirent
+        GIT_REPOSITORY https://github.com/tronkko/dirent.git
+        GIT_TAG 1.26
+        GIT_SHALLOW TRUE)
+    set(DIRENT_EXAMPLES OFF CACHE STRING "" FORCE)
+    set(DIRENT_TESTS OFF CACHE STRING "" FORCE)
+    FetchContent_MakeAvailable(dirent)
+    set(DIRENT_INCLUDE_DIRS "${dirent_SOURCE_DIR}/include" CACHE PATH "" FORCE)
+endif()
 set(BUILD_STATIC OFF CACHE BOOL "" FORCE)
 add_subdirectory(third_party/melonDS EXCLUDE_FROM_ALL)
 
