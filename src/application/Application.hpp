@@ -1,6 +1,7 @@
 #pragma once
 
 #include "adapter/Snapshot.hpp"
+#include "application/Prefs.hpp"
 #include "emu/EmuSession.hpp"
 #include "emu/Input.hpp"
 #include "emu/AudioOutput.hpp"
@@ -24,10 +25,14 @@ class GameAdapter;
 
 class Host {
 public:
-    bool create();
+    bool create(const Prefs& prefs);
     void destroy();
     SDL_Window* window() const { return window_; }
     SDL_Renderer* renderer() const { return renderer_; }
+    void setFullscreen(bool on);
+    bool fullscreen() const;
+    void restoreDefaultSize();
+    void captureWindowed(Prefs& prefs) const;
 
 private:
     SDL_Window* window_{};
@@ -46,7 +51,15 @@ public:
     void resetSession();
     void closeRom();
     void setTouch(bool down, uint16_t x, uint16_t y);
+    void persistPrefs();
+    void setFullscreen(bool on);
+    void setScreenScale(int scale);
+    void setMuted(bool mute);
+    void setVolume(int volume);
+    void restoreDefaultWindow();
     bool paused() const { return paused_; }
+    int screenScale() const { return prefs_.scale; }
+    const Prefs& prefs() const { return prefs_; }
     EmuSession* session() const { return session_.get(); }
     SDL_Renderer* renderer() const { return host_.renderer(); }
     ScreenTexture& screen(int i) { return screens_[i]; }
@@ -59,9 +72,13 @@ private:
     void startEmuThread();
     void stopEmuThread();
     void emuLoop();
+    void applyPendingHost();
+    enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
     Host host_;
+    PendingHost pendingHost_{PendingHost::None};
     Input input_;
     AudioOutput audio_;
+    Prefs prefs_;
     ScreenTexture screens_[2];
     std::unique_ptr<EmuSession> session_;
     const GameAdapter* adapter_{};

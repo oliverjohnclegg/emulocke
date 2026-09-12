@@ -18,6 +18,8 @@ void applyTheme() {
     style.ScrollbarSize = 10.f;
     style.WindowBorderSize = 0.f;
     style.ChildBorderSize = 1.f;
+    style.PopupBorderSize = 1.f;
+    style.PopupRounding = 2.f;
     style.TabRounding = 0.f;
     style.TabBorderSize = 0.f;
     style.TabBarBorderSize = 1.f;
@@ -36,11 +38,17 @@ void applyTheme() {
     c[ImGuiCol_ButtonHovered] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
     c[ImGuiCol_ButtonActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.80f);
     c[ImGuiCol_FrameBg] = ImVec4(0.12f, 0.10f, 0.09f, 1.f);
+    c[ImGuiCol_FrameBgHovered] = ImVec4(0.20f, 0.12f, 0.10f, 1.f);
+    c[ImGuiCol_FrameBgActive] = ImVec4(0.24f, 0.12f, 0.10f, 1.f);
     c[ImGuiCol_MenuBarBg] = ImVec4(0.055f, 0.047f, 0.043f, 1.f);
     c[ImGuiCol_TitleBg] = ImVec4(0.055f, 0.047f, 0.043f, 1.f);
     c[ImGuiCol_TitleBgActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.35f);
     c[ImGuiCol_Separator] = ImVec4(0.77f, 0.17f, 0.17f, 0.45f);
     c[ImGuiCol_ScrollbarGrab] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
+    c[ImGuiCol_CheckMark] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
+    c[ImGuiCol_SliderGrab] = ImVec4(0.77f, 0.17f, 0.17f, 0.90f);
+    c[ImGuiCol_SliderGrabActive] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
+    c[ImGuiCol_ModalWindowDimBg] = ImVec4(0.02f, 0.018f, 0.016f, 0.72f);
     c[ImGuiCol_Tab] = ImVec4(0.12f, 0.10f, 0.09f, 1.f);
     c[ImGuiCol_TabHovered] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
     c[ImGuiCol_TabSelected] = ImVec4(0.16f, 0.13f, 0.11f, 1.f);
