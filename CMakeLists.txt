@@ -125,8 +125,13 @@ add_library(emulocke_sprites STATIC
     src/poke/SpriteIndex.cpp
     src/poke/SpriteUrls.cpp
     src/poke/HttpGet.cpp
-    src/poke/SpriteCache.cpp)
-target_include_directories(emulocke_sprites PUBLIC src)
+    src/poke/SpriteCache.cpp
+    src/cart/GameIndex.cpp
+    src/cart/GameArtPng.cpp
+    src/cart/GameArtCanvas.cpp
+    src/cart/GameArtPlate.cpp
+    src/cart/GameArtCache.cpp)
+target_include_directories(emulocke_sprites PUBLIC src PRIVATE ${CMAKE_SOURCE_DIR}/third_party/stb)
 target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
 
 add_executable(emulocke-sprite-check
@@ -143,6 +148,16 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/assets
         $<TARGET_FILE_DIR:emulocke-sprite-check>/assets)
+
+add_executable(emulocke-game-art-check
+    src/test/game_art_check.cpp
+    src/emu/Paths.cpp)
+target_include_directories(emulocke-game-art-check PRIVATE src)
+target_compile_definitions(emulocke-game-art-check PRIVATE SDL_MAIN_HANDLED)
+target_link_libraries(emulocke-game-art-check PRIVATE emulocke_sprites SDL3::SDL3)
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-game-art-check PRIVATE pthread)
+endif()
 
 add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
