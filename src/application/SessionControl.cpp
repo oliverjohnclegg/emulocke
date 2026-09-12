@@ -39,6 +39,7 @@ void Application::stopEmuThread() {
 void Application::emuLoop() {
     while (running_) {
         const Uint64 start = SDL_GetTicksNS();
+        int queuedAfter = 0;
         {
             std::lock_guard lock(sessionMutex_);
             if (session_ && !paused_) {
@@ -46,11 +47,14 @@ void Application::emuLoop() {
                 session_->setTouch(touchDown_, touchX_, touchY_);
                 session_->runFrame();
                 session_->drainAudio(audio_);
+                queuedAfter = audio_.queuedBytes();
             }
         }
-        const Uint64 elapsed = SDL_GetTicksNS() - start;
         const Uint64 frameNs = 16742706;
-        if (elapsed < frameNs) {
+        const int cushion = 48000 * 4 / 15;
+        const bool filling = queuedAfter > 0 && queuedAfter < cushion;
+        const Uint64 elapsed = SDL_GetTicksNS() - start;
+        if (!filling && elapsed < frameNs) {
             SDL_DelayNS(frameNs - elapsed);
         }
     }

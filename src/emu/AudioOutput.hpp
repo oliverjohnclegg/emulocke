@@ -18,6 +18,7 @@ public:
     void push(const int16_t* interleavedStereo, int frames, int sourceHz);
     void setMuted(bool mute);
     void setVolume(int volume);
+    int queuedBytes() const;
 
 private:
     void applyGain();

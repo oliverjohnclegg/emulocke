@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icons/emulocke.svg" width="96" height="96" alt="Emulocke">
+</p>
+
 # Emulocke
 
 A desktop Pokemon nuzlocking suite. One window runs the game on the left. The nuzlocke tools will live on the right later. V1 is the playable host: no tracker, no damage calc.
@@ -13,7 +17,7 @@ Or File > Open Game. Battery saves are written next to the game as `.sav`. DS bo
 
 - Two-screen games: stacked screens. Mouse on the bottom pane is the stylus.
 - One-screen games: one left pane.
-- Right column: empty field log until the suite exists.
+- Right column: Logs tab until more suite tools exist.
 
 ## Menus
 

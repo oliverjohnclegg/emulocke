@@ -1,4 +1,6 @@
 #include "application/Application.hpp"
+#include "emu/Paths.hpp"
+#include "ui/Layout.hpp"
 
 #include <SDL3/SDL.h>
 #include <imgui.h>
@@ -14,8 +16,8 @@ void defaultWindowSize(int& w, int& h) {
     if (scale <= 0.f) {
         scale = 1.f;
     }
-    w = static_cast<int>(1440 * scale);
-    h = static_cast<int>(900 * scale);
+    w = static_cast<int>(kDefaultWindowW * scale);
+    h = static_cast<int>(kDefaultWindowH * scale);
     SDL_Rect bounds{};
     if (SDL_GetDisplayUsableBounds(SDL_GetPrimaryDisplay(), &bounds) && bounds.w > 0 && bounds.h > 0) {
         w = std::min(w, bounds.w);
@@ -40,6 +42,10 @@ bool Host::create(const Prefs& prefs) {
     }
     if (prefs.fullscreen) {
         SDL_SetWindowFullscreen(window_, true);
+    }
+    if (SDL_Surface* icon = SDL_LoadBMP(assetPath("icons/emulocke.bmp").c_str())) {
+        SDL_SetWindowIcon(window_, icon);
+        SDL_DestroySurface(icon);
     }
     renderer_ = SDL_CreateRenderer(window_, nullptr);
     if (!renderer_) {

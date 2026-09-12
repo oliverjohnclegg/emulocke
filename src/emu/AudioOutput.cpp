@@ -64,4 +64,12 @@ void AudioOutput::applyGain() {
     SDL_SetAudioStreamGain(stream_, muted_ ? 0.f : volume_ * 0.01f);
 }
 
+int AudioOutput::queuedBytes() const {
+    if (!stream_) {
+        return 0;
+    }
+    const int queued = SDL_GetAudioStreamQueued(stream_);
+    return queued > 0 ? queued : 0;
+}
+
 }
