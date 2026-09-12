@@ -1,4 +1,4 @@
-#include "application/Application.hpp"
+#include "application/Host.hpp"
 #include "emu/Paths.hpp"
 #include "ui/Layout.hpp"
 

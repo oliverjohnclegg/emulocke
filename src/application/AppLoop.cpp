@@ -35,11 +35,7 @@ void Application::run() {
                 input_.handleRemoved(event.gdevice.which);
             }
         }
-        if (!pendingRom_.empty()) {
-            const std::string path = std::move(pendingRom_);
-            pendingRom_.clear();
-            loadRom(path);
-        }
+        drainPending();
         const bool* keys = SDL_GetKeyboardState(nullptr);
         if (!ImGui::GetIO().WantTextInput) {
             buttons_ = input_.poll(keys);
@@ -70,6 +66,8 @@ void Application::run() {
                 ImGuiWindowFlags_NoBringToFrontOnFocus);
         drawMenuBar(*this);
         drawShell(*this);
+        drawNewRunModal(*this);
+        drawLoadRunModal(*this);
         ImGui::End();
         ImGui::Render();
         SDL_SetRenderDrawColor(host_.renderer(), 18, 16, 14, 255);

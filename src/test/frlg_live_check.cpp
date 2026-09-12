@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     logger.log = quiet;
     mLogSetDefaultLogger(&logger);
 
-    auto session = emulocke::GbaSession::open(argv[1]);
+    auto session = emulocke::GbaSession::open(argv[1], std::string(argv[1]) + ".sav");
     if (!session || !session->cartridge() || !session->liveMemory()) {
         std::fprintf(stderr, "failed to open ROM\n");
         return 1;

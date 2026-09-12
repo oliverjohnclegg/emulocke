@@ -1,6 +1,6 @@
 #include "application/Application.hpp"
 
-#include "ui/Shell.hpp"
+#include "emu/Paths.hpp"
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
@@ -9,10 +9,10 @@
 namespace emulocke {
 namespace {
 
-void onRomPicked(void* userdata, const char* const* filelist, int) {
+void onDumpPicked(void* userdata, const char* const* filelist, int) {
     auto* app = static_cast<Application*>(userdata);
     if (filelist && filelist[0]) {
-        app->queueRom(filelist[0]);
+        app->queueImport(filelist[0]);
     }
 }
 
@@ -37,21 +37,30 @@ bool Application::start(int argc, char** argv) {
     audio_.setVolume(prefs_.volume);
     audio_.open();
     input_.attach();
+    romLibrary_ = std::make_unique<RomLibrary>(romsRoot(), assetsDir());
+    runStore_ = std::make_unique<RunStore>(runsRoot());
+    runStore_->load();
     if (argc > 1) {
-        loadRom(argv[1]);
+        importPath(argv[1]);
+        if (newRunDraft_.catalogUuid.empty()) {
+            status_ = "Need a supported Pokemon dump.";
+        } else {
+            newRunDraft_.rules = regularRules();
+            showNewRun_ = true;
+        }
     }
     return true;
 }
 
-void Application::queueRom(std::string path) {
-    pendingRom_ = std::move(path);
+void Application::queueImport(std::string path) {
+    pendingImport_ = std::move(path);
 }
 
-void Application::requestOpenRom() {
+void Application::requestImportGame() {
     const SDL_DialogFileFilter filters[] = {
-        {"Pokemon games", "gba;nds"},
+        {"Pokemon dumps", "gba;nds"},
     };
-    SDL_ShowOpenFileDialog(onRomPicked, this, host_.window(), filters, 1, nullptr, false);
+    SDL_ShowOpenFileDialog(onDumpPicked, this, host_.window(), filters, 1, nullptr, false);
 }
 
 void Application::setTouch(bool down, uint16_t x, uint16_t y) {

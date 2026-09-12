@@ -157,11 +157,12 @@ int main(int argc, char** argv) {
 
     const auto rom = makeTestRom();
     const std::filesystem::path romPath = std::filesystem::temp_directory_path() / "emulocke-gba-check.gba";
+    const std::filesystem::path savPath = std::filesystem::temp_directory_path() / "emulocke-gba-check.sav";
     if (!emulocke::writeWholeFile(romPath.string(), rom.data(), static_cast<uint32_t>(rom.size()))) {
         std::fprintf(stderr, "failed to write test ROM\n");
         return 1;
     }
-    auto session = emulocke::GbaSession::open(romPath.string());
+    auto session = emulocke::GbaSession::open(romPath.string(), savPath.string());
     if (!session) {
         std::fprintf(stderr, "failed to load test ROM\n");
         return 1;

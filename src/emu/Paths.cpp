@@ -6,24 +6,23 @@
 namespace emulocke {
 
 std::string assetPath(const char* relative) {
-    std::string suffix = std::string("assets/") + relative;
+    return (assetsDir() / relative).string();
+}
+
+std::filesystem::path assetsDir() {
     if (const char* base = SDL_GetBasePath()) {
-        std::string p = std::string(base) + suffix;
-        if (std::filesystem::exists(p)) {
-            return p;
+        const std::filesystem::path dir = std::filesystem::path(base) / "assets";
+        if (std::filesystem::exists(dir)) {
+            return dir;
         }
     }
-    if (std::filesystem::exists(suffix)) {
-        return suffix;
+    if (std::filesystem::exists("assets")) {
+        return "assets";
     }
-    return suffix;
+    return "assets";
 }
 
-std::string savePathBesideRom(const std::string& romPath) {
-    return std::filesystem::path(romPath).replace_extension(".sav").string();
-}
-
-std::string localDataPath(const std::string& filename) {
+std::filesystem::path prefDir() {
     std::filesystem::path dir;
     if (char* pref = SDL_GetPrefPath("emulocke", "emulocke")) {
         dir = pref;
@@ -33,7 +32,19 @@ std::string localDataPath(const std::string& filename) {
     }
     std::error_code ec;
     std::filesystem::create_directories(dir, ec);
-    return (dir / filename).string();
+    return dir;
+}
+
+std::string localDataPath(const std::string& filename) {
+    return (prefDir() / filename).string();
+}
+
+std::filesystem::path runsRoot() {
+    return prefDir() / "runs";
+}
+
+std::filesystem::path romsRoot() {
+    return prefDir() / "roms";
 }
 
 }

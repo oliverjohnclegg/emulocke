@@ -15,7 +15,7 @@ namespace emulocke {
 
 class NdsSession final : public EmuSession {
 public:
-    static std::unique_ptr<NdsSession> open(const std::string& romPath);
+    static std::unique_ptr<NdsSession> open(const std::string& romPath, const std::string& savePath);
     ~NdsSession() override;
     ConsoleKind kind() const override { return ConsoleKind::Nds; }
     int screenCount() const override { return 2; }

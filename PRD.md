@@ -11,7 +11,7 @@ Emulocke is a Pokemon nuzlocking suite. One desktop window runs the game and, la
 This is the filter for every menu, setting, and tool decision.
 
 - The product is a field kit for Pokemon nuzlockes, not a general DS+GBA emulator. Do not market or draw it as one.
-- The user opens a Pokemon game. `.gba` and `.nds` pick a core. The UI does not split GBA vs DS: no dual file-type identity, no GBA slot, no LCD layout, no firmware or BIOS chores.
+- The user imports a Pokemon dump. `.gba` and `.nds` pick a core. The UI does not split GBA vs DS: no dual file-type identity, no GBA slot, no LCD layout, no firmware or BIOS chores.
 - Cores (mGBA, melonDS) are implementation. They are not product surfaces.
 - Emulator lab tools stay out: save states, rewind, cheats, disassemblers, memory viewers, movie recording, Lua, scanline filters, HUD counters.
 - Cherry-pick later, only when named: speed-up and frame skip under Emulation. Do not stub empty items.
@@ -35,6 +35,7 @@ Left column is the game. Right column is the suite.
 - 21px charcoal around the screen cluster. Not between the two screens. Same 21px below and to the right of the field log.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
 - Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party). Unsupported carts keep the empty log.
+- With no run seated, the left column is home (saved runs, NEW ATTEMPT). The right column stays Logs.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
@@ -42,18 +43,24 @@ Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them.
 
 A playable host. Suite is a Logs tab only.
 
-- Open a game (`.gba` / `.nds`) from File > Open Game and from the CLI (`emulocke /path/to/game`)
-- 60fps video in the left column
+- File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
+- File > New Run / Load Run / Start New Attempt / Close Run. No Open Game. No `roms/` drop folder.
+- New Run lists imported baselines plus Radical Red 4.1 and Unbound 2.1.1.1. A hack whose Fire Red 1.0 dump is missing stays listed, with `START RUN` disabled and copy that Fire Red is a prerequisite.
+- Starting a hack run applies the bundled UPS onto the imported Fire Red 1.0 dump if `roms/derived/<uuid>.gba` is not already there.
+- One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage.
+- CLI `emulocke /path/to/dump` imports a known baseline and opens New Run. It does not silent-boot.
+- 60fps video in the left column once a run is seated
 - Audio
 - Keyboard and SDL gamepad
 - Stylus on the bottom pane for two-screen games
-- Battery saves next to the game as `.sav`
+- Battery saves live in the run folder (`battery.sav`), never beside the ROM
 - Pause and reset
-- One game at a time; extension picks the core
+- One run at a time; ROM extension picks the core
 - View: fullscreen, screen scale Fit / 1x / 2x / 3x / 4x, restore default window
 - Audio: mute and volume
 - Help: controls (read-only) and about
 - Prefs persist in the SDL pref path as `prefs.ini`
+- Rules are stored on the run. The cores do not enforce them.
 
 ## V1 non-goals
 
@@ -115,7 +122,7 @@ Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree mus
 
 - Emulocke source: GPL-3.0-or-later (required by linking melonDS).
 - mGBA files stay MPL-2.0 (incompatible with secondary licenses). Do not relicense those files as GPL. Ship both licenses.
-- Do not ship Nintendo BIOS, firmware, or ROMs. Users supply their own dumps and games.
+- Do not ship Nintendo BIOS, firmware, or ROMs. Users import their own baseline dumps. Bundled UPS files are patches only.
 - Do not ship Pokemon sprite PNGs. `SpriteCache` downloads box/front/back art on demand into the SDL pref cache. Bundled `assets/sprites/missing-*.png` are original question-mark art, not TPC sprites.
 - V1 boots DS games with FreeBIOS so a BIOS dump is not required to play.
 
@@ -159,8 +166,8 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 
 1. The tree builds on the Linux/WSL machine used for development.
 2. GitHub Actions builds Linux and Windows artifacts on push (`emulocke` and `emulocke.exe`).
-3. A homebrew `.gba` and `.nds` run (not Pokemon, not committed).
-4. Video, audio, keyboard, gamepad, pause, reset, and `.sav` creation work.
+3. A verified Fire Red US 1.0 dump imports as its catalog UUID. Unknown files are refused.
+4. Video, audio, keyboard, gamepad, pause, reset, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
 6. One-screen games use a single left pane; FRLG fills Logs from the adapter snapshot.
 7. View, Audio, and Help work. Prefs survive a relaunch.
@@ -176,3 +183,4 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 - 2026-09-12: Suite header is a tab bar. Logs is the first tab.
 - 2026-09-12: GameAdapter contract and FRLG US 1.0/1.1 read-only snapshot (save + live RAM). Field log shows trainer, map, party.
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.
+- 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
