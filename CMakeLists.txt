@@ -77,6 +77,7 @@ add_executable(emulocke
     src/application/AppLoop.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
+    src/ui/Suite.cpp
     src/ui/MenuBar.cpp
     src/emu/Paths.cpp
     src/emu/FileBytes.cpp
@@ -114,6 +115,21 @@ if(WIN32)
     target_sources(emulocke PRIVATE assets/icons/emulocke.rc)
     set_source_files_properties(assets/icons/emulocke.rc PROPERTIES
         INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/assets/icons")
+endif()
+
+add_executable(emulocke-gba-check
+    src/test/gba_host_check.cpp
+    src/emu/GbaSession.cpp
+    src/emu/FileBytes.cpp
+    src/emu/Paths.cpp
+    src/emu/AudioOutput.cpp)
+target_include_directories(emulocke-gba-check PRIVATE src)
+target_link_libraries(emulocke-gba-check PRIVATE mgba SDL3::SDL3)
+if(MGBA_COMPILE_DEFS)
+    target_compile_definitions(emulocke-gba-check PRIVATE ${MGBA_COMPILE_DEFS})
+endif()
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-gba-check PRIVATE dl pthread)
 endif()
 
 add_custom_command(

@@ -25,6 +25,7 @@ bool ScreenTexture::ensure(SDL_Renderer* renderer, int width, int height, int pi
     if (!texture_) {
         return false;
     }
+    SDL_SetTextureBlendMode(texture_, SDL_BLENDMODE_NONE);
     SDL_SetTextureScaleMode(texture_, SDL_SCALEMODE_NEAREST);
     width_ = width;
     height_ = height;

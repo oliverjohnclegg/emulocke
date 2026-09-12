@@ -16,6 +16,7 @@ public:
     bool open();
     void close();
     void push(const int16_t* interleavedStereo, int frames, int sourceHz);
+    int queuedBytes() const;
 
 private:
     SDL_AudioStream* stream_{};
