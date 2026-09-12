@@ -29,17 +29,23 @@ std::string drawGroupedRunList(Application& app, const char* idPrefix, bool show
         ImGui::Separator();
         for (const Run* run : runs) {
             ImGui::PushID((std::string(idPrefix) + run->id).c_str());
-            const std::string label = runHeadline(*run) + "##row";
-            const float btn = showNewAttempt ? 148.f : 0.f;
-            const float gap = showNewAttempt ? 8.f : 0.f;
-            if (ImGui::Selectable(label.c_str(), false, 0, ImVec2(-btn - gap, 0))) {
-                clicked = run->id;
-            }
+            const std::string headline = runHeadline(*run);
             if (showNewAttempt) {
-                ImGui::SameLine();
-                if (ImGui::Button("NEW ATTEMPT")) {
-                    app.queueNewAttempt(run->id);
+                if (ImGui::BeginTable("run_row", 2, ImGuiTableFlags_SizingStretchProp)) {
+                    ImGui::TableSetupColumn("name", ImGuiTableColumnFlags_WidthStretch);
+                    ImGui::TableSetupColumn("act", ImGuiTableColumnFlags_WidthFixed, 150.f);
+                    ImGui::TableNextColumn();
+                    if (ImGui::Selectable(headline.c_str())) {
+                        clicked = run->id;
+                    }
+                    ImGui::TableNextColumn();
+                    if (ImGui::Button("NEW ATTEMPT")) {
+                        app.queueNewAttempt(run->id);
+                    }
+                    ImGui::EndTable();
                 }
+            } else if (ImGui::Selectable(headline.c_str())) {
+                clicked = run->id;
             }
             ImGui::PopID();
         }
