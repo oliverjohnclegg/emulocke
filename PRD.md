@@ -24,7 +24,7 @@ Someone playing a Pokemon nuzlocke who wants the game and the tools in one place
 
 ## Problem
 
-Stock emulators play the game and nothing else. Existing nuzlocke tools live in a browser. The run is split across two programs. Emulocke puts both in one field kit.
+Stock emulators play the game and nothing else. Existing nuzlocke tools live in a browser. The run is split across two programs. Emulocke puts both in one window.
 
 ## Layout
 
@@ -32,7 +32,7 @@ Left column is the game. Right column is the suite.
 
 - Two-screen games: stacked screens (256x192), top then bottom, 5px between them. Mouse on the bottom pane is the stylus.
 - One-screen games: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
-- 21px charcoal around the screen cluster. Not between the two screens. Same 21px below and to the right of the field log.
+- 21px graphite around the screen cluster. Not between the two screens. Same 21px below and to the right of the suite.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
 - Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party). Unsupported carts keep the empty log.
 
@@ -138,7 +138,7 @@ Gamepad: standard SDL mapping.
 
 ## Design
 
-Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabular type. Suite pane is tabbed; Logs is the first tab.
+Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Logs is first.
 
 ## Decisions
 
@@ -177,6 +177,9 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 - 2026-09-12: 21px charcoal around the screen cluster. DS split stays 5px.
 - 2026-09-12: 21px charcoal below and to the right of the field log.
 - 2026-09-12: Suite header is a tab bar. Logs is the first tab.
+- 2026-09-12: Suite header is a tab bar. Logs is the first tab.
+- 2026-09-12: Visual lock is onyx clamshell with cream command chips, not field kit.
+- 2026-09-12: Palette returns to classy graphite and parchment metal. Cream command boxes dropped.
 - 2026-09-12: GameAdapter contract and FRLG US 1.0/1.1 read-only snapshot (save + live RAM). Field log shows trainer, map, party.
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.
 - 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.

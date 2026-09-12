@@ -4,6 +4,7 @@
 #include "emu/EmuSession.hpp"
 #include "ui/Layout.hpp"
 #include "ui/Suite.hpp"
+#include "ui/Theme.hpp"
 
 #include <imgui.h>
 #include <algorithm>
@@ -13,7 +14,7 @@ namespace emulocke {
 namespace {
 
 void drawScreen(const char* id, ScreenTexture& tex, ImVec2 size, bool paused, bool touch, Application& app) {
-    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.043f, 0.047f, 0.039f, 1.f));
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, kScreenWell);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
     ImGui::BeginChild(id, size, ImGuiChildFlags_Borders, ImGuiWindowFlags_NoScrollbar);
     if (tex.texture()) {
@@ -40,8 +41,14 @@ void drawScreen(const char* id, ScreenTexture& tex, ImVec2 size, bool paused, bo
         }
     }
     if (paused) {
+        if (ImFont* display = app.displayFont()) {
+            ImGui::PushFont(display);
+        }
         const ImVec2 origin = ImGui::GetWindowPos();
-        ImGui::GetWindowDrawList()->AddText(ImVec2(origin.x + 8.f, origin.y + 8.f), IM_COL32(196, 43, 43, 255), "PAUSED");
+        ImGui::GetWindowDrawList()->AddText(ImVec2(origin.x + 8.f, origin.y + 8.f), kPaused, "PAUSED");
+        if (app.displayFont()) {
+            ImGui::PopFont();
+        }
     }
     ImGui::EndChild();
     ImGui::PopStyleVar();
