@@ -13,7 +13,8 @@ bool Application::start(int argc, char** argv) {
         return false;
     }
     SDL_InitSubSystem(SDL_INIT_AUDIO);
-    if (!host_.create()) {
+    prefs_ = Prefs::load();
+    if (!host_.create(prefs_)) {
         return false;
     }
     applyTheme();
@@ -22,6 +23,8 @@ bool Application::start(int argc, char** argv) {
     if (bodyFont_) {
         ImGui::GetIO().FontDefault = bodyFont_;
     }
+    audio_.setMuted(prefs_.mute);
+    audio_.setVolume(prefs_.volume);
     audio_.open();
     input_.attach();
     ensureRomsDir();

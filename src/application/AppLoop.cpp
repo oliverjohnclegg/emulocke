@@ -17,6 +17,17 @@ void Application::run() {
             if (event.type == SDL_EVENT_QUIT) {
                 return;
             }
+            if (event.type == SDL_EVENT_WINDOW_RESIZED || event.type == SDL_EVENT_WINDOW_MOVED) {
+                persistPrefs();
+            }
+            if (event.type == SDL_EVENT_WINDOW_ENTER_FULLSCREEN) {
+                prefs_.fullscreen = true;
+                persistPrefs();
+            }
+            if (event.type == SDL_EVENT_WINDOW_LEAVE_FULLSCREEN) {
+                prefs_.fullscreen = false;
+                persistPrefs();
+            }
             if (event.type == SDL_EVENT_GAMEPAD_ADDED) {
                 input_.handleAdded(event.gdevice.which);
             }
@@ -67,6 +78,7 @@ void Application::run() {
         SDL_RenderClear(host_.renderer());
         ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), host_.renderer());
         SDL_RenderPresent(host_.renderer());
+        applyPendingHost();
     }
 }
 

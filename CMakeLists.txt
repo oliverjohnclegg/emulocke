@@ -69,13 +69,31 @@ target_include_directories(imgui PUBLIC
     third_party/imgui/backends)
 target_link_libraries(imgui PUBLIC SDL3::SDL3)
 
+add_library(emulocke_adapter STATIC
+    src/adapter/Registry.cpp
+    src/adapter/gen3/Charset.cpp
+    src/adapter/gen3/BoxCrypt.cpp
+    src/adapter/gen3/BoxFields.cpp
+    src/adapter/gen3/BoxMon.cpp
+    src/adapter/gen3/MonFacts.cpp
+    src/adapter/gen3/BoxHeader.cpp
+    src/adapter/frlg/FrlgSave.cpp
+    src/adapter/frlg/FrlgFill.cpp
+    src/adapter/frlg/FrlgLive.cpp
+    src/adapter/frlg/FrlgAdapter.cpp
+    src/adapter/frlg/SpeciesNames.cpp
+    src/adapter/frlg/MapNames.cpp)
+target_include_directories(emulocke_adapter PUBLIC src)
+
 add_executable(emulocke
     src/main.cpp
     src/application/Host.cpp
     src/application/Application.cpp
+    src/application/ApplicationPrefs.cpp
     src/application/SessionControl.cpp
     src/application/RunControl.cpp
     src/application/AppLoop.cpp
+    src/application/Prefs.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
     src/ui/Home.cpp
@@ -83,6 +101,9 @@ add_executable(emulocke
     src/ui/NewRunModal.cpp
     src/ui/LoadRunModal.cpp
     src/ui/RunList.cpp
+    src/ui/Suite.cpp
+    src/ui/FieldLog.cpp
+    src/ui/HelpPopups.cpp
     src/emu/Paths.cpp
     src/emu/FileBytes.cpp
     src/emu/Input.cpp
@@ -104,7 +125,7 @@ add_executable(emulocke
     src/run/RunLabel.cpp)
 
 target_include_directories(emulocke PRIVATE src)
-target_link_libraries(emulocke PRIVATE core mgba imgui SDL3::SDL3)
+target_link_libraries(emulocke PRIVATE emulocke_adapter core mgba imgui SDL3::SDL3)
 target_compile_definitions(emulocke PRIVATE SDL_MAIN_HANDLED)
 get_target_property(MGBA_COMPILE_DEFS mgba COMPILE_DEFINITIONS)
 if(MGBA_COMPILE_DEFS)
@@ -121,6 +142,77 @@ endif()
 if(MINGW)
     target_link_options(emulocke PRIVATE -static-libgcc -static-libstdc++ -static)
 endif()
+if(WIN32)
+    enable_language(RC)
+    target_sources(emulocke PRIVATE assets/icons/emulocke.rc)
+    set_source_files_properties(assets/icons/emulocke.rc PROPERTIES
+        INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/assets/icons")
+endif()
+
+find_package(CURL REQUIRED)
+add_library(emulocke_sprites STATIC
+    src/poke/SpriteIndex.cpp
+    src/poke/SpriteUrls.cpp
+    src/poke/HttpGet.cpp
+    src/poke/SpriteCache.cpp)
+target_include_directories(emulocke_sprites PUBLIC src)
+target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
+
+add_executable(emulocke-sprite-check
+    src/test/sprite_check.cpp
+    src/emu/Paths.cpp)
+target_include_directories(emulocke-sprite-check PRIVATE src)
+target_compile_definitions(emulocke-sprite-check PRIVATE SDL_MAIN_HANDLED)
+target_link_libraries(emulocke-sprite-check PRIVATE emulocke_sprites SDL3::SDL3)
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-sprite-check PRIVATE pthread)
+endif()
+add_custom_command(
+    TARGET emulocke-sprite-check POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:emulocke-sprite-check>/assets)
+
+add_executable(emulocke-gba-check
+    src/test/gba_host_check.cpp
+    src/emu/GbaSession.cpp
+    src/emu/FileBytes.cpp
+    src/emu/Paths.cpp
+    src/emu/AudioOutput.cpp)
+target_include_directories(emulocke-gba-check PRIVATE src)
+target_link_libraries(emulocke-gba-check PRIVATE mgba SDL3::SDL3)
+if(MGBA_COMPILE_DEFS)
+    target_compile_definitions(emulocke-gba-check PRIVATE ${MGBA_COMPILE_DEFS})
+endif()
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-gba-check PRIVATE dl pthread)
+endif()
+
+add_executable(emulocke-adapter-check
+    src/test/adapter_check.cpp
+    src/test/gen3_codec_check.cpp
+    src/test/frlg_adapter_check.cpp)
+target_include_directories(emulocke-adapter-check PRIVATE src)
+target_link_libraries(emulocke-adapter-check PRIVATE emulocke_adapter)
+
+add_executable(emulocke-frlg-live-check EXCLUDE_FROM_ALL
+    src/test/frlg_live_check.cpp
+    src/emu/GbaSession.cpp
+    src/emu/FileBytes.cpp
+    src/emu/Paths.cpp
+    src/emu/AudioOutput.cpp)
+target_include_directories(emulocke-frlg-live-check PRIVATE src)
+target_link_libraries(emulocke-frlg-live-check PRIVATE emulocke_adapter mgba SDL3::SDL3)
+if(MGBA_COMPILE_DEFS)
+    target_compile_definitions(emulocke-frlg-live-check PRIVATE ${MGBA_COMPILE_DEFS})
+endif()
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-frlg-live-check PRIVATE dl pthread)
+endif()
+
+enable_testing()
+add_test(NAME adapter COMMAND emulocke-adapter-check)
+add_test(NAME gba-host COMMAND emulocke-gba-check)
 
 add_custom_command(
     TARGET emulocke POST_BUILD
@@ -144,5 +236,4 @@ if(MSVC)
     target_compile_definitions(emulocke_run_test PRIVATE _CRT_SECURE_NO_WARNINGS NOMINMAX WIN32_LEAN_AND_MEAN)
     target_compile_options(emulocke_run_test PRIVATE /utf-8)
 endif()
-enable_testing()
 add_test(NAME run_model COMMAND emulocke_run_test)

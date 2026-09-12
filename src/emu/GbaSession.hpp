@@ -1,9 +1,12 @@
 #pragma once
 
+#include "adapter/LiveMemory.hpp"
 #include "emu/EmuSession.hpp"
 
 #include <memory>
 #include <mutex>
+#include <optional>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -12,7 +15,7 @@ struct mAudioBuffer;
 
 namespace emulocke {
 
-class GbaSession final : public EmuSession {
+class GbaSession final : public EmuSession, public LiveMemory {
 public:
     static std::unique_ptr<GbaSession> open(const std::string& romPath, const std::string& savePath);
     ~GbaSession() override;
@@ -27,6 +30,10 @@ public:
     void setTouch(bool, uint16_t, uint16_t) override {}
     void drainAudio(AudioOutput& audio) override;
     const std::string& romName() const override { return romName_; }
+    const LiveMemory* liveMemory() const override { return this; }
+    std::optional<Cartridge> cartridge() const override { return cart_; }
+    bool read(uint32_t addr, std::span<uint8_t> out) const override;
+    bool write(uint32_t addr, std::span<const uint8_t> in);
     void flushSave();
 
 private:
@@ -37,6 +44,7 @@ private:
     unsigned height_{};
     std::string romName_;
     std::string savePath_;
+    Cartridge cart_{};
     mutable std::mutex frameMutex_;
 };
 

@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="assets/icons/emulocke.svg" width="96" height="96" alt="Emulocke">
+</p>
+
 # Emulocke
 
-A desktop Pokemon nuzlocking emulator. One window runs GBA (mGBA) or DS (melonDS) on the left. The nuzlocke suite will live on the right later. V1 is the playable host: no tracker, no damage calc.
+A desktop Pokemon nuzlocking suite. One window runs the game on the left. The nuzlocke tools will live on the right later. V1 is the playable host: no tracker, no damage calc.
 
 Play is scoped to a **run**, not the ROM file. One game can have many runs. Each run keeps the ROM path, nuzlocke rules, and its own battery save. A run can have many attempts: Start New Attempt copies the same settings, gives the attempt a fresh ID and save, ticks the counter, and replaces the previous attempt.
 
@@ -14,9 +18,19 @@ With no run loaded, home lists the latest attempt of each run, grouped by game, 
 ## Layout
 
 - No run: home. Saved runs grouped by game, or Start Run if none.
-- NDS: two stacked screens. Mouse on the bottom pane is the stylus.
-- GBA: one left pane.
-- Right column: empty field log until the suite exists.
+- Two-screen games: stacked screens. Mouse on the bottom pane is the stylus.
+- One-screen games: one left pane.
+- Right column: Logs tab until more suite tools exist.
+
+## Menus
+
+- File: Start New Attempt, New Run, Load Run, Close Run, Exit
+- Emulation: pause and reset
+- View: fullscreen, screen scale (Fit / 1x / 2x / 3x / 4x), restore default window
+- Audio: mute and volume
+- Help: controls and about
+
+Window size, scale, mute, and volume persist across launches.
 
 ## Build
 
@@ -44,7 +58,7 @@ Put dumps in `build/roms/` (created next to the binary) or `./roms`.
 | L / R | A / S |
 | Start | Enter |
 | Select | Shift |
-| Touch (NDS) | Mouse on the bottom screen |
+| Stylus | Mouse on the bottom screen |
 
 Gamepad uses the standard SDL map. Pause and reset are under Emulation.
 
