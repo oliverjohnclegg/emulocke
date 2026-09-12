@@ -66,12 +66,12 @@ void Application::loadRom(const std::string& path) {
     const std::string ext = lowerExt(path);
     if (ext == ".gba") {
         next = GbaSession::open(path);
-        status_ = next ? "GBA cart seated." : "Failed to load GBA ROM.";
+        status_ = next ? "Cart seated." : "Couldn't open that game.";
     } else if (ext == ".nds") {
         next = NdsSession::open(path);
-        status_ = next ? "DS cart seated." : "Failed to load NDS ROM.";
+        status_ = next ? "Cart seated." : "Couldn't open that game.";
     } else {
-        status_ = "Need a .gba or .nds file.";
+        status_ = "Need a Pokemon game (.gba or .nds).";
     }
     {
         std::lock_guard lock(sessionMutex_);
@@ -99,6 +99,7 @@ void Application::resetSession() {
 }
 
 void Application::shutdown() {
+    persistPrefs();
     stopEmuThread();
     session_.reset();
     audio_.close();
