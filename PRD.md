@@ -89,6 +89,7 @@ Recorded so later work does not invent the product twice:
 - More as decided in this project
 - A native tracker adjacent to nuzlocke.app (encounter/route tracking UX), built in Emulocke. Not a fork. Not a webview of another app.
 - On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. No suite UI in V1.
+- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. No suite UI in V1.
 
 ## Adapter
 
@@ -128,6 +129,7 @@ Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree mus
 - mGBA files stay MPL-2.0 (incompatible with secondary licenses). Do not relicense those files as GPL. Ship both licenses.
 - Do not ship Nintendo BIOS, firmware, or ROMs. Users supply their own dumps and games.
 - Do not ship Pokemon sprite PNGs. `SpriteCache` downloads box/front/back art on demand into the SDL pref cache. Bundled `assets/sprites/missing-*.png` are original question-mark art, not TPC sprites.
+- Do not ship game title PNGs. `GameArtCache` downloads 256x192 title art on demand into the SDL pref cache, keyed by slug. Missing art is a generated black plate with the game title, not Nintendo pixels.
 - V1 boots DS games with FreeBIOS so a BIOS dump is not required to play.
 
 ## Default input
@@ -167,6 +169,7 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 | Windows via MSVC in CI | Same CMake tree. Dynlib uses LoadLibrary. Pref path is SDL. JIT off on MSVC (no GNU `.S` assembler). |
 | Other chats are out of scope | Greenfield. Only this document and this repo set requirements. |
 | Sprite cache downloads at runtime | PokeAPI/PokéSprite/bamq host the pixels. Pref cache, not git. Box: PokéSprite then bamq Gen 9 then PokeAPI gen8 icons. Front/back: PokeAPI BW-style. Credits: PokeAPI, msikma/pokesprite, National Dex Version Delta (bamq), Smogon for fan 2D past 649. |
+| Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, letterboxed. Hacks and misses get a black title plate. Pref cache, not git. |
 
 ## V1 success
 
@@ -192,6 +195,7 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 - 2026-09-12: Suite header is a tab bar. Logs is the first tab.
 - 2026-09-12: GameAdapter contract and FRLG US 1.0/1.1 read-only snapshot (save + live RAM). Field log shows trainer, map, party.
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.
+- 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.
 - 2026-09-12: Run-scoped saves. New Run / Load Run replace Open Game. Home lists runs grouped by game.
 - 2026-09-12: Attempts. Start New Attempt clones a run's settings with a new ID and a ticked attempt counter.
 - 2026-09-12: New attempts replace the previous attempt of that lineage. Presets are a dropdown. Empty home is Start Run, not an expedition log.
