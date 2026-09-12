@@ -33,15 +33,13 @@ bool titleReady(const RomLibrary& lib, const CatalogTitle& title) {
 }  // namespace
 
 void drawNewRunModal(Application& app) {
-    if (app.showNewRun() && !ImGui::IsPopupOpen("NEW RUN")) {
-        ImGui::OpenPopup("NEW RUN");
-    }
-    if (!ImGui::BeginPopupModal("NEW RUN", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+    if (!app.showNewRun()) {
         return;
     }
-    if (!app.showNewRun()) {
-        ImGui::CloseCurrentPopup();
-        ImGui::EndPopup();
+    const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+    if (!ImGui::Begin("NEW RUN", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse)) {
+        ImGui::End();
         return;
     }
     NewRunDraft& draft = app.newRunDraft();
@@ -91,7 +89,6 @@ void drawNewRunModal(Application& app) {
     }
     if (ImGui::Button("START RUN")) {
         app.confirmNewRun();
-        ImGui::CloseCurrentPopup();
     }
     if (!canStart) {
         ImGui::EndDisabled();
@@ -99,9 +96,8 @@ void drawNewRunModal(Application& app) {
     ImGui::SameLine();
     if (ImGui::Button("CANCEL")) {
         app.dismissNewRun();
-        ImGui::CloseCurrentPopup();
     }
-    ImGui::EndPopup();
+    ImGui::End();
 }
 
 }
