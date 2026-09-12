@@ -34,7 +34,7 @@ Left column is the game. Right column is the suite.
 - One-screen games: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
 - 21px charcoal around the screen cluster. Not between the two screens. Same 21px below and to the right of the field log.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
-- Right column is the suite. Tabs hold each function. V1 ships a Logs tab.
+- Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party). Unsupported carts keep the empty log.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
@@ -78,6 +78,16 @@ Recorded so later work does not invent the product twice:
 - More as decided in this project
 - A native tracker adjacent to nuzlocke.app (encounter/route tracking UX), built in Emulocke. Not a fork. Not a webview of another app.
 - On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. No suite UI in V1.
+
+## Adapter
+
+Each supported game+revision has a `GameAdapter` that translates save bytes and live memory into a common `GameSnapshot`. The suite only reads that snapshot.
+
+- One adapter per game and revision. FireRed/LeafGreen US 1.0 and 1.1 share one FRLG implementation (`firered-us-1.0`, `firered-us-1.1`, and the LeafGreen twins). Live RAM layouts match for the fields we read. Unknown revisions are refused.
+- Latest revision we have is the live identity. When a newer dump ships, older revisions move to `src/adapter/archive/`.
+- Read-only for now. RAM writes (QoL cheats) are a separate interface later.
+- Nuzlocke rules, damage math, and encounter tracking are suite concerns, not adapter concerns.
+- Adding a pure virtual on `GameAdapter` is how a new suite data need flags every adapter in CI.
 
 ## Later host (not V1)
 
@@ -152,7 +162,7 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 3. A homebrew `.gba` and `.nds` run (not Pokemon, not committed).
 4. Video, audio, keyboard, gamepad, pause, reset, and `.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
-6. One-screen games use a single left pane; the suite placeholder stays visible.
+6. One-screen games use a single left pane; FRLG fills Logs from the adapter snapshot.
 7. View, Audio, and Help work. Prefs survive a relaunch.
 
 ## Changelog
@@ -164,4 +174,5 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 - 2026-09-12: 21px charcoal around the screen cluster. DS split stays 5px.
 - 2026-09-12: 21px charcoal below and to the right of the field log.
 - 2026-09-12: Suite header is a tab bar. Logs is the first tab.
+- 2026-09-12: GameAdapter contract and FRLG US 1.0/1.1 read-only snapshot (save + live RAM). Field log shows trainer, map, party.
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.

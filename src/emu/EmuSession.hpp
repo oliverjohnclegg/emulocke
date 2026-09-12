@@ -1,8 +1,11 @@
 #pragma once
 
+#include "adapter/Cartridge.hpp"
+#include "adapter/LiveMemory.hpp"
 #include "emu/Buttons.hpp"
 
 #include <cstdint>
+#include <optional>
 #include <string>
 
 namespace emulocke {
@@ -23,6 +26,8 @@ public:
     virtual void setTouch(bool down, uint16_t x, uint16_t y) = 0;
     virtual void drainAudio(AudioOutput& audio) = 0;
     virtual const std::string& romName() const = 0;
+    virtual const LiveMemory* liveMemory() const { return nullptr; }
+    virtual std::optional<Cartridge> cartridge() const { return std::nullopt; }
 };
 
 }

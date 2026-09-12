@@ -71,6 +71,15 @@ jobs:
         shell: msys2 {0}
         run: cmake --build build --config Release --parallel
 
+      - name: Test Linux
+        if: runner.os == 'Linux'
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Test Windows
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: ctest --test-dir build --output-on-failure
+
       - name: Stage
         shell: bash
         run: |

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "adapter/Snapshot.hpp"
 #include "application/Prefs.hpp"
 #include "emu/EmuSession.hpp"
 #include "emu/Input.hpp"
@@ -19,6 +20,8 @@ struct SDL_Renderer;
 struct ImFont;
 
 namespace emulocke {
+
+class GameAdapter;
 
 class Host {
 public:
@@ -63,6 +66,7 @@ public:
     ImFont* displayFont() const { return displayFont_; }
     ImFont* bodyFont() const { return bodyFont_; }
     const std::string& status() const { return status_; }
+    bool copySnapshot(GameSnapshot& out) const;
 
 private:
     void startEmuThread();
@@ -77,7 +81,9 @@ private:
     Prefs prefs_;
     ScreenTexture screens_[2];
     std::unique_ptr<EmuSession> session_;
-    std::mutex sessionMutex_;
+    const GameAdapter* adapter_{};
+    GameSnapshot snapshot_{};
+    mutable std::mutex sessionMutex_;
     std::thread emuThread_;
     std::atomic<bool> running_{false};
     std::atomic<bool> paused_{false};
