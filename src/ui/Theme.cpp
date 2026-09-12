@@ -20,10 +20,10 @@ ImFont* loadAssetFont(const char* file, float size) {
 void applyTheme() {
     ImGuiStyle& style = ImGui::GetStyle();
     style.WindowRounding = 0.f;
-    style.ChildRounding = 2.f;
-    style.FrameRounding = 2.f;
-    style.GrabRounding = 2.f;
-    style.PopupRounding = 2.f;
+    style.ChildRounding = 0.f;
+    style.FrameRounding = 0.f;
+    style.GrabRounding = 0.f;
+    style.PopupRounding = 0.f;
     style.WindowPadding = ImVec2(5.f, 5.f);
     style.FramePadding = ImVec2(8.f, 3.f);
     style.ItemSpacing = ImVec2(5.f, 5.f);
@@ -57,6 +57,9 @@ void applyTheme() {
     c[ImGuiCol_TitleBg] = kMenuStrip;
     c[ImGuiCol_TitleBgActive] = kMenuStrip;
     c[ImGuiCol_Separator] = kBorder;
+    c[ImGuiCol_SeparatorHovered] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.45f);
+    c[ImGuiCol_SeparatorActive] = kMetal;
+    c[ImGuiCol_NavCursor] = kMetal;
     c[ImGuiCol_ScrollbarGrab] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.40f);
     c[ImGuiCol_ScrollbarGrabHovered] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.70f);
     c[ImGuiCol_ScrollbarGrabActive] = kMetal;

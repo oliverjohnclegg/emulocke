@@ -41,8 +41,14 @@ void drawScreen(const char* id, ScreenTexture& tex, ImVec2 size, bool paused, bo
         }
     }
     if (paused) {
+        if (ImFont* display = app.displayFont()) {
+            ImGui::PushFont(display);
+        }
         const ImVec2 origin = ImGui::GetWindowPos();
         ImGui::GetWindowDrawList()->AddText(ImVec2(origin.x + 8.f, origin.y + 8.f), kPaused, "PAUSED");
+        if (app.displayFont()) {
+            ImGui::PopFont();
+        }
     }
     ImGui::EndChild();
     ImGui::PopStyleVar();
