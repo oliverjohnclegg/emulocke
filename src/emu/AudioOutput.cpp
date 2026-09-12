@@ -1,6 +1,7 @@
 #include "emu/AudioOutput.hpp"
 
 #include <SDL3/SDL.h>
+#include <algorithm>
 
 namespace emulocke {
 
@@ -19,6 +20,7 @@ bool AudioOutput::open() {
     if (!stream_) {
         return false;
     }
+    applyGain();
     SDL_ResumeAudioStreamDevice(stream_);
     return true;
 }
@@ -43,6 +45,23 @@ void AudioOutput::push(const int16_t* interleavedStereo, int frames, int sourceH
         sourceHz_ = sourceHz;
     }
     SDL_PutAudioStreamData(stream_, interleavedStereo, frames * 4);
+}
+
+void AudioOutput::setMuted(bool mute) {
+    muted_ = mute;
+    applyGain();
+}
+
+void AudioOutput::setVolume(int volume) {
+    volume_ = std::clamp(volume, 0, 100);
+    applyGain();
+}
+
+void AudioOutput::applyGain() {
+    if (!stream_) {
+        return;
+    }
+    SDL_SetAudioStreamGain(stream_, muted_ ? 0.f : volume_ * 0.01f);
 }
 
 }

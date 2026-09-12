@@ -17,6 +17,17 @@ void Application::run() {
             if (event.type == SDL_EVENT_QUIT) {
                 return;
             }
+            if (event.type == SDL_EVENT_WINDOW_RESIZED || event.type == SDL_EVENT_WINDOW_MOVED) {
+                persistPrefs();
+            }
+            if (event.type == SDL_EVENT_WINDOW_ENTER_FULLSCREEN) {
+                prefs_.fullscreen = true;
+                persistPrefs();
+            }
+            if (event.type == SDL_EVENT_WINDOW_LEAVE_FULLSCREEN) {
+                prefs_.fullscreen = false;
+                persistPrefs();
+            }
             if (event.type == SDL_EVENT_GAMEPAD_ADDED) {
                 input_.handleAdded(event.gdevice.which);
             }

@@ -73,11 +73,14 @@ add_executable(emulocke
     src/main.cpp
     src/application/Host.cpp
     src/application/Application.cpp
+    src/application/ApplicationPrefs.cpp
     src/application/SessionControl.cpp
     src/application/AppLoop.cpp
+    src/application/Prefs.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
     src/ui/MenuBar.cpp
+    src/ui/HelpPopups.cpp
     src/emu/Paths.cpp
     src/emu/FileBytes.cpp
     src/emu/Input.cpp

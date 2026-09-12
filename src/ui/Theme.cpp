@@ -18,6 +18,8 @@ void applyTheme() {
     style.ScrollbarSize = 10.f;
     style.WindowBorderSize = 0.f;
     style.ChildBorderSize = 1.f;
+    style.PopupBorderSize = 1.f;
+    style.PopupRounding = 2.f;
     ImVec4* c = style.Colors;
     c[ImGuiCol_WindowBg] = ImVec4(0.071f, 0.063f, 0.055f, 1.f);
     c[ImGuiCol_ChildBg] = ImVec4(0.102f, 0.090f, 0.078f, 1.f);
@@ -37,6 +39,10 @@ void applyTheme() {
     c[ImGuiCol_TitleBgActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.35f);
     c[ImGuiCol_Separator] = ImVec4(0.77f, 0.17f, 0.17f, 0.45f);
     c[ImGuiCol_ScrollbarGrab] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
+    c[ImGuiCol_CheckMark] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
+    c[ImGuiCol_SliderGrab] = ImVec4(0.77f, 0.17f, 0.17f, 0.90f);
+    c[ImGuiCol_SliderGrabActive] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
+    c[ImGuiCol_ModalWindowDimBg] = ImVec4(0.02f, 0.018f, 0.016f, 0.72f);
 }
 
 ImFont* loadDisplayFont() {

@@ -17,7 +17,9 @@ void drawScreen(const char* id, ScreenTexture& tex, ImVec2 avail, bool paused, b
     if (tex.texture()) {
         const float maxW = ImGui::GetContentRegionAvail().x;
         const float maxH = ImGui::GetContentRegionAvail().y;
-        const int scale = std::max(1, std::min(static_cast<int>(maxW / tex.width()), static_cast<int>(maxH / tex.height())));
+        const int fit = std::max(1, std::min(static_cast<int>(maxW / tex.width()), static_cast<int>(maxH / tex.height())));
+        const int wanted = app.screenScale();
+        const int scale = wanted <= 0 ? fit : std::max(1, std::min(wanted, fit));
         const ImVec2 size(static_cast<float>(tex.width() * scale), static_cast<float>(tex.height() * scale));
         ImGui::SetCursorPosX((maxW - size.x) * 0.5f);
         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + (maxH - size.y) * 0.5f);
