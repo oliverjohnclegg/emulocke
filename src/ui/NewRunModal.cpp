@@ -25,12 +25,11 @@ void drawPresetCombo(NuzlockeRules& rules) {
 }  // namespace
 
 void drawNewRunModal(Application& app) {
-    if (app.showNewRun()) {
-        ImGui::OpenPopup("NEW RUN");
+    if (app.showNewRun() && !ImGui::IsPopupOpen("NEW RUN")) {
+        ImGui::OpenPopup("NEW RUN", ImGuiPopupFlags_NoOpenOverExistingPopup);
     }
     if (ImGui::IsPopupOpen("NEW RUN")) {
-        const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-        ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
     }
     if (!ImGui::BeginPopupModal("NEW RUN", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
         return;

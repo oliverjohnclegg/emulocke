@@ -7,12 +7,11 @@
 namespace emulocke {
 
 void drawLoadRunModal(Application& app) {
-    if (app.showLoadRun()) {
-        ImGui::OpenPopup("LOAD RUN");
+    if (app.showLoadRun() && !ImGui::IsPopupOpen("LOAD RUN")) {
+        ImGui::OpenPopup("LOAD RUN", ImGuiPopupFlags_NoOpenOverExistingPopup);
     }
     if (ImGui::IsPopupOpen("LOAD RUN")) {
-        const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-        ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
         ImGui::SetNextWindowSize(ImVec2(480.f, 360.f), ImGuiCond_Appearing);
     }
     if (!ImGui::BeginPopupModal("LOAD RUN", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
