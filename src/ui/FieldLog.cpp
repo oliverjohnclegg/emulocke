@@ -34,19 +34,10 @@ void drawParty(const GameSnapshot& snap) {
 }  // namespace
 
 void drawFieldLog(Application& app) {
-    ImGui::BeginChild("suite", ImVec2(0, 0), ImGuiChildFlags_Borders);
-    if (app.displayFont()) {
-        ImGui::PushFont(app.displayFont());
-    }
-    ImGui::TextUnformatted("FIELD LOG");
-    if (app.displayFont()) {
-        ImGui::PopFont();
-    }
-    ImGui::Separator();
     if (app.bodyFont()) {
         ImGui::PushFont(app.bodyFont());
     }
-    ImGui::Dummy(ImVec2(0, 10));
+    ImGui::Dummy(ImVec2(0, 8));
     GameSnapshot snap;
     if (app.copySnapshot(snap)) {
         char cart[32];
@@ -70,7 +61,6 @@ void drawFieldLog(Application& app) {
     if (app.bodyFont()) {
         ImGui::PopFont();
     }
-    ImGui::EndChild();
 }
 
 }

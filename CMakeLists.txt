@@ -93,6 +93,7 @@ add_executable(emulocke
     src/application/AppLoop.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
+    src/ui/Suite.cpp
     src/ui/FieldLog.cpp
     src/ui/MenuBar.cpp
     src/emu/Paths.cpp
@@ -125,6 +126,12 @@ if(MSVC)
 endif()
 if(MINGW)
     target_link_options(emulocke PRIVATE -static-libgcc -static-libstdc++ -static)
+endif()
+if(WIN32)
+    enable_language(RC)
+    target_sources(emulocke PRIVATE assets/icons/emulocke.rc)
+    set_source_files_properties(assets/icons/emulocke.rc PROPERTIES
+        INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/assets/icons")
 endif()
 
 add_executable(emulocke-gba-check

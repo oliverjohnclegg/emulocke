@@ -12,12 +12,16 @@ void applyTheme() {
     style.ChildRounding = 2.f;
     style.FrameRounding = 2.f;
     style.GrabRounding = 2.f;
-    style.WindowPadding = ImVec2(12.f, 10.f);
-    style.FramePadding = ImVec2(10.f, 6.f);
-    style.ItemSpacing = ImVec2(10.f, 8.f);
+    style.WindowPadding = ImVec2(5.f, 5.f);
+    style.FramePadding = ImVec2(8.f, 3.f);
+    style.ItemSpacing = ImVec2(5.f, 5.f);
     style.ScrollbarSize = 10.f;
     style.WindowBorderSize = 0.f;
     style.ChildBorderSize = 1.f;
+    style.TabRounding = 0.f;
+    style.TabBorderSize = 0.f;
+    style.TabBarBorderSize = 1.f;
+    style.TabBarOverlineSize = 2.f;
     ImVec4* c = style.Colors;
     c[ImGuiCol_WindowBg] = ImVec4(0.071f, 0.063f, 0.055f, 1.f);
     c[ImGuiCol_ChildBg] = ImVec4(0.102f, 0.090f, 0.078f, 1.f);
@@ -37,6 +41,13 @@ void applyTheme() {
     c[ImGuiCol_TitleBgActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.35f);
     c[ImGuiCol_Separator] = ImVec4(0.77f, 0.17f, 0.17f, 0.45f);
     c[ImGuiCol_ScrollbarGrab] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
+    c[ImGuiCol_Tab] = ImVec4(0.12f, 0.10f, 0.09f, 1.f);
+    c[ImGuiCol_TabHovered] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
+    c[ImGuiCol_TabSelected] = ImVec4(0.16f, 0.13f, 0.11f, 1.f);
+    c[ImGuiCol_TabSelectedOverline] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
+    c[ImGuiCol_TabDimmed] = ImVec4(0.12f, 0.10f, 0.09f, 1.f);
+    c[ImGuiCol_TabDimmedSelected] = ImVec4(0.16f, 0.13f, 0.11f, 1.f);
+    c[ImGuiCol_TabDimmedSelectedOverline] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
 }
 
 ImFont* loadDisplayFont() {
