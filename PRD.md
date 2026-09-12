@@ -20,9 +20,9 @@ Left column is the console. Right column is the suite.
 
 - NDS: two stacked screens (256x192), top then bottom. Mouse on the bottom pane is the stylus.
 - GBA: one left pane (240x160). No empty bottom tile.
-- Right column spans the full height. While a run is loaded, V1 is an empty expedition-log placeholder.
+- Right column spans the full height. While a run is loaded, V1 is an empty field-log placeholder.
 
-With no run loaded, the window is the home expedition log: runs grouped by game.
+With no run loaded, home lists saved runs grouped by game. With none, it shows "No save files found" and a Start Run button.
 
 Fixed split. Integer-scale nearest-neighbor. Letterbox, do not smear pixels.
 
@@ -32,10 +32,10 @@ A playable host. No suite.
 
 - File > New Run and File > Load Run (no Open ROM)
 - Drop Pokemon `.gba` / `.nds` dumps in `roms/`; New Run lists titles detected from the header game code
-- New Run modal scopes the game and nuzlocke rules (Regular / Hardcore presets, then editable toggles)
+- New Run modal scopes the game and nuzlocke rules (Regular / Hardcore preset dropdown, then editable toggles)
 - One game can have many runs; a run can have many attempts
-- Start New Attempt clones the same game, ROM, and rules with a fresh ID and save, and ticks the attempt counter. No settings modal.
-- Home lists runs grouped by game as `Pokemon Fire Red: Hardcore Nuzlocke  |  Attempt #2`, with NEW ATTEMPT on the row
+- Start New Attempt clones the same game, ROM, and rules with a fresh ID and save, ticks the attempt counter, and replaces the previous attempt of that lineage. No settings modal.
+- Home lists the latest attempt per lineage, grouped by game as `Pokemon Fire Red: Hardcore Nuzlocke  |  Attempt #2`, with NEW ATTEMPT on the row
 - File > Start New Attempt sits above New Run and is enabled while a run is seated
 - Click a home row to load that attempt
 - CLI `emulocke /path/to/rom` opens New Run for a supported Pokemon dump; it does not silent-boot
@@ -129,9 +129,9 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 
 1. The tree builds on the Linux/WSL machine used for development.
 2. GitHub Actions builds Linux and Windows artifacts on push (`emulocke` and `emulocke.exe`).
-3. Home lists runs grouped by game as game, preset, and attempt. Empty state explains the `roms/` folder.
-4. New Run scopes a detected Pokemon game and nuzlocke rules, then boots that run.
-5. Start New Attempt clones settings, ticks the attempt counter, and uses a fresh ID and `battery.sav`.
+3. Home lists runs grouped by game as game, preset, and attempt. Empty home is "No save files found" plus Start Run.
+4. New Run scopes a detected Pokemon game and nuzlocke rules (preset dropdown plus toggles), then boots that run.
+5. Start New Attempt clones settings, ticks the attempt counter, uses a fresh ID and `battery.sav`, and replaces the last attempt of that lineage.
 6. Two runs of the same game use separate `battery.sav` files under the app data `runs/` folder.
 7. Video, audio, keyboard, gamepad, pause, reset, and run-scoped `.sav` creation work.
 8. NDS shows both screens; clicks on the bottom pane map to touch.
@@ -141,5 +141,6 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 
 - 2026-09-12: Initial PRD. V1 is the playable 2-pane shell. Suite is specified, not built.
 - 2026-09-12: Windows MSVC `.exe` plus GitHub Actions artifacts on push. Same sources, two native builds.
-- 2026-09-12: Run-scoped saves. New Run / Load Run replace Open ROM. Home expedition log grouped by game.
+- 2026-09-12: Run-scoped saves. New Run / Load Run replace Open ROM. Home lists runs grouped by game.
 - 2026-09-12: Attempts. Start New Attempt clones a run's settings with a new ID and a ticked attempt counter.
+- 2026-09-12: New attempts replace the previous attempt of that lineage. Presets are a dropdown. Empty home is Start Run, not an expedition log.

@@ -16,6 +16,10 @@ struct Run {
     NuzlockeRules rules;
     std::string createdAt;
     std::string lastPlayedAt;
+
+    const std::string& lineageKey() const {
+        return lineageId.empty() ? id : lineageId;
+    }
 };
 
 struct NewRunDraft {

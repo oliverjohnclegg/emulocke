@@ -2,6 +2,7 @@
 #include "run/NuzlockeRules.hpp"
 #include "run/Roms.hpp"
 #include "run/RunLabel.hpp"
+#include "run/RunMeta.hpp"
 #include "run/RunStore.hpp"
 
 #include <chrono>
@@ -89,24 +90,48 @@ int main() {
     expect(emulocke::runHeadline(*a) == "Pokemon Fire Red: Regular Nuzlocke  |  Attempt #1", "headline");
 
     auto a2 = store.createAttempt(*a);
-    auto a3 = store.createAttempt(*a);
-    expect(a2 && a3, "create attempts");
+    expect(a2, "create attempt");
     expect(a2->id != a->id, "attempt has fresh id");
-    expect(a2->lineageId == a->id && a3->lineageId == a->id, "same lineage");
-    expect(a2->attempt == 2 && a3->attempt == 3, "attempt ticks up");
+    expect(a2->lineageId == a->id, "same lineage");
+    expect(a2->attempt == 2, "attempt ticks up");
     expect(a2->rules == a->rules && a2->romPath == a->romPath, "same settings");
     expect(!std::filesystem::exists(store.batteryPath(a2->id)), "fresh save");
+    expect(!store.find(a->id), "source replaced");
+    expect(!std::filesystem::exists(runs / a->id), "source dir gone");
+    expect(store.runs().size() == 3, "replace not add");
+    expect(store.byGame(emulocke::GameId::FireRed).size() == 2, "firered still two lineages");
     expect(emulocke::runHeadline(*a2) == "Pokemon Fire Red: Regular Nuzlocke  |  Attempt #2", "headline 2");
+
+    auto a3 = store.createAttempt(*a2);
+    expect(a3 && a3->attempt == 3, "attempt 3");
+    expect(a3->lineageId == a->id, "lineage holds");
+    expect(!store.find(a2->id), "prior attempt replaced");
+    expect(store.runs().size() == 3, "still three lineages");
+    expect(emulocke::runHeadline(*a3) == "Pokemon Fire Red: Regular Nuzlocke  |  Attempt #3", "headline 3");
+
+    std::filesystem::create_directory(runs / a->id);
+    emulocke::writeRunMeta(runs / a->id, *a);
+    emulocke::RunStore stacked(runs);
+    stacked.load();
+    expect(stacked.runs().size() == 4, "leftover on disk");
+    expect(stacked.byGame(emulocke::GameId::FireRed).size() == 2, "latest per lineage");
+    bool sawLatest = false;
+    for (const emulocke::Run* run : stacked.byGame(emulocke::GameId::FireRed)) {
+        if (run->lineageKey() == a->id) {
+            expect(run->attempt == 3, "listed latest attempt");
+            sawLatest = true;
+        }
+    }
+    expect(sawLatest, "listed regular firered");
 
     emulocke::RunStore loaded(runs);
     loaded.load();
-    expect(loaded.runs().size() == 5, "reload count");
-    const emulocke::Run* again = loaded.find(a->id);
+    expect(loaded.runs().size() == 4, "reload count");
+    expect(!loaded.find(a2->id), "reload dropped prior");
+    const emulocke::Run* again = loaded.find(a3->id);
     expect(again && again->gameId == emulocke::GameId::FireRed, "reload game");
     expect(again && again->rules == emulocke::regularRules(), "reload rules");
-    expect(again && again->attempt == 1, "reload attempt");
-    const emulocke::Run* re2 = loaded.find(a2->id);
-    expect(re2 && re2->attempt == 2 && re2->lineageId == a->id, "reload attempt two");
+    expect(again && again->attempt == 3, "reload attempt");
     expect(emulocke::resolveRomPath(*again, detected) == detected[1].romPath, "resolve existing");
     std::filesystem::remove_all(tmp);
     if (fails) {

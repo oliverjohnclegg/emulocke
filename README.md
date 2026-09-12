@@ -2,18 +2,18 @@
 
 A desktop Pokemon nuzlocking emulator. One window runs GBA (mGBA) or DS (melonDS) on the left. The nuzlocke suite will live on the right later. V1 is the playable host: no tracker, no damage calc.
 
-Play is scoped to a **run**, not the ROM file. One game can have many runs. Each run keeps the ROM path, nuzlocke rules, and its own battery save. A run can have many attempts: Start New Attempt copies the same settings, gives the attempt a fresh ID and save, and ticks the counter.
+Play is scoped to a **run**, not the ROM file. One game can have many runs. Each run keeps the ROM path, nuzlocke rules, and its own battery save. A run can have many attempts: Start New Attempt copies the same settings, gives the attempt a fresh ID and save, ticks the counter, and replaces the previous attempt.
 
 ```
 emulocke
 emulocke /path/to/firered.gba
 ```
 
-With no run loaded, the home page lists expeditions grouped by game, each as `Pokemon Fire Red: Hardcore Nuzlocke  |  Attempt #1`. NEW ATTEMPT on a row starts another attempt with the same settings. File > Start New Attempt (above New Run) does the same while a run is seated. File > New Run (or the home button) opens a modal to pick the game and rules. File > Load Run switches runs. Drop Pokemon dumps in the `roms/` folder next to the binary (or `./roms`). Emulocke detects titles from the ROM header. Unknown dumps are ignored. A CLI ROM path opens New Run for that game if it is a supported Pokemon dump. DS boots with FreeBIOS. Do not put Nintendo BIOS, firmware, or ROMs in this repo.
+With no run loaded, home lists the latest attempt of each run, grouped by game, as `Pokemon Fire Red: Hardcore Nuzlocke  |  Attempt #1`. If there are no saves, it shows "No save files found" and a Start Run button. NEW ATTEMPT on a row replaces that run's last attempt with the same settings. File > Start New Attempt (above New Run) does the same while a run is seated. File > New Run opens a modal to pick the game and a Regular / Hardcore preset, then edit the toggles. File > Load Run switches runs. Drop Pokemon dumps in the `roms/` folder next to the binary (or `./roms`). Emulocke detects titles from the ROM header. Unknown dumps are ignored. A CLI ROM path opens New Run for that game if it is a supported Pokemon dump. DS boots with FreeBIOS. Do not put Nintendo BIOS, firmware, or ROMs in this repo.
 
 ## Layout
 
-- No run: full-window expedition log, grouped by game.
+- No run: home. Saved runs grouped by game, or Start Run if none.
 - NDS: two stacked screens. Mouse on the bottom pane is the stylus.
 - GBA: one left pane.
 - Right column: empty field log until the suite exists.

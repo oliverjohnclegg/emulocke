@@ -10,22 +10,22 @@
 namespace emulocke {
 namespace {
 
-void presetButton(const char* label, const NuzlockeRules& preset, NuzlockeRules& rules) {
-    const bool on = rules == preset;
-    if (on) {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.77f, 0.17f, 0.17f, 0.80f));
-    }
-    if (ImGui::Button(label)) {
-        rules = preset;
-    }
-    if (on) {
-        ImGui::PopStyleColor();
-    }
-}
-
 std::string gamePreview(const DetectedGame& game) {
     return std::string(gameTitle(game.gameId)) + "  /  " +
         std::filesystem::path(game.romPath).filename().string();
+}
+
+void drawPresetCombo(NuzlockeRules& rules) {
+    if (!ImGui::BeginCombo("Preset", rulesPresetTitle(rules))) {
+        return;
+    }
+    if (ImGui::Selectable("Regular", rules == regularRules())) {
+        rules = regularRules();
+    }
+    if (ImGui::Selectable("Hardcore", rules == hardcoreRules())) {
+        rules = hardcoreRules();
+    }
+    ImGui::EndCombo();
 }
 
 }  // namespace
@@ -54,9 +54,7 @@ void drawNewRunModal(Application& app) {
             }
             ImGui::EndCombo();
         }
-        presetButton("REGULAR", regularRules(), draft.rules);
-        ImGui::SameLine();
-        presetButton("HARDCORE", hardcoreRules(), draft.rules);
+        drawPresetCombo(draft.rules);
         if (ImGui::BeginTable("rules", 2, ImGuiTableFlags_SizingStretchProp)) {
             ImGui::TableNextColumn();
             ImGui::Checkbox("First encounter", &draft.rules.firstEncounter);

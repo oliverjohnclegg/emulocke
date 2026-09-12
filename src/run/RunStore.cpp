@@ -74,17 +74,6 @@ std::optional<Run> RunStore::persist(Run run) {
     return run;
 }
 
-int RunStore::nextAttempt(const std::string& lineageId) const {
-    int highest = 0;
-    for (const Run& run : runs_) {
-        const std::string& lid = run.lineageId.empty() ? run.id : run.lineageId;
-        if (lid == lineageId) {
-            highest = std::max(highest, run.attempt);
-        }
-    }
-    return highest + 1;
-}
-
 std::optional<Run> RunStore::create(GameId game, std::string romPath, NuzlockeRules rules) {
     Run run;
     run.gameId = game;
@@ -96,14 +85,12 @@ std::optional<Run> RunStore::create(GameId game, std::string romPath, NuzlockeRu
     return persist(std::move(run));
 }
 
-std::optional<Run> RunStore::createAttempt(const Run& source) {
-    Run run = source;
-    run.id.clear();
-    run.lineageId = source.lineageId.empty() ? source.id : source.lineageId;
-    run.attempt = nextAttempt(run.lineageId);
-    run.createdAt = isoTimestamp();
-    run.lastPlayedAt = run.createdAt;
-    return persist(std::move(run));
+void RunStore::erase(const std::string& id) {
+    std::error_code ec;
+    std::filesystem::remove_all(root_ / id, ec);
+    runs_.erase(std::remove_if(runs_.begin(), runs_.end(),
+                    [&](const Run& run) { return run.id == id; }),
+        runs_.end());
 }
 
 bool RunStore::touch(const std::string& id) {
@@ -126,19 +113,6 @@ bool RunStore::updateRomPath(const std::string& id, std::string romPath) {
 
 std::filesystem::path RunStore::batteryPath(const std::string& id) const {
     return root_ / id / "battery.sav";
-}
-
-std::vector<const Run*> RunStore::byGame(GameId game) const {
-    std::vector<const Run*> out;
-    for (const Run& run : runs_) {
-        if (run.gameId == game) {
-            out.push_back(&run);
-        }
-    }
-    std::sort(out.begin(), out.end(), [](const Run* a, const Run* b) {
-        return a->lastPlayedAt > b->lastPlayedAt;
-    });
-    return out;
 }
 
 }

@@ -100,6 +100,7 @@ add_executable(emulocke
     src/run/Roms.cpp
     src/run/RunMeta.cpp
     src/run/RunStore.cpp
+    src/run/RunStoreAttempts.cpp
     src/run/RunLabel.cpp)
 
 target_include_directories(emulocke PRIVATE src)
@@ -136,6 +137,7 @@ add_executable(emulocke_run_test
     src/run/Roms.cpp
     src/run/RunMeta.cpp
     src/run/RunStore.cpp
+    src/run/RunStoreAttempts.cpp
     src/run/RunLabel.cpp)
 target_include_directories(emulocke_run_test PRIVATE src)
 if(MSVC)

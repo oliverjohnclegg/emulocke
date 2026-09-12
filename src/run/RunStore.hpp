@@ -27,6 +27,8 @@ public:
 private:
     std::optional<Run> persist(Run run);
     int nextAttempt(const std::string& lineageId) const;
+    void erase(const std::string& id);
+    void eraseLineageExcept(const std::string& lineageId, const std::string& keepId);
     std::filesystem::path root_;
     std::vector<Run> runs_;
 };

@@ -85,7 +85,11 @@ void Application::startNewAttempt(const std::string& sourceId) {
         status_ = "Run not found.";
         return;
     }
-    auto created = runStore_->createAttempt(*source);
+    const Run snapshot = *source;
+    if (activeRunId_ == sourceId) {
+        closeRun();
+    }
+    auto created = runStore_->createAttempt(snapshot);
     if (!created) {
         status_ = "Failed to start a new attempt.";
         return;
