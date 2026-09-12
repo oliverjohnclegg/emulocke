@@ -98,6 +98,8 @@ int main() {
     expect(std::string(emulocke::rulesLabel(emulocke::regularRules())) == "REGULAR", "regular");
     expect(std::string(emulocke::rulesLabel(emulocke::hardcoreRules())) == "HARDCORE", "hardcore");
 
+    expect(emulocke::catalogTitles().size() == 18, "catalog size");
+
     const auto tmp = std::filesystem::temp_directory_path() / "emulocke_rom_library_test";
     std::filesystem::remove_all(tmp);
     const auto roms = tmp / "roms";
@@ -109,6 +111,20 @@ int main() {
     emulocke::writeWholeFile(junk.string(), src.data(), static_cast<uint32_t>(src.size()));
     auto imported = lib.importFile(junk);
     expect(!imported.ok, "reject unknown");
+
+    bool sawFr = false;
+    bool sawRr = false;
+    bool sawUnbound = false;
+    for (const emulocke::CatalogTitle* title : lib.playableTitles()) {
+        sawFr = sawFr || title->uuid == std::string(emulocke::kFireRedUs10Uuid);
+        sawRr = sawRr || title->uuid == std::string(emulocke::kRadicalRedUuid);
+        sawUnbound = sawUnbound || title->uuid == std::string(emulocke::kUnboundUuid);
+    }
+    expect(!sawFr && sawRr && sawUnbound, "hacks listed without import");
+    expect(!lib.has(emulocke::kFireRedUs10Uuid), "no fr yet");
+    auto gated = lib.ensurePlayable(emulocke::kRadicalRedUuid);
+    expect(!gated, "rr without prereq");
+    expect(lib.lastError().find("prerequisite") != std::string::npos, "prereq gate");
 
     const emulocke::CatalogTitle* fr = emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid);
     expect(lib.writeBaseline(*fr, src), "store baseline");
@@ -132,8 +148,8 @@ int main() {
     expect(bytes == dst, "derived bytes");
 
     const auto playable = lib.playableTitles();
-    bool sawFr = false;
-    bool sawUnbound = false;
+    sawFr = false;
+    sawUnbound = false;
     for (const emulocke::CatalogTitle* title : playable) {
         sawFr = sawFr || title->uuid == std::string(emulocke::kFireRedUs10Uuid);
         sawUnbound = sawUnbound || title->uuid == std::string(emulocke::kUnboundUuid);
