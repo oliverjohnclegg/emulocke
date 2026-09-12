@@ -43,7 +43,7 @@ void drawScreen(const char* id, ScreenTexture& tex, ImVec2 avail, bool paused, b
     ImGui::PopStyleColor();
 }
 
-void drawSuite(ImFont* display, ImFont* body, const std::string& status, const char* romName) {
+void drawSuite(ImFont* display, ImFont* body, const std::string& status) {
     ImGui::BeginChild("suite", ImVec2(0, 0), ImGuiChildFlags_Borders);
     if (display) ImGui::PushFont(display);
     ImGui::TextUnformatted("FIELD LOG");
@@ -57,9 +57,6 @@ void drawSuite(ImFont* display, ImFont* body, const std::string& status, const c
     if (!status.empty()) {
         ImGui::Dummy(ImVec2(0, 16));
         ImGui::TextUnformatted(status.c_str());
-    }
-    if (romName && *romName) {
-        ImGui::TextDisabled("%s", romName);
     }
     if (body) ImGui::PopFont();
     ImGui::EndChild();
@@ -80,8 +77,7 @@ void drawShell(Application& app) {
     }
     ImGui::EndChild();
     ImGui::SameLine();
-    const char* romName = session ? session->romName().c_str() : "";
-    drawSuite(app.displayFont(), app.bodyFont(), app.status(), romName);
+    drawSuite(app.displayFont(), app.bodyFont(), app.status());
 }
 
 }

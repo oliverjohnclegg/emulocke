@@ -1,19 +1,13 @@
 #include "ui/Shell.hpp"
 
 #include "application/Application.hpp"
+#include "run/GameId.hpp"
 #include "run/NuzlockeRules.hpp"
 
 #include <imgui.h>
-#include <filesystem>
-#include <string>
 
 namespace emulocke {
 namespace {
-
-std::string gamePreview(const DetectedGame& game) {
-    return std::string(gameTitle(game.gameId)) + "  /  " +
-        std::filesystem::path(game.romPath).filename().string();
-}
 
 void drawPresetCombo(NuzlockeRules& rules) {
     if (!ImGui::BeginCombo("Preset", rulesPresetTitle(rules))) {
@@ -46,9 +40,11 @@ void drawNewRunModal(Application& app) {
         if (draft.gameIndex >= static_cast<int>(games.size())) {
             draft.gameIndex = 0;
         }
-        if (ImGui::BeginCombo("Game", gamePreview(games[static_cast<size_t>(draft.gameIndex)]).c_str())) {
+        const char* current = gameTitle(games[static_cast<size_t>(draft.gameIndex)].gameId);
+        if (ImGui::BeginCombo("Game", current)) {
             for (int i = 0; i < static_cast<int>(games.size()); ++i) {
-                if (ImGui::Selectable(gamePreview(games[static_cast<size_t>(i)]).c_str(), i == draft.gameIndex)) {
+                const char* label = gameTitle(games[static_cast<size_t>(i)].gameId);
+                if (ImGui::Selectable(label, i == draft.gameIndex)) {
                     draft.gameIndex = i;
                 }
             }
