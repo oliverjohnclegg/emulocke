@@ -12,9 +12,9 @@ void applyTheme() {
     style.ChildRounding = 2.f;
     style.FrameRounding = 2.f;
     style.GrabRounding = 2.f;
-    style.WindowPadding = ImVec2(12.f, 10.f);
-    style.FramePadding = ImVec2(10.f, 6.f);
-    style.ItemSpacing = ImVec2(10.f, 8.f);
+    style.WindowPadding = ImVec2(5.f, 5.f);
+    style.FramePadding = ImVec2(8.f, 3.f);
+    style.ItemSpacing = ImVec2(5.f, 5.f);
     style.ScrollbarSize = 10.f;
     style.WindowBorderSize = 0.f;
     style.ChildBorderSize = 1.f;

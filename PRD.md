@@ -18,11 +18,12 @@ Stock emulators play the game and nothing else. Existing nuzlocke tools live in 
 
 Left column is the console. Right column is the suite.
 
-- NDS: two stacked screens (256x192), top then bottom. Mouse on the bottom pane is the stylus.
-- GBA: one left pane (240x160). No empty bottom tile.
+- NDS: two stacked screens (256x192), top then bottom, 5px between them. Mouse on the bottom pane is the stylus.
+- GBA: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
+- Console column sizes to the integer-scaled screens. Default window hugs 2x NDS plus a 460px suite.
 - Right column spans the full height. V1 is an empty expedition-log placeholder.
 
-Fixed split. Integer-scale nearest-neighbor. Letterbox, do not smear pixels.
+Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
 ## V1 (this pass)
 
@@ -125,3 +126,4 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 
 - 2026-09-12: Initial PRD. V1 is the playable 2-pane shell. Suite is specified, not built.
 - 2026-09-12: Windows MSVC `.exe` plus GitHub Actions artifacts on push. Same sources, two native builds.
+- 2026-09-12: Compact DeSmuME-like shell. Console hugs screens with a 5px DS gap, suite 460px, default window 990x820.
