@@ -46,8 +46,8 @@ void applyTheme() {
     c[ImGuiCol_ButtonHovered] = kButtonHover;
     c[ImGuiCol_ButtonActive] = kButtonActive;
     c[ImGuiCol_FrameBg] = kFrame;
-    c[ImGuiCol_FrameBgHovered] = kHeaderHover;
-    c[ImGuiCol_FrameBgActive] = kHeaderActive;
+    c[ImGuiCol_FrameBgHovered] = kHeader;
+    c[ImGuiCol_FrameBgActive] = kHeaderHover;
     c[ImGuiCol_MenuBarBg] = kMenuStrip;
     c[ImGuiCol_TitleBg] = kMenuStrip;
     c[ImGuiCol_TitleBgActive] = kMenuStrip;

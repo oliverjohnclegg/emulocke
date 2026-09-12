@@ -18,9 +18,9 @@ inline constexpr ImVec4 kButtonHover{58 / 255.f, 55 / 255.f, 47 / 255.f, 1.f};
 inline constexpr ImVec4 kButtonActive{74 / 255.f, 67 / 255.f, 56 / 255.f, 1.f};
 inline constexpr ImVec4 kFrame{18 / 255.f, 20 / 255.f, 26 / 255.f, 1.f};
 inline constexpr ImVec4 kBorder{239 / 255.f, 228 / 255.f, 204 / 255.f, 0.35f};
-inline constexpr ImVec4 kHeader{239 / 255.f, 228 / 255.f, 204 / 255.f, 0.10f};
-inline constexpr ImVec4 kHeaderHover{239 / 255.f, 228 / 255.f, 204 / 255.f, 0.22f};
-inline constexpr ImVec4 kHeaderActive{239 / 255.f, 228 / 255.f, 204 / 255.f, 0.35f};
+inline constexpr ImVec4 kHeader{56 / 255.f, 52 / 255.f, 44 / 255.f, 1.f};
+inline constexpr ImVec4 kHeaderHover{72 / 255.f, 66 / 255.f, 54 / 255.f, 1.f};
+inline constexpr ImVec4 kHeaderActive{96 / 255.f, 86 / 255.f, 68 / 255.f, 1.f};
 inline constexpr ImU32 kPaused = IM_COL32(227, 28, 28, 255);
 
 void applyTheme();
