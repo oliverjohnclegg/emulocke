@@ -1,0 +1,10 @@
+---
+description: Karpathy guidelines. Always apply when writing or changing code.
+alwaysApply: true
+---
+
+# Karpathy guidelines
+
+Read and follow `.cursor/skills/karpathy-guidelines/SKILL.md`.
+
+Minimum code that solves the asked problem. No speculative suite features, no unused abstractions, no extra emulator options beyond the playable shell. Split files that grow past 100 lines. Names carry meaning; do not add comments.

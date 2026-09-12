@@ -1,0 +1,12 @@
+---
+description: Distinctive field-kit UI for Emulocke. Always apply when touching UI, theme, layout, or visual copy.
+alwaysApply: true
+---
+
+# Frontend design
+
+Read and follow `.cursor/skills/frontend-design/SKILL.md` before changing UI.
+
+Emulocke visual direction is **locked field kit**: charcoal metal, inset glass screens, one deep crimson accent, tabular/technical type. Not stock ImGui gray. Not purple gradients. Not Inter/Roboto/Arial/system UI fonts.
+
+Screens sit in bezels. The suite pane is an empty expedition log until that product exists. Integer-scale nearest-neighbor for emulator pixels. No scanlines. No fake tracker widgets.

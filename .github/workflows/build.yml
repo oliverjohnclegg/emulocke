@@ -1,0 +1,88 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.artifact }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact: emulocke-linux-x64
+          - os: windows-latest
+            artifact: emulocke-windows-x64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Linux packages
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build pkg-config \
+            libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
+            libxi-dev libxfixes-dev libxrender-dev libxkbcommon-dev
+
+      - name: Setup MSYS2
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: false
+          path-type: inherit
+          install: >-
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-ninja
+            git
+
+      - name: Configure Linux
+        if: runner.os == 'Linux'
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Configure Windows
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build Linux
+        if: runner.os == 'Linux'
+        run: cmake --build build --config Release --parallel
+
+      - name: Build Windows
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: cmake --build build --config Release --parallel
+
+      - name: Stage
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          if [ -f build/Release/emulocke.exe ]; then
+            bin=build/Release/emulocke.exe
+          elif [ -f build/emulocke.exe ]; then
+            bin=build/emulocke.exe
+          else
+            bin=build/emulocke
+          fi
+          cp "$bin" dist/
+          cp -a "$(dirname "$bin")/assets" dist/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: dist/
+          if-no-files-found: error
