@@ -15,8 +15,8 @@ void Application::setFullscreen(bool on) {
     if (on) {
         host_.captureWindowed(prefs_);
     }
-    host_.setFullscreen(on);
     prefs_.fullscreen = on;
+    pendingHost_ = on ? PendingHost::FullscreenOn : PendingHost::FullscreenOff;
     prefs_.save();
 }
 
@@ -38,8 +38,27 @@ void Application::setVolume(int volume) {
 }
 
 void Application::restoreDefaultWindow() {
-    host_.restoreDefaultSize();
     prefs_.fullscreen = false;
+    pendingHost_ = PendingHost::RestoreDefault;
+}
+
+void Application::applyPendingHost() {
+    if (pendingHost_ == PendingHost::None) {
+        return;
+    }
+    const PendingHost action = pendingHost_;
+    pendingHost_ = PendingHost::None;
+    if (action == PendingHost::RestoreDefault) {
+        host_.restoreDefaultSize();
+        host_.captureWindowed(prefs_);
+        prefs_.save();
+        return;
+    }
+    if (action == PendingHost::FullscreenOn) {
+        host_.setFullscreen(true);
+        return;
+    }
+    host_.setFullscreen(false);
     host_.captureWindowed(prefs_);
     prefs_.save();
 }

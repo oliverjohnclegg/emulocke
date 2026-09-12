@@ -68,7 +68,10 @@ private:
     void startEmuThread();
     void stopEmuThread();
     void emuLoop();
+    void applyPendingHost();
+    enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
     Host host_;
+    PendingHost pendingHost_{PendingHost::None};
     Input input_;
     AudioOutput audio_;
     Prefs prefs_;

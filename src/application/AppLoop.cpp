@@ -76,6 +76,7 @@ void Application::run() {
         SDL_RenderClear(host_.renderer());
         ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), host_.renderer());
         SDL_RenderPresent(host_.renderer());
+        applyPendingHost();
     }
 }
 

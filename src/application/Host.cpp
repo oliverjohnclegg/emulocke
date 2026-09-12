@@ -4,6 +4,7 @@
 #include <imgui.h>
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_sdlrenderer3.h>
+#include <algorithm>
 
 namespace emulocke {
 namespace {
@@ -15,6 +16,11 @@ void defaultWindowSize(int& w, int& h) {
     }
     w = static_cast<int>(1440 * scale);
     h = static_cast<int>(900 * scale);
+    SDL_Rect bounds{};
+    if (SDL_GetDisplayUsableBounds(SDL_GetPrimaryDisplay(), &bounds) && bounds.w > 0 && bounds.h > 0) {
+        w = std::min(w, bounds.w);
+        h = std::min(h, bounds.h);
+    }
 }
 
 }  // namespace

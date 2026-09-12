@@ -66,8 +66,9 @@ void drawMenuBar(Application& app) {
             app.setMuted(!app.prefs().mute);
         }
         int volume = app.prefs().volume;
-        ImGui::SetNextItemWidth(140.f);
-        if (ImGui::SliderInt("Volume", &volume, 0, 100, "%d")) {
+        ImGui::TextUnformatted("Volume");
+        ImGui::SetNextItemWidth(168.f);
+        if (ImGui::SliderInt("##volume", &volume, 0, 100, "%d")) {
             app.setVolume(volume);
         }
         ImGui::EndMenu();
