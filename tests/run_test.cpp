@@ -90,7 +90,7 @@ int main() {
     expect(emulocke::runHeadline(*a) == "Pokemon Fire Red: Regular Nuzlocke  |  Attempt #1", "headline");
 
     auto a2 = store.createAttempt(*a);
-    expect(a2, "create attempt");
+    expect(a2.has_value(), "create attempt");
     expect(a2->id != a->id, "attempt has fresh id");
     expect(a2->lineageId == a->id, "same lineage");
     expect(a2->attempt == 2, "attempt ticks up");
