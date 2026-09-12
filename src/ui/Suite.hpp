@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
-
-struct ImFont;
+struct ImVec2;
 
 namespace emulocke {
 
-void drawSuite(ImFont* display, ImFont* body, const std::string& status, const char* romName);
+class Application;
+
+void drawSuite(Application& app, ImVec2 size);
 
 }

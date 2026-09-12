@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icons/emulocke.svg" width="96" height="96" alt="Emulocke">
+</p>
+
 # Emulocke
 
 A desktop Pokemon nuzlocking emulator. One window runs GBA (mGBA) or DS (melonDS) on the left. The nuzlocke suite will live on the right later. V1 is the playable host: no tracker, no damage calc.
@@ -13,7 +17,7 @@ Or File > Open ROM. Battery saves are written next to the ROM as `.sav`. DS boot
 
 - NDS: two stacked screens. Mouse on the bottom pane is the stylus.
 - GBA: one left pane.
-- Right column: empty suite pane until the tools exist.
+- Right column: Logs tab until more suite tools exist.
 
 ## Build
 

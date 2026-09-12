@@ -18,11 +18,13 @@ Stock emulators play the game and nothing else. Existing nuzlocke tools live in 
 
 Left column is the console. Right column is the suite.
 
-- NDS: two stacked screens (256x192), top then bottom. Mouse on the bottom pane is the stylus.
-- GBA: one left pane (240x160). No empty bottom tile.
-- Right column spans the full height. V1 is an empty suite pane.
+- NDS: two stacked screens (256x192), top then bottom, 5px between them. Mouse on the bottom pane is the stylus.
+- GBA: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
+- 21px onyx around the screen cluster. Not between the two DS screens. Same 21px below and to the right of the suite.
+- Console column sizes to the integer-scaled screens. Default window hugs 2x NDS plus a 460px suite.
+- Right column is the suite. Tabs hold each function. V1 ships a Logs tab.
 
-Fixed split. Integer-scale nearest-neighbor. Letterbox, do not smear pixels.
+Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
 ## V1 (this pass)
 
@@ -97,7 +99,7 @@ Gamepad: standard SDL mapping.
 
 ## Design
 
-Onyx clamshell. Cool DS Lite chassis, inset screen wells, Gen 4 cream command chips, ivory on dark, scarce pokeball red. M PLUS Rounded 1c display, Fira Sans body. Suite pane is an empty SUITE chip, not a fake dashboard.
+Onyx clamshell. Cool DS Lite chassis, inset screen wells, Gen 4 cream command chips, ivory on dark, scarce pokeball red. M PLUS Rounded 1c display, Fira Sans body. Suite pane is tabbed; Logs is the first tab.
 
 ## Decisions
 
@@ -125,4 +127,8 @@ Onyx clamshell. Cool DS Lite chassis, inset screen wells, Gen 4 cream command ch
 
 - 2026-09-12: Initial PRD. V1 is the playable 2-pane shell. Suite is specified, not built.
 - 2026-09-12: Windows MSVC `.exe` plus GitHub Actions artifacts on push. Same sources, two native builds.
+- 2026-09-12: Compact DeSmuME-like shell. Console hugs screens with a 5px DS gap, suite 460px, default window 990x820.
+- 2026-09-12: 21px charcoal around the screen cluster. DS split stays 5px.
+- 2026-09-12: 21px charcoal below and to the right of the field log.
+- 2026-09-12: Suite header is a tab bar. Logs is the first tab.
 - 2026-09-12: Visual lock is onyx clamshell with cream command chips, not field kit.

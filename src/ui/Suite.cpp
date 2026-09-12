@@ -1,58 +1,31 @@
 #include "ui/Suite.hpp"
 
-#include "ui/Theme.hpp"
+#include "application/Application.hpp"
+#include "emu/EmuSession.hpp"
 
 #include <imgui.h>
 
 namespace emulocke {
-namespace {
 
-void drawSuiteChip(ImFont* display) {
-    const char* label = "SUITE";
-    if (display) {
-        ImGui::PushFont(display);
-    }
-    const ImVec2 pad(12.f, 6.f);
-    const ImVec2 text = ImGui::CalcTextSize(label);
-    const ImVec2 size(text.x + pad.x * 2.f, text.y + pad.y * 2.f);
-    const ImVec2 p = ImGui::GetCursorScreenPos();
-    ImGui::GetWindowDrawList()->AddRectFilled(
-        p, ImVec2(p.x + size.x, p.y + size.y), ImGui::ColorConvertFloat4ToU32(kCream), 4.f);
-    ImGui::SetCursorScreenPos(ImVec2(p.x + pad.x, p.y + pad.y));
-    ImGui::PushStyleColor(ImGuiCol_Text, kOnCream);
-    ImGui::TextUnformatted(label);
-    ImGui::PopStyleColor();
-    if (display) {
-        ImGui::PopFont();
-    }
-    ImGui::SetCursorScreenPos(ImVec2(p.x, p.y + size.y));
-    ImGui::Dummy(ImVec2(size.x, 0.f));
-}
-
-}  // namespace
-
-void drawSuite(ImFont* display, ImFont* body, const std::string& status, const char* romName) {
-    ImGui::BeginChild("suite", ImVec2(0, 0), ImGuiChildFlags_Borders);
-    drawSuiteChip(display);
-    ImGui::Dummy(ImVec2(0, 10.f));
-    ImGui::Separator();
-    if (body) {
+void drawSuite(Application& app, ImVec2 size) {
+    ImGui::BeginChild("suite", size, ImGuiChildFlags_Borders);
+    if (ImFont* body = app.bodyFont()) {
         ImGui::PushFont(body);
     }
-    ImGui::Dummy(ImVec2(0, 12));
-    ImGui::PushStyleColor(ImGuiCol_Text, kDisabled);
-    ImGui::TextUnformatted("Tools will live here.");
-    ImGui::Spacing();
-    ImGui::TextWrapped("Damage calc, tracker, and QoL sit in this pane later.");
-    ImGui::PopStyleColor();
-    if (!status.empty()) {
-        ImGui::Dummy(ImVec2(0, 16));
-        ImGui::TextUnformatted(status.c_str());
+    if (ImGui::BeginTabBar("suite-tabs", ImGuiTabBarFlags_DrawSelectedOverline)) {
+        if (ImGui::BeginTabItem("Logs")) {
+            ImGui::Dummy(ImVec2(0, 8));
+            if (!app.status().empty()) {
+                ImGui::TextUnformatted(app.status().c_str());
+            }
+            if (EmuSession* session = app.session()) {
+                ImGui::TextDisabled("%s", session->romName().c_str());
+            }
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
     }
-    if (romName && *romName) {
-        ImGui::TextDisabled("%s", romName);
-    }
-    if (body) {
+    if (app.bodyFont()) {
         ImGui::PopFont();
     }
     ImGui::EndChild();
