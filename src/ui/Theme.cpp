@@ -36,6 +36,7 @@ void applyTheme() {
     style.TabBorderSize = 1.f;
     style.TabBarBorderSize = 1.f;
     style.TabBarOverlineSize = 2.f;
+    style.TabMinWidthBase = 72.f;
     ImVec4* c = style.Colors;
     c[ImGuiCol_WindowBg] = kChassis;
     c[ImGuiCol_ChildBg] = kPanel;

@@ -15,12 +15,9 @@ void drawSuite(Application& app, ImVec2 size) {
     if (ImFont* body = app.bodyFont()) {
         ImGui::PushFont(body);
     }
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.f, 5.f));
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(ImGui::GetStyle().ItemSpacing.x, 0.f));
-    const bool tabs = ImGui::BeginTabBar("suite-tabs", ImGuiTabBarFlags_DrawSelectedOverline);
-    ImGui::PopStyleVar(2);
-    if (tabs) {
-        if (ImGui::BeginTabItem("Logs")) {
+    if (ImGui::BeginTabBar("suite-tabs", ImGuiTabBarFlags_DrawSelectedOverline | ImGuiTabBarFlags_NoTooltip)) {
+        if (ImGui::BeginTabItem("Logs", nullptr, ImGuiTabItemFlags_NoCloseButton)) {
             ImGui::PushStyleColor(ImGuiCol_ChildBg, kPanel);
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10.f, 10.f));
             ImGui::BeginChild("logs", ImVec2(0, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_AlwaysUseWindowPadding);
@@ -37,6 +34,7 @@ void drawSuite(Application& app, ImVec2 size) {
         }
         ImGui::EndTabBar();
     }
+    ImGui::PopStyleVar();
     if (app.bodyFont()) {
         ImGui::PopFont();
     }
