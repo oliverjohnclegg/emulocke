@@ -38,11 +38,20 @@ void drawMenuBar(Application& app) {
     }
     if (ImGui::BeginMenu("File")) {
         withBody(app, [&] {
-            if (ImGui::MenuItem("Open Game...")) {
-                app.requestOpenRom();
+            if (ImGui::MenuItem("Start New Attempt", nullptr, false, !app.activeRunId().empty())) {
+                app.queueNewAttempt(app.activeRunId());
             }
-            if (ImGui::MenuItem("Close", nullptr, false, app.session() != nullptr)) {
-                app.closeRom();
+            if (ImGui::MenuItem("New Run...")) {
+                app.requestNewRun();
+            }
+            if (ImGui::MenuItem("Load Run...", nullptr, false, !app.runStore().runs().empty())) {
+                app.requestLoadRun();
+            }
+            if (ImGui::MenuItem("Import Game...")) {
+                app.requestImportGame();
+            }
+            if (ImGui::MenuItem("Close Run", nullptr, false, app.session() != nullptr)) {
+                app.closeRun();
             }
             if (ImGui::MenuItem("Exit")) {
                 SDL_Event quit{};

@@ -6,22 +6,23 @@
 
 A desktop Pokemon nuzlocking suite. One window runs the game on the left. The nuzlocke tools will live on the right later. V1 is the playable host: no tracker, no damage calc.
 
+Import a verified baseline dump (File > Import Game). New Run scopes the expedition. Battery saves live in the app data `runs/` folder, never beside the ROM. DS boots with FreeBIOS. Do not put Nintendo BIOS, firmware, or ROMs in this repo.
+
 ```
-emulocke /path/to/game.gba
-emulocke /path/to/game.nds
+emulocke /path/to/firered.gba
 ```
 
-Or File > Open Game. Battery saves are written next to the game as `.sav`. DS boots with FreeBIOS. Do not put Nintendo BIOS, firmware, or ROMs in this repo.
+That imports a known dump and opens New Run. It does not silent-boot.
 
 ## Layout
 
 - Two-screen games: stacked screens. Mouse on the bottom pane is the stylus.
 - One-screen games: one left pane.
-- Right column: Logs tab until more suite tools exist.
+- With no run seated, the left column lists expeditions. Right column: Logs tab until more suite tools exist.
 
 ## Menus
 
-- File: open or close a game
+- File: import a dump, start a new run, load a run, start a new attempt, close the seated run
 - Emulation: pause and reset
 - View: fullscreen, screen scale (Fit / 1x / 2x / 3x / 4x), restore default window
 - Audio: mute and volume

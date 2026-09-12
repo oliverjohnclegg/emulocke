@@ -93,8 +93,13 @@ add_executable(emulocke
     src/application/SessionControl.cpp
     src/application/AppLoop.cpp
     src/application/Prefs.cpp
+    src/application/RunControl.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
+    src/ui/Home.cpp
+    src/ui/NewRunModal.cpp
+    src/ui/LoadRunModal.cpp
+    src/ui/RunList.cpp
     src/ui/Suite.cpp
     src/ui/FieldLog.cpp
     src/ui/MenuBar.cpp
@@ -110,7 +115,18 @@ add_executable(emulocke
     src/emu/NdsPlatformSync.cpp
     src/emu/NdsPlatformStubs.cpp
     src/emu/NdsPlatformDynlib.cpp
-    src/emu/NdsPlatformSave.cpp)
+    src/emu/NdsPlatformSave.cpp
+    src/run/Catalog.cpp
+    src/run/CatalogLookup.cpp
+    src/run/NuzlockeRules.cpp
+    src/run/PatchApply.cpp
+    src/run/RomLibrary.cpp
+    src/run/RomLibraryEnsure.cpp
+    src/run/RunLabel.cpp
+    src/run/RunMeta.cpp
+    src/run/RunMetaWrite.cpp
+    src/run/RunStore.cpp
+    src/run/RunStoreAttempts.cpp)
 
 target_include_directories(emulocke PRIVATE src)
 target_link_libraries(emulocke PRIVATE emulocke_adapter core mgba imgui SDL3::SDL3)
@@ -180,7 +196,6 @@ add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
     src/emu/GbaSession.cpp
     src/emu/FileBytes.cpp
-    src/emu/Paths.cpp
     src/emu/AudioOutput.cpp)
 target_include_directories(emulocke-gba-check PRIVATE src)
 target_link_libraries(emulocke-gba-check PRIVATE mgba SDL3::SDL3)
@@ -202,7 +217,6 @@ add_executable(emulocke-frlg-live-check EXCLUDE_FROM_ALL
     src/test/frlg_live_check.cpp
     src/emu/GbaSession.cpp
     src/emu/FileBytes.cpp
-    src/emu/Paths.cpp
     src/emu/AudioOutput.cpp)
 target_include_directories(emulocke-frlg-live-check PRIVATE src)
 target_link_libraries(emulocke-frlg-live-check PRIVATE emulocke_adapter mgba SDL3::SDL3)
@@ -213,9 +227,33 @@ if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-frlg-live-check PRIVATE dl pthread)
 endif()
 
+add_executable(emulocke-run-check
+    src/test/run_check.cpp
+    src/emu/FileBytes.cpp
+    src/run/Catalog.cpp
+    src/run/CatalogLookup.cpp
+    src/run/NuzlockeRules.cpp
+    src/run/PatchApply.cpp
+    src/run/RomLibrary.cpp
+    src/run/RomLibraryEnsure.cpp
+    src/run/RunLabel.cpp
+    src/run/RunMeta.cpp
+    src/run/RunMetaWrite.cpp
+    src/run/RunStore.cpp
+    src/run/RunStoreAttempts.cpp)
+target_include_directories(emulocke-run-check PRIVATE src)
+target_link_libraries(emulocke-run-check PRIVATE mgba)
+if(MGBA_COMPILE_DEFS)
+    target_compile_definitions(emulocke-run-check PRIVATE ${MGBA_COMPILE_DEFS})
+endif()
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-run-check PRIVATE dl pthread)
+endif()
+
 enable_testing()
 add_test(NAME adapter COMMAND emulocke-adapter-check)
 add_test(NAME gba-host COMMAND emulocke-gba-check)
+add_test(NAME run COMMAND emulocke-run-check)
 
 add_custom_command(
     TARGET emulocke POST_BUILD

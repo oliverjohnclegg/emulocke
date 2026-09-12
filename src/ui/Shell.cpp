@@ -55,18 +55,35 @@ void drawScreen(const char* id, ScreenTexture& tex, ImVec2 size, bool paused, bo
     ImGui::PopStyleColor();
 }
 
+void drawRightSuite(Application& app, float insetX, float insetY) {
+    const ImVec2 suiteAvail = ImGui::GetContentRegionAvail();
+    drawSuite(app, ImVec2(suiteAvail.x - insetX, suiteAvail.y - insetY));
+}
+
 }  // namespace
 
 void drawShell(Application& app) {
     EmuSession* session = app.session();
-    const bool nds = session && session->kind() == ConsoleKind::Nds;
-    const int nativeW = session ? session->screenWidth(0) : kNativeW;
-    const int nativeH = session ? session->screenHeight(0) : kNativeH;
-    const int screens = nds ? 2 : 1;
     const ImVec2 avail = ImGui::GetContentRegionAvail();
-    const float gap = nds ? kScreenGap : 0.f;
     const float insetX = kConsolePad - ImGui::GetStyle().WindowPadding.x;
     const float insetY = kConsolePad - ImGui::GetStyle().WindowPadding.y;
+    if (!session) {
+        const ImVec2 cursor = ImGui::GetCursorPos();
+        ImGui::SetCursorPos(ImVec2(cursor.x + insetX, cursor.y + insetY));
+        const float leftW = avail.x - insetX - kSuiteWidth - kConsolePad - insetX;
+        ImGui::BeginChild("left-home", ImVec2(leftW, avail.y - insetY - insetY), ImGuiChildFlags_None,
+            ImGuiWindowFlags_NoScrollbar);
+        drawHome(app);
+        ImGui::EndChild();
+        ImGui::SameLine(0.f, kConsolePad);
+        drawRightSuite(app, insetX, insetY);
+        return;
+    }
+    const bool nds = session->kind() == ConsoleKind::Nds;
+    const int nativeW = session->screenWidth(0);
+    const int nativeH = session->screenHeight(0);
+    const int screens = nds ? 2 : 1;
+    const float gap = nds ? kScreenGap : 0.f;
     const float consoleAvailW = avail.x - insetX - kSuiteWidth - kConsolePad - insetX;
     const int fit = std::max(1, std::min(static_cast<int>(consoleAvailW / static_cast<float>(nativeW)),
         static_cast<int>((avail.y - insetY - gap) / static_cast<float>(nativeH * screens))));
@@ -85,8 +102,7 @@ void drawShell(Application& app) {
     ImGui::PopStyleVar();
     ImGui::EndChild();
     ImGui::SameLine(0.f, kConsolePad);
-    const ImVec2 suiteAvail = ImGui::GetContentRegionAvail();
-    drawSuite(app, ImVec2(suiteAvail.x - insetX, suiteAvail.y - insetY));
+    drawRightSuite(app, insetX, insetY);
 }
 
 }

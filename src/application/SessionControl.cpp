@@ -64,18 +64,24 @@ void Application::emuLoop() {
     }
 }
 
-void Application::loadRom(const std::string& path) {
+void Application::bootRun(const Run& run) {
     stopEmuThread();
+    auto rom = romLibrary_->ensurePlayable(run.catalogUuid);
     std::unique_ptr<EmuSession> next;
-    const std::string ext = lowerExt(path);
-    if (ext == ".gba") {
-        next = GbaSession::open(path);
-        status_ = next ? "Cart seated." : "Couldn't open that game.";
-    } else if (ext == ".nds") {
-        next = NdsSession::open(path);
-        status_ = next ? "Cart seated." : "Couldn't open that game.";
+    if (rom) {
+        const std::string ext = lowerExt(rom->string());
+        const std::string save = runStore_->batteryPath(run.id).string();
+        if (ext == ".gba") {
+            next = GbaSession::open(rom->string(), save);
+            status_ = next ? "Cart seated." : "Couldn't open that game.";
+        } else if (ext == ".nds") {
+            next = NdsSession::open(rom->string(), save);
+            status_ = next ? "Cart seated." : "Couldn't open that game.";
+        } else {
+            status_ = "Need a Pokemon game (.gba or .nds).";
+        }
     } else {
-        status_ = "Need a Pokemon game (.gba or .nds).";
+        status_ = romLibrary_->lastError();
     }
     {
         std::lock_guard lock(sessionMutex_);
@@ -93,12 +99,13 @@ void Application::loadRom(const std::string& path) {
     std::fprintf(stderr, "%s\n", status_.c_str());
 }
 
-void Application::closeRom() {
+void Application::closeRun() {
     stopEmuThread();
     std::lock_guard lock(sessionMutex_);
     session_.reset();
     adapter_ = nullptr;
     snapshot_ = GameSnapshot{};
+    activeRunId_.clear();
     status_ = "No cart.";
 }
 
