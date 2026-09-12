@@ -17,7 +17,7 @@ void drawSuite(Application& app, ImVec2 size) {
     }
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(ImGui::GetStyle().ItemSpacing.x, 0.f));
     if (ImGui::BeginTabBar("suite-tabs", ImGuiTabBarFlags_DrawSelectedOverline | ImGuiTabBarFlags_NoTooltip)) {
-        if (ImGui::BeginTabItem("Logs", nullptr, ImGuiTabItemFlags_NoCloseButton)) {
+        if (ImGui::BeginTabItem("Logs")) {
             ImGui::PushStyleColor(ImGuiCol_ChildBg, kPanel);
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10.f, 10.f));
             ImGui::BeginChild("logs", ImVec2(0, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_AlwaysUseWindowPadding);
