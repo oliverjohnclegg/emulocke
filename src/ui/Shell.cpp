@@ -21,7 +21,15 @@ void drawScreen(const char* id, ScreenTexture& tex, ImVec2 avail, bool paused, b
         const ImVec2 size(static_cast<float>(tex.width() * scale), static_cast<float>(tex.height() * scale));
         ImGui::SetCursorPosX((maxW - size.x) * 0.5f);
         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + (maxH - size.y) * 0.5f);
+        ImDrawList* dl = ImGui::GetWindowDrawList();
+        ImGuiPlatformIO& pio = ImGui::GetPlatformIO();
+        if (pio.DrawCallback_SetSamplerNearest) {
+            dl->AddCallback(pio.DrawCallback_SetSamplerNearest, nullptr);
+        }
         ImGui::Image(tex.texture(), size);
+        if (pio.DrawCallback_SetSamplerLinear) {
+            dl->AddCallback(pio.DrawCallback_SetSamplerLinear, nullptr);
+        }
         if (touch) {
             const ImVec2 rmin = ImGui::GetItemRectMin();
             const ImVec2 rsize = ImGui::GetItemRectSize();
