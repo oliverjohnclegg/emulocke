@@ -111,6 +111,21 @@ if(MINGW)
     target_link_options(emulocke PRIVATE -static-libgcc -static-libstdc++ -static)
 endif()
 
+add_executable(emulocke-gba-check
+    src/test/gba_host_check.cpp
+    src/emu/GbaSession.cpp
+    src/emu/FileBytes.cpp
+    src/emu/Paths.cpp
+    src/emu/AudioOutput.cpp)
+target_include_directories(emulocke-gba-check PRIVATE src)
+target_link_libraries(emulocke-gba-check PRIVATE mgba SDL3::SDL3)
+if(MGBA_COMPILE_DEFS)
+    target_compile_definitions(emulocke-gba-check PRIVATE ${MGBA_COMPILE_DEFS})
+endif()
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-gba-check PRIVATE dl pthread)
+endif()
+
 add_custom_command(
     TARGET emulocke POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory

@@ -45,4 +45,12 @@ void AudioOutput::push(const int16_t* interleavedStereo, int frames, int sourceH
     SDL_PutAudioStreamData(stream_, interleavedStereo, frames * 4);
 }
 
+int AudioOutput::queuedBytes() const {
+    if (!stream_) {
+        return 0;
+    }
+    const int queued = SDL_GetAudioStreamQueued(stream_);
+    return queued > 0 ? queued : 0;
+}
+
 }

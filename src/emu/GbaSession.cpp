@@ -2,13 +2,13 @@
 
 #include "emu/AudioOutput.hpp"
 #include "emu/FileBytes.hpp"
+#include "emu/GbaPixels.hpp"
 #include "emu/Paths.hpp"
 
 #include <mgba/core/core.h>
 #include <mgba/core/interface.h>
 #include <mgba-util/audio-buffer.h>
 #include <mgba-util/vfs.h>
-#include <cstring>
 #include <cstdlib>
 #include <filesystem>
 #include <vector>
@@ -31,6 +31,8 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath) {
         return nullptr;
     }
     mCoreInitConfig(session->core_, "emulocke");
+    mCoreConfigSetDefaultValue(&session->core_->config, "skipBios", "1");
+    session->core_->opts.skipBios = true;
     session->core_->baseVideoSize(session->core_, &session->width_, &session->height_);
     session->pixels_.assign(session->width_ * session->height_, 0);
     session->core_->setVideoBuffer(session->core_, session->pixels_.data(), session->width_);
@@ -66,11 +68,13 @@ void GbaSession::copyScreen(int index, void* dest, int pitchBytes) const {
         return;
     }
     std::lock_guard lock(frameMutex_);
-    const auto* src = reinterpret_cast<const uint8_t*>(pixels_.data());
     auto* dst = static_cast<uint8_t*>(dest);
-    const int row = static_cast<int>(width_ * 4);
     for (unsigned y = 0; y < height_; ++y) {
-        std::memcpy(dst + y * pitchBytes, src + y * row, row);
+        const uint32_t* src = pixels_.data() + static_cast<size_t>(y) * width_;
+        auto* row = reinterpret_cast<uint32_t*>(dst + static_cast<size_t>(y) * pitchBytes);
+        for (unsigned x = 0; x < width_; ++x) {
+            row[x] = gbaNativeToRgba(src[x]);
+        }
     }
 }
 
