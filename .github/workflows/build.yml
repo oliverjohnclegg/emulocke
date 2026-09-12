@@ -34,15 +34,35 @@ jobs:
             libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
             libxi-dev libxfixes-dev libxrender-dev libxkbcommon-dev
 
+      - name: Setup MSYS2
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: false
+          path-type: inherit
+          install: >-
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-ninja
+            git
+
       - name: Configure Linux
         if: runner.os == 'Linux'
         run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 
       - name: Configure Windows
         if: runner.os == 'Windows'
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+        shell: msys2 {0}
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 
-      - name: Build
+      - name: Build Linux
+        if: runner.os == 'Linux'
+        run: cmake --build build --config Release --parallel
+
+      - name: Build Windows
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
         run: cmake --build build --config Release --parallel
 
       - name: Stage
