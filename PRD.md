@@ -99,7 +99,7 @@ Gamepad: standard SDL mapping.
 
 ## Design
 
-Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite pane is tabbed; Logs is the first tab.
+Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Logs is first.
 
 ## Decisions
 
