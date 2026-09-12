@@ -32,6 +32,9 @@ void applyTheme() {
     c[ImGuiCol_ButtonHovered] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
     c[ImGuiCol_ButtonActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.80f);
     c[ImGuiCol_FrameBg] = ImVec4(0.12f, 0.10f, 0.09f, 1.f);
+    c[ImGuiCol_FrameBgHovered] = ImVec4(0.77f, 0.17f, 0.17f, 0.35f);
+    c[ImGuiCol_FrameBgActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.55f);
+    c[ImGuiCol_CheckMark] = ImVec4(0.77f, 0.17f, 0.17f, 1.f);
     c[ImGuiCol_MenuBarBg] = ImVec4(0.055f, 0.047f, 0.043f, 1.f);
     c[ImGuiCol_TitleBg] = ImVec4(0.055f, 0.047f, 0.043f, 1.f);
     c[ImGuiCol_TitleBgActive] = ImVec4(0.77f, 0.17f, 0.17f, 0.35f);

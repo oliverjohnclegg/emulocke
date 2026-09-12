@@ -2,7 +2,6 @@
 
 #include "emu/AudioOutput.hpp"
 #include "emu/FileBytes.hpp"
-#include "emu/Paths.hpp"
 
 #include <mgba/core/core.h>
 #include <mgba/core/interface.h>
@@ -15,7 +14,7 @@
 
 namespace emulocke {
 
-std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath) {
+std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const std::string& savePath) {
     auto bytes = readWholeFile(romPath);
     if (bytes.empty()) {
         return nullptr;
@@ -40,7 +39,7 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath) {
         session->core_ = nullptr;
         return nullptr;
     }
-    session->savePath_ = savePathBesideRom(romPath);
+    session->savePath_ = savePath;
     auto save = readWholeFile(session->savePath_);
     if (!save.empty()) {
         session->core_->savedataRestore(session->core_, save.data(), save.size(), true);

@@ -14,7 +14,7 @@ namespace emulocke {
 
 class GbaSession final : public EmuSession {
 public:
-    static std::unique_ptr<GbaSession> open(const std::string& romPath);
+    static std::unique_ptr<GbaSession> open(const std::string& romPath, const std::string& savePath);
     ~GbaSession() override;
     ConsoleKind kind() const override { return ConsoleKind::Gba; }
     int screenCount() const override { return 1; }

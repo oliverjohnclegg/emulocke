@@ -20,7 +20,9 @@ Left column is the console. Right column is the suite.
 
 - NDS: two stacked screens (256x192), top then bottom. Mouse on the bottom pane is the stylus.
 - GBA: one left pane (240x160). No empty bottom tile.
-- Right column spans the full height. V1 is an empty expedition-log placeholder.
+- Right column spans the full height. While a run is loaded, V1 is an empty expedition-log placeholder.
+
+With no run loaded, the window is the home expedition log: runs grouped by game.
 
 Fixed split. Integer-scale nearest-neighbor. Letterbox, do not smear pixels.
 
@@ -28,14 +30,23 @@ Fixed split. Integer-scale nearest-neighbor. Letterbox, do not smear pixels.
 
 A playable host. No suite.
 
-- Open `.gba` / `.nds` from File > Open and from the CLI (`emulocke /path/to/rom`)
-- 60fps video in the left column
+- File > New Run and File > Load Run (no Open ROM)
+- Drop Pokemon `.gba` / `.nds` dumps in `roms/`; New Run lists titles detected from the header game code
+- New Run modal scopes the game and nuzlocke rules (Regular / Hardcore presets, then editable toggles)
+- One game can have many runs; a run can have many attempts
+- Start New Attempt clones the same game, ROM, and rules with a fresh ID and save, and ticks the attempt counter. No settings modal.
+- Home lists runs grouped by game as `Pokemon Fire Red: Hardcore Nuzlocke  |  Attempt #2`, with NEW ATTEMPT on the row
+- File > Start New Attempt sits above New Run and is enabled while a run is seated
+- Click a home row to load that attempt
+- CLI `emulocke /path/to/rom` opens New Run for a supported Pokemon dump; it does not silent-boot
+- 60fps video in the left column once a run is seated
 - Audio
 - Keyboard and SDL gamepad
 - DS touch on the bottom pane
-- Battery saves next to the ROM as `.sav`
+- Battery saves live in the run folder (`battery.sav`), never beside the ROM
 - Pause and reset
-- One game at a time; extension picks the core
+- One run at a time; ROM extension picks the core
+- Rules are stored on the run. The cores do not enforce them.
 
 ## V1 non-goals
 
@@ -109,6 +120,8 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 | GBA uses one left pane | A 2x2 grid leaves a dead bottom-left tile. |
 | FreeBIOS / generated firmware | Play DS Pokemon without shipping or requiring dumps. |
 | One session at a time | No dual-core process. Extension selects GBA or NDS. |
+| Saves scoped to the run | A nuzlocke is an attempt, not a ROM. Multiple runs of one game must not share a `.sav`. |
+| `roms/` plus header detection | Users drop dumps in a known folder. Dropdown is detected Pokemon titles, not a file picker. |
 | Windows via MSVC in CI | Same CMake tree. Dynlib uses LoadLibrary. Pref path is SDL. JIT off on MSVC (no GNU `.S` assembler). |
 | Other chats are out of scope | Greenfield. Only this document and this repo set requirements. |
 
@@ -116,12 +129,17 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 
 1. The tree builds on the Linux/WSL machine used for development.
 2. GitHub Actions builds Linux and Windows artifacts on push (`emulocke` and `emulocke.exe`).
-3. A homebrew `.gba` and `.nds` run (not Pokemon, not committed).
-4. Video, audio, keyboard, gamepad, pause, reset, and `.sav` creation work.
-5. NDS shows both screens; clicks on the bottom pane map to touch.
-6. GBA uses a single left pane; the suite placeholder stays visible.
+3. Home lists runs grouped by game as game, preset, and attempt. Empty state explains the `roms/` folder.
+4. New Run scopes a detected Pokemon game and nuzlocke rules, then boots that run.
+5. Start New Attempt clones settings, ticks the attempt counter, and uses a fresh ID and `battery.sav`.
+6. Two runs of the same game use separate `battery.sav` files under the app data `runs/` folder.
+7. Video, audio, keyboard, gamepad, pause, reset, and run-scoped `.sav` creation work.
+8. NDS shows both screens; clicks on the bottom pane map to touch.
+9. GBA uses a single left pane; the suite placeholder stays visible.
 
 ## Changelog
 
 - 2026-09-12: Initial PRD. V1 is the playable 2-pane shell. Suite is specified, not built.
 - 2026-09-12: Windows MSVC `.exe` plus GitHub Actions artifacts on push. Same sources, two native builds.
+- 2026-09-12: Run-scoped saves. New Run / Load Run replace Open ROM. Home expedition log grouped by game.
+- 2026-09-12: Attempts. Start New Attempt clones a run's settings with a new ID and a ticked attempt counter.

@@ -3,7 +3,6 @@
 #include "emu/AudioOutput.hpp"
 #include "emu/Buttons.hpp"
 #include "emu/FileBytes.hpp"
-#include "emu/Paths.hpp"
 
 #include <NDS.h>
 #include <NDSCart.h>
@@ -15,14 +14,14 @@
 
 namespace emulocke {
 
-std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath) {
+std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath, const std::string& savePath) {
     auto bytes = readWholeFile(romPath);
     if (bytes.empty()) {
         return nullptr;
     }
     auto session = std::unique_ptr<NdsSession>(new NdsSession());
     session->romPath_ = romPath;
-    session->savePath_ = savePathBesideRom(romPath);
+    session->savePath_ = savePath;
     session->romName_ = std::filesystem::path(romPath).filename().string();
     session->top_.assign(256 * 192, 0);
     session->bottom_.assign(256 * 192, 0);

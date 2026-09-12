@@ -56,15 +56,16 @@ void Application::emuLoop() {
     }
 }
 
-void Application::loadRom(const std::string& path) {
+void Application::bootRun(const Run& run) {
     stopEmuThread();
     std::unique_ptr<EmuSession> next;
-    const std::string ext = lowerExt(path);
+    const std::string ext = lowerExt(run.romPath);
+    const std::string save = runStore_->batteryPath(run.id).string();
     if (ext == ".gba") {
-        next = GbaSession::open(path);
+        next = GbaSession::open(run.romPath, save);
         status_ = next ? "GBA cart seated." : "Failed to load GBA ROM.";
     } else if (ext == ".nds") {
-        next = NdsSession::open(path);
+        next = NdsSession::open(run.romPath, save);
         status_ = next ? "DS cart seated." : "Failed to load NDS ROM.";
     } else {
         status_ = "Need a .gba or .nds file.";
@@ -80,10 +81,11 @@ void Application::loadRom(const std::string& path) {
     std::fprintf(stderr, "%s\n", status_.c_str());
 }
 
-void Application::closeRom() {
+void Application::closeRun() {
     stopEmuThread();
     std::lock_guard lock(sessionMutex_);
     session_.reset();
+    activeRunId_.clear();
     status_ = "No cart.";
 }
 

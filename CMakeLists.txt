@@ -74,10 +74,15 @@ add_executable(emulocke
     src/application/Host.cpp
     src/application/Application.cpp
     src/application/SessionControl.cpp
+    src/application/RunControl.cpp
     src/application/AppLoop.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
+    src/ui/Home.cpp
     src/ui/MenuBar.cpp
+    src/ui/NewRunModal.cpp
+    src/ui/LoadRunModal.cpp
+    src/ui/RunList.cpp
     src/emu/Paths.cpp
     src/emu/FileBytes.cpp
     src/emu/Input.cpp
@@ -89,7 +94,13 @@ add_executable(emulocke
     src/emu/NdsPlatformSync.cpp
     src/emu/NdsPlatformStubs.cpp
     src/emu/NdsPlatformDynlib.cpp
-    src/emu/NdsPlatformSave.cpp)
+    src/emu/NdsPlatformSave.cpp
+    src/run/GameId.cpp
+    src/run/NuzlockeRules.cpp
+    src/run/Roms.cpp
+    src/run/RunMeta.cpp
+    src/run/RunStore.cpp
+    src/run/RunLabel.cpp)
 
 target_include_directories(emulocke PRIVATE src)
 target_link_libraries(emulocke PRIVATE core mgba imgui SDL3::SDL3)
@@ -114,4 +125,22 @@ add_custom_command(
     TARGET emulocke POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:emulocke>/assets)
+        $<TARGET_FILE_DIR:emulocke>/assets
+    COMMAND ${CMAKE_COMMAND} -E make_directory
+        $<TARGET_FILE_DIR:emulocke>/roms)
+
+add_executable(emulocke_run_test
+    tests/run_test.cpp
+    src/run/GameId.cpp
+    src/run/NuzlockeRules.cpp
+    src/run/Roms.cpp
+    src/run/RunMeta.cpp
+    src/run/RunStore.cpp
+    src/run/RunLabel.cpp)
+target_include_directories(emulocke_run_test PRIVATE src)
+if(MSVC)
+    target_compile_definitions(emulocke_run_test PRIVATE _CRT_SECURE_NO_WARNINGS NOMINMAX WIN32_LEAN_AND_MEAN)
+    target_compile_options(emulocke_run_test PRIVATE /utf-8)
+endif()
+enable_testing()
+add_test(NAME run_model COMMAND emulocke_run_test)

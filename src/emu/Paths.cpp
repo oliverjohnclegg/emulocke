@@ -19,11 +19,7 @@ std::string assetPath(const char* relative) {
     return suffix;
 }
 
-std::string savePathBesideRom(const std::string& romPath) {
-    return std::filesystem::path(romPath).replace_extension(".sav").string();
-}
-
-std::string localDataPath(const std::string& filename) {
+std::filesystem::path prefDir() {
     std::filesystem::path dir;
     if (char* pref = SDL_GetPrefPath("emulocke", "emulocke")) {
         dir = pref;
@@ -33,7 +29,31 @@ std::string localDataPath(const std::string& filename) {
     }
     std::error_code ec;
     std::filesystem::create_directories(dir, ec);
-    return (dir / filename).string();
+    return dir;
+}
+
+std::string localDataPath(const std::string& filename) {
+    return (prefDir() / filename).string();
+}
+
+std::filesystem::path runsRoot() {
+    return prefDir() / "runs";
+}
+
+std::filesystem::path exeRomsDir() {
+    if (const char* base = SDL_GetBasePath()) {
+        return std::filesystem::path(base) / "roms";
+    }
+    return std::filesystem::current_path() / "roms";
+}
+
+std::vector<std::filesystem::path> romsScanDirs() {
+    return {exeRomsDir(), std::filesystem::current_path() / "roms"};
+}
+
+void ensureRomsDir() {
+    std::error_code ec;
+    std::filesystem::create_directories(exeRomsDir(), ec);
 }
 
 }

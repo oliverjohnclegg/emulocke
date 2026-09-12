@@ -12,11 +12,17 @@ void drawMenuBar(Application& app) {
         return;
     }
     if (ImGui::BeginMenu("File")) {
-        if (ImGui::MenuItem("Open ROM...")) {
-            app.requestOpenRom();
+        if (ImGui::MenuItem("Start New Attempt", nullptr, false, !app.activeRunId().empty())) {
+            app.queueNewAttempt(app.activeRunId());
         }
-        if (ImGui::MenuItem("Close", nullptr, false, app.session() != nullptr)) {
-            app.closeRom();
+        if (ImGui::MenuItem("New Run...")) {
+            app.requestNewRun();
+        }
+        if (ImGui::MenuItem("Load Run...", nullptr, false, !app.runStore().runs().empty())) {
+            app.requestLoadRun();
+        }
+        if (ImGui::MenuItem("Close Run", nullptr, false, app.session() != nullptr)) {
+            app.closeRun();
         }
         if (ImGui::MenuItem("Exit")) {
             SDL_Event quit{};

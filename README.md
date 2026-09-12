@@ -2,15 +2,18 @@
 
 A desktop Pokemon nuzlocking emulator. One window runs GBA (mGBA) or DS (melonDS) on the left. The nuzlocke suite will live on the right later. V1 is the playable host: no tracker, no damage calc.
 
+Play is scoped to a **run**, not the ROM file. One game can have many runs. Each run keeps the ROM path, nuzlocke rules, and its own battery save. A run can have many attempts: Start New Attempt copies the same settings, gives the attempt a fresh ID and save, and ticks the counter.
+
 ```
-emulocke /path/to/game.gba
-emulocke /path/to/game.nds
+emulocke
+emulocke /path/to/firered.gba
 ```
 
-Or File > Open ROM. Battery saves are written next to the ROM as `.sav`. DS boots with FreeBIOS. Do not put Nintendo BIOS, firmware, or ROMs in this repo.
+With no run loaded, the home page lists expeditions grouped by game, each as `Pokemon Fire Red: Hardcore Nuzlocke  |  Attempt #1`. NEW ATTEMPT on a row starts another attempt with the same settings. File > Start New Attempt (above New Run) does the same while a run is seated. File > New Run (or the home button) opens a modal to pick the game and rules. File > Load Run switches runs. Drop Pokemon dumps in the `roms/` folder next to the binary (or `./roms`). Emulocke detects titles from the ROM header. Unknown dumps are ignored. A CLI ROM path opens New Run for that game if it is a supported Pokemon dump. DS boots with FreeBIOS. Do not put Nintendo BIOS, firmware, or ROMs in this repo.
 
 ## Layout
 
+- No run: full-window expedition log, grouped by game.
 - NDS: two stacked screens. Mouse on the bottom pane is the stylus.
 - GBA: one left pane.
 - Right column: empty field log until the suite exists.
@@ -24,10 +27,13 @@ git clone --recurse-submodules https://github.com/oliverjohnclegg/emulocke.git
 cd emulocke
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --config Release --parallel
+./build/emulocke_run_test
 ```
 
 Linux binary: `build/emulocke`  
 Windows (MSVC): `build/Release/emulocke.exe`
+
+Put dumps in `build/roms/` (created next to the binary) or `./roms`.
 
 ## Controls
 
@@ -44,7 +50,7 @@ Gamepad uses the standard SDL map. Pause and reset are under Emulation.
 
 ## CI artifacts
 
-Every push runs `.github/workflows/build.yml` on Ubuntu and Windows. Download `emulocke-linux-x64` or `emulocke-windows-x64` from the Actions run. Keep the `assets/` folder next to the binary.
+Every push runs `.github/workflows/build.yml` on Ubuntu and Windows. Download `emulocke-linux-x64` or `emulocke-windows-x64` from the Actions run. Keep the `assets/` and `roms/` folders next to the binary.
 
 ## License
 
