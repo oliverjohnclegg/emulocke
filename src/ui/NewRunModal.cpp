@@ -28,6 +28,10 @@ void drawNewRunModal(Application& app) {
     if (app.showNewRun()) {
         ImGui::OpenPopup("NEW RUN");
     }
+    if (ImGui::IsPopupOpen("NEW RUN")) {
+        const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+        ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+    }
     if (!ImGui::BeginPopupModal("NEW RUN", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
         return;
     }

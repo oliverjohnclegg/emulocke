@@ -10,7 +10,11 @@ void drawLoadRunModal(Application& app) {
     if (app.showLoadRun()) {
         ImGui::OpenPopup("LOAD RUN");
     }
-    ImGui::SetNextWindowSize(ImVec2(480.f, 360.f), ImGuiCond_Appearing);
+    if (ImGui::IsPopupOpen("LOAD RUN")) {
+        const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+        ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowSize(ImVec2(480.f, 360.f), ImGuiCond_Appearing);
+    }
     if (!ImGui::BeginPopupModal("LOAD RUN", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
         return;
     }
