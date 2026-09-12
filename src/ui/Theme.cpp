@@ -33,7 +33,7 @@ void applyTheme() {
     style.FrameBorderSize = 1.f;
     style.PopupBorderSize = 1.f;
     style.TabRounding = 0.f;
-    style.TabBorderSize = 0.f;
+    style.TabBorderSize = 1.f;
     style.TabBarBorderSize = 1.f;
     style.TabBarOverlineSize = 2.f;
     ImVec4* c = style.Colors;
@@ -59,12 +59,12 @@ void applyTheme() {
     c[ImGuiCol_ScrollbarGrab] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.40f);
     c[ImGuiCol_ScrollbarGrabHovered] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.70f);
     c[ImGuiCol_ScrollbarGrabActive] = kMetal;
-    c[ImGuiCol_Tab] = kFrame;
+    c[ImGuiCol_Tab] = kMenuStrip;
     c[ImGuiCol_TabHovered] = kHeaderHover;
-    c[ImGuiCol_TabSelected] = kPanel;
+    c[ImGuiCol_TabSelected] = kButton;
     c[ImGuiCol_TabSelectedOverline] = kMetal;
-    c[ImGuiCol_TabDimmed] = kFrame;
-    c[ImGuiCol_TabDimmedSelected] = kPanel;
+    c[ImGuiCol_TabDimmed] = kMenuStrip;
+    c[ImGuiCol_TabDimmedSelected] = kButton;
     c[ImGuiCol_TabDimmedSelectedOverline] = kMetal;
 }
 
