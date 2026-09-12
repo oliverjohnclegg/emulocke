@@ -10,6 +10,7 @@
 #include <mgba-util/audio-buffer.h>
 #include <mgba-util/vfs.h>
 #include <cstdlib>
+#include <cstring>
 #include <filesystem>
 #include <vector>
 
@@ -53,6 +54,7 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath) {
     callbacks.savedataUpdated = [](void* ctx) { static_cast<GbaSession*>(ctx)->flushSave(); };
     session->core_->addCoreCallbacks(session->core_, &callbacks);
     session->romName_ = std::filesystem::path(romPath).filename().string();
+    session->cart_ = cartridgeFromRom(bytes);
     return session;
 }
 
@@ -104,6 +106,40 @@ void GbaSession::drainAudio(AudioOutput& audio) {
     const int got = static_cast<int>(mAudioBufferRead(buffer, samples.data(), static_cast<size_t>(available)));
     const int hz = static_cast<int>(core_->audioSampleRate(core_));
     audio.push(samples.data(), got, hz > 0 ? hz : 32768);
+}
+
+bool GbaSession::read(uint32_t addr, std::span<uint8_t> out) const {
+    std::lock_guard lock(frameMutex_);
+    if (!core_ || out.empty()) {
+        return false;
+    }
+    size_t size = 0;
+    void* block = mCoreGetMemoryBlock(core_, addr, &size);
+    if (block && size >= out.size()) {
+        std::memcpy(out.data(), block, out.size());
+        return true;
+    }
+    for (std::size_t i = 0; i < out.size(); ++i) {
+        out[i] = static_cast<uint8_t>(core_->busRead8(core_, addr + static_cast<uint32_t>(i)));
+    }
+    return true;
+}
+
+bool GbaSession::write(uint32_t addr, std::span<const uint8_t> in) {
+    std::lock_guard lock(frameMutex_);
+    if (!core_ || in.empty()) {
+        return false;
+    }
+    size_t size = 0;
+    void* block = mCoreGetMemoryBlock(core_, addr, &size);
+    if (block && size >= in.size()) {
+        std::memcpy(block, in.data(), in.size());
+        return true;
+    }
+    for (std::size_t i = 0; i < in.size(); ++i) {
+        core_->busWrite8(core_, addr + static_cast<uint32_t>(i), in[i]);
+    }
+    return true;
 }
 
 void GbaSession::flushSave() {

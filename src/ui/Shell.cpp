@@ -2,10 +2,10 @@
 
 #include "application/Application.hpp"
 #include "emu/EmuSession.hpp"
+#include "ui/FieldLog.hpp"
 
 #include <imgui.h>
 #include <algorithm>
-#include <string>
 
 namespace emulocke {
 
@@ -51,28 +51,6 @@ void drawScreen(const char* id, ScreenTexture& tex, ImVec2 avail, bool paused, b
     ImGui::PopStyleColor();
 }
 
-void drawSuite(ImFont* display, ImFont* body, const std::string& status, const char* romName) {
-    ImGui::BeginChild("suite", ImVec2(0, 0), ImGuiChildFlags_Borders);
-    if (display) ImGui::PushFont(display);
-    ImGui::TextUnformatted("FIELD LOG");
-    if (display) ImGui::PopFont();
-    ImGui::Separator();
-    if (body) ImGui::PushFont(body);
-    ImGui::Dummy(ImVec2(0, 12));
-    ImGui::TextDisabled("Nuzlocke suite comes later.");
-    ImGui::Spacing();
-    ImGui::TextWrapped("Damage calc, progression tracker, and QoL tools will live here. This pane stays empty until then.");
-    if (!status.empty()) {
-        ImGui::Dummy(ImVec2(0, 16));
-        ImGui::TextUnformatted(status.c_str());
-    }
-    if (romName && *romName) {
-        ImGui::TextDisabled("%s", romName);
-    }
-    if (body) ImGui::PopFont();
-    ImGui::EndChild();
-}
-
 }  // namespace
 
 void drawShell(Application& app) {
@@ -88,8 +66,7 @@ void drawShell(Application& app) {
     }
     ImGui::EndChild();
     ImGui::SameLine();
-    const char* romName = session ? session->romName().c_str() : "";
-    drawSuite(app.displayFont(), app.bodyFont(), app.status(), romName);
+    drawFieldLog(app);
 }
 
 }

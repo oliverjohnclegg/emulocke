@@ -20,7 +20,7 @@ Left column is the console. Right column is the suite.
 
 - NDS: two stacked screens (256x192), top then bottom. Mouse on the bottom pane is the stylus.
 - GBA: one left pane (240x160). No empty bottom tile.
-- Right column spans the full height. V1 is an empty expedition-log placeholder.
+- Right column spans the full height. Supported games fill the log with adapter facts (trainer, map, party). Unsupported carts keep the empty log.
 
 Fixed split. Integer-scale nearest-neighbor. Letterbox, do not smear pixels.
 
@@ -55,6 +55,16 @@ Recorded so later work does not invent the product twice:
 - QoL tools
 - More as decided in this project
 - A native tracker adjacent to nuzlocke.app (encounter/route tracking UX), built in Emulocke. Not a fork. Not a webview of another app.
+
+## Adapter
+
+Each supported game+revision has a `GameAdapter` that translates save bytes and live memory into a common `GameSnapshot`. The suite only reads that snapshot.
+
+- One adapter per game and revision. FireRed/LeafGreen US 1.0 and 1.1 share one FRLG implementation (`firered-us-1.0`, `firered-us-1.1`, and the LeafGreen twins). Live RAM layouts match for the fields we read. Unknown revisions are refused.
+- Latest revision we have is the live identity. When a newer dump ships, older revisions move to `src/adapter/archive/`.
+- Read-only for now. RAM writes (QoL cheats) are a separate interface later.
+- Nuzlocke rules, damage math, and encounter tracking are suite concerns, not adapter concerns.
+- Adding a pure virtual on `GameAdapter` is how a new suite data need flags every adapter in CI.
 
 ## Platforms
 
@@ -119,9 +129,10 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 3. A homebrew `.gba` and `.nds` run (not Pokemon, not committed).
 4. Video, audio, keyboard, gamepad, pause, reset, and `.sav` creation work.
 5. NDS shows both screens; clicks on the bottom pane map to touch.
-6. GBA uses a single left pane; the suite placeholder stays visible.
+6. GBA uses a single left pane; FRLG fills the field log from the adapter snapshot.
 
 ## Changelog
 
 - 2026-09-12: Initial PRD. V1 is the playable 2-pane shell. Suite is specified, not built.
 - 2026-09-12: Windows MSVC `.exe` plus GitHub Actions artifacts on push. Same sources, two native builds.
+- 2026-09-12: GameAdapter contract and FRLG US 1.0/1.1 read-only snapshot (save + live RAM). Field log shows trainer, map, party.
