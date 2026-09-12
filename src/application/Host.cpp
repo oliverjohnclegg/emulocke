@@ -1,4 +1,5 @@
 #include "application/Application.hpp"
+#include "emu/Paths.hpp"
 #include "ui/Layout.hpp"
 
 #include <SDL3/SDL.h>
@@ -17,6 +18,10 @@ bool Host::create() {
         static_cast<int>(kDefaultWindowH * scale), SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
     if (!window_) {
         return false;
+    }
+    if (SDL_Surface* icon = SDL_LoadBMP(assetPath("icons/emulocke.bmp").c_str())) {
+        SDL_SetWindowIcon(window_, icon);
+        SDL_DestroySurface(icon);
     }
     renderer_ = SDL_CreateRenderer(window_, nullptr);
     if (!renderer_) {
