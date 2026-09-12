@@ -24,7 +24,7 @@ Someone playing a Pokemon nuzlocke who wants the game and the tools in one place
 
 ## Problem
 
-Stock emulators play the game and nothing else. Existing nuzlocke tools live in a browser. The run is split across two programs. Emulocke puts both in one field kit.
+Stock emulators play the game and nothing else. Existing nuzlocke tools live in a browser. The run is split across two programs. Emulocke puts both in one window.
 
 ## Layout
 
@@ -32,7 +32,7 @@ Left column is the game. Right column is the suite.
 
 - Two-screen games: stacked screens (256x192), top then bottom, 5px between them. Mouse on the bottom pane is the stylus.
 - One-screen games: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
-- 21px charcoal around the screen cluster. Not between the two screens. Same 21px below and to the right of the field log.
+- 21px graphite around the screen cluster. Not between the two screens. Same 21px below and to the right of the suite.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
 - Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party). Unsupported carts keep the empty log.
 - With no run seated, the left column is home (saved runs, NEW ATTEMPT). The right column stays Logs.
@@ -85,6 +85,7 @@ Recorded so later work does not invent the product twice:
 - More as decided in this project
 - A native tracker adjacent to nuzlocke.app (encounter/route tracking UX), built in Emulocke. Not a fork. Not a webview of another app.
 - On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. No suite UI in V1.
+- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. No suite UI in V1.
 
 ## Adapter
 
@@ -124,6 +125,7 @@ Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree mus
 - mGBA files stay MPL-2.0 (incompatible with secondary licenses). Do not relicense those files as GPL. Ship both licenses.
 - Do not ship Nintendo BIOS, firmware, or ROMs. Users import their own baseline dumps. Bundled UPS files are patches only.
 - Do not ship Pokemon sprite PNGs. `SpriteCache` downloads box/front/back art on demand into the SDL pref cache. Bundled `assets/sprites/missing-*.png` are original question-mark art, not TPC sprites.
+- Do not ship game title PNGs. `GameArtCache` downloads 256x192 title art on demand into the SDL pref cache, keyed by slug. Missing art is a generated black plate with the game title, not Nintendo pixels.
 - V1 boots DS games with FreeBIOS so a BIOS dump is not required to play.
 
 ## Default input
@@ -143,7 +145,7 @@ Gamepad: standard SDL mapping.
 
 ## Design
 
-Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabular type. Suite pane is tabbed; Logs is the first tab.
+Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Logs is first.
 
 ## Decisions
 
@@ -161,6 +163,7 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 | Windows via MSVC in CI | Same CMake tree. Dynlib uses LoadLibrary. Pref path is SDL. JIT off on MSVC (no GNU `.S` assembler). |
 | Other chats are out of scope | Greenfield. Only this document and this repo set requirements. |
 | Sprite cache downloads at runtime | PokeAPI/PokéSprite/bamq host the pixels. Pref cache, not git. Box: PokéSprite then bamq Gen 9 then PokeAPI gen8 icons. Front/back: PokeAPI BW-style. Credits: PokeAPI, msikma/pokesprite, National Dex Version Delta (bamq), Smogon for fan 2D past 649. |
+| Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, letterboxed. Hacks and misses get a black title plate. Pref cache, not git. |
 
 ## V1 success
 
@@ -181,6 +184,9 @@ Locked field kit. Charcoal metal, inset glass screens, deep crimson accent, tabu
 - 2026-09-12: 21px charcoal around the screen cluster. DS split stays 5px.
 - 2026-09-12: 21px charcoal below and to the right of the field log.
 - 2026-09-12: Suite header is a tab bar. Logs is the first tab.
+- 2026-09-12: Visual lock is onyx clamshell with cream command chips, not field kit.
+- 2026-09-12: Palette returns to classy graphite and parchment metal. Cream command boxes dropped.
 - 2026-09-12: GameAdapter contract and FRLG US 1.0/1.1 read-only snapshot (save + live RAM). Field log shows trainer, map, party.
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.
+- 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.
 - 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
