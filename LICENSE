@@ -1,0 +1,27 @@
+Emulocke is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program. If not, see <https://www.gnu.org/licenses/>.
+
+Third-party notice
+------------------
+
+melonDS is licensed under GPL-3.0-or-later. See third_party/melonDS/LICENSE.
+
+mGBA is licensed under MPL-2.0 and is marked incompatible with secondary
+licenses. mGBA source files remain under MPL-2.0 and are not relicensed as
+GPL. See third_party/mgba/LICENSE.
+
+Dear ImGui is licensed under the MIT License. See third_party/imgui/LICENSE.txt.
+
+SDL3 is licensed under the zlib license.
+
+Bundled UI fonts retain their own OFL licenses in assets/fonts/.
