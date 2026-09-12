@@ -10,25 +10,28 @@ void Application::requestNewRun() {
         newRunDraft_.catalogUuid = titles.front()->uuid;
     }
     newRunDraft_.rules = regularRules();
-    showNewRun_ = true;
+    pendingNewRun_ = true;
 }
 
 void Application::dismissNewRun() {
+    pendingNewRun_ = false;
     showNewRun_ = false;
 }
 
 void Application::confirmNewRun() {
+    pendingNewRun_ = false;
     showNewRun_ = false;
     pendingCreate_ = true;
 }
 
 void Application::requestLoadRun() {
     if (!runStore_->runs().empty()) {
-        showLoadRun_ = true;
+        pendingLoadRun_ = true;
     }
 }
 
 void Application::dismissLoadRun() {
+    pendingLoadRun_ = false;
     showLoadRun_ = false;
 }
 
@@ -51,6 +54,14 @@ void Application::importPath(const std::string& path) {
 }
 
 void Application::drainPending() {
+    if (pendingNewRun_) {
+        pendingNewRun_ = false;
+        showNewRun_ = true;
+    }
+    if (pendingLoadRun_) {
+        pendingLoadRun_ = false;
+        showLoadRun_ = true;
+    }
     if (!pendingImport_.empty()) {
         const std::string path = std::move(pendingImport_);
         pendingImport_.clear();

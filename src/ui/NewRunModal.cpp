@@ -33,10 +33,15 @@ bool titleReady(const RomLibrary& lib, const CatalogTitle& title) {
 }  // namespace
 
 void drawNewRunModal(Application& app) {
-    if (app.showNewRun()) {
+    if (app.showNewRun() && !ImGui::IsPopupOpen("NEW RUN")) {
         ImGui::OpenPopup("NEW RUN");
     }
     if (!ImGui::BeginPopupModal("NEW RUN", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        return;
+    }
+    if (!app.showNewRun()) {
+        ImGui::CloseCurrentPopup();
+        ImGui::EndPopup();
         return;
     }
     NewRunDraft& draft = app.newRunDraft();

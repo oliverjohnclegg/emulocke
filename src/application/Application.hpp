@@ -104,6 +104,8 @@ private:
     NewRunDraft newRunDraft_;
     bool showNewRun_{false};
     bool showLoadRun_{false};
+    bool pendingNewRun_{false};
+    bool pendingLoadRun_{false};
     bool pendingCreate_{false};
     std::atomic<uint32_t> buttons_{0};
     std::atomic<bool> touchDown_{false};
