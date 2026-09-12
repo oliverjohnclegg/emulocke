@@ -20,7 +20,7 @@ Left column is the console. Right column is the suite.
 
 - NDS: two stacked screens (256x192), top then bottom, 5px between them. Mouse on the bottom pane is the stylus.
 - GBA: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
-- 21px onyx around the screen cluster. Not between the two DS screens. Same 21px below and to the right of the suite.
+- 21px graphite around the screen cluster. Not between the two DS screens. Same 21px below and to the right of the suite.
 - Console column sizes to the integer-scaled screens. Default window hugs 2x NDS plus a 460px suite.
 - Right column is the suite. Tabs hold each function. V1 ships a Logs tab.
 
@@ -99,7 +99,7 @@ Gamepad: standard SDL mapping.
 
 ## Design
 
-Onyx clamshell. Cool DS Lite chassis, inset screen wells, Gen 4 cream command chips, ivory on dark, scarce pokeball red. M PLUS Rounded 1c display, Fira Sans body. Suite pane is tabbed; Logs is the first tab.
+Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite pane is tabbed; Logs is the first tab.
 
 ## Decisions
 
@@ -132,3 +132,4 @@ Onyx clamshell. Cool DS Lite chassis, inset screen wells, Gen 4 cream command ch
 - 2026-09-12: 21px charcoal below and to the right of the field log.
 - 2026-09-12: Suite header is a tab bar. Logs is the first tab.
 - 2026-09-12: Visual lock is onyx clamshell with cream command chips, not field kit.
+- 2026-09-12: Palette returns to classy graphite and parchment metal. Cream command boxes dropped.

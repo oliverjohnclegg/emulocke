@@ -20,10 +20,10 @@ ImFont* loadAssetFont(const char* file, float size) {
 void applyTheme() {
     ImGuiStyle& style = ImGui::GetStyle();
     style.WindowRounding = 0.f;
-    style.ChildRounding = 4.f;
-    style.FrameRounding = 4.f;
-    style.GrabRounding = 4.f;
-    style.PopupRounding = 4.f;
+    style.ChildRounding = 2.f;
+    style.FrameRounding = 2.f;
+    style.GrabRounding = 2.f;
+    style.PopupRounding = 2.f;
     style.WindowPadding = ImVec2(5.f, 5.f);
     style.FramePadding = ImVec2(8.f, 3.f);
     style.ItemSpacing = ImVec2(5.f, 5.f);
@@ -41,7 +41,7 @@ void applyTheme() {
     c[ImGuiCol_ChildBg] = kPanel;
     c[ImGuiCol_PopupBg] = kPopup;
     c[ImGuiCol_Border] = kBorder;
-    c[ImGuiCol_Text] = kIvory;
+    c[ImGuiCol_Text] = kMetal;
     c[ImGuiCol_TextDisabled] = kDisabled;
     c[ImGuiCol_Header] = kHeader;
     c[ImGuiCol_HeaderHovered] = kHeaderHover;
@@ -56,16 +56,16 @@ void applyTheme() {
     c[ImGuiCol_TitleBg] = kMenuStrip;
     c[ImGuiCol_TitleBgActive] = kMenuStrip;
     c[ImGuiCol_Separator] = kBorder;
-    c[ImGuiCol_ScrollbarGrab] = ImVec4(kCream.x, kCream.y, kCream.z, 0.40f);
-    c[ImGuiCol_ScrollbarGrabHovered] = ImVec4(kCream.x, kCream.y, kCream.z, 0.70f);
-    c[ImGuiCol_ScrollbarGrabActive] = kCream;
+    c[ImGuiCol_ScrollbarGrab] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.40f);
+    c[ImGuiCol_ScrollbarGrabHovered] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.70f);
+    c[ImGuiCol_ScrollbarGrabActive] = kMetal;
     c[ImGuiCol_Tab] = kFrame;
     c[ImGuiCol_TabHovered] = kHeaderHover;
     c[ImGuiCol_TabSelected] = kPanel;
-    c[ImGuiCol_TabSelectedOverline] = kCream;
+    c[ImGuiCol_TabSelectedOverline] = kMetal;
     c[ImGuiCol_TabDimmed] = kFrame;
     c[ImGuiCol_TabDimmedSelected] = kPanel;
-    c[ImGuiCol_TabDimmedSelectedOverline] = kCream;
+    c[ImGuiCol_TabDimmedSelectedOverline] = kMetal;
 }
 
 ImFont* loadDisplayFont() {
