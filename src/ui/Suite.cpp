@@ -1,7 +1,7 @@
 #include "ui/Suite.hpp"
 
 #include "application/Application.hpp"
-#include "emu/EmuSession.hpp"
+#include "ui/FieldLog.hpp"
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
@@ -18,24 +18,13 @@ void drawSuite(Application& app, ImVec2 size) {
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(ImGui::GetStyle().ItemSpacing.x, 0.f));
     if (ImGui::BeginTabBar("suite-tabs", ImGuiTabBarFlags_DrawSelectedOverline | ImGuiTabBarFlags_NoTooltip)) {
         if (ImGui::BeginTabItem("Logs")) {
-            if (ImFont* body = app.bodyFont()) {
-                ImGui::PushFont(body);
-            }
             ImGui::PushStyleColor(ImGuiCol_ChildBg, kPanel);
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10.f, 10.f));
             ImGui::BeginChild("logs", ImVec2(0, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_AlwaysUseWindowPadding);
-            if (!app.status().empty()) {
-                ImGui::TextUnformatted(app.status().c_str());
-            }
-            if (EmuSession* session = app.session()) {
-                ImGui::TextDisabled("%s", session->romName().c_str());
-            }
+            drawFieldLog(app);
             ImGui::EndChild();
             ImGui::PopStyleVar();
             ImGui::PopStyleColor();
-            if (app.bodyFont()) {
-                ImGui::PopFont();
-            }
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();

@@ -23,7 +23,8 @@ bool Application::start(int argc, char** argv) {
         return false;
     }
     SDL_InitSubSystem(SDL_INIT_AUDIO);
-    if (!host_.create()) {
+    prefs_ = Prefs::load();
+    if (!host_.create(prefs_)) {
         return false;
     }
     applyTheme();
@@ -32,6 +33,8 @@ bool Application::start(int argc, char** argv) {
     if (bodyFont_) {
         ImGui::GetIO().FontDefault = bodyFont_;
     }
+    audio_.setMuted(prefs_.mute);
+    audio_.setVolume(prefs_.volume);
     audio_.open();
     input_.attach();
     if (argc > 1) {
@@ -46,11 +49,9 @@ void Application::queueRom(std::string path) {
 
 void Application::requestOpenRom() {
     const SDL_DialogFileFilter filters[] = {
-        {"Nintendo ROMs", "gba;nds"},
-        {"Game Boy Advance", "gba"},
-        {"Nintendo DS", "nds"},
+        {"Pokemon games", "gba;nds"},
     };
-    SDL_ShowOpenFileDialog(onRomPicked, this, host_.window(), filters, 3, nullptr, false);
+    SDL_ShowOpenFileDialog(onRomPicked, this, host_.window(), filters, 1, nullptr, false);
 }
 
 void Application::setTouch(bool down, uint16_t x, uint16_t y) {

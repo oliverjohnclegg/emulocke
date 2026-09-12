@@ -63,6 +63,10 @@ void applyTheme() {
     c[ImGuiCol_ScrollbarGrab] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.40f);
     c[ImGuiCol_ScrollbarGrabHovered] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.70f);
     c[ImGuiCol_ScrollbarGrabActive] = kMetal;
+    c[ImGuiCol_CheckMark] = kMetal;
+    c[ImGuiCol_SliderGrab] = ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.70f);
+    c[ImGuiCol_SliderGrabActive] = kMetal;
+    c[ImGuiCol_ModalWindowDimBg] = ImVec4(kChassis.x, kChassis.y, kChassis.z, 0.72f);
     c[ImGuiCol_Tab] = kMenuStrip;
     c[ImGuiCol_TabHovered] = kHeaderHover;
     c[ImGuiCol_TabSelected] = kButton;

@@ -6,18 +6,42 @@
 #include <imgui.h>
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_sdlrenderer3.h>
+#include <algorithm>
 
 namespace emulocke {
+namespace {
 
-bool Host::create() {
+void defaultWindowSize(int& w, int& h) {
     float scale = SDL_GetDisplayContentScale(SDL_GetPrimaryDisplay());
     if (scale <= 0.f) {
         scale = 1.f;
     }
-    window_ = SDL_CreateWindow("Emulocke", static_cast<int>(kDefaultWindowW * scale),
-        static_cast<int>(kDefaultWindowH * scale), SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    w = static_cast<int>(kDefaultWindowW * scale);
+    h = static_cast<int>(kDefaultWindowH * scale);
+    SDL_Rect bounds{};
+    if (SDL_GetDisplayUsableBounds(SDL_GetPrimaryDisplay(), &bounds) && bounds.w > 0 && bounds.h > 0) {
+        w = std::min(w, bounds.w);
+        h = std::min(h, bounds.h);
+    }
+}
+
+}  // namespace
+
+bool Host::create(const Prefs& prefs) {
+    int w = prefs.windowW;
+    int h = prefs.windowH;
+    if (w <= 0 || h <= 0) {
+        defaultWindowSize(w, h);
+    }
+    window_ = SDL_CreateWindow("Emulocke", w, h, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
     if (!window_) {
         return false;
+    }
+    if (prefs.hasWindowPos) {
+        SDL_SetWindowPosition(window_, prefs.windowX, prefs.windowY);
+    }
+    if (prefs.fullscreen) {
+        SDL_SetWindowFullscreen(window_, true);
     }
     if (SDL_Surface* icon = SDL_LoadBMP(assetPath("icons/emulocke.bmp").c_str())) {
         SDL_SetWindowIcon(window_, icon);
@@ -49,6 +73,36 @@ void Host::destroy() {
         SDL_DestroyWindow(window_);
         window_ = nullptr;
     }
+}
+
+void Host::setFullscreen(bool on) {
+    if (window_) {
+        SDL_SetWindowFullscreen(window_, on);
+    }
+}
+
+bool Host::fullscreen() const {
+    return window_ && (SDL_GetWindowFlags(window_) & SDL_WINDOW_FULLSCREEN);
+}
+
+void Host::restoreDefaultSize() {
+    if (!window_) {
+        return;
+    }
+    setFullscreen(false);
+    int w = 0;
+    int h = 0;
+    defaultWindowSize(w, h);
+    SDL_SetWindowSize(window_, w, h);
+}
+
+void Host::captureWindowed(Prefs& prefs) const {
+    if (!window_ || fullscreen()) {
+        return;
+    }
+    SDL_GetWindowPosition(window_, &prefs.windowX, &prefs.windowY);
+    SDL_GetWindowSize(window_, &prefs.windowW, &prefs.windowH);
+    prefs.hasWindowPos = true;
 }
 
 }

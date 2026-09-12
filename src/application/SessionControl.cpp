@@ -1,5 +1,6 @@
 #include "application/Application.hpp"
 
+#include "adapter/GameAdapter.hpp"
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
 
@@ -48,6 +49,9 @@ void Application::emuLoop() {
                 session_->runFrame();
                 session_->drainAudio(audio_);
                 queuedAfter = audio_.queuedBytes();
+                if (adapter_ && session_->liveMemory()) {
+                    snapshot_ = adapter_->readLive(*session_->liveMemory());
+                }
             }
         }
         const Uint64 frameNs = 16742706;
@@ -66,17 +70,22 @@ void Application::loadRom(const std::string& path) {
     const std::string ext = lowerExt(path);
     if (ext == ".gba") {
         next = GbaSession::open(path);
-        status_ = next ? "GBA cart seated." : "Failed to load GBA ROM.";
+        status_ = next ? "Cart seated." : "Couldn't open that game.";
     } else if (ext == ".nds") {
         next = NdsSession::open(path);
-        status_ = next ? "DS cart seated." : "Failed to load NDS ROM.";
+        status_ = next ? "Cart seated." : "Couldn't open that game.";
     } else {
-        status_ = "Need a .gba or .nds file.";
+        status_ = "Need a Pokemon game (.gba or .nds).";
     }
     {
         std::lock_guard lock(sessionMutex_);
         session_ = std::move(next);
+        adapter_ = nullptr;
+        snapshot_ = GameSnapshot{};
         paused_ = false;
+        if (session_ && session_->cartridge()) {
+            adapter_ = adapterFor(*session_->cartridge());
+        }
     }
     if (session_) {
         startEmuThread();
@@ -88,7 +97,18 @@ void Application::closeRom() {
     stopEmuThread();
     std::lock_guard lock(sessionMutex_);
     session_.reset();
+    adapter_ = nullptr;
+    snapshot_ = GameSnapshot{};
     status_ = "No cart.";
+}
+
+bool Application::copySnapshot(GameSnapshot& out) const {
+    std::lock_guard lock(sessionMutex_);
+    if (!snapshot_.ok) {
+        return false;
+    }
+    out = snapshot_;
+    return true;
 }
 
 void Application::resetSession() {
@@ -99,6 +119,7 @@ void Application::resetSession() {
 }
 
 void Application::shutdown() {
+    persistPrefs();
     stopEmuThread();
     session_.reset();
     audio_.close();

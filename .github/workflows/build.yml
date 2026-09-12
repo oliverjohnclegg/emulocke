@@ -31,6 +31,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ninja-build pkg-config \
+            libcurl4-openssl-dev \
             libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
             libxi-dev libxfixes-dev libxrender-dev libxkbcommon-dev
 
@@ -45,6 +46,7 @@ jobs:
             mingw-w64-ucrt-x86_64-cmake
             mingw-w64-ucrt-x86_64-gcc
             mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-curl
             git
 
       - name: Configure Linux
@@ -60,10 +62,23 @@ jobs:
         if: runner.os == 'Linux'
         run: cmake --build build --config Release --parallel
 
+      - name: Sprite check
+        if: runner.os == 'Linux'
+        run: ./build/emulocke-sprite-check
+
       - name: Build Windows
         if: runner.os == 'Windows'
         shell: msys2 {0}
         run: cmake --build build --config Release --parallel
+
+      - name: Test Linux
+        if: runner.os == 'Linux'
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Test Windows
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: ctest --test-dir build --output-on-failure
 
       - name: Stage
         shell: bash

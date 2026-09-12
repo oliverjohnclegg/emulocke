@@ -68,8 +68,10 @@ void drawShell(Application& app) {
     const float insetX = kConsolePad - ImGui::GetStyle().WindowPadding.x;
     const float insetY = kConsolePad - ImGui::GetStyle().WindowPadding.y;
     const float consoleAvailW = avail.x - insetX - kSuiteWidth - kConsolePad - insetX;
-    const int scale = std::max(1, std::min(static_cast<int>(consoleAvailW / static_cast<float>(nativeW)),
+    const int fit = std::max(1, std::min(static_cast<int>(consoleAvailW / static_cast<float>(nativeW)),
         static_cast<int>((avail.y - insetY - gap) / static_cast<float>(nativeH * screens))));
+    const int wanted = app.screenScale();
+    const int scale = wanted <= 0 ? fit : std::max(1, std::min(wanted, fit));
     const ImVec2 screen(static_cast<float>(nativeW * scale), static_cast<float>(nativeH * scale));
     const ImVec2 cursor = ImGui::GetCursorPos();
     ImGui::SetCursorPos(ImVec2(cursor.x + insetX, cursor.y + insetY));
