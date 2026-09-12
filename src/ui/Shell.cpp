@@ -40,8 +40,8 @@ void drawScreen(const char* id, ScreenTexture& tex, ImVec2 size, bool paused, bo
     ImGui::PopStyleColor();
 }
 
-void drawSuite(ImFont* display, ImFont* body, const std::string& status, const char* romName) {
-    ImGui::BeginChild("suite", ImVec2(0, 0), ImGuiChildFlags_Borders);
+void drawSuite(ImFont* display, ImFont* body, const std::string& status, const char* romName, ImVec2 size) {
+    ImGui::BeginChild("suite", size, ImGuiChildFlags_Borders);
     if (display) ImGui::PushFont(display);
     ImGui::TextUnformatted("FIELD LOG");
     if (display) ImGui::PopFont();
@@ -74,7 +74,7 @@ void drawShell(Application& app) {
     const float gap = nds ? kScreenGap : 0.f;
     const float insetX = kConsolePad - ImGui::GetStyle().WindowPadding.x;
     const float insetY = kConsolePad - ImGui::GetStyle().WindowPadding.y;
-    const float consoleAvailW = avail.x - insetX - kSuiteWidth - kConsolePad;
+    const float consoleAvailW = avail.x - insetX - kSuiteWidth - kConsolePad - insetX;
     const int scale = std::max(1, std::min(static_cast<int>(consoleAvailW / static_cast<float>(nativeW)),
         static_cast<int>((avail.y - insetY - gap) / static_cast<float>(nativeH * screens))));
     const ImVec2 screen(static_cast<float>(nativeW * scale), static_cast<float>(nativeH * scale));
@@ -90,8 +90,10 @@ void drawShell(Application& app) {
     ImGui::PopStyleVar();
     ImGui::EndChild();
     ImGui::SameLine(0.f, kConsolePad);
+    const ImVec2 suiteAvail = ImGui::GetContentRegionAvail();
     const char* romName = session ? session->romName().c_str() : "";
-    drawSuite(app.displayFont(), app.bodyFont(), app.status(), romName);
+    drawSuite(app.displayFont(), app.bodyFont(), app.status(), romName,
+        ImVec2(suiteAvail.x - insetX, suiteAvail.y - insetY));
 }
 
 }
