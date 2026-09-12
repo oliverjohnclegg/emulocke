@@ -7,6 +7,16 @@
 #include <SDL3/SDL.h>
 
 namespace emulocke {
+namespace {
+
+void onDumpPicked(void* userdata, const char* const* filelist, int) {
+    auto* app = static_cast<Application*>(userdata);
+    if (filelist && filelist[0]) {
+        app->queueImport(filelist[0]);
+    }
+}
+
+}  // namespace
 
 bool Application::start(int argc, char** argv) {
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
@@ -27,34 +37,30 @@ bool Application::start(int argc, char** argv) {
     audio_.setVolume(prefs_.volume);
     audio_.open();
     input_.attach();
-    ensureRomsDir();
-    romsHint_ = exeRomsDir().string();
+    romLibrary_ = std::make_unique<RomLibrary>(romsRoot(), assetsDir());
     runStore_ = std::make_unique<RunStore>(runsRoot());
     runStore_->load();
-    scanRoms();
     if (argc > 1) {
-        auto detected = detectRomFile(argv[1]);
-        if (detected) {
-            bool found = false;
-            for (int i = 0; i < static_cast<int>(detectedGames_.size()); ++i) {
-                if (detectedGames_[static_cast<size_t>(i)].gameId == detected->gameId) {
-                    detectedGames_[static_cast<size_t>(i)] = *detected;
-                    newRunDraft_.gameIndex = i;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                newRunDraft_.gameIndex = static_cast<int>(detectedGames_.size());
-                detectedGames_.push_back(std::move(*detected));
-            }
+        importPath(argv[1]);
+        if (newRunDraft_.catalogUuid.empty()) {
+            status_ = "Need a supported Pokemon dump.";
+        } else {
             newRunDraft_.rules = regularRules();
             showNewRun_ = true;
-        } else {
-            status_ = "Need a Pokemon .gba or .nds dump.";
         }
     }
     return true;
+}
+
+void Application::queueImport(std::string path) {
+    pendingImport_ = std::move(path);
+}
+
+void Application::requestImportGame() {
+    const SDL_DialogFileFilter filters[] = {
+        {"Pokemon dumps", "gba;nds"},
+    };
+    SDL_ShowOpenFileDialog(onDumpPicked, this, host_.window(), filters, 1, nullptr, false);
 }
 
 void Application::setTouch(bool down, uint16_t x, uint16_t y) {

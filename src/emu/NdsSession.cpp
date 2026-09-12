@@ -3,7 +3,6 @@
 #include "emu/AudioOutput.hpp"
 #include "emu/Buttons.hpp"
 #include "emu/FileBytes.hpp"
-
 #include <NDS.h>
 #include <NDSCart.h>
 #include <Args.h>

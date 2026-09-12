@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace emulocke {
@@ -17,12 +18,11 @@ public:
     const std::vector<Run>& runs() const { return runs_; }
     const Run* find(const std::string& id) const;
     Run* find(const std::string& id);
-    std::optional<Run> create(GameId game, std::string romPath, NuzlockeRules rules);
+    std::optional<Run> create(std::string catalogUuid, NuzlockeRules rules);
     std::optional<Run> createAttempt(const Run& source);
     bool touch(const std::string& id);
-    bool updateRomPath(const std::string& id, std::string romPath);
     std::filesystem::path batteryPath(const std::string& id) const;
-    std::vector<const Run*> byGame(GameId game) const;
+    std::vector<const Run*> byCatalogUuid(std::string_view uuid) const;
 
 private:
     std::optional<Run> persist(Run run);

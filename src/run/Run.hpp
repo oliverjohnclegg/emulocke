@@ -1,6 +1,5 @@
 #pragma once
 
-#include "run/GameId.hpp"
 #include "run/NuzlockeRules.hpp"
 
 #include <string>
@@ -11,8 +10,7 @@ struct Run {
     std::string id;
     std::string lineageId;
     int attempt = 1;
-    GameId gameId{GameId::Ruby};
-    std::string romPath;
+    std::string catalogUuid;
     NuzlockeRules rules;
     std::string createdAt;
     std::string lastPlayedAt;
@@ -23,7 +21,7 @@ struct Run {
 };
 
 struct NewRunDraft {
-    int gameIndex = 0;
+    std::string catalogUuid;
     NuzlockeRules rules = regularRules();
 };
 

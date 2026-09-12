@@ -47,6 +47,9 @@ void drawMenuBar(Application& app) {
             if (ImGui::MenuItem("Load Run...", nullptr, false, !app.runStore().runs().empty())) {
                 app.requestLoadRun();
             }
+            if (ImGui::MenuItem("Import Game...")) {
+                app.requestImportGame();
+            }
             if (ImGui::MenuItem("Close Run", nullptr, false, app.session() != nullptr)) {
                 app.closeRun();
             }

@@ -1,39 +1,37 @@
 #include "application/Application.hpp"
 
-#include "emu/Paths.hpp"
-#include "run/Roms.hpp"
+#include "run/Catalog.hpp"
 
 namespace emulocke {
 
-void Application::scanRoms() {
-    detectedGames_ = scanRomsDirs(romsScanDirs());
-}
-
 void Application::requestNewRun() {
-    scanRoms();
-    newRunDraft_.rules = regularRules();
-    if (newRunDraft_.gameIndex >= static_cast<int>(detectedGames_.size())) {
-        newRunDraft_.gameIndex = 0;
+    const auto titles = romLibrary_->playableTitles();
+    if (newRunDraft_.catalogUuid.empty() && !titles.empty()) {
+        newRunDraft_.catalogUuid = titles.front()->uuid;
     }
-    showNewRun_ = true;
+    newRunDraft_.rules = regularRules();
+    pendingNewRun_ = true;
 }
 
 void Application::dismissNewRun() {
+    pendingNewRun_ = false;
     showNewRun_ = false;
 }
 
 void Application::confirmNewRun() {
+    pendingNewRun_ = false;
     showNewRun_ = false;
     pendingCreate_ = true;
 }
 
 void Application::requestLoadRun() {
     if (!runStore_->runs().empty()) {
-        showLoadRun_ = true;
+        pendingLoadRun_ = true;
     }
 }
 
 void Application::dismissLoadRun() {
+    pendingLoadRun_ = false;
     showLoadRun_ = false;
 }
 
@@ -47,7 +45,28 @@ void Application::queueNewAttempt(std::string sourceId) {
     pendingAttemptId_ = std::move(sourceId);
 }
 
+void Application::importPath(const std::string& path) {
+    const ImportResult result = romLibrary_->importFile(path);
+    status_ = result.message;
+    if (result.ok && result.title) {
+        newRunDraft_.catalogUuid = result.title->uuid;
+    }
+}
+
 void Application::drainPending() {
+    if (pendingNewRun_) {
+        pendingNewRun_ = false;
+        showNewRun_ = true;
+    }
+    if (pendingLoadRun_) {
+        pendingLoadRun_ = false;
+        showLoadRun_ = true;
+    }
+    if (!pendingImport_.empty()) {
+        const std::string path = std::move(pendingImport_);
+        pendingImport_.clear();
+        importPath(path);
+    }
     if (pendingCreate_) {
         pendingCreate_ = false;
         createRunFromDraft();
@@ -65,13 +84,16 @@ void Application::drainPending() {
 }
 
 void Application::createRunFromDraft() {
-    if (newRunDraft_.gameIndex < 0 ||
-        newRunDraft_.gameIndex >= static_cast<int>(detectedGames_.size())) {
-        status_ = "No Pokemon ROM in the roms folder.";
+    if (newRunDraft_.catalogUuid.empty()) {
+        status_ = "Pick a game.";
         return;
     }
-    const DetectedGame& game = detectedGames_[static_cast<size_t>(newRunDraft_.gameIndex)];
-    auto created = runStore_->create(game.gameId, game.romPath, newRunDraft_.rules);
+    auto rom = romLibrary_->ensurePlayable(newRunDraft_.catalogUuid);
+    if (!rom) {
+        status_ = romLibrary_->lastError();
+        return;
+    }
+    auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules);
     if (!created) {
         status_ = "Failed to create run.";
         return;
@@ -98,22 +120,9 @@ void Application::startNewAttempt(const std::string& sourceId) {
 }
 
 void Application::loadRun(const std::string& id) {
-    Run* run = runStore_->find(id);
+    const Run* run = runStore_->find(id);
     if (!run) {
         status_ = "Run not found.";
-        return;
-    }
-    scanRoms();
-    auto rom = resolveRomPath(*run, detectedGames_);
-    if (!rom) {
-        status_ = "ROM missing from the roms folder.";
-        return;
-    }
-    if (*rom != run->romPath) {
-        runStore_->updateRomPath(id, *rom);
-        run = runStore_->find(id);
-    }
-    if (!run) {
         return;
     }
     bootRun(*run);

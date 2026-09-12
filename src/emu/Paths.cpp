@@ -6,17 +6,20 @@
 namespace emulocke {
 
 std::string assetPath(const char* relative) {
-    std::string suffix = std::string("assets/") + relative;
+    return (assetsDir() / relative).string();
+}
+
+std::filesystem::path assetsDir() {
     if (const char* base = SDL_GetBasePath()) {
-        std::string p = std::string(base) + suffix;
-        if (std::filesystem::exists(p)) {
-            return p;
+        const std::filesystem::path dir = std::filesystem::path(base) / "assets";
+        if (std::filesystem::exists(dir)) {
+            return dir;
         }
     }
-    if (std::filesystem::exists(suffix)) {
-        return suffix;
+    if (std::filesystem::exists("assets")) {
+        return "assets";
     }
-    return suffix;
+    return "assets";
 }
 
 std::filesystem::path prefDir() {
@@ -40,20 +43,8 @@ std::filesystem::path runsRoot() {
     return prefDir() / "runs";
 }
 
-std::filesystem::path exeRomsDir() {
-    if (const char* base = SDL_GetBasePath()) {
-        return std::filesystem::path(base) / "roms";
-    }
-    return std::filesystem::current_path() / "roms";
-}
-
-std::vector<std::filesystem::path> romsScanDirs() {
-    return {exeRomsDir(), std::filesystem::current_path() / "roms"};
-}
-
-void ensureRomsDir() {
-    std::error_code ec;
-    std::filesystem::create_directories(exeRomsDir(), ec);
+std::filesystem::path romsRoot() {
+    return prefDir() / "roms";
 }
 
 }

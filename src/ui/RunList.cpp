@@ -1,7 +1,7 @@
 #include "ui/Shell.hpp"
 
 #include "application/Application.hpp"
-#include "run/GameId.hpp"
+#include "run/Catalog.hpp"
 #include "run/RunLabel.hpp"
 
 #include <imgui.h>
@@ -12,9 +12,8 @@ namespace emulocke {
 std::string drawGroupedRunList(Application& app, const char* idPrefix, bool showNewAttempt) {
     std::string clicked;
     const RunStore& store = app.runStore();
-    for (int i = 0; i < kGameCount; ++i) {
-        const GameId game = gameIdAt(i);
-        const auto runs = store.byGame(game);
+    for (const CatalogTitle& title : catalogTitles()) {
+        const auto runs = store.byCatalogUuid(title.uuid);
         if (runs.empty()) {
             continue;
         }
@@ -22,7 +21,7 @@ std::string drawGroupedRunList(Application& app, const char* idPrefix, bool show
             ImGui::PushFont(display);
         }
         ImGui::Dummy(ImVec2(0, 8));
-        ImGui::TextUnformatted(gameTitle(game));
+        ImGui::TextUnformatted(title.title);
         if (app.displayFont()) {
             ImGui::PopFont();
         }

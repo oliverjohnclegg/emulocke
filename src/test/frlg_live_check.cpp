@@ -7,7 +7,6 @@
 #include <array>
 #include <cstdio>
 #include <cstring>
-#include <filesystem>
 #include <string>
 
 namespace {
@@ -40,8 +39,7 @@ int main(int argc, char** argv) {
     logger.log = quiet;
     mLogSetDefaultLogger(&logger);
 
-    const auto save = (std::filesystem::temp_directory_path() / "emulocke-frlg-live-check.sav").string();
-    auto session = emulocke::GbaSession::open(argv[1], save);
+    auto session = emulocke::GbaSession::open(argv[1], std::string(argv[1]) + ".sav");
     if (!session || !session->cartridge() || !session->liveMemory()) {
         std::fprintf(stderr, "failed to open ROM\n");
         return 1;

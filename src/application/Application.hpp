@@ -1,12 +1,12 @@
 #pragma once
 
 #include "adapter/Snapshot.hpp"
-#include "application/Prefs.hpp"
+#include "application/Host.hpp"
 #include "emu/AudioOutput.hpp"
 #include "emu/EmuSession.hpp"
 #include "emu/Input.hpp"
 #include "emu/ScreenTexture.hpp"
-#include "run/Roms.hpp"
+#include "run/RomLibrary.hpp"
 #include "run/Run.hpp"
 #include "run/RunStore.hpp"
 
@@ -18,29 +18,11 @@
 #include <thread>
 #include <vector>
 
-struct SDL_Window;
-struct SDL_Renderer;
 struct ImFont;
 
 namespace emulocke {
 
 class GameAdapter;
-
-class Host {
-public:
-    bool create(const Prefs& prefs);
-    void destroy();
-    SDL_Window* window() const { return window_; }
-    SDL_Renderer* renderer() const { return renderer_; }
-    void setFullscreen(bool on);
-    bool fullscreen() const;
-    void restoreDefaultSize();
-    void captureWindowed(Prefs& prefs) const;
-
-private:
-    SDL_Window* window_{};
-    SDL_Renderer* renderer_{};
-};
 
 class Application {
 public:
@@ -52,6 +34,8 @@ public:
     void confirmNewRun();
     void requestLoadRun();
     void dismissLoadRun();
+    void requestImportGame();
+    void queueImport(std::string path);
     void queueLoadRun(std::string id);
     void queueNewAttempt(std::string sourceId);
     void closeRun();
@@ -73,27 +57,27 @@ public:
     ImFont* displayFont() const { return displayFont_; }
     ImFont* bodyFont() const { return bodyFont_; }
     const std::string& status() const { return status_; }
-    const std::string& romsHint() const { return romsHint_; }
+    bool copySnapshot(GameSnapshot& out) const;
     bool showNewRun() const { return showNewRun_; }
     bool showLoadRun() const { return showLoadRun_; }
     NewRunDraft& newRunDraft() { return newRunDraft_; }
-    const std::vector<DetectedGame>& detectedGames() const { return detectedGames_; }
+    RomLibrary& romLibrary() { return *romLibrary_; }
+    const RomLibrary& romLibrary() const { return *romLibrary_; }
     RunStore& runStore() { return *runStore_; }
     const RunStore& runStore() const { return *runStore_; }
     const std::string& activeRunId() const { return activeRunId_; }
-    bool copySnapshot(GameSnapshot& out) const;
 
 private:
     void startEmuThread();
     void stopEmuThread();
     void emuLoop();
-    void scanRoms();
+    void applyPendingHost();
     void drainPending();
+    void importPath(const std::string& path);
     void createRunFromDraft();
     void startNewAttempt(const std::string& sourceId);
     void loadRun(const std::string& id);
     void bootRun(const Run& run);
-    void applyPendingHost();
     enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
     Host host_;
     PendingHost pendingHost_{PendingHost::None};
@@ -102,6 +86,7 @@ private:
     Prefs prefs_;
     ScreenTexture screens_[2];
     std::unique_ptr<EmuSession> session_;
+    std::unique_ptr<RomLibrary> romLibrary_;
     std::unique_ptr<RunStore> runStore_;
     const GameAdapter* adapter_{};
     GameSnapshot snapshot_{};
@@ -111,15 +96,16 @@ private:
     std::atomic<bool> paused_{false};
     ImFont* displayFont_{};
     ImFont* bodyFont_{};
+    std::string pendingImport_;
     std::string status_;
-    std::string romsHint_;
     std::string activeRunId_;
     std::string pendingLoadId_;
     std::string pendingAttemptId_;
-    std::vector<DetectedGame> detectedGames_;
     NewRunDraft newRunDraft_;
     bool showNewRun_{false};
     bool showLoadRun_{false};
+    bool pendingNewRun_{false};
+    bool pendingLoadRun_{false};
     bool pendingCreate_{false};
     std::atomic<uint32_t> buttons_{0};
     std::atomic<bool> touchDown_{false};

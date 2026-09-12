@@ -3,6 +3,7 @@
 #include "run/RunMeta.hpp"
 
 #include <algorithm>
+#include <string_view>
 
 namespace emulocke {
 
@@ -45,10 +46,10 @@ std::optional<Run> RunStore::createAttempt(const Run& source) {
     return created;
 }
 
-std::vector<const Run*> RunStore::byGame(GameId game) const {
+std::vector<const Run*> RunStore::byCatalogUuid(std::string_view uuid) const {
     std::vector<const Run*> out;
     for (const Run& run : runs_) {
-        if (run.gameId != game) {
+        if (run.catalogUuid != uuid) {
             continue;
         }
         auto it = std::find_if(out.begin(), out.end(), [&](const Run* existing) {

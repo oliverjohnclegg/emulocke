@@ -91,18 +91,18 @@ add_executable(emulocke
     src/application/Application.cpp
     src/application/ApplicationPrefs.cpp
     src/application/SessionControl.cpp
-    src/application/RunControl.cpp
     src/application/AppLoop.cpp
     src/application/Prefs.cpp
+    src/application/RunControl.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
     src/ui/Home.cpp
-    src/ui/MenuBar.cpp
     src/ui/NewRunModal.cpp
     src/ui/LoadRunModal.cpp
     src/ui/RunList.cpp
     src/ui/Suite.cpp
     src/ui/FieldLog.cpp
+    src/ui/MenuBar.cpp
     src/ui/HelpPopups.cpp
     src/emu/Paths.cpp
     src/emu/FileBytes.cpp
@@ -116,13 +116,17 @@ add_executable(emulocke
     src/emu/NdsPlatformStubs.cpp
     src/emu/NdsPlatformDynlib.cpp
     src/emu/NdsPlatformSave.cpp
-    src/run/GameId.cpp
+    src/run/Catalog.cpp
+    src/run/CatalogLookup.cpp
     src/run/NuzlockeRules.cpp
-    src/run/Roms.cpp
+    src/run/PatchApply.cpp
+    src/run/RomLibrary.cpp
+    src/run/RomLibraryEnsure.cpp
+    src/run/RunLabel.cpp
     src/run/RunMeta.cpp
+    src/run/RunMetaWrite.cpp
     src/run/RunStore.cpp
-    src/run/RunStoreAttempts.cpp
-    src/run/RunLabel.cpp)
+    src/run/RunStoreAttempts.cpp)
 
 target_include_directories(emulocke PRIVATE src)
 target_link_libraries(emulocke PRIVATE emulocke_adapter core mgba imgui SDL3::SDL3)
@@ -192,7 +196,6 @@ add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
     src/emu/GbaSession.cpp
     src/emu/FileBytes.cpp
-    src/emu/Paths.cpp
     src/emu/AudioOutput.cpp)
 target_include_directories(emulocke-gba-check PRIVATE src)
 target_link_libraries(emulocke-gba-check PRIVATE mgba SDL3::SDL3)
@@ -214,7 +217,6 @@ add_executable(emulocke-frlg-live-check EXCLUDE_FROM_ALL
     src/test/frlg_live_check.cpp
     src/emu/GbaSession.cpp
     src/emu/FileBytes.cpp
-    src/emu/Paths.cpp
     src/emu/AudioOutput.cpp)
 target_include_directories(emulocke-frlg-live-check PRIVATE src)
 target_link_libraries(emulocke-frlg-live-check PRIVATE emulocke_adapter mgba SDL3::SDL3)
@@ -225,30 +227,36 @@ if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-frlg-live-check PRIVATE dl pthread)
 endif()
 
+add_executable(emulocke-run-check
+    src/test/run_check.cpp
+    src/emu/FileBytes.cpp
+    src/run/Catalog.cpp
+    src/run/CatalogLookup.cpp
+    src/run/NuzlockeRules.cpp
+    src/run/PatchApply.cpp
+    src/run/RomLibrary.cpp
+    src/run/RomLibraryEnsure.cpp
+    src/run/RunLabel.cpp
+    src/run/RunMeta.cpp
+    src/run/RunMetaWrite.cpp
+    src/run/RunStore.cpp
+    src/run/RunStoreAttempts.cpp)
+target_include_directories(emulocke-run-check PRIVATE src)
+target_link_libraries(emulocke-run-check PRIVATE mgba)
+if(MGBA_COMPILE_DEFS)
+    target_compile_definitions(emulocke-run-check PRIVATE ${MGBA_COMPILE_DEFS})
+endif()
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-run-check PRIVATE dl pthread)
+endif()
+
 enable_testing()
 add_test(NAME adapter COMMAND emulocke-adapter-check)
 add_test(NAME gba-host COMMAND emulocke-gba-check)
+add_test(NAME run COMMAND emulocke-run-check)
 
 add_custom_command(
     TARGET emulocke POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:emulocke>/assets
-    COMMAND ${CMAKE_COMMAND} -E make_directory
-        $<TARGET_FILE_DIR:emulocke>/roms)
-
-add_executable(emulocke_run_test
-    tests/run_test.cpp
-    src/run/GameId.cpp
-    src/run/NuzlockeRules.cpp
-    src/run/Roms.cpp
-    src/run/RunMeta.cpp
-    src/run/RunStore.cpp
-    src/run/RunStoreAttempts.cpp
-    src/run/RunLabel.cpp)
-target_include_directories(emulocke_run_test PRIVATE src)
-if(MSVC)
-    target_compile_definitions(emulocke_run_test PRIVATE _CRT_SECURE_NO_WARNINGS NOMINMAX WIN32_LEAN_AND_MEAN)
-    target_compile_options(emulocke_run_test PRIVATE /utf-8)
-endif()
-add_test(NAME run_model COMMAND emulocke_run_test)
+        $<TARGET_FILE_DIR:emulocke>/assets)

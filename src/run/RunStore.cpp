@@ -74,10 +74,9 @@ std::optional<Run> RunStore::persist(Run run) {
     return run;
 }
 
-std::optional<Run> RunStore::create(GameId game, std::string romPath, NuzlockeRules rules) {
+std::optional<Run> RunStore::create(std::string catalogUuid, NuzlockeRules rules) {
     Run run;
-    run.gameId = game;
-    run.romPath = std::move(romPath);
+    run.catalogUuid = std::move(catalogUuid);
     run.rules = rules;
     run.attempt = 1;
     run.createdAt = isoTimestamp();
@@ -99,15 +98,6 @@ bool RunStore::touch(const std::string& id) {
         return false;
     }
     run->lastPlayedAt = isoTimestamp();
-    return writeRunMeta(root_ / id, *run);
-}
-
-bool RunStore::updateRomPath(const std::string& id, std::string romPath) {
-    Run* run = find(id);
-    if (!run) {
-        return false;
-    }
-    run->romPath = std::move(romPath);
     return writeRunMeta(root_ / id, *run);
 }
 

@@ -1,10 +1,11 @@
 #include "ui/Shell.hpp"
 
 #include "application/Application.hpp"
-#include "run/GameId.hpp"
+#include "run/Catalog.hpp"
 #include "run/NuzlockeRules.hpp"
 
 #include <imgui.h>
+#include <algorithm>
 
 namespace emulocke {
 namespace {
@@ -22,36 +23,50 @@ void drawPresetCombo(NuzlockeRules& rules) {
     ImGui::EndCombo();
 }
 
+bool titleReady(const RomLibrary& lib, const CatalogTitle& title) {
+    if (title.kind == TitleKind::Baseline) {
+        return lib.has(title.uuid);
+    }
+    return title.prerequisiteUuid && lib.has(title.prerequisiteUuid);
+}
+
 }  // namespace
 
 void drawNewRunModal(Application& app) {
-    if (app.showNewRun() && !ImGui::IsPopupOpen("NEW RUN")) {
-        ImGui::OpenPopup("NEW RUN", ImGuiPopupFlags_NoOpenOverExistingPopup);
+    if (!app.showNewRun()) {
+        return;
     }
-    if (ImGui::IsPopupOpen("NEW RUN")) {
-        ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-    }
-    if (!ImGui::BeginPopupModal("NEW RUN", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+    const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+    if (!ImGui::Begin("NEW RUN", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse)) {
+        ImGui::End();
         return;
     }
     NewRunDraft& draft = app.newRunDraft();
-    const auto& games = app.detectedGames();
-    if (games.empty()) {
-        ImGui::TextWrapped("No Pokemon ROM in the roms folder.");
-        ImGui::TextDisabled("%s", app.romsHint().c_str());
+    const auto titles = app.romLibrary().playableTitles();
+    const CatalogTitle* selected = catalogByUuid(draft.catalogUuid);
+    if (!titles.empty() && (!selected || std::find(titles.begin(), titles.end(), selected) == titles.end())) {
+        draft.catalogUuid = titles.front()->uuid;
+        selected = titles.front();
+    }
+    if (titles.empty()) {
+        ImGui::TextWrapped("Import a Pokemon dump to start a run.");
     } else {
-        if (draft.gameIndex >= static_cast<int>(games.size())) {
-            draft.gameIndex = 0;
-        }
-        const char* current = gameTitle(games[static_cast<size_t>(draft.gameIndex)].gameId);
+        const char* current = selected ? selected->title : "Game";
         if (ImGui::BeginCombo("Game", current)) {
-            for (int i = 0; i < static_cast<int>(games.size()); ++i) {
-                const char* label = gameTitle(games[static_cast<size_t>(i)].gameId);
-                if (ImGui::Selectable(label, i == draft.gameIndex)) {
-                    draft.gameIndex = i;
+            for (const CatalogTitle* title : titles) {
+                if (ImGui::Selectable(title->title, title->uuid == draft.catalogUuid)) {
+                    draft.catalogUuid = title->uuid;
+                    selected = title;
                 }
             }
             ImGui::EndCombo();
+        }
+        if (selected && selected->kind == TitleKind::Hack) {
+            const CatalogTitle* prereq = catalogByUuid(selected->prerequisiteUuid);
+            if (prereq && !app.romLibrary().has(prereq->uuid)) {
+                ImGui::TextWrapped("%s is a prerequisite for this ROM hack.", prereq->fullName);
+            }
         }
         drawPresetCombo(draft.rules);
         if (ImGui::BeginTable("rules", 2, ImGuiTableFlags_SizingStretchProp)) {
@@ -68,13 +83,12 @@ void drawNewRunModal(Application& app) {
             ImGui::EndTable();
         }
     }
-    const bool canStart = !games.empty();
+    const bool canStart = selected && titleReady(app.romLibrary(), *selected);
     if (!canStart) {
         ImGui::BeginDisabled();
     }
     if (ImGui::Button("START RUN")) {
         app.confirmNewRun();
-        ImGui::CloseCurrentPopup();
     }
     if (!canStart) {
         ImGui::EndDisabled();
@@ -82,9 +96,8 @@ void drawNewRunModal(Application& app) {
     ImGui::SameLine();
     if (ImGui::Button("CANCEL")) {
         app.dismissNewRun();
-        ImGui::CloseCurrentPopup();
     }
-    ImGui::EndPopup();
+    ImGui::End();
 }
 
 }

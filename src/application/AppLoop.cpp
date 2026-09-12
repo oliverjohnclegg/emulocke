@@ -65,11 +65,7 @@ void Application::run() {
             ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_MenuBar |
                 ImGuiWindowFlags_NoBringToFrontOnFocus);
         drawMenuBar(*this);
-        if (session_) {
-            drawShell(*this);
-        } else {
-            drawHome(*this);
-        }
+        drawShell(*this);
         drawNewRunModal(*this);
         drawLoadRunModal(*this);
         ImGui::End();
