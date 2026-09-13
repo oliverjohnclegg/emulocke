@@ -46,7 +46,7 @@ void spriteWell(Application& app, ImVec2 a, const char* slug, bool dim, bool sel
     if (level > 0) {
         char lv[8];
         std::snprintf(lv, sizeof lv, "%d", level);
-        dl->AddText(ImVec2(a.x + 2.f, b.y - ImGui::GetFontSize() - 1.f),
+        dl->AddText(ImVec2(b.x + 3.f, a.y + (kWell - ImGui::GetFontSize()) * 0.5f),
             ImGui::GetColorU32(kDisabled), lv);
     }
 }
@@ -96,7 +96,7 @@ void drawCalcFoeRail(Application& app, CalcSession& session) {
             i == next, mon ? mon->level : 0);
     }
     ImGui::SetCursorScreenPos(ImVec2(origin.x, origin.y + 6 * (kWell + 4.f)));
-    ImGui::Dummy(ImVec2(kWell, 1));
+    ImGui::Dummy(ImVec2(56.f, 1));
 }
 
 }

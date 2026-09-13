@@ -60,7 +60,7 @@ void drawCalculator(Application& app) {
         if (ImGui::BeginTable("calc-board", 3, ImGuiTableFlags_NoPadInnerX)) {
             ImGui::TableSetupColumn("p", ImGuiTableColumnFlags_WidthFixed, 40.f);
             ImGui::TableSetupColumn("m", ImGuiTableColumnFlags_WidthStretch);
-            ImGui::TableSetupColumn("f", ImGuiTableColumnFlags_WidthFixed, 40.f);
+            ImGui::TableSetupColumn("f", ImGuiTableColumnFlags_WidthFixed, 56.f);
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
             drawCalcPartyRail(app, session);

@@ -24,14 +24,15 @@ void drawCalcMoveCol(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Po
         const bool blank = dmg.immune || mv.kind == MoveKind::Status || mv.bp == 0;
         char line[96];
         if (blank && pct) {
-            std::snprintf(line, sizeof line, "%-12s %3s  --  %d%%", mv.name, pri, pct[i]);
+            std::snprintf(line, sizeof line, "%-11s  --  %d%%", mv.name, pct[i]);
         } else if (blank) {
-            std::snprintf(line, sizeof line, "%-12s %3s  --", mv.name, pri);
+            std::snprintf(line, sizeof line, "%-11s  --", mv.name);
         } else if (pct) {
-            std::snprintf(line, sizeof line, "%-12s %3s  %d-%d  %d%%", mv.name, pri, dmg.min, dmg.max,
-                pct[i]);
+            std::snprintf(line, sizeof line, "%-11s%s%s  %d-%d  %d%%", mv.name, pri[0] ? " " : "",
+                pri, dmg.min, dmg.max, pct[i]);
         } else {
-            std::snprintf(line, sizeof line, "%-12s %3s  %d-%d", mv.name, pri, dmg.min, dmg.max);
+            std::snprintf(line, sizeof line, "%-11s%s%s  %d-%d", mv.name, pri[0] ? " " : "", pri,
+                dmg.min, dmg.max);
         }
         if (blank) {
             ImGui::TextDisabled("%s", line);
