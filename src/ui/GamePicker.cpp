@@ -5,7 +5,6 @@
 #include "ui/GameStrip.hpp"
 
 #include <imgui.h>
-#include <imgui_internal.h>
 #include <cctype>
 #include <string>
 #include <string_view>
@@ -63,6 +62,10 @@ void drawGamePicker(Application& app, std::string& catalogUuid) {
     ImGui::SetNextItemWidth(-FLT_MIN);
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(6.f, 20.f));
     const bool open = ImGui::BeginCombo("##game", nullptr, ImGuiComboFlags_HeightLarge);
+    const ImVec2 previewMin = ImGui::GetItemRectMin();
+    const ImVec2 previewMax = ImGui::GetItemRectMax();
+    const float arrow = ImGui::GetFrameHeight();
+    const bool preview = selected && ImGui::IsItemVisible();
     ImGui::PopStyleVar();
     if (open) {
         static char query[64];
@@ -84,12 +87,9 @@ void drawGamePicker(Application& app, std::string& catalogUuid) {
         }
         ImGui::EndCombo();
     }
-    if (ImGui::BeginComboPreview() && selected) {
-        const ImVec2 p = ImGui::GetCursorScreenPos();
-        const float w = ImGui::GetContentRegionAvail().x;
+    if (preview) {
         const bool ready = app.romLibrary().ready(*selected);
-        drawTitleStrip(app, *selected, p, ImVec2(p.x + w, p.y + kTitleArtH), ready);
-        ImGui::EndComboPreview();
+        drawTitleStrip(app, *selected, previewMin, ImVec2(previewMax.x - arrow, previewMax.y), ready);
     }
 }
 
