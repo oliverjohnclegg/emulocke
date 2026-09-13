@@ -19,8 +19,8 @@ int testLayout() {
         static_cast<int>((788.f - 16.f - 5.f) / (192.f * 2)));
     expect(oldDsFit == 1, "old ds fit drops to 1x");
     expect(emulocke::fitScreenScale(256, 192, 2, 512.f, 768.f) == 2, "ds 2x in home pane");
-    expect(emulocke::fitScreenScale(256, 192, 2, 512.f, 754.f) == 2, "ds 2x within pad");
-    expect(emulocke::fitScreenScale(256, 192, 2, 512.f, 700.f) == 1, "ds 1x when short");
+    expect(emulocke::fitScreenScale(256, 192, 2, 512.f, 754.f) == 2, "ds 2x when a little short");
+    expect(emulocke::fitScreenScale(256, 192, 2, 512.f, 200.f) == 1, "ds 1x when far too short");
     expect(emulocke::fitScreenScale(240, 160, 1, 512.f, 768.f) == 2, "gba 2x in home pane");
     expect(emulocke::resolveScreenScale(0, 256, 192, 2, 512.f, 768.f) == 2, "fit ds");
     expect(emulocke::resolveScreenScale(1, 256, 192, 2, 512.f, 768.f) == 1, "explicit 1x");

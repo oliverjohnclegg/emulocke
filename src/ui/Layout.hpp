@@ -25,11 +25,10 @@ inline float consoleLeftHeight(float availY, float windowPadY) {
 inline int fitScreenScale(int nativeW, int nativeH, int screens, float paneW, float paneH) {
     const int fitW = std::max(1, static_cast<int>(paneW / static_cast<float>(nativeW)));
     const int stack = nativeH * screens;
-    const int fitH = std::max(1, static_cast<int>(paneH / static_cast<float>(stack)));
-    if (fitW > fitH && static_cast<float>(stack * fitW) <= paneH + kConsolePad) {
-        return fitW;
+    if (static_cast<float>(stack * fitW) > paneH + static_cast<float>(stack)) {
+        return std::max(1, static_cast<int>(paneH / static_cast<float>(stack)));
     }
-    return std::min(fitW, fitH);
+    return fitW;
 }
 
 inline int resolveScreenScale(int wanted, int nativeW, int nativeH, int screens, float paneW,
