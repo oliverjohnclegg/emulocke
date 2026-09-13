@@ -14,22 +14,27 @@ void drawPresetCombo(NuzlockeRules& rules) {
     ImGui::AlignTextToFramePadding();
     ImGui::TextUnformatted("Preset");
     ImGui::SameLine();
-    if (ImGui::Button(rulesPresetTitle(rules), ImVec2(128.f, 0.f))) {
-        ImGui::OpenPopup("##preset");
+    const bool regular = rules == regularRules();
+    if (regular) {
+        ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
     }
-    const ImVec2 min = ImGui::GetItemRectMin();
-    const ImVec2 max = ImGui::GetItemRectMax();
-    ImGui::SetNextWindowPos(ImVec2(min.x, max.y));
-    if (!ImGui::BeginPopup("##preset")) {
-        return;
-    }
-    if (ImGui::Selectable("Regular", rules == regularRules())) {
+    if (ImGui::Button("Regular")) {
         rules = regularRules();
     }
-    if (ImGui::Selectable("Hardcore", rules == hardcoreRules())) {
+    if (regular) {
+        ImGui::PopStyleColor();
+    }
+    ImGui::SameLine();
+    const bool hardcore = rules == hardcoreRules();
+    if (hardcore) {
+        ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
+    }
+    if (ImGui::Button("Hardcore")) {
         rules = hardcoreRules();
     }
-    ImGui::EndPopup();
+    if (hardcore) {
+        ImGui::PopStyleColor();
+    }
 }
 
 }  // namespace
