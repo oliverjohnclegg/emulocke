@@ -59,7 +59,7 @@ bool drawRunStrip(Application& app, const Run& run) {
     const ImVec2 plus(origin.x + w - kRunPad - kRunPlus, origin.y + kRunPad);
     ImGui::SetCursorScreenPos(plus);
     if (iconAction("new", "NEW ATTEMPT", ImVec2(kRunPlus, kRunPlus))) {
-        app.queueNewAttempt(run.id);
+        app.requestNewAttempt(run.id);
         load = false;
     }
     iconPlus(plus, ImVec2(kRunPlus, kRunPlus));
