@@ -91,10 +91,11 @@ void drawShell(Application& app) {
     const int wanted = app.screenScale();
     const int scale = wanted <= 0 ? fit : std::max(1, std::min(wanted, fit));
     const ImVec2 screen(static_cast<float>(nativeW * scale), static_cast<float>(nativeH * scale));
-    const float paneH = screen.y * static_cast<float>(screens) + gap;
+    const float clusterH = screen.y * static_cast<float>(screens) + gap;
     const ImVec2 cursor = ImGui::GetCursorPos();
     ImGui::SetCursorPos(ImVec2(cursor.x + insetX, cursor.y + insetY));
     const bool partyOn = nds || app.prefs().bottomScreen;
+    const float paneH = partyOn ? clusterH : std::max(screen.y, avail.y - insetY - insetY);
     if (!partyOn) {
         ImGui::PushStyleColor(ImGuiCol_ChildBg, kChassis);
     }

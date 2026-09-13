@@ -17,7 +17,7 @@ That imports a known dump and opens New Run. It does not silent-boot.
 ## Layout
 
 - Two-screen games: stacked screens. Mouse on the bottom pane is the stylus.
-- One-screen games: stacked screens. Bottom pane is the party LCD. View > Bottom Screen hides it and centers the game in the same pane.
+- One-screen games: stacked screens. Bottom pane is the party LCD. View > Bottom Screen hides it and centers the game in the left column.
 - With no run seated, the left column lists expeditions. Right column: Logs tab until more suite tools exist.
 
 ## Menus
