@@ -54,7 +54,6 @@ void drawBoxSprite(SDL_Texture* tex, const char* tip, bool grey) {
     if (tip && tip[0]) {
         ImGui::SetItemTooltip("%s", tip);
     }
-    ImGui::SameLine(0.f, 2.f);
 }
 
 }

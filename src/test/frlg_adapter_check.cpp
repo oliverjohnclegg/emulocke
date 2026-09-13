@@ -103,6 +103,9 @@ void testFrlgAdapter() {
     REQUIRE(pika.national == 25);
     REQUIRE(std::string(pika.slug) == "pikachu");
     REQUIRE(std::string(pika.name) == "Pikachu");
+    const emulocke::SpeciesRef mime = fr->species(122);
+    REQUIRE(std::string(mime.slug) == "mr-mime");
+    REQUIRE(std::string(mime.name) == "Mr. Mime");
 
     const uint16_t badge1 = emulocke::kFrlgFlagBadge1;
     blocks.block1[emulocke::kFrlgFlagsOff + badge1 / 8] =

@@ -37,8 +37,10 @@ void fillSlot(uint16_t species, Slot& slot) {
             continue;
         }
         slot.name[ni++] = static_cast<char>(c);
-        if (c == '-' && si + 1 < sizeof(slot.slug)) {
-            slot.slug[si++] = '-';
+        if ((c == '-' || c == '.') && si + 1 < sizeof(slot.slug)) {
+            if (si == 0 || slot.slug[si - 1] != '-') {
+                slot.slug[si++] = '-';
+            }
         }
         upper = c != '\'';
     }

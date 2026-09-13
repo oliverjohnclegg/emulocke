@@ -6,7 +6,6 @@
 #include "ui/TrackerStatus.hpp"
 
 #include <imgui.h>
-#include <algorithm>
 
 namespace emulocke {
 namespace {
@@ -38,8 +37,7 @@ void drawEncounterRow(const TrackerStop& stop, EncounterStatus status, const Spe
     const float statusX = origin.x + w - 8.f - kTrackerStatus;
     if (has) {
         const bool grey = status == EncounterStatus::Dead || status == EncounterStatus::Missed;
-        float x = statusX - 4.f - (kBoxSpriteW + 2.f);
-        x = std::max(x, origin.x + 140.f);
+        const float x = statusX - 4.f - (kBoxSpriteW + 2.f);
         ImGui::SetCursorScreenPos(ImVec2(x, spriteY));
         drawBoxSprite(sprites.get(species.slug), species.name, grey);
     }
@@ -57,13 +55,15 @@ void drawBossRow(const TrackerStop& stop, const char* const* slugs, const char* 
     const float spriteY = origin.y + (kTrackerRowH - kBoxSpriteH) * 0.5f;
     const float statusX = origin.x + w - 8.f - kTrackerStatus;
     if (n > 0) {
-        float x = statusX - 4.f - static_cast<float>(n) * (kBoxSpriteW + 2.f);
-        x = std::max(x, origin.x + 140.f);
+        const float x = statusX - 4.f - static_cast<float>(n) * (kBoxSpriteW + 2.f);
         ImGui::SetCursorScreenPos(ImVec2(x, spriteY));
         for (int i = 0; i < n; ++i) {
             ImGui::PushID(i);
             drawBoxSprite(sprites.get(slugs[i] ? slugs[i] : ""), tips[i] ? tips[i] : "", defeated);
             ImGui::PopID();
+            if (i + 1 < n) {
+                ImGui::SameLine(0.f, 2.f);
+            }
         }
     }
     ImGui::SetCursorScreenPos(ImVec2(statusX, origin.y + (kTrackerRowH - kTrackerStatus) * 0.5f));
