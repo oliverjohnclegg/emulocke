@@ -204,3 +204,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Twelve ROM hacks in the catalog as games. Bundled IPS/UPS/BPS/xdelta. xdelta3 decode. Optional Patches for Blaze Black and Volt White. Hack art is a plate unless a bundled still exists.
 - 2026-09-13: Home playtime is host wall clock as `HH:MM`, not the in-game save clock. Tab speed-up does not advance it.
 - 2026-09-13: `main` is Stable, `dev` is Vanguard. Stamped instance names and window captions: version on Stable, commit hash on Vanguard.
+- 2026-09-13: Vanguard keeps the Stable mark and recasts the parchment metal as oxidized field-steel.
