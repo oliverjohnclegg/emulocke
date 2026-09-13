@@ -245,6 +245,11 @@ if(CURL_FOUND)
     if(UNIX AND NOT APPLE)
         target_link_libraries(emulocke-game-art-check PRIVATE pthread)
     endif()
+    add_custom_command(
+        TARGET emulocke-game-art-check POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/assets
+            $<TARGET_FILE_DIR:emulocke-game-art-check>/assets)
 endif()
 
 add_executable(emulocke-gba-check
