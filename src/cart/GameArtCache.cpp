@@ -32,28 +32,12 @@ std::filesystem::path GameArtCache::plateFile(std::string_view slug) const {
     return cacheDir_ / "plates" / (normalizeSlug(slug) + ".png");
 }
 
-std::filesystem::path GameArtCache::get(std::string_view slug) {
-    const std::string key = normalizeSlug(slug);
-    const auto cached = cacheFile(slug);
-    if (isCachedArt(cached)) {
-        return cached;
-    }
+std::filesystem::path GameArtCache::ensurePlate(std::string_view slug) {
     const auto bundled = bundledArt(slug);
     if (isCachedArt(bundled)) {
         return bundled;
     }
     const auto plate = plateFile(slug);
-    const auto url = gameArtUrl(slug);
-    if (!misses_.count(key) && url) {
-        if (const auto bytes = httpGetPng(*url)) {
-            std::error_code ec;
-            std::filesystem::create_directories(cached.parent_path(), ec);
-            if (writeLetterboxedPng(*bytes, cached) && isCachedArt(cached)) {
-                return cached;
-            }
-        }
-        misses_.insert(key);
-    }
     if (isCachedArt(plate)) {
         return plate;
     }
@@ -63,7 +47,17 @@ std::filesystem::path GameArtCache::get(std::string_view slug) {
     return plate;
 }
 
+std::filesystem::path GameArtCache::existing(std::string_view slug) {
+    std::lock_guard lock(mu_);
+    const auto cached = cacheFile(slug);
+    if (isCachedArt(cached)) {
+        return cached;
+    }
+    return ensurePlate(slug);
+}
+
 std::optional<std::filesystem::path> GameArtCache::ifReady(std::string_view slug) const {
+    std::lock_guard lock(mu_);
     const auto cached = cacheFile(slug);
     if (isCachedArt(cached)) {
         return cached;
@@ -77,6 +71,42 @@ std::optional<std::filesystem::path> GameArtCache::ifReady(std::string_view slug
         return plate;
     }
     return std::nullopt;
+}
+
+std::filesystem::path GameArtCache::get(std::string_view slug) {
+    const std::string key = normalizeSlug(slug);
+    {
+        std::lock_guard lock(mu_);
+        const auto cached = cacheFile(slug);
+        if (isCachedArt(cached)) {
+            return cached;
+        }
+        if (misses_.count(key)) {
+            return ensurePlate(slug);
+        }
+    }
+    const auto url = gameArtUrl(slug);
+    if (url) {
+        if (const auto bytes = httpGetPng(*url)) {
+            std::lock_guard lock(mu_);
+            const auto cached = cacheFile(slug);
+            if (isCachedArt(cached)) {
+                return cached;
+            }
+            std::error_code ec;
+            std::filesystem::create_directories(cached.parent_path(), ec);
+            if (writeLetterboxedPng(*bytes, cached) && isCachedArt(cached)) {
+                return cached;
+            }
+            misses_.insert(key);
+            return ensurePlate(slug);
+        }
+        std::lock_guard lock(mu_);
+        misses_.insert(key);
+        return ensurePlate(slug);
+    }
+    std::lock_guard lock(mu_);
+    return ensurePlate(slug);
 }
 
 }

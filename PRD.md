@@ -35,7 +35,7 @@ Left column is the game. Right column is the suite.
 - 21px graphite around the screen cluster. Not between the two screens. Same 21px below and to the right of the suite.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
 - Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party, badges). Unsupported carts keep the empty log.
-- With no run seated, the left column is home: START RUN plus last-played run plates. Each plate is `GAME - Preset`, a subtitle of playtime • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Logs.
+- With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of playtime • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Logs.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
@@ -45,7 +45,7 @@ A playable host. Suite is a Logs tab only.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
 - File > Import Game / Start New Attempt / Close Run. No New Run or Load Run in the menu. No Open Game. No `roms/` drop folder.
-- Home START RUN opens New Run. New Run lists imported baselines plus the 12 catalog hacks as games (Blaze Black, Volt White, Volt White 2 Redux, Fire Red Omega, Sacred Gold, Platinum Kaizo, Renegade Platinum, Unbound, Run and Bun, Inclement Emerald, Emerald Kaizo, Radical Red). A hack whose baseline dump is missing stays listed, with `START RUN` disabled and copy to import that baseline.
+- Home START RUN opens New Run. New Run lists every catalog title as a strip (art, name with version in the title, region), including the 12 hacks as games. Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library.
 - Blaze Black and Volt White show Optional Patches (Full default, or Clean). The choice is stored on the run. Other hacks have a single bundled patch.
 - Starting a hack run applies the bundled IPS/UPS/BPS/xdelta onto the imported baseline if `roms/derived/<uuid>[-option].ext` is not already there.
 - One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage.
@@ -85,8 +85,8 @@ Recorded so later work does not invent the product twice:
 - QoL tools
 - More as decided in this project
 - A native tracker adjacent to nuzlocke.app (encounter/route tracking UX), built in Emulocke. Not a fork. Not a webview of another app.
-- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. Home plates use box sprites.
-- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. Home plates use title art.
+- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. Home plates use box sprites. No suite UI in V1.
+- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. New Run shows this art at 64x48. Home plates use title art.
 
 ## Adapter
 
@@ -193,8 +193,10 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.
 - 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.
 - 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
+- 2026-09-13: New Run game picker uses art strips, type-to-search, and click-to-import for missing dumps. Versions sit in the title as FIRE RED (1.0). Subtext is region. Hack hover names the prerequisite.
 - 2026-09-13: Host playtime persisted per catalog title (`playtime.ini`) and per run (`playMs` in meta.ini). Counts unpaused seated time only. No suite UI.
 - 2026-09-13: Speed-up cherry-pick. Tab holds 3x by default. Emulation > Speed-up submenu holds 2x-8x and Hold Tab vs toggle.
 - 2026-09-13: Home is last-played run plates (title art, party sockets, gym pips). FRLG snapshot grows gyms. Compact chrome: secondary actions are icons, names on hover.
 - 2026-09-13: Home-only start and load. File drops New Run and Load Run. Plate title is `GAME - Preset`. Subtitle is playtime, Attempt #N, Deaths, and badges, joined by •. Party sprites crop to opaque pixels and sit centered in the wells.
+- 2026-09-13: When home has run plates, START RUN is a compact full-width stamp rail, not the empty-home hero button.
 - 2026-09-13: Twelve ROM hacks in the catalog as games. Bundled IPS/UPS/BPS/xdelta. xdelta3 decode. Optional Patches for Blaze Black and Volt White. Hack art is a plate unless a bundled still exists.

@@ -137,6 +137,10 @@ add_executable(emulocke
     src/ui/Home.cpp
     src/ui/NewRunModal.cpp
     src/ui/NewRunOptions.cpp
+    src/ui/PresetPicker.cpp
+    src/ui/GamePicker.cpp
+    src/ui/GameStrip.cpp
+    src/ui/GameArtGpu.cpp
     src/ui/RunList.cpp
     src/ui/Suite.cpp
     src/ui/FieldLog.cpp
@@ -161,6 +165,7 @@ add_executable(emulocke
     src/emu/NdsPlatformSave.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
+    src/run/CatalogFormat.cpp
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
     src/run/PatchBps.cpp
@@ -302,6 +307,7 @@ add_executable(emulocke-run-check
     src/emu/FileBytes.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
+    src/run/CatalogFormat.cpp
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
     src/run/PatchBps.cpp

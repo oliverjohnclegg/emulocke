@@ -168,6 +168,10 @@ void Application::shutdown() {
     commitPlay();
     persistPrefs();
     session_.reset();
+    if (gameArt_) {
+        gameArt_->destroy();
+        gameArt_.reset();
+    }
     pngs_.reset();
     media_.reset();
     savePeek_.reset();

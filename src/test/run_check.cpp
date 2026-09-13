@@ -128,23 +128,56 @@ int main() {
     expect(std::strcmp(emulocke::catalogBySlug("sacred-gold")->prerequisiteUuid, emulocke::kHeartGoldUsUuid) ==
             0,
         "sg prereq");
-    expect(std::strcmp(emulocke::catalogBySlug("platinum-kaizo")->prerequisiteUuid, emulocke::kPlatinumUs11Uuid) ==
-            0,
+    expect(std::strcmp(emulocke::catalogBySlug("platinum-kaizo")->prerequisiteUuid,
+               emulocke::kPlatinumUs11Uuid) == 0,
         "pk prereq");
     expect(std::strcmp(emulocke::catalogBySlug("renegade-platinum")->prerequisiteUuid,
                emulocke::kPlatinumUs11Uuid) == 0,
         "rp prereq");
-    expect(std::strcmp(emulocke::catalogBySlug("fire-red-omega")->prerequisiteUuid, emulocke::kFireRedUs10Uuid) ==
-            0,
+    expect(std::strcmp(emulocke::catalogBySlug("fire-red-omega")->prerequisiteUuid,
+               emulocke::kFireRedUs10Uuid) == 0,
         "fro prereq");
-    expect(std::strcmp(emulocke::catalogBySlug("run-and-bun-1.07")->prerequisiteUuid, emulocke::kEmeraldUsUuid) ==
-            0,
+    expect(std::strcmp(emulocke::catalogBySlug("run-and-bun-1.07")->prerequisiteUuid,
+               emulocke::kEmeraldUsUuid) == 0,
         "rab prereq");
     expect(std::strcmp(emulocke::catalogBySlug("inclement-emerald-1.13")->prerequisiteUuid,
                emulocke::kEmeraldUsUuid) == 0,
         "ie prereq");
-    expect(std::strcmp(emulocke::catalogBySlug("emerald-kaizo")->prerequisiteUuid, emulocke::kEmeraldUsUuid) == 0,
+    expect(std::strcmp(emulocke::catalogBySlug("emerald-kaizo")->prerequisiteUuid, emulocke::kEmeraldUsUuid) ==
+            0,
         "ek prereq");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->artSlug) == "firered", "fr art");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->version) == "1.0", "fr version");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->details) == "US", "fr region");
+    expect(emulocke::catalogListTitle(*emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)) ==
+            "FIRE RED (1.0)",
+        "fr list title");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kUnboundUuid)->artSlug) == "unbound", "unbound art");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kUnboundUuid)->details) == "US", "unbound region");
+    expect(emulocke::catalogListTitle(*emulocke::catalogByUuid(emulocke::kUnboundUuid)) ==
+            "UNBOUND (2.1.1.1)",
+        "unbound list title");
+    const emulocke::CatalogTitle* fr11 = emulocke::catalogBySlug("firered-us-1.1");
+    expect(fr11 && emulocke::catalogListTitle(*fr11) == "FIRE RED (1.1)", "fr11 list title");
+    expect(emulocke::catalogVersionCompare("1.1", "1.0") > 0, "1.1 > 1.0");
+    expect(emulocke::catalogVersionCompare("2.1.1.1", "4.1") < 0, "2.1.1.1 < 4.1");
+    const auto picker = emulocke::catalogPickerRows();
+    const emulocke::CatalogTitle* firstFr = nullptr;
+    const emulocke::CatalogTitle* secondFr = nullptr;
+    for (const emulocke::CatalogTitle* title : picker) {
+        if (std::string(title->artSlug) != "firered") {
+            continue;
+        }
+        if (!firstFr) {
+            firstFr = title;
+        } else if (!secondFr) {
+            secondFr = title;
+        }
+    }
+    expect(firstFr && std::string(firstFr->version) == "1.1", "picker fr 1.1 first");
+    expect(secondFr && std::string(secondFr->version) == "1.0", "picker fr 1.0 second");
+    expect(emulocke::catalogListTitle(*emulocke::catalogBySlug("ruby-us")) == "RUBY (Rev 2)", "ruby list");
+    expect(emulocke::catalogListTitle(*emulocke::catalogBySlug("emerald-us")) == "EMERALD", "emerald list");
     expect(std::string(emulocke::catalogBySha1("66d2fbfb0dbc1f86a3d726971196989b950092bc")->slug) ==
             "diamond-us",
         "diamond 1.13 alias");
@@ -183,13 +216,18 @@ int main() {
     }
     expect(!sawFr && sawRr && sawUnbound, "hacks listed without import");
     expect(!lib.has(emulocke::kFireRedUs10Uuid), "no fr yet");
+    const emulocke::CatalogTitle* fr = emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid);
+    const emulocke::CatalogTitle* rr = emulocke::catalogByUuid(emulocke::kRadicalRedUuid);
+    expect(!lib.ready(*fr), "fr not ready");
+    expect(!lib.ready(*rr), "rr not ready");
     auto gated = lib.ensurePlayable(emulocke::kRadicalRedUuid);
     expect(!gated, "rr without prereq");
     expect(lib.lastError().find("Import") != std::string::npos, "prereq gate");
 
-    const emulocke::CatalogTitle* fr = emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid);
     expect(lib.writeBaseline(*fr, src), "store baseline");
     expect(lib.has(emulocke::kFireRedUs10Uuid), "has fr");
+    expect(lib.ready(*fr), "fr ready");
+    expect(lib.ready(*rr), "rr ready with prereq");
     expect(std::filesystem::path(lib.storedPath(*fr)).filename() ==
             (std::string(emulocke::kFireRedUs10Uuid) + ".gba"),
         "uuid filename");

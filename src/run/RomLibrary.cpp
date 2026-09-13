@@ -42,6 +42,13 @@ bool RomLibrary::has(const std::string& uuid) const {
     return std::filesystem::is_regular_file(storedPath(*title), ec);
 }
 
+bool RomLibrary::ready(const CatalogTitle& title) const {
+    if (title.kind == TitleKind::Baseline) {
+        return has(title.uuid);
+    }
+    return title.prerequisiteUuid && title.prerequisiteUuid[0] && has(title.prerequisiteUuid);
+}
+
 bool RomLibrary::writeBaseline(const CatalogTitle& title, const std::vector<uint8_t>& bytes) {
     if (title.kind != TitleKind::Baseline || bytes.empty()) {
         error_ = "Not a supported baseline dump.";

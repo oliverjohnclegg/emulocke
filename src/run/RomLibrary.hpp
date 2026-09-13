@@ -23,6 +23,7 @@ public:
     ImportResult importFile(const std::filesystem::path& path);
     bool writeBaseline(const CatalogTitle& title, const std::vector<uint8_t>& bytes);
     bool has(const std::string& uuid) const;
+    bool ready(const CatalogTitle& title) const;
     std::filesystem::path storedPath(const CatalogTitle& title, std::string_view optionId = {}) const;
     std::optional<std::filesystem::path> ensurePlayable(
         const std::string& uuid, std::string_view optionId = {});
