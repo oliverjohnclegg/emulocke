@@ -35,6 +35,11 @@ void readParty(const uint8_t* block1, Party& party) {
     }
 }
 
+void readGyms(const uint8_t* block1, Gyms& gyms) {
+    gyms.slots = kFrlgBadgeCount;
+    gyms.earned = block1[kFrlgBadgeByteOff];
+}
+
 }  // namespace
 
 void fillFrlgBoxes(std::span<const uint8_t> storage, Boxes& boxes) {
@@ -87,6 +92,7 @@ void fillSnapshotFromFrlg(const FrlgSaveBlocks& blocks, GameSnapshot& snap) {
     readTrainer(blocks.block2.data(), snap.trainer);
     readParty(blocks.block1.data(), snap.party);
     fillFrlgBoxes(blocks.storage, snap.boxes);
+    readGyms(blocks.block1.data(), snap.gyms);
     snap.overworld.mapGroup = blocks.block1[kFrlgMapGroupOff];
     snap.overworld.mapNum = blocks.block1[kFrlgMapNumOff];
     char scratch[32];

@@ -32,18 +32,54 @@ int main(int argc, char** argv) {
     if (emulocke::pokemonId("pikachu") != 25) {
         return fail("pikachu id");
     }
+    if (emulocke::pokemonId("meowscarada") != 908) {
+        return fail("meowscarada id");
+    }
+    if (emulocke::pokemonId("deoxys") != 386) {
+        return fail("deoxys id");
+    }
+    if (emulocke::pokemonId("shaymin") != 492) {
+        return fail("shaymin id");
+    }
+    if (emulocke::pokemonId("squawkabilly") != 931) {
+        return fail("squawkabilly id");
+    }
+    if (emulocke::speciesSlug("MEOWSCARADA") != "meowscarada") {
+        return fail("meowscarada slug");
+    }
+    if (emulocke::speciesSlug("WALKING WAKE") != "walking-wake") {
+        return fail("walking-wake slug");
+    }
+    if (emulocke::speciesSlug("GOUGING FIRE") != "gouging-fire") {
+        return fail("gouging-fire slug");
+    }
     if (!emulocke::pokemonId("muk-alola")) {
         return fail("muk-alola id");
     }
     if (emulocke::pokemonId("not-a-pokemon")) {
         return fail("garbage id");
     }
+    if (emulocke::normalizeSlug("MR. MIME") != "mr-mime") {
+        return fail("mr mime slug");
+    }
+    if (emulocke::normalizeSlug("FARFETCH'D") != "farfetchd") {
+        return fail("farfetchd slug");
+    }
+    if (emulocke::speciesSlug("BULBASAUR") != "bulbasaur") {
+        return fail("bulbasaur slug");
+    }
+    if (emulocke::speciesSlug("TREECKO") != "treecko") {
+        return fail("treecko slug");
+    }
+    if (!emulocke::speciesSlug("-----").empty() || !emulocke::speciesSlug("???").empty()) {
+        return fail("empty slug");
+    }
 
     emulocke::SpriteCache cache(emulocke::localDataPath("sprites"),
                                 std::filesystem::path(emulocke::assetPath("sprites")));
     std::vector<std::string> slugs;
     if (argc <= 1) {
-        slugs = {"pikachu", "muk-alola", "sprigatito", "not-a-pokemon"};
+        slugs = {"pikachu", "muk-alola", "sprigatito", "meowscarada", "not-a-pokemon"};
     } else {
         for (int i = 1; i < argc; ++i) {
             slugs.emplace_back(argv[i]);

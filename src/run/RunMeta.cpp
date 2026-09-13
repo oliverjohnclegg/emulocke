@@ -98,6 +98,9 @@ std::optional<Run> readRunMeta(const std::filesystem::path& dir) {
     if (kv.count("difficulty")) {
         run.difficulty = kv["difficulty"];
     }
+    if (kv.count("patchOption")) {
+        run.patchOption = kv["patchOption"];
+    }
     return run;
 }
 

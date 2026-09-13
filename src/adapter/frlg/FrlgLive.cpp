@@ -8,6 +8,7 @@
 
 #include <array>
 #include <cstdio>
+#include <span>
 
 namespace emulocke {
 namespace {
@@ -78,6 +79,8 @@ void fillSnapshotFromFrlgLive(const LiveMemory& mem, GameSnapshot& snap) {
             fillFrlgBoxes(pc, snap.boxes);
         }
         fillFrlgProgress(block1.data(), snap);
+        snap.gyms.slots = kFrlgBadgeCount;
+        snap.gyms.earned = block1[kFrlgBadgeByteOff];
     }
     snap.ok = true;
 }

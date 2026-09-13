@@ -82,7 +82,6 @@ void Application::run() {
         drawMenuBar(*this);
         drawShell(*this);
         drawNewRunModal(*this);
-        drawLoadRunModal(*this);
         drawLoadingRunModal(*this);
         ImGui::End();
         ImGui::Render();

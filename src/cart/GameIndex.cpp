@@ -78,3 +78,4 @@ std::optional<std::string> gameArtUrl(std::string_view slug) {
 }
 
 }
+

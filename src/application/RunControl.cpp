@@ -2,12 +2,24 @@
 
 #include "run/Catalog.hpp"
 
+#include <string>
+
 namespace emulocke {
 
 void Application::requestNewRun() {
-    const auto titles = romLibrary_->playableTitles();
-    if (newRunDraft_.catalogUuid.empty() && !titles.empty()) {
-        newRunDraft_.catalogUuid = titles.front()->uuid;
+    if (newRunDraft_.catalogUuid.empty()) {
+        for (const CatalogTitle& title : catalogTitles()) {
+            if (romLibrary_->ready(title)) {
+                newRunDraft_.catalogUuid = title.uuid;
+                break;
+            }
+        }
+        if (newRunDraft_.catalogUuid.empty() && !catalogTitles().empty()) {
+            newRunDraft_.catalogUuid = catalogTitles().front().uuid;
+        }
+    }
+    if (const CatalogTitle* title = catalogByUuid(newRunDraft_.catalogUuid)) {
+        newRunDraft_.patchOption = std::string(catalogOptionId(*title, newRunDraft_.patchOption));
     }
     newRunDraft_.rules = regularRules();
     pendingNewRun_ = true;
@@ -24,24 +36,11 @@ void Application::confirmNewRun() {
     pendingCreate_ = true;
 }
 
-void Application::requestLoadRun() {
-    if (!runStore_->runs().empty()) {
-        pendingLoadRun_ = true;
-    }
-}
-
-void Application::dismissLoadRun() {
-    pendingLoadRun_ = false;
-    showLoadRun_ = false;
-}
-
 void Application::queueLoadRun(std::string id) {
-    showLoadRun_ = false;
     pendingLoadId_ = std::move(id);
 }
 
 void Application::queueNewAttempt(std::string sourceId) {
-    showLoadRun_ = false;
     pendingAttemptId_ = std::move(sourceId);
 }
 
@@ -49,8 +48,17 @@ void Application::importPath(const std::string& path) {
     const ImportResult result = romLibrary_->importFile(path);
     status_ = result.message;
     if (result.ok && result.title) {
-        newRunDraft_.catalogUuid = result.title->uuid;
+        const CatalogTitle* keep = catalogByUuid(importKeepUuid_);
+        if (keep && keep->kind == TitleKind::Hack &&
+            std::string(keep->prerequisiteUuid) == result.title->uuid) {
+            newRunDraft_.catalogUuid = importKeepUuid_;
+        } else if (keep && keep->kind == TitleKind::Hack) {
+            newRunDraft_.catalogUuid = importKeepUuid_;
+        } else {
+            newRunDraft_.catalogUuid = result.title->uuid;
+        }
     }
+    importKeepUuid_.clear();
 }
 
 void Application::drainPending() {
@@ -58,9 +66,9 @@ void Application::drainPending() {
         pendingNewRun_ = false;
         showNewRun_ = true;
     }
-    if (pendingLoadRun_) {
-        pendingLoadRun_ = false;
-        showLoadRun_ = true;
+    if (pendingDumpPicker_) {
+        pendingDumpPicker_ = false;
+        showDumpPicker();
     }
     if (!pendingImport_.empty()) {
         const std::string path = std::move(pendingImport_);
@@ -103,12 +111,12 @@ void Application::createRunFromDraft() {
         status_ = "Pick a game.";
         return;
     }
-    auto rom = romLibrary_->ensurePlayable(newRunDraft_.catalogUuid);
+    auto rom = romLibrary_->ensurePlayable(newRunDraft_.catalogUuid, newRunDraft_.patchOption);
     if (!rom) {
         status_ = romLibrary_->lastError();
         return;
     }
-    auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules);
+    auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules, newRunDraft_.patchOption);
     if (!created) {
         status_ = "Failed to create run.";
         return;

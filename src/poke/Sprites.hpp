@@ -3,6 +3,7 @@
 #include <condition_variable>
 #include <filesystem>
 #include <mutex>
+#include <optional>
 #include <queue>
 #include <string>
 #include <string_view>
@@ -22,6 +23,7 @@ public:
     std::filesystem::path get(std::string_view slug, SpriteKind kind);
     std::filesystem::path peek(std::string_view slug, SpriteKind kind) const;
     void request(std::string_view slug, SpriteKind kind);
+    std::optional<std::filesystem::path> ifReady(std::string_view slug, SpriteKind kind) const;
 
 private:
     struct Job {

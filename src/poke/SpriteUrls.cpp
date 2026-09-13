@@ -16,10 +16,14 @@ std::vector<std::string> spriteUrls(std::string_view slug, SpriteKind kind) {
             "https://raw.githubusercontent.com/bamq/pokemon-sprites/main/pokemon/regular/" + key +
             ".png");
         if (id) {
+            const std::string n = std::to_string(*id);
             urls.push_back(
                 "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
                 "versions/generation-viii/icons/" +
-                std::to_string(*id) + ".png");
+                n + ".png");
+            urls.push_back(
+                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + n +
+                ".png");
         }
         return urls;
     }

@@ -1,6 +1,9 @@
 #include "application/Application.hpp"
 
 #include "emu/Paths.hpp"
+#include "run/SavePeek.hpp"
+#include "ui/MediaFetch.hpp"
+#include "ui/PngCache.hpp"
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
@@ -45,6 +48,10 @@ bool Application::start(int argc, char** argv) {
     romLibrary_ = std::make_unique<RomLibrary>(romsRoot(), assetsDir());
     runStore_ = std::make_unique<RunStore>(runsRoot());
     runStore_->load();
+    gameArt_ = std::make_unique<GameArtGpu>(prefDir() / "game-art");
+    media_ = std::make_unique<MediaFetch>();
+    pngs_ = std::make_unique<PngCache>(host_.renderer());
+    savePeek_ = std::make_unique<SavePeek>();
     titlePlay_ = std::make_unique<TitlePlay>(prefDir() / "playtime.ini");
     std::string import;
     for (int i = 1; i < argc; ++i) {
@@ -73,11 +80,21 @@ void Application::queueImport(std::string path) {
     pendingImport_ = std::move(path);
 }
 
-void Application::requestImportGame() {
+void Application::showDumpPicker() {
     const SDL_DialogFileFilter filters[] = {
         {"Pokemon dumps", "gba;nds"},
     };
     SDL_ShowOpenFileDialog(onDumpPicked, this, host_.window(), filters, 1, nullptr, false);
+}
+
+void Application::requestImportGame() {
+    importKeepUuid_.clear();
+    showDumpPicker();
+}
+
+void Application::requestImportFor(std::string uuid) {
+    importKeepUuid_ = std::move(uuid);
+    pendingDumpPicker_ = true;
 }
 
 void Application::setTouch(bool down, uint16_t x, uint16_t y) {

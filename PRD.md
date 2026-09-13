@@ -34,8 +34,8 @@ Left column is the game. Right column is the suite.
 - One-screen games: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
 - 21px graphite around the screen cluster. Not between the two screens. Same 21px below and to the right of the suite.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
-- Right column is the suite. Tabs hold each function. Tracker is first. Logs is second. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Logs still shows trainer, map, and party for FRLG.
-- With no run seated, the left column is home (saved runs, NEW ATTEMPT). The right column stays Tracker, empty until a represented title is seated.
+- Right column is the suite. Tabs hold each function. Tracker is first. Logs is second. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Logs shows trainer, map, party, and badges for supported games.
+- With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of playtime • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, empty until a represented title is seated.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
@@ -44,9 +44,10 @@ Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them.
 A playable host. Suite is Tracker then Logs.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
-- File > New Run / Load Run / Start New Attempt / Close Run. No Open Game. No `roms/` drop folder.
-- New Run lists imported baselines plus Radical Red 4.1 and Unbound 2.1.1.1. A hack whose Fire Red 1.0 dump is missing stays listed, with `START RUN` disabled and copy that Fire Red is a prerequisite.
-- Starting a hack run applies the bundled UPS onto the imported Fire Red 1.0 dump if `roms/derived/<uuid>.gba` is not already there.
+- File > Import Game / Start New Attempt / Close Run. No New Run or Load Run in the menu. No Open Game. No `roms/` drop folder.
+- Home START RUN opens New Run. New Run lists every catalog title as a strip (art, name with version in the title, region), including the 12 hacks as games. Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library.
+- Blaze Black and Volt White show Optional Patches (Full default, or Clean). The choice is stored on the run. Other hacks have a single bundled patch.
+- Starting a hack run applies the bundled IPS/UPS/BPS/xdelta onto the imported baseline if `roms/derived/<uuid>[-option].ext` is not already there.
 - One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage.
 - CLI `emulocke /path/to/dump` imports a known baseline and opens New Run. It does not silent-boot.
 - 60fps video in the left column once a run is seated
@@ -83,8 +84,8 @@ Recorded so later work does not invent the product twice:
 - Integrated damage calculator
 - QoL tools
 - More as decided in this project
-- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. Tracker draws box sprites for caught species and boss teams.
-- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. No suite UI in V1.
+- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. Tracker draws box sprites for caught species and boss teams. Home plates use box sprites.
+- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. New Run shows this art at 64x48. Home plates use title art.
 
 ## Adapter
 
@@ -98,6 +99,7 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 - A title is represented only when that atlas exists. FRLG is represented. Radical Red and Unbound return null until they have their own atlas.
 - `GameAdapter::species(id)` returns national id, sprite slug, and display name. `GameSnapshot.progress` holds starter, badges, and flag bytes. A later hack adapter must supply species and flag layout for its atlas.
 - Adding a pure virtual on `GameAdapter` is how a new suite data need flags every adapter in CI.
+- If the suite needs a cart fact, add it to `GameSnapshot` and fill it in the adapter. A missing field is work, not a reason to drop the surface. Unimplemented titles leave the new fields zero.
 
 ## Later host (not V1)
 
@@ -124,9 +126,9 @@ Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree mus
 
 - Emulocke source: GPL-3.0-or-later (required by linking melonDS).
 - mGBA files stay MPL-2.0 (incompatible with secondary licenses). Do not relicense those files as GPL. Ship both licenses.
-- Do not ship Nintendo BIOS, firmware, or ROMs. Users import their own baseline dumps. Bundled UPS files are patches only.
+- Do not ship Nintendo BIOS, firmware, or ROMs. Users import their own baseline dumps. Bundled IPS/UPS/BPS/xdelta files in `assets/patches/` are patches only. Vendored xdelta3 is Apache 2.0.
 - Do not ship Pokemon sprite PNGs. `SpriteCache` downloads box/front/back art on demand into the SDL pref cache. Bundled `assets/sprites/missing-*.png` are original question-mark art, not TPC sprites.
-- Do not ship game title PNGs. `GameArtCache` downloads 256x192 title art on demand into the SDL pref cache, keyed by slug. Missing art is a generated black plate with the game title, not Nintendo pixels.
+- Do not ship Nintendo game title PNGs. `GameArtCache` downloads official 256x192 title art on demand into the SDL pref cache, keyed by slug. Optional `assets/game-art/<slug>.png` may hold original hack title stills. Missing art is a generated black plate with the game title.
 - V1 boots DS games with FreeBIOS so a BIOS dump is not required to play.
 
 ## Default input
@@ -147,7 +149,7 @@ Gamepad: standard SDL mapping.
 
 ## Design
 
-Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Tracker is first, Logs second.
+Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Tracker is first, Logs second. Compact chrome: primary actions stay named; secondary actions in dense chrome are icons with the name on hover.
 
 ## Decisions
 
@@ -165,7 +167,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 | Windows via MSVC in CI | Same CMake tree. Dynlib uses LoadLibrary. Pref path is SDL. JIT off on MSVC (no GNU `.S` assembler). |
 | Other chats are out of scope | Greenfield. Only this document and this repo set requirements. |
 | Sprite cache downloads at runtime | PokeAPI/PokéSprite/bamq host the pixels. Pref cache, not git. Box: PokéSprite then bamq Gen 9 then PokeAPI gen8 icons. Front/back: PokeAPI BW-style. Credits: PokeAPI, msikma/pokesprite, National Dex Version Delta (bamq), Smogon for fan 2D past 649. |
-| Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, letterboxed. Hacks and misses get a black title plate. Pref cache, not git. |
+| Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, letterboxed. Hacks use bundled stills if present, otherwise a black title plate. Pref cache, not git. |
 | Host playtime per title and per run | New Attempt deletes the old folder, so title totals cannot be summed from leftover runs. Unpaused seated wall clock. No suite UI. |
 
 ## V1 success
@@ -193,6 +195,11 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.
 - 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.
 - 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
+- 2026-09-13: New Run game picker uses art strips, type-to-search, and click-to-import for missing dumps. Versions sit in the title as FIRE RED (1.0). Subtext is region. Hack hover names the prerequisite.
 - 2026-09-13: Host playtime persisted per catalog title (`playtime.ini`) and per run (`playMs` in meta.ini). Counts unpaused seated time only. No suite UI.
 - 2026-09-13: Speed-up cherry-pick. Tab holds 3x by default. Emulation > Speed-up submenu holds 2x-8x and Hold Tab vs toggle.
 - 2026-09-13: Tracker is the first suite tab. FRLG atlas is static suite data. Adapter supplies species, flags, badges, starter, and live boxes. Encounter state is `tracker.ini`. Radical Red and Unbound stay unrepresented.
+- 2026-09-13: Home is last-played run plates (title art, party sockets, gym pips). FRLG snapshot grows gyms. Compact chrome: secondary actions are icons, names on hover.
+- 2026-09-13: Home-only start and load. File drops New Run and Load Run. Plate title is `GAME - Preset`. Subtitle is playtime, Attempt #N, Deaths, and badges, joined by •. Party sprites crop to opaque pixels and sit centered in the wells.
+- 2026-09-13: When home has run plates, START RUN is a compact full-width stamp rail, not the empty-home hero button.
+- 2026-09-13: Twelve ROM hacks in the catalog as games. Bundled IPS/UPS/BPS/xdelta. xdelta3 decode. Optional Patches for Blaze Black and Volt White. Hack art is a plate unless a bundled still exists.

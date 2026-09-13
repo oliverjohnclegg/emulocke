@@ -17,6 +17,7 @@ struct Run {
     std::string lastPlayedAt;
     uint64_t playMs = 0;
     std::string difficulty;
+    std::string patchOption;
 
     const std::string& lineageKey() const {
         return lineageId.empty() ? id : lineageId;
@@ -25,6 +26,7 @@ struct Run {
 
 struct NewRunDraft {
     std::string catalogUuid;
+    std::string patchOption;
     NuzlockeRules rules = regularRules();
 };
 

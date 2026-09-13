@@ -57,6 +57,30 @@ set(BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(BUILD_STATIC ON CACHE BOOL "" FORCE)
 add_subdirectory(third_party/mgba EXCLUDE_FROM_ALL)
 
+find_package(LibLZMA REQUIRED)
+add_library(xdelta3 STATIC third_party/xdelta3/xdelta3.c)
+set_target_properties(xdelta3 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON)
+target_include_directories(xdelta3 PUBLIC ${CMAKE_SOURCE_DIR}/third_party/xdelta3)
+target_compile_definitions(xdelta3
+    PUBLIC
+        SIZEOF_SIZE_T=8
+        SIZEOF_UNSIGNED_LONG_LONG=8
+    PRIVATE
+        XD3_MAIN=0
+        SECONDARY_DJW=1
+        SECONDARY_LZMA=1
+        HAVE_LZMA_H=1
+        XD3_HARDMAXWINSIZE=1073741824)
+if(WIN32)
+    target_compile_definitions(xdelta3 PUBLIC SIZEOF_UNSIGNED_LONG=4)
+else()
+    target_compile_definitions(xdelta3 PUBLIC SIZEOF_UNSIGNED_LONG=8)
+endif()
+target_link_libraries(xdelta3 PUBLIC LibLZMA::LibLZMA)
+if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(xdelta3 PRIVATE -w -include assert.h)
+endif()
+
 add_library(imgui STATIC
     third_party/imgui/imgui.cpp
     third_party/imgui/imgui_draw.cpp
@@ -83,7 +107,20 @@ add_library(emulocke_adapter STATIC
     src/adapter/frlg/FrlgAdapter.cpp
     src/adapter/frlg/SpeciesNames.cpp
     src/adapter/frlg/SpeciesRef.cpp
-    src/adapter/frlg/MapNames.cpp)
+    src/adapter/frlg/MapNames.cpp
+    src/adapter/rse/RseSave.cpp
+    src/adapter/rse/RseFill.cpp
+    src/adapter/rse/RseLive.cpp
+    src/adapter/rse/RseAdapter.cpp
+    src/adapter/gen45/Names.cpp
+    src/adapter/gen45/Crypto.cpp
+    src/adapter/gen45/Text.cpp
+    src/adapter/gen45/Parse.cpp
+    src/adapter/gen4/Save.cpp
+    src/adapter/dppt/DpptAdapter.cpp
+    src/adapter/hgss/HgssAdapter.cpp
+    src/adapter/gen5/Save.cpp
+    src/adapter/bw/BwAdapter.cpp)
 target_include_directories(emulocke_adapter PUBLIC src)
 
 add_library(emulocke_tracker STATIC
@@ -95,6 +132,22 @@ add_library(emulocke_tracker STATIC
     src/tracker/frlg/Teams.cpp)
 target_include_directories(emulocke_tracker PUBLIC src)
 target_link_libraries(emulocke_tracker PUBLIC emulocke_adapter)
+
+find_package(CURL REQUIRED)
+add_library(emulocke_sprites STATIC
+    src/poke/SpriteIndex.cpp
+    src/poke/SpriteUrls.cpp
+    src/poke/HttpGet.cpp
+    src/poke/SpriteCache.cpp
+    src/cart/GameIndex.cpp
+    src/cart/GameIndexSlug.cpp
+    src/cart/GameArtPng.cpp
+    src/cart/RgbaFit.cpp
+    src/cart/GameArtCanvas.cpp
+    src/cart/GameArtPlate.cpp
+    src/cart/GameArtCache.cpp)
+target_include_directories(emulocke_sprites PUBLIC src PRIVATE ${CMAKE_SOURCE_DIR}/third_party/stb)
+target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
 
 add_executable(emulocke
     src/main.cpp
@@ -111,7 +164,11 @@ add_executable(emulocke
     src/ui/Shell.cpp
     src/ui/Home.cpp
     src/ui/NewRunModal.cpp
-    src/ui/LoadRunModal.cpp
+    src/ui/NewRunOptions.cpp
+    src/ui/PresetPicker.cpp
+    src/ui/GamePicker.cpp
+    src/ui/GameStrip.cpp
+    src/ui/GameArtGpu.cpp
     src/ui/LoadingRunModal.cpp
     src/ui/RunList.cpp
     src/ui/Suite.cpp
@@ -123,6 +180,11 @@ add_executable(emulocke
     src/ui/FieldLog.cpp
     src/ui/MenuBar.cpp
     src/ui/HelpPopups.cpp
+    src/ui/RunStrip.cpp
+    src/ui/RunStripDraw.cpp
+    src/ui/IconAction.cpp
+    src/ui/PngCache.cpp
+    src/ui/MediaFetch.cpp
     src/emu/Paths.cpp
     src/emu/FileBytes.cpp
     src/emu/Input.cpp
@@ -137,8 +199,11 @@ add_executable(emulocke
     src/emu/NdsPlatformSave.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
+    src/run/CatalogFormat.cpp
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
+    src/run/PatchBps.cpp
+    src/run/PatchXdelta.cpp
     src/run/RomLibrary.cpp
     src/run/RomLibraryEnsure.cpp
     src/run/RunLabel.cpp
@@ -146,10 +211,11 @@ add_executable(emulocke
     src/run/RunMetaWrite.cpp
     src/run/RunStore.cpp
     src/run/RunStoreAttempts.cpp
+    src/run/SavePeek.cpp
     src/run/TitlePlay.cpp)
 
 target_include_directories(emulocke PRIVATE src)
-target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_tracker core mgba imgui SDL3::SDL3)
+target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_tracker emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
 target_compile_definitions(emulocke PRIVATE SDL_MAIN_HANDLED)
 get_target_property(MGBA_COMPILE_DEFS mgba COMPILE_DEFINITIONS)
 if(MGBA_COMPILE_DEFS)
@@ -172,22 +238,6 @@ if(WIN32)
     set_source_files_properties(assets/icons/emulocke.rc PROPERTIES
         INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/assets/icons")
 endif()
-
-find_package(CURL REQUIRED)
-add_library(emulocke_sprites STATIC
-    src/poke/SpriteIndex.cpp
-    src/poke/SpriteUrls.cpp
-    src/poke/HttpGet.cpp
-    src/poke/SpriteCache.cpp
-    src/cart/GameIndex.cpp
-    src/cart/GameArtPng.cpp
-    src/cart/RgbaFit.cpp
-    src/cart/GameArtCanvas.cpp
-    src/cart/GameArtPlate.cpp
-    src/cart/GameArtCache.cpp)
-target_include_directories(emulocke_sprites PUBLIC src PRIVATE ${CMAKE_SOURCE_DIR}/third_party/stb)
-target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
-target_link_libraries(emulocke PRIVATE emulocke_sprites)
 
 add_executable(emulocke-sprite-check
     src/test/sprite_check.cpp
@@ -231,7 +281,14 @@ endif()
 add_executable(emulocke-adapter-check
     src/test/adapter_check.cpp
     src/test/gen3_codec_check.cpp
-    src/test/frlg_adapter_check.cpp)
+    src/test/frlg_adapter_check.cpp
+    src/test/rse_adapter_check.cpp
+    src/test/gen4_adapter_check.cpp
+    src/test/gen5_adapter_check.cpp
+    src/test/SnapshotContract.cpp
+    src/test/snapshot_fixtures.cpp
+    src/test/snapshot_contract_check.cpp
+    src/test/local_sav_check.cpp)
 target_include_directories(emulocke-adapter-check PRIVATE src)
 target_link_libraries(emulocke-adapter-check PRIVATE emulocke_adapter)
 
@@ -256,13 +313,43 @@ if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-frlg-live-check PRIVATE dl pthread)
 endif()
 
+add_executable(emulocke-boot-check EXCLUDE_FROM_ALL
+    src/test/boot_roms_check.cpp
+    src/emu/GbaSession.cpp
+    src/emu/NdsSession.cpp
+    src/emu/NdsPlatformFiles.cpp
+    src/emu/NdsPlatformSync.cpp
+    src/emu/NdsPlatformStubs.cpp
+    src/emu/NdsPlatformDynlib.cpp
+    src/emu/NdsPlatformSave.cpp
+    src/emu/FileBytes.cpp
+    src/emu/AudioOutput.cpp
+    src/emu/Paths.cpp
+    src/run/Catalog.cpp
+    src/run/CatalogLookup.cpp
+    src/run/PatchApply.cpp
+    src/run/PatchBps.cpp
+    src/run/PatchXdelta.cpp)
+target_include_directories(emulocke-boot-check PRIVATE src)
+target_compile_definitions(emulocke-boot-check PRIVATE SDL_MAIN_HANDLED)
+target_link_libraries(emulocke-boot-check PRIVATE emulocke_adapter core mgba xdelta3 SDL3::SDL3)
+if(MGBA_COMPILE_DEFS)
+    target_compile_definitions(emulocke-boot-check PRIVATE ${MGBA_COMPILE_DEFS})
+endif()
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-boot-check PRIVATE dl pthread)
+endif()
+
 add_executable(emulocke-run-check
     src/test/run_check.cpp
     src/emu/FileBytes.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
+    src/run/CatalogFormat.cpp
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
+    src/run/PatchBps.cpp
+    src/run/PatchXdelta.cpp
     src/run/RomLibrary.cpp
     src/run/RomLibraryEnsure.cpp
     src/run/RunLabel.cpp
@@ -270,9 +357,11 @@ add_executable(emulocke-run-check
     src/run/RunMetaWrite.cpp
     src/run/RunStore.cpp
     src/run/RunStoreAttempts.cpp
-    src/run/TitlePlay.cpp)
+    src/run/TitlePlay.cpp
+    src/test/patch_format_check.cpp
+    src/test/local_patch_check.cpp)
 target_include_directories(emulocke-run-check PRIVATE src)
-target_link_libraries(emulocke-run-check PRIVATE mgba)
+target_link_libraries(emulocke-run-check PRIVATE mgba xdelta3)
 if(MGBA_COMPILE_DEFS)
     target_compile_definitions(emulocke-run-check PRIVATE ${MGBA_COMPILE_DEFS})
 endif()

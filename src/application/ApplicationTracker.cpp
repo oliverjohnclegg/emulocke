@@ -8,6 +8,9 @@
 #include "tracker/frlg/Frlg.hpp"
 #include "tracker/Log.hpp"
 #include "ui/BoxSprites.hpp"
+#include "ui/MediaFetch.hpp"
+#include "ui/PngCache.hpp"
+#include "run/SavePeek.hpp"
 
 namespace emulocke {
 

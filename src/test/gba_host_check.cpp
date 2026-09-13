@@ -77,6 +77,7 @@ std::vector<uint8_t> makeTestRom() {
     rom[0xB2] = 0x96;
     const char title[] = "EMUCHECK";
     std::memcpy(rom.data() + 0xA0, title, sizeof(title) - 1);
+    std::memcpy(rom.data() + 0xAC, "BPRE", 4);
 
     size_t p = 0xC0;
     auto emit = [&](uint32_t inst) {
@@ -188,6 +189,31 @@ int main(int argc, char** argv) {
     if (argc > 1) {
         writePpm(argv[1], fb);
     }
+
+    const std::filesystem::path persistSav =
+        std::filesystem::temp_directory_path() / "emulocke-gba-persist.sav";
+    std::vector<uint8_t> persist(0x20000, 0xA5);
+    persist[0x10] = 0x3C;
+    if (!emulocke::writeWholeFile(persistSav.string(), persist.data(), static_cast<uint32_t>(persist.size()))) {
+        std::fprintf(stderr, "failed to write persist sav\n");
+        return 1;
+    }
+    {
+        auto persistSession = emulocke::GbaSession::open(romPath.string(), persistSav.string());
+        if (!persistSession) {
+            std::fprintf(stderr, "failed to load persist ROM\n");
+            return 1;
+        }
+        for (int i = 0; i < 8; ++i) {
+            persistSession->runFrame();
+        }
+    }
+    const auto after = emulocke::readWholeFile(persistSav.string());
+    if (after.size() < 0x11 || after[0x10] != 0x3C) {
+        std::fprintf(stderr, "gba save was wiped on boot\n");
+        return 1;
+    }
+
     std::printf("gba host check ok\n");
     return 0;
 }

@@ -28,14 +28,20 @@ const uint8_t* sectorBytes(std::span<const uint8_t> sav, int physical) {
     return sav.data() + static_cast<std::size_t>(physical) * kSectorSize;
 }
 
-bool validSector(const uint8_t* sec, uint16_t expectId) {
-    if (load32(sec + 0xFF8) != kSignature) {
-        return false;
-    }
-    if (load16(sec + 0xFF4) != expectId) {
-        return false;
-    }
+bool sectorFooterOk(const uint8_t* sec, uint16_t expectId) {
+    const uint32_t sig = load32(sec + 0xFF8);
+    return sig != 0 && sig != 0xFFFFFFFFu && load16(sec + 0xFF4) == expectId;
+}
+
+bool sectorChecksumOk(const uint8_t* sec, uint16_t expectId) {
     return load16(sec + 0xFF6) == sectorChecksum(sec, kChunkSize[expectId]);
+}
+
+bool validSector(const uint8_t* sec, uint16_t expectId, bool needChecksum) {
+    if (!sectorFooterOk(sec, expectId)) {
+        return false;
+    }
+    return !needChecksum || sectorChecksumOk(sec, expectId);
 }
 
 void chunkDest(FrlgSaveBlocks& blocks, int id, uint8_t*& dest, uint16_t& size) {
@@ -49,12 +55,7 @@ void chunkDest(FrlgSaveBlocks& blocks, int id, uint8_t*& dest, uint16_t& size) {
     }
 }
 
-}  // namespace
-
-bool readFrlgSave(std::span<const uint8_t> sav, FrlgSaveBlocks& out) {
-    if (sav.size() < kFrlgSaveSize) {
-        return false;
-    }
+int pickFrlgSlot(std::span<const uint8_t> sav, bool needChecksum) {
     int bestSlot = -1;
     uint32_t bestCounter = 0;
     for (int slot = 0; slot < 2; ++slot) {
@@ -64,7 +65,7 @@ bool readFrlgSave(std::span<const uint8_t> sav, FrlgSaveBlocks& out) {
             bool found = false;
             for (int i = 0; i < kPerSlot; ++i) {
                 const uint8_t* sec = sectorBytes(sav, slot * kPerSlot + i);
-                if (!validSector(sec, static_cast<uint16_t>(id))) {
+                if (!validSector(sec, static_cast<uint16_t>(id), needChecksum)) {
                     continue;
                 }
                 counter = load32(sec + 0xFFC);
@@ -81,6 +82,19 @@ bool readFrlgSave(std::span<const uint8_t> sav, FrlgSaveBlocks& out) {
             bestCounter = counter;
         }
     }
+    return bestSlot;
+}
+
+}  // namespace
+
+bool readFrlgSave(std::span<const uint8_t> sav, FrlgSaveBlocks& out) {
+    if (sav.size() < kFrlgSaveSize) {
+        return false;
+    }
+    int bestSlot = pickFrlgSlot(sav, true);
+    if (bestSlot < 0) {
+        bestSlot = pickFrlgSlot(sav, false);
+    }
     if (bestSlot < 0) {
         return false;
     }
@@ -88,7 +102,7 @@ bool readFrlgSave(std::span<const uint8_t> sav, FrlgSaveBlocks& out) {
     for (int i = 0; i < kPerSlot; ++i) {
         const uint8_t* sec = sectorBytes(sav, bestSlot * kPerSlot + i);
         const uint16_t id = load16(sec + 0xFF4);
-        if (id >= kPerSlot || !validSector(sec, id)) {
+        if (id >= kPerSlot || !sectorFooterOk(sec, id)) {
             continue;
         }
         uint8_t* dest = nullptr;

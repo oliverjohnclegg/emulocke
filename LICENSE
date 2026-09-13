@@ -22,6 +22,8 @@ GPL. See third_party/mgba/LICENSE.
 
 Dear ImGui is licensed under the MIT License. See third_party/imgui/LICENSE.txt.
 
+xdelta3 is licensed under the Apache License 2.0. See third_party/xdelta3/LICENSE.
+
 SDL3 is licensed under the zlib license.
 
 Bundled UI fonts retain their own OFL licenses in assets/fonts/.

@@ -15,6 +15,8 @@ enum class SnapshotOrigin { None, Save, Live };
 
 enum class MonGender : uint8_t { Male, Female, Unknown };
 
+inline constexpr int kMaxBoxes = 24;
+
 struct Mon {
     uint16_t species{};
     uint16_t heldItem{};
@@ -48,16 +50,17 @@ struct Mon {
     uint32_t status{};
     uint16_t moves[4]{};
     uint8_t pp[4]{};
-    uint8_t metLocation{};
+    uint16_t metLocation{};
     uint8_t metLevel{};
     uint8_t metGame{};
     uint8_t ball{};
-    char nickname[12]{};
-    char otName[8]{};
+    char speciesName[16]{};
+    char nickname[16]{};
+    char otName[12]{};
 };
 
 struct Trainer {
-    char name[8]{};
+    char name[12]{};
     uint8_t gender{};
     uint32_t trainerId{};
     uint16_t playHours{};
@@ -77,13 +80,18 @@ struct Party {
 };
 
 struct PcBox {
-    char name[10]{};
+    char name[16]{};
     std::array<Mon, 30> mons{};
 };
 
 struct Boxes {
     uint8_t current{};
-    std::array<PcBox, 14> boxes{};
+    std::array<PcBox, kMaxBoxes> boxes{};
+};
+
+struct Gyms {
+    uint8_t earned{};
+    uint8_t slots{};
 };
 
 struct Progress {
@@ -109,6 +117,7 @@ struct GameSnapshot {
     Boxes boxes{};
     Overworld overworld{};
     Progress progress{};
+    Gyms gyms{};
 };
 
 }

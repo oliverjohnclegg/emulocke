@@ -1,8 +1,12 @@
 #include "application/Application.hpp"
 
 #include "adapter/GameAdapter.hpp"
+#include "emu/FileBytes.hpp"
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
+#include "run/SavePeek.hpp"
+#include "ui/MediaFetch.hpp"
+#include "ui/PngCache.hpp"
 
 #include <SDL3/SDL.h>
 #include <cctype>
@@ -72,6 +76,12 @@ void Application::emuLoop() {
             queuedAfter = audio_.queuedBytes();
             if (adapter_ && session_->liveMemory()) {
                 snapshot_ = adapter_->readLive(*session_->liveMemory());
+                if ((!snapshot_.ok || snapshot_.party.count == 0) && !activeRunId_.empty()) {
+                    const auto sav = readWholeFile(runStore_->batteryPath(activeRunId_).string());
+                    if (!sav.empty()) {
+                        snapshot_ = adapter_->readSave(sav);
+                    }
+                }
             }
         }
         const Uint64 frameNs = 16742706;
@@ -88,7 +98,7 @@ void Application::bootRun(const Run& run) {
     stopEmuThread();
     harvestPlayOrigin();
     commitPlay();
-    auto rom = romLibrary_->ensurePlayable(run.catalogUuid);
+    auto rom = romLibrary_->ensurePlayable(run.catalogUuid, run.patchOption);
     std::unique_ptr<EmuSession> next;
     if (rom) {
         const std::string ext = lowerExt(rom->string());
@@ -182,6 +192,13 @@ void Application::shutdown() {
     commitPlay();
     persistPrefs();
     session_.reset();
+    if (gameArt_) {
+        gameArt_->destroy();
+        gameArt_.reset();
+    }
+    pngs_.reset();
+    media_.reset();
+    savePeek_.reset();
     audio_.close();
     host_.destroy();
     SDL_Quit();

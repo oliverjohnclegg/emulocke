@@ -20,8 +20,13 @@ std::filesystem::path RomLibrary::derivedDir() const {
     return romsRoot_ / "derived";
 }
 
-std::filesystem::path RomLibrary::storedPath(const CatalogTitle& title) const {
-    const std::string name = std::string(title.uuid) + title.ext;
+std::filesystem::path RomLibrary::storedPath(const CatalogTitle& title, std::string_view optionId) const {
+    std::string name = title.uuid;
+    if (title.kind == TitleKind::Hack && title.optionCount > 0) {
+        name += "-";
+        name += catalogOptionId(title, optionId);
+    }
+    name += title.ext;
     if (title.kind == TitleKind::Hack) {
         return derivedDir() / name;
     }
@@ -35,6 +40,13 @@ bool RomLibrary::has(const std::string& uuid) const {
     }
     std::error_code ec;
     return std::filesystem::is_regular_file(storedPath(*title), ec);
+}
+
+bool RomLibrary::ready(const CatalogTitle& title) const {
+    if (title.kind == TitleKind::Baseline) {
+        return has(title.uuid);
+    }
+    return title.prerequisiteUuid && title.prerequisiteUuid[0] && has(title.prerequisiteUuid);
 }
 
 bool RomLibrary::writeBaseline(const CatalogTitle& title, const std::vector<uint8_t>& bytes) {

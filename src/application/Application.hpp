@@ -12,6 +12,7 @@
 #include "run/RunStore.hpp"
 #include "run/TitlePlay.hpp"
 #include "tracker/Log.hpp"
+#include "ui/GameArtGpu.hpp"
 
 #include <atomic>
 #include <cstdint>
@@ -27,6 +28,9 @@ namespace emulocke {
 
 class BoxSprites;
 class GameAdapter;
+class MediaFetch;
+class PngCache;
+class SavePeek;
 class SpriteCache;
 struct TrackerAtlas;
 
@@ -40,9 +44,8 @@ public:
     void requestNewRun();
     void dismissNewRun();
     void confirmNewRun();
-    void requestLoadRun();
-    void dismissLoadRun();
     void requestImportGame();
+    void requestImportFor(std::string uuid);
     void queueImport(std::string path);
     void queueLoadRun(std::string id);
     void queueNewAttempt(std::string sourceId);
@@ -66,10 +69,10 @@ public:
     ScreenTexture& screen(int i) { return screens_[i]; }
     ImFont* displayFont() const { return displayFont_; }
     ImFont* bodyFont() const { return bodyFont_; }
+    GameArtGpu& gameArt() { return *gameArt_; }
     const std::string& status() const { return status_; }
     bool copySnapshot(GameSnapshot& out) const;
     bool showNewRun() const { return showNewRun_; }
-    bool showLoadRun() const { return showLoadRun_; }
     NewRunDraft& newRunDraft() { return newRunDraft_; }
     RomLibrary& romLibrary() { return *romLibrary_; }
     const RomLibrary& romLibrary() const { return *romLibrary_; }
@@ -86,6 +89,9 @@ public:
     void persistTracker();
     void noteLoadingPainted();
     bool showLoadingRun() const { return showLoadingRun_; }
+    MediaFetch& media() { return *media_; }
+    PngCache& pngs() { return *pngs_; }
+    SavePeek& savePeek() { return *savePeek_; }
 
 private:
     void startEmuThread();
@@ -95,6 +101,7 @@ private:
     void applyPendingHost();
     void drainPending();
     void importPath(const std::string& path);
+    void showDumpPicker();
     void createRunFromDraft();
     void startNewAttempt(const std::string& sourceId);
     void loadRun(const std::string& id);
@@ -115,6 +122,10 @@ private:
     std::unique_ptr<EmuSession> session_;
     std::unique_ptr<RomLibrary> romLibrary_;
     std::unique_ptr<RunStore> runStore_;
+    std::unique_ptr<GameArtGpu> gameArt_;
+    std::unique_ptr<MediaFetch> media_;
+    std::unique_ptr<PngCache> pngs_;
+    std::unique_ptr<SavePeek> savePeek_;
     std::unique_ptr<TitlePlay> titlePlay_;
     const GameAdapter* adapter_{};
     GameSnapshot snapshot_{};
@@ -129,6 +140,7 @@ private:
     ImFont* displayFont_{};
     ImFont* bodyFont_{};
     std::string pendingImport_;
+    std::string importKeepUuid_;
     std::string status_;
     std::string activeRunId_;
     std::string pendingLoadId_;
@@ -138,7 +150,6 @@ private:
     std::atomic<uint64_t> playOriginNs_{0};
     uint64_t lastPlayCommitNs_{0};
     bool showNewRun_{false};
-    bool showLoadRun_{false};
     bool showLoadingRun_{false};
     bool loadingPainted_{false};
     bool previewTracker_{false};
@@ -146,8 +157,8 @@ private:
     mutable bool uiSnapOk_{false};
     mutable const GameAdapter* uiAdapter_{};
     bool pendingNewRun_{false};
-    bool pendingLoadRun_{false};
     bool pendingCreate_{false};
+    bool pendingDumpPicker_{false};
     std::atomic<uint32_t> buttons_{0};
     std::atomic<bool> touchDown_{false};
     std::atomic<uint16_t> touchX_{0};

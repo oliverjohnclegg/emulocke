@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <optional>
 #include <vector>
 
 namespace emulocke {
@@ -184,6 +185,14 @@ std::filesystem::path SpriteCache::get(std::string_view slug, SpriteKind kind) {
         misses_.insert(key);
     }
     return fallbackOrFront(slug, kind);
+}
+
+std::optional<std::filesystem::path> SpriteCache::ifReady(std::string_view slug, SpriteKind kind) const {
+    const auto cached = peek(slug, kind);
+    if (cached.empty()) {
+        return std::nullopt;
+    }
+    return cached;
 }
 
 }  // namespace emulocke

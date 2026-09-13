@@ -7,6 +7,18 @@
 #include <cstring>
 
 namespace emulocke {
+namespace {
+
+void pullData(const uint8_t* data, uint32_t shufflePid, DecryptedMon& out) {
+    uint8_t g[12], a[12], e[12], m[12];
+    unshuffleBoxData(data, shufflePid, g, a, e, m);
+    pullGrowth(g, out);
+    pullAttacks(a, out);
+    pullEvs(e, out);
+    pullMisc(m, out);
+}
+
+}  // namespace
 
 bool decryptBoxMon(std::span<const uint8_t> raw, DecryptedMon& out) {
     if (raw.size() < kBoxMonSize) {
@@ -14,16 +26,18 @@ bool decryptBoxMon(std::span<const uint8_t> raw, DecryptedMon& out) {
     }
     out = DecryptedMon{};
     pullHeader(raw.data(), out);
-    uint8_t data[48];
-    std::memcpy(data, raw.data() + 0x20, 48);
+    uint8_t plain[48], data[48];
+    std::memcpy(plain, raw.data() + 0x20, 48);
+    std::memcpy(data, plain, 48);
     xorBoxData(data, out.personality, out.otId);
-    out.checksumOk = load16(raw.data() + 0x1C) == boxDataChecksum(data);
-    uint8_t g[12], a[12], e[12], m[12];
-    unshuffleBoxData(data, out.personality, g, a, e, m);
-    pullGrowth(g, out);
-    pullAttacks(a, out);
-    pullEvs(e, out);
-    pullMisc(m, out);
+    const uint16_t stored = load16(raw.data() + 0x1C);
+    if (stored == boxDataChecksum(data)) {
+        pullData(data, out.personality, out);
+        out.checksumOk = true;
+        return out.species != 0;
+    }
+    pullData(plain, 0, out);
+    out.checksumOk = stored == 0 || stored == boxDataChecksum(plain);
     return out.species != 0 && out.checksumOk;
 }
 
