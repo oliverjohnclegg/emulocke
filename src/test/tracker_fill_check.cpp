@@ -9,6 +9,7 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <span>
 #include <string>
 
 void testTrackerFill() {
@@ -104,4 +105,46 @@ void testTrackerFill() {
     REQUIRE(adapter != nullptr);
     REQUIRE(emulocke::matchSpeciesName(*adapter, "Pikachu") == 25);
     REQUIRE(emulocke::matchSpeciesName(*adapter, "Mr. Mime") == 122);
+
+    const emulocke::TrackerAtlas* em = emulocke::trackerAtlas(emulocke::kEmeraldUsUuid, "");
+    REQUIRE(em != nullptr);
+    emulocke::TrackerLog treecko;
+    emulocke::GameSnapshot hoenn;
+    hoenn.ok = true;
+    hoenn.party.count = 1;
+    hoenn.party.mons[0].species = 252;
+    hoenn.party.mons[0].personality = 3;
+    emulocke::applyTrackerFill(treecko, *em, hoenn);
+    REQUIRE(treecko.caught("starter").species == 252);
+
+    emulocke::TrackerLog internal;
+    hoenn.party.mons[0].species = 277;
+    emulocke::applyTrackerFill(internal, *em, hoenn);
+    REQUIRE(internal.caught("starter").species == 252);
+
+    hoenn.gyms.earned = 1;
+    emulocke::applyTrackerFill(internal, *em, hoenn);
+    REQUIRE(internal.defeated("gym-1"));
+
+    uint16_t wideMet[] = {400};
+    emulocke::TrackerStop far{"far", emulocke::TrackerStopKind::Encounter, "Far", "", emulocke::BossKind::None,
+                               emulocke::CatchKind::Met, wideMet, 1, nullptr, 0, 0, 0, 0};
+    const std::span<const emulocke::TrackerStop> farStops{&far, 1};
+    emulocke::TrackerAtlas wide{"t", farStops, {}};
+    emulocke::TrackerLog farLog;
+    emulocke::GameSnapshot distant;
+    distant.ok = true;
+    distant.party.count = 1;
+    distant.party.mons[0].species = 16;
+    distant.party.mons[0].personality = 4;
+    distant.party.mons[0].metLocation = 400;
+    emulocke::applyTrackerFill(farLog, wide, distant);
+    REQUIRE(farLog.caught("far").species == 16);
+
+    emulocke::Cartridge ruby;
+    std::memcpy(ruby.code, "AXVE", 4);
+    ruby.revision = 2;
+    const emulocke::GameAdapter* rse = emulocke::adapterFor(ruby);
+    REQUIRE(rse != nullptr);
+    REQUIRE(emulocke::matchSpeciesName(*rse, "Treecko") == 252);
 }
