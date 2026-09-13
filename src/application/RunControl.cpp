@@ -80,6 +80,10 @@ void Application::drainPending() {
         pendingLoadRun_ = false;
         showLoadRun_ = true;
     }
+    if (pendingDumpPicker_) {
+        pendingDumpPicker_ = false;
+        showDumpPicker();
+    }
     if (!pendingImport_.empty()) {
         const std::string path = std::move(pendingImport_);
         pendingImport_.clear();

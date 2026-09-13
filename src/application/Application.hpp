@@ -113,6 +113,7 @@ private:
     bool pendingNewRun_{false};
     bool pendingLoadRun_{false};
     bool pendingCreate_{false};
+    bool pendingDumpPicker_{false};
     std::atomic<uint32_t> buttons_{0};
     std::atomic<bool> touchDown_{false};
     std::atomic<uint16_t> touchX_{0};

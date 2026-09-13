@@ -71,7 +71,7 @@ void Application::requestImportGame() {
 
 void Application::requestImportFor(std::string uuid) {
     importKeepUuid_ = std::move(uuid);
-    showDumpPicker();
+    pendingDumpPicker_ = true;
 }
 
 void Application::setTouch(bool down, uint16_t x, uint16_t y) {
