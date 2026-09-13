@@ -60,6 +60,8 @@ Prefs Prefs::load() {
             prefs.speedUp = parseInt(value);
         } else if (key == "speed_up_hold") {
             prefs.speedUpHold = parseFlag(value);
+        } else if (key == "bottom_screen") {
+            prefs.bottomScreen = parseFlag(value);
         }
     }
     prefs.scale = std::clamp(prefs.scale, 0, 4);
@@ -85,6 +87,7 @@ void Prefs::save() const {
     out << "volume=" << volume << '\n';
     out << "speed_up=" << speedUp << '\n';
     out << "speed_up_hold=" << (speedUpHold ? 1 : 0) << '\n';
+    out << "bottom_screen=" << (bottomScreen ? 1 : 0) << '\n';
 }
 
 }
