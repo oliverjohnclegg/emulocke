@@ -16,6 +16,7 @@ struct Run {
     std::string createdAt;
     std::string lastPlayedAt;
     uint64_t playMs = 0;
+    std::string difficulty;
     std::string patchOption;
 
     const std::string& lineageKey() const {

@@ -2,6 +2,7 @@
 
 #include "adapter/frlg/FrlgLayout.hpp"
 #include "adapter/frlg/FrlgNames.hpp"
+#include "adapter/frlg/FrlgSave.hpp"
 #include "adapter/gen3/BoxMon.hpp"
 #include "adapter/gen3/Codec.hpp"
 
@@ -69,10 +70,17 @@ void fillSnapshotFromFrlgLive(const LiveMemory& mem, GameSnapshot& snap) {
         std::snprintf(snap.overworld.mapName, sizeof(snap.overworld.mapName), "%s",
                       frlgMapName(loc[0], loc[1], scratch, sizeof(scratch)));
     }
-    uint8_t badges = 0;
-    if (copy(mem, sb1 + kFrlgBadgeByteOff, {&badges, 1})) {
+
+    std::array<uint8_t, kFrlgSaveBlock1Size> block1{};
+    if (copy(mem, sb1, block1)) {
+        std::array<uint8_t, kFrlgStorageSize> pc{};
+        const uint32_t storage = livePtr(mem, kFrlgStoragePtr, kFrlgStorage, kFrlgStorageSize);
+        if (copy(mem, storage, pc)) {
+            fillFrlgBoxes(pc, snap.boxes);
+        }
+        fillFrlgProgress(block1.data(), snap);
         snap.gyms.slots = kFrlgBadgeCount;
-        snap.gyms.earned = badges;
+        snap.gyms.earned = block1[kFrlgBadgeByteOff];
     }
     snap.ok = true;
 }

@@ -67,16 +67,20 @@ void drawShell(Application& app) {
     const ImVec2 avail = ImGui::GetContentRegionAvail();
     const float insetX = kConsolePad - ImGui::GetStyle().WindowPadding.x;
     const float insetY = kConsolePad - ImGui::GetStyle().WindowPadding.y;
+    const bool showRight = app.prefs().rightPane;
+    const float rightSpan = showRight ? kRightPaneSpan : 0.f;
     if (!session) {
         const ImVec2 cursor = ImGui::GetCursorPos();
         ImGui::SetCursorPos(ImVec2(cursor.x + insetX, cursor.y + insetY));
-        const float leftW = avail.x - insetX - kSuiteWidth - kConsolePad - insetX;
+        const float leftW = avail.x - insetX - rightSpan - insetX;
         ImGui::BeginChild("left-home", ImVec2(leftW, avail.y - insetY - insetY), ImGuiChildFlags_None,
             ImGuiWindowFlags_NoScrollbar);
         drawHome(app);
         ImGui::EndChild();
-        ImGui::SameLine(0.f, kConsolePad);
-        drawRightSuite(app, insetX, insetY);
+        if (showRight) {
+            ImGui::SameLine(0.f, kConsolePad);
+            drawRightSuite(app, insetX, insetY);
+        }
         return;
     }
     const bool nds = session->kind() == ConsoleKind::Nds;
@@ -84,7 +88,7 @@ void drawShell(Application& app) {
     const int nativeH = session->screenHeight(0);
     const int screens = nds ? 2 : 1;
     const float gap = nds ? kScreenGap : 0.f;
-    const float consoleAvailW = avail.x - insetX - kSuiteWidth - kConsolePad - insetX;
+    const float consoleAvailW = avail.x - insetX - rightSpan - insetX;
     const int fit = std::max(1, std::min(static_cast<int>(consoleAvailW / static_cast<float>(nativeW)),
         static_cast<int>((avail.y - insetY - gap) / static_cast<float>(nativeH * screens))));
     const int wanted = app.screenScale();
@@ -101,8 +105,10 @@ void drawShell(Application& app) {
     }
     ImGui::PopStyleVar();
     ImGui::EndChild();
-    ImGui::SameLine(0.f, kConsolePad);
-    drawRightSuite(app, insetX, insetY);
+    if (showRight) {
+        ImGui::SameLine(0.f, kConsolePad);
+        drawRightSuite(app, insetX, insetY);
+    }
 }
 
 }

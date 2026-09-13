@@ -96,6 +96,23 @@ void Host::restoreDefaultSize() {
     int w = 0;
     int h = 0;
     defaultWindowSize(w, h);
+    setWindowSize(w, h);
+}
+
+void Host::adjustWidth(int delta) {
+    if (!window_ || fullscreen() || delta == 0) {
+        return;
+    }
+    int w = 0;
+    int h = 0;
+    SDL_GetWindowSize(window_, &w, &h);
+    setWindowSize(std::max(1, w + delta), h);
+}
+
+void Host::setWindowSize(int w, int h) {
+    if (!window_ || w <= 0 || h <= 0) {
+        return;
+    }
     SDL_SetWindowSize(window_, w, h);
 }
 
