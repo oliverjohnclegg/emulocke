@@ -51,12 +51,13 @@ void drawTracker(Application& app) {
     sprites->beginFrame();
     GameSnapshot snap;
     uint16_t starter = 0;
+    TrackerLog& log = app.trackerLog();
     if (app.copySnapshot(snap)) {
         app.syncTracker(snap);
         starter = snap.progress.starterSpecies;
+    } else if (app.previewTracker()) {
+        starter = log.caught("starter").species;
     }
-    TrackerLog& log = app.trackerLog();
-    const GameAdapter* adapter = app.adapter();
     if (gEdit >= static_cast<int>(atlas->stops.size())) {
         gEdit = -1;
         gFocus = -1;
@@ -70,8 +71,8 @@ void drawTracker(Application& app) {
             if (stop.kind == TrackerStopKind::Encounter) {
                 const Caught row = log.caught(stop.id);
                 SpeciesRef ref;
-                if (adapter && row.species != 0) {
-                    ref = adapter->species(row.species);
+                if (row.species != 0) {
+                    ref = app.species(row.species);
                 }
                 bool commit = false;
                 bool startEdit = false;
@@ -90,7 +91,7 @@ void drawTracker(Application& app) {
                     }
                 }
                 if (commit) {
-                    if (adapter) {
+                    if (const GameAdapter* adapter = app.adapter()) {
                         const uint16_t id = matchSpeciesName(*adapter, gEditBuf);
                         if (id != 0) {
                             log.setCaught(stop.id, id, 0);

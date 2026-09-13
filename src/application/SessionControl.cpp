@@ -143,6 +143,9 @@ void Application::closeRun() {
     trackerLog_ = {};
     lastPlayCommitNs_ = 0;
     status_ = "No cart.";
+    if (previewTracker_) {
+        seedPreviewTracker();
+    }
 }
 
 bool Application::copySnapshot(GameSnapshot& out) const {

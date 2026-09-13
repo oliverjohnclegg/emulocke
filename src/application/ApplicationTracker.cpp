@@ -1,9 +1,11 @@
 #include "application/Application.hpp"
 
 #include "adapter/GameAdapter.hpp"
+#include "adapter/frlg/FrlgNames.hpp"
 #include "emu/Paths.hpp"
 #include "poke/Sprites.hpp"
 #include "tracker/Atlas.hpp"
+#include "tracker/frlg/Frlg.hpp"
 #include "tracker/Log.hpp"
 #include "ui/BoxSprites.hpp"
 
@@ -27,15 +29,45 @@ const GameAdapter* Application::adapter() const {
     return uiAdapter_;
 }
 
+SpeciesRef Application::species(uint16_t id) const {
+    if (const GameAdapter* live = adapter()) {
+        return live->species(id);
+    }
+    if (previewTracker_) {
+        return frlgSpeciesRef(id);
+    }
+    return {};
+}
+
 const TrackerAtlas* Application::trackerAtlas() const {
-    if (activeRunId_.empty() || !runStore_) {
-        return nullptr;
+    if (!activeRunId_.empty() && runStore_) {
+        const Run* run = runStore_->find(activeRunId_);
+        if (run) {
+            return emulocke::trackerAtlas(run->catalogUuid, run->difficulty);
+        }
     }
-    const Run* run = runStore_->find(activeRunId_);
-    if (!run) {
-        return nullptr;
+    if (previewTracker_) {
+        return &frlgAtlas();
     }
-    return emulocke::trackerAtlas(run->catalogUuid, run->difficulty);
+    return nullptr;
+}
+
+void Application::seedPreviewTracker() {
+    trackerLog_ = {};
+    trackerLog_.setCaught("starter", 1, 1);
+    trackerLog_.setCaught("route-1", 16, 1);
+    trackerLog_.setCaught("route-2", 25, 1);
+    trackerLog_.setCaught("viridian-forest", 10, 1);
+    trackerLog_.setCaught("route-3", 19, 1);
+    trackerLog_.setCaught("mt-moon", 41, 1);
+    trackerLog_.setCaught("route-4", 129, 1);
+    trackerLog_.setCaught("digletts-cave", 50, 1);
+    trackerLog_.setCaught("celadon-city", 122, 1);
+    trackerLog_.setCaught("power-plant", 145, 1);
+    trackerLog_.setDefeated("rival-1", true);
+    trackerLog_.setDefeated("brock", true);
+    trackerLog_.setDefeated("misty", true);
+    trackerLog_.clearDirty();
 }
 
 void Application::syncTracker(const GameSnapshot& snap) {

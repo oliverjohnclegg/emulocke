@@ -1,6 +1,7 @@
 #pragma once
 
 #include "adapter/Snapshot.hpp"
+#include "adapter/Species.hpp"
 #include "application/Host.hpp"
 #include "emu/AudioOutput.hpp"
 #include "emu/EmuSession.hpp"
@@ -76,9 +77,11 @@ public:
     const RunStore& runStore() const { return *runStore_; }
     const std::string& activeRunId() const { return activeRunId_; }
     const GameAdapter* adapter() const;
+    SpeciesRef species(uint16_t id) const;
     const TrackerAtlas* trackerAtlas() const;
     TrackerLog& trackerLog() { return trackerLog_; }
     BoxSprites* boxSprites() { return boxSprites_.get(); }
+    bool previewTracker() const { return previewTracker_; }
     void syncTracker(const GameSnapshot& snap);
     void persistTracker();
     void noteLoadingPainted();
@@ -101,6 +104,7 @@ private:
     void initTracker();
     void loadTrackerLog();
     void destroyTracker();
+    void seedPreviewTracker();
     enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
     Host host_;
     PendingHost pendingHost_{PendingHost::None};
@@ -137,6 +141,7 @@ private:
     bool showLoadRun_{false};
     bool showLoadingRun_{false};
     bool loadingPainted_{false};
+    bool previewTracker_{false};
     mutable GameSnapshot uiSnap_{};
     mutable bool uiSnapOk_{false};
     mutable const GameAdapter* uiAdapter_{};

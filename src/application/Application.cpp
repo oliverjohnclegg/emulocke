@@ -5,6 +5,8 @@
 
 #include <imgui.h>
 #include <SDL3/SDL.h>
+#include <cstring>
+#include <string>
 
 namespace emulocke {
 namespace {
@@ -44,8 +46,19 @@ bool Application::start(int argc, char** argv) {
     runStore_ = std::make_unique<RunStore>(runsRoot());
     runStore_->load();
     titlePlay_ = std::make_unique<TitlePlay>(prefDir() / "playtime.ini");
-    if (argc > 1) {
-        importPath(argv[1]);
+    std::string import;
+    for (int i = 1; i < argc; ++i) {
+        if (std::strcmp(argv[i], "--preview-tracker") == 0) {
+            previewTracker_ = true;
+        } else {
+            import = argv[i];
+        }
+    }
+    if (previewTracker_) {
+        seedPreviewTracker();
+    }
+    if (!import.empty()) {
+        importPath(import);
         if (newRunDraft_.catalogUuid.empty()) {
             status_ = "Need a supported Pokemon dump.";
         } else {
