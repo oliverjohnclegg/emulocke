@@ -31,32 +31,66 @@ const char* statusTag(uint32_t s) {
     return nullptr;
 }
 
-void stageTag(const char* stat, int8_t v) {
-    if (!v) {
-        return;
-    }
-    char b[8];
-    std::snprintf(b, sizeof b, "%s%+d", stat, v);
-    calcStamp(b);
-}
-
 }  // namespace
 
-void drawCalcSideHead(const char* name, const Pokemon& mon) {
-    ImGui::TextUnformatted(name);
-    ImGui::Text("%d/%d", mon.hp, mon.maxHp);
-    if (const char* tag = statusTag(mon.status)) {
-        ImGui::SameLine();
-        calcStamp(tag);
+void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
+    if (right) {
+        calcAlignRight(ImGui::CalcTextSize(name).x);
     }
-    stageTag("ATK", mon.atkStage);
-    stageTag("DEF", mon.defStage);
-    stageTag("SPA", mon.spaStage);
-    stageTag("SPD", mon.spdStage);
-    stageTag("SPE", mon.speStage);
-    if (const char* ab = abilityName(mon.ability)) {
+    ImGui::TextUnformatted(name);
+
+    char hp[16];
+    std::snprintf(hp, sizeof hp, "%d/%d", mon.hp, mon.maxHp);
+    char stages[5][8];
+    int n = 0;
+    auto addStage = [&](const char* stat, int8_t v) {
+        if (!v || n >= 5) {
+            return;
+        }
+        std::snprintf(stages[n], sizeof stages[0], "%s%+d", stat, v);
+        ++n;
+    };
+    addStage("ATK", mon.atkStage);
+    addStage("DEF", mon.defStage);
+    addStage("SPA", mon.spaStage);
+    addStage("SPD", mon.spdStage);
+    addStage("SPE", mon.speStage);
+    const char* status = statusTag(mon.status);
+    const int stamps = (status ? 1 : 0) + n;
+    if (right) {
+        float w = ImGui::CalcTextSize(hp).x;
+        if (stamps) {
+            w += ImGui::GetStyle().ItemSpacing.x;
+            if (status) {
+                w += ImGui::CalcTextSize(status).x + 16.f;
+            }
+            for (int i = 0; i < n; ++i) {
+                w += ImGui::CalcTextSize(stages[i]).x + 16.f;
+            }
+            w -= 8.f;
+        }
+        calcAlignRight(w);
+    }
+    ImGui::TextUnformatted(hp);
+    if (stamps) {
+        ImGui::SameLine();
+    }
+    if (status) {
+        calcStamp(status);
+    }
+    for (int i = 0; i < n; ++i) {
+        calcStamp(stages[i]);
+    }
+    if (stamps) {
         ImGui::NewLine();
-        ImGui::TextDisabled("%s", ab);
+    }
+    if (const char* ab = abilityName(mon.ability)) {
+        char line[40];
+        std::snprintf(line, sizeof line, "AB  %s", ab);
+        if (right) {
+            calcAlignRight(ImGui::CalcTextSize(line).x);
+        }
+        ImGui::TextDisabled("%s", line);
     }
 }
 

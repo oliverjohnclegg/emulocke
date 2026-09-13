@@ -20,4 +20,11 @@ void calcStamp(const char* label) {
     ImGui::SameLine(0, 8.f);
 }
 
+void calcAlignRight(float width) {
+    const float avail = ImGui::GetContentRegionAvail().x;
+    if (avail > width) {
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + avail - width);
+    }
+}
+
 }

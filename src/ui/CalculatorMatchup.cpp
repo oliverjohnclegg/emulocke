@@ -50,7 +50,7 @@ void drawCalcMatchup(Application&, CalcSession& session) {
         ImGui::TableSetupColumn("b", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        drawCalcSideHead(pName, player);
+        drawCalcSideHead(pName, player, false);
         ImGui::TableSetColumnIndex(1);
         ImGui::Dummy(ImVec2(0, 8));
         ImGui::Text("%d", pSpe);
@@ -68,17 +68,19 @@ void drawCalcMatchup(Application&, CalcSession& session) {
             ImGui::TextDisabled("tie");
         }
         ImGui::TableSetColumnIndex(2);
-        drawCalcSideHead(fName, foe);
+        drawCalcSideHead(fName, foe, true);
         ImGui::EndTable();
     }
+    ImGui::Dummy(ImVec2(0, 6));
     int pct[4]{};
     moveUsePct(pack->dmgGen, pack->typeChart, t->aiFlags, foe, player, foeSet->moves, field, pct);
     if (ImGui::BeginTable("calc-mv", 2, ImGuiTableFlags_NoPadInnerX)) {
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        drawCalcMoveCol(pack->dmgGen, pack->typeChart, player, foe, raw.moves, field, nullptr);
+        drawCalcMoveCol(
+            pack->dmgGen, pack->typeChart, player, foe, raw.moves, field, nullptr, false);
         ImGui::TableSetColumnIndex(1);
-        drawCalcMoveCol(pack->dmgGen, pack->typeChart, foe, player, foeSet->moves, field, pct);
+        drawCalcMoveCol(pack->dmgGen, pack->typeChart, foe, player, foeSet->moves, field, pct, true);
         ImGui::EndTable();
     }
 }
