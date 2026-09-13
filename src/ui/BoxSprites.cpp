@@ -42,6 +42,10 @@ BoxSprites::~BoxSprites() {
     }
 }
 
+void BoxSprites::beginFrame() {
+    uploads_ = 0;
+}
+
 SDL_Texture* BoxSprites::loadPath(const std::filesystem::path& path) {
     const auto bytes = readAll(path);
     const auto image = decodePngRgba(bytes);
@@ -68,12 +72,22 @@ SDL_Texture* BoxSprites::get(std::string_view slug) {
     if (it != loaded_.end()) {
         return it->second;
     }
-    SDL_Texture* tex = nullptr;
-    if (cache_) {
-        tex = loadPath(cache_->get(slug, SpriteKind::Box));
+    if (!cache_) {
+        return missing_;
     }
+    const auto path = cache_->peek(slug, SpriteKind::Box);
+    if (path.empty()) {
+        cache_->request(slug, SpriteKind::Box);
+        return missing_;
+    }
+    if (uploads_ >= kUploadBudget) {
+        return missing_;
+    }
+    ++uploads_;
+    SDL_Texture* tex = loadPath(path);
     if (!tex) {
-        tex = missing_;
+        loaded_[key] = missing_;
+        return missing_;
     }
     loaded_[key] = tex;
     return tex;

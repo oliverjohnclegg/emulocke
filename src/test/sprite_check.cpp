@@ -3,6 +3,7 @@
 #include "poke/Sprites.hpp"
 
 #include <SDL3/SDL.h>
+#include <chrono>
 #include <cstdio>
 #include <filesystem>
 #include <string>
@@ -40,6 +41,20 @@ int main(int argc, char** argv) {
     } else {
         for (int i = 1; i < argc; ++i) {
             slugs.emplace_back(argv[i]);
+        }
+    }
+
+    {
+        const auto t0 = std::chrono::steady_clock::now();
+        const auto peeked = cache.peek("not-a-pokemon-xyz", emulocke::SpriteKind::Box);
+        const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::steady_clock::now() - t0)
+                            .count();
+        if (!peeked.empty()) {
+            return fail("peek miss should be empty");
+        }
+        if (ms > 200) {
+            return fail("peek blocked");
         }
     }
 

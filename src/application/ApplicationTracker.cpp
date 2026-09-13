@@ -19,8 +19,12 @@ void Application::initTracker() {
 }
 
 const GameAdapter* Application::adapter() const {
-    std::lock_guard lock(sessionMutex_);
-    return adapter_;
+    std::unique_lock lock(sessionMutex_, std::try_to_lock);
+    if (lock.owns_lock()) {
+        uiAdapter_ = adapter_;
+        return adapter_;
+    }
+    return uiAdapter_;
 }
 
 const TrackerAtlas* Application::trackerAtlas() const {
@@ -34,16 +38,16 @@ const TrackerAtlas* Application::trackerAtlas() const {
     return emulocke::trackerAtlas(run->catalogUuid, run->difficulty);
 }
 
-void Application::syncTracker() {
+void Application::syncTracker(const GameSnapshot& snap) {
     const TrackerAtlas* atlas = trackerAtlas();
-    if (!atlas) {
-        return;
-    }
-    GameSnapshot snap;
-    if (!copySnapshot(snap)) {
+    if (!atlas || !snap.ok) {
         return;
     }
     applyTrackerFill(trackerLog_, *atlas, snap);
+}
+
+void Application::noteLoadingPainted() {
+    loadingPainted_ = true;
 }
 
 void Application::persistTracker() {

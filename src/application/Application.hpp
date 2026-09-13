@@ -79,8 +79,10 @@ public:
     const TrackerAtlas* trackerAtlas() const;
     TrackerLog& trackerLog() { return trackerLog_; }
     BoxSprites* boxSprites() { return boxSprites_.get(); }
-    void syncTracker();
+    void syncTracker(const GameSnapshot& snap);
     void persistTracker();
+    void noteLoadingPainted();
+    bool showLoadingRun() const { return showLoadingRun_; }
 
 private:
     void startEmuThread();
@@ -133,6 +135,11 @@ private:
     uint64_t lastPlayCommitNs_{0};
     bool showNewRun_{false};
     bool showLoadRun_{false};
+    bool showLoadingRun_{false};
+    bool loadingPainted_{false};
+    mutable GameSnapshot uiSnap_{};
+    mutable bool uiSnapOk_{false};
+    mutable const GameAdapter* uiAdapter_{};
     bool pendingNewRun_{false};
     bool pendingLoadRun_{false};
     bool pendingCreate_{false};

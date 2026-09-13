@@ -16,6 +16,7 @@ public:
     ~BoxSprites();
     BoxSprites(const BoxSprites&) = delete;
     BoxSprites& operator=(const BoxSprites&) = delete;
+    void beginFrame();
     SDL_Texture* get(std::string_view slug);
 
 private:
@@ -24,6 +25,8 @@ private:
     SpriteCache* cache_{};
     SDL_Texture* missing_{};
     std::unordered_map<std::string, SDL_Texture*> loaded_;
+    int uploads_{0};
+    static constexpr int kUploadBudget = 3;
 };
 
 }

@@ -11,6 +11,7 @@ void drawHome(Application& app);
 void drawMenuBar(Application& app);
 void drawNewRunModal(Application& app);
 void drawLoadRunModal(Application& app);
+void drawLoadingRunModal(Application& app);
 std::string drawGroupedRunList(Application& app, const char* idPrefix, bool showNewAttempt);
 void drawHelpPopups(Application& app);
 void drawNewRunModal(Application& app);
