@@ -100,7 +100,22 @@ int main() {
     expect(std::string(emulocke::rulesLabel(emulocke::regularRules())) == "REGULAR", "regular");
     expect(std::string(emulocke::rulesLabel(emulocke::hardcoreRules())) == "HARDCORE", "hardcore");
 
-    expect(emulocke::catalogTitles().size() == 18, "catalog size");
+    expect(emulocke::catalogTitles().size() == 20, "catalog size");
+    expect(std::string(emulocke::catalogBySha1("66d2fbfb0dbc1f86a3d726971196989b950092bc")->slug) ==
+            "diamond-us",
+        "diamond 1.13 alias");
+    expect(std::string(emulocke::catalogBySha1("5da09a39424f1a76c52a3eebad9b5e8dcacb71ba")->slug) ==
+            "black2-us",
+        "black2 alias");
+    expect(std::string(emulocke::catalogBySha1("610b96a9c9a7d03d2bafb655e7560ccff1a6d894")->slug) ==
+            "ruby-us-1.1",
+        "ruby 1.1");
+    expect(std::string(emulocke::catalogBySha1("0862ec35b24de5c7e2dcb88c9eea0873110d755c")->slug) ==
+            "platinum-us-1.1",
+        "platinum 1.1");
+    expect(std::string(emulocke::catalogBySlug("black-us")->code) == "IRBO", "black code");
+    expect(std::string(emulocke::catalogBySlug("white-us")->code) == "IRAO", "white code");
+    expect(emulocke::catalogBySlug("diamond-us")->revision == 5, "diamond rev");
 
     const auto tmp = std::filesystem::temp_directory_path() / "emulocke_rom_library_test";
     std::filesystem::remove_all(tmp);

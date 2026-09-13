@@ -1,6 +1,7 @@
 #include "application/Application.hpp"
 
 #include "adapter/GameAdapter.hpp"
+#include "emu/FileBytes.hpp"
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
 
@@ -72,6 +73,12 @@ void Application::emuLoop() {
             queuedAfter = audio_.queuedBytes();
             if (adapter_ && session_->liveMemory()) {
                 snapshot_ = adapter_->readLive(*session_->liveMemory());
+                if ((!snapshot_.ok || snapshot_.party.count == 0) && !activeRunId_.empty()) {
+                    const auto sav = readWholeFile(runStore_->batteryPath(activeRunId_).string());
+                    if (!sav.empty()) {
+                        snapshot_ = adapter_->readSave(sav);
+                    }
+                }
             }
         }
         const Uint64 frameNs = 16742706;

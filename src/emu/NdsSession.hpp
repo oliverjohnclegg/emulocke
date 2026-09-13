@@ -1,9 +1,12 @@
 #pragma once
 
+#include "adapter/LiveMemory.hpp"
 #include "emu/EmuSession.hpp"
 
 #include <memory>
 #include <mutex>
+#include <optional>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -13,7 +16,7 @@ class NDS;
 
 namespace emulocke {
 
-class NdsSession final : public EmuSession {
+class NdsSession final : public EmuSession, public LiveMemory {
 public:
     static std::unique_ptr<NdsSession> open(const std::string& romPath, const std::string& savePath);
     ~NdsSession() override;
@@ -28,6 +31,9 @@ public:
     void setTouch(bool down, uint16_t x, uint16_t y) override;
     void drainAudio(AudioOutput& audio) override;
     const std::string& romName() const override { return romName_; }
+    const LiveMemory* liveMemory() const override { return this; }
+    std::optional<Cartridge> cartridge() const override { return cart_; }
+    bool read(uint32_t addr, std::span<uint8_t> out) const override;
     void writeSave(const uint8_t* data, uint32_t length);
 
 private:
@@ -36,6 +42,7 @@ private:
     std::string romPath_;
     std::string savePath_;
     std::string romName_;
+    Cartridge cart_{};
     std::vector<uint32_t> top_;
     std::vector<uint32_t> bottom_;
     std::vector<int16_t> audioScratch_;

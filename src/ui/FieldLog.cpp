@@ -1,7 +1,6 @@
 #include "ui/FieldLog.hpp"
 
 #include "adapter/Snapshot.hpp"
-#include "adapter/frlg/FrlgNames.hpp"
 #include "application/Application.hpp"
 
 #include <imgui.h>
@@ -26,8 +25,8 @@ void drawParty(const GameSnapshot& snap) {
             ImGui::TextDisabled("  %d  --", i + 1);
             continue;
         }
-        ImGui::Text("  %d  %-11s  Lv%02u  %03u/%03u", i + 1, frlgSpeciesName(mon.species), mon.level, mon.hp,
-                    mon.maxHp);
+        const char* name = mon.speciesName[0] ? mon.speciesName : "--";
+        ImGui::Text("  %d  %-11s  Lv%02u  %03u/%03u", i + 1, name, mon.level, mon.hp, mon.maxHp);
     }
 }
 
@@ -47,12 +46,11 @@ void drawFieldLog(Application& app) {
         const char* otName = (snap.trainer.name[0] && snap.trainer.name[0] != ' ') ? snap.trainer.name : "--";
         std::snprintf(ot, sizeof(ot), "%s  %05u", otName, static_cast<unsigned>(snap.trainer.trainerId & 0xFFFFu));
         logLine("OT", ot);
-        logLine("MAP", snap.overworld.mapName[0] ? snap.overworld.mapName : "--");
         drawParty(snap);
     } else {
         ImGui::TextDisabled("No supported cart seated.");
         ImGui::Spacing();
-        ImGui::TextWrapped("FireRed and LeafGreen write party, boxes, and map here. Other titles stay dark.");
+        ImGui::TextWrapped("Supported carts write trainer, party, and boxes here.");
         if (!app.status().empty()) {
             ImGui::Dummy(ImVec2(0, 16));
             ImGui::TextUnformatted(app.status().c_str());
