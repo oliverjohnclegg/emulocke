@@ -1,4 +1,5 @@
 #include "application/Host.hpp"
+#include "application/BuildId.hpp"
 #include "emu/Paths.hpp"
 #include "ui/Layout.hpp"
 
@@ -7,6 +8,7 @@
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_sdlrenderer3.h>
 #include <algorithm>
+#include <string>
 
 namespace emulocke {
 namespace {
@@ -33,7 +35,8 @@ bool Host::create(const Prefs& prefs) {
     if (w <= 0 || h <= 0) {
         defaultWindowSize(w, h);
     }
-    window_ = SDL_CreateWindow("Emulocke", w, h, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    const std::string title = windowTitle(buildChannel(), buildVersion(), buildHash(), {});
+    window_ = SDL_CreateWindow(title.c_str(), w, h, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
     if (!window_) {
         return false;
     }
@@ -43,7 +46,7 @@ bool Host::create(const Prefs& prefs) {
     if (prefs.fullscreen) {
         SDL_SetWindowFullscreen(window_, true);
     }
-    if (SDL_Surface* icon = SDL_LoadBMP(assetPath("icons/emulocke.bmp").c_str())) {
+    if (SDL_Surface* icon = SDL_LoadBMP(assetPath(windowIconBmp(buildChannel())).c_str())) {
         SDL_SetWindowIcon(window_, icon);
         SDL_DestroySurface(icon);
     }
@@ -93,6 +96,23 @@ void Host::restoreDefaultSize() {
     int w = 0;
     int h = 0;
     defaultWindowSize(w, h);
+    setWindowSize(w, h);
+}
+
+void Host::adjustWidth(int delta) {
+    if (!window_ || fullscreen() || delta == 0) {
+        return;
+    }
+    int w = 0;
+    int h = 0;
+    SDL_GetWindowSize(window_, &w, &h);
+    setWindowSize(std::max(1, w + delta), h);
+}
+
+void Host::setWindowSize(int w, int h) {
+    if (!window_ || w <= 0 || h <= 0) {
+        return;
+    }
     SDL_SetWindowSize(window_, w, h);
 }
 
@@ -103,6 +123,12 @@ void Host::captureWindowed(Prefs& prefs) const {
     SDL_GetWindowPosition(window_, &prefs.windowX, &prefs.windowY);
     SDL_GetWindowSize(window_, &prefs.windowW, &prefs.windowH);
     prefs.hasWindowPos = true;
+}
+
+void Host::setTitle(const char* title) {
+    if (window_ && title) {
+        SDL_SetWindowTitle(window_, title);
+    }
 }
 
 }

@@ -75,6 +75,17 @@ void Application::drainPending() {
         pendingImport_.clear();
         importPath(path);
     }
+    const bool boot = pendingCreate_ || !pendingAttemptId_.empty() || !pendingLoadId_.empty();
+    if (boot) {
+        if (!showLoadingRun_) {
+            showLoadingRun_ = true;
+            loadingPainted_ = false;
+            return;
+        }
+        if (!loadingPainted_) {
+            return;
+        }
+    }
     if (pendingCreate_) {
         pendingCreate_ = false;
         createRunFromDraft();
@@ -88,6 +99,10 @@ void Application::drainPending() {
         const std::string id = std::move(pendingLoadId_);
         pendingLoadId_.clear();
         loadRun(id);
+    }
+    if (boot) {
+        showLoadingRun_ = false;
+        loadingPainted_ = false;
     }
 }
 
@@ -133,13 +148,17 @@ void Application::loadRun(const std::string& id) {
         status_ = "Run not found.";
         return;
     }
+    persistTracker();
     bootRun(*run);
     if (session_) {
         activeRunId_ = id;
         runStore_->touch(id);
+        loadTrackerLog();
     } else {
         activeRunId_.clear();
+        trackerLog_ = {};
     }
+    syncWindowTitle();
 }
 
 }

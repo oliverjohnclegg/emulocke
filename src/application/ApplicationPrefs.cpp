@@ -1,4 +1,5 @@
 #include "application/Application.hpp"
+#include "ui/Layout.hpp"
 
 #include <algorithm>
 
@@ -17,6 +18,21 @@ void Application::setFullscreen(bool on) {
     }
     prefs_.fullscreen = on;
     pendingHost_ = on ? PendingHost::FullscreenOn : PendingHost::FullscreenOff;
+    prefs_.save();
+}
+
+void Application::setRightPane(bool on) {
+    if (prefs_.rightPane == on) {
+        return;
+    }
+    const int delta = widthAfterRightPaneToggle(0, on);
+    prefs_.rightPane = on;
+    if (host_.fullscreen() || pendingHost_ == PendingHost::FullscreenOn) {
+        prefs_.windowW = std::max(1, prefs_.windowW + delta);
+    } else {
+        host_.adjustWidth(delta);
+        host_.captureWindowed(prefs_);
+    }
     prefs_.save();
 }
 
@@ -57,6 +73,7 @@ void Application::setBottomScreen(bool on) {
 
 void Application::restoreDefaultWindow() {
     prefs_.fullscreen = false;
+    prefs_.rightPane = true;
     pendingHost_ = PendingHost::RestoreDefault;
 }
 
@@ -68,6 +85,9 @@ void Application::applyPendingHost() {
     pendingHost_ = PendingHost::None;
     if (action == PendingHost::RestoreDefault) {
         host_.restoreDefaultSize();
+        if (!prefs_.rightPane) {
+            host_.adjustWidth(-static_cast<int>(kRightPaneSpan));
+        }
         host_.captureWindowed(prefs_);
         prefs_.save();
         return;
@@ -77,6 +97,9 @@ void Application::applyPendingHost() {
         return;
     }
     host_.setFullscreen(false);
+    if (prefs_.windowW > 0 && prefs_.windowH > 0) {
+        host_.setWindowSize(prefs_.windowW, prefs_.windowH);
+    }
     host_.captureWindowed(prefs_);
     prefs_.save();
 }

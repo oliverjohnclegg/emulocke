@@ -1,5 +1,7 @@
+#include "application/Prefs.hpp"
 #include "emu/FileBytes.hpp"
 #include "run/Catalog.hpp"
+#include "ui/Layout.hpp"
 #include "run/NuzlockeRules.hpp"
 #include "run/PatchApply.hpp"
 #include "run/RomLibrary.hpp"
@@ -8,6 +10,7 @@
 #include "run/RunStore.hpp"
 #include "run/TitlePlay.hpp"
 
+#include "test/BuildIdChecks.hpp"
 #include "test/PatchChecks.hpp"
 
 #include <mgba-util/crc32.h>
@@ -81,7 +84,13 @@ std::vector<uint8_t> makeUps(const std::vector<uint8_t>& src, const std::vector<
 
 }  // namespace
 
+int testLayout();
+
 int main() {
+    expect(static_cast<int>(emulocke::kRightPaneSpan) == 481, "right pane span");
+    expect(emulocke::widthAfterRightPaneToggle(emulocke::kDefaultWindowW, false) == 554, "hide shrinks");
+    expect(emulocke::widthAfterRightPaneToggle(554, true) == emulocke::kDefaultWindowW, "show grows");
+    expect(emulocke::Prefs{}.rightPane, "right pane default");
     expect(emulocke::catalogBySha1("41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc") ==
             emulocke::catalogBySlug("firered-us-1.0"),
         "fr 1.0 sha");
@@ -110,6 +119,31 @@ int main() {
         "run-and-bun-1.07", "inclement-emerald-1.13", "emerald-kaizo"};
     for (const char* slug : hackSlugs) {
         expect(emulocke::catalogBySlug(slug) != nullptr, slug);
+    }
+    const struct {
+        const char* slug;
+        const char* creator;
+    } hackCreators[] = {
+        {"blaze-black-3.1", "Drayano"},
+        {"volt-white-3.1", "Drayano"},
+        {"volt-white-2-redux", "AphexCubed"},
+        {"fire-red-omega", "Drayano"},
+        {"sacred-gold", "Drayano"},
+        {"platinum-kaizo", "SinisterHoodedFigure"},
+        {"renegade-platinum", "Drayano"},
+        {"radical-red-4.1", "Soupacell"},
+        {"unbound-2.1.1.1", "Skeli"},
+        {"run-and-bun-1.07", "dekzeh"},
+        {"inclement-emerald-1.13", "BuffelSaft"},
+        {"emerald-kaizo", "SinisterHoodedFigure"},
+    };
+    for (const auto& row : hackCreators) {
+        expect(std::string(emulocke::catalogBySlug(row.slug)->creator) == row.creator, row.slug);
+    }
+    for (const emulocke::CatalogTitle& title : emulocke::catalogTitles()) {
+        if (title.kind == emulocke::TitleKind::Baseline) {
+            expect(title.creator[0] == '\0', title.slug);
+        }
     }
     expect(emulocke::catalogOptionId(*emulocke::catalogByUuid(emulocke::kBlazeBlackUuid), {}) == "full",
         "bb default");
@@ -375,8 +409,10 @@ int main() {
     expect(legacyRun && legacyRun->playMs == 0, "legacy play 0");
 
     std::filesystem::remove_all(tmp);
+    fails += testBuildId();
     fails += testPatchFormats();
     fails += testLocalPatches();
+    fails += testLayout();
     if (fails) {
         std::fprintf(stderr, "%d failed\n", fails);
         return 1;

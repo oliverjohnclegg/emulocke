@@ -9,6 +9,7 @@ struct Prefs {
     int windowH = 0;
     bool hasWindowPos = false;
     bool fullscreen = false;
+    bool rightPane = true;
     int scale = 0;
     bool mute = false;
     int volume = 100;

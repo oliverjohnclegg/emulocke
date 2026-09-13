@@ -30,18 +30,19 @@ Stock emulators play the game and nothing else. Existing nuzlocke tools live in 
 
 Left column is the game. Right column is the suite.
 
-- Two-screen games: stacked screens (256x192), top then bottom, 5px between them. Mouse on the bottom pane is the stylus.
-- One-screen games: stacked wells (240x160), game then party LCD, 5px between them. Party LCD is suite chrome (box sprites, HP), not a second framebuffer. Not a stylus target. View > Bottom Screen turns it off; the game well stays integer-scaled and sits vertically centered in the left column.
-- 21px graphite around the screen cluster. Not between the two screens. Same 21px below and to the right of the suite.
-- Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
-- Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party, badges). Unsupported carts keep the empty log.
-- With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Logs.
+- Two-screen games: stacked screens (256x192), top then bottom, 5px between them when the left pane allows. Mouse on the bottom pane is the stylus.
+- One-screen games: stacked wells (240x160) in that same left pane, game then party LCD, 5px between them. Party LCD is suite chrome (box sprites, HP), not a second framebuffer. Not a stylus target. View > Bottom Screen turns it off; the game well stays integer-scaled and sits vertically centered in the left pane.
+- 21px graphite around the left pane. Not between the two screens. Same 21px below and to the right of the suite.
+- Left pane stays the home column size when a cart seats. Screens integer-scale inside it. View > Screen Scale is the explicit size control. Default window fits 2x two-screen plus a 460px suite.
+- View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
+- Right column is the suite. Tabs hold each function. Tracker is first. Logs is second. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Logs shows trainer, map, party, and badges for supported games.
+- With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, empty until a represented title is seated.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
 ## V1 (this pass)
 
-A playable host. Suite is a Logs tab only.
+A playable host. Suite is Tracker then Logs.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
 - File > Import Game / Start New Attempt / Close Run. No New Run or Load Run in the menu. No Open Game. No `roms/` drop folder.
@@ -57,15 +58,16 @@ A playable host. Suite is a Logs tab only.
 - Battery saves live in the run folder (`battery.sav`), never beside the ROM
 - Pause, reset, and speed-up (Tab, default 3x). Emulation > Speed-up holds the 2x-8x slider and Hold Tab vs toggle.
 - One run at a time; ROM extension picks the core
-- View: fullscreen, screen scale Fit / 1x / 2x / 3x / 4x, bottom screen (party LCD, default on), restore default window
+- View: fullscreen, right pane (F8), screen scale Fit / 1x / 2x / 3x / 4x, bottom screen (party LCD, default on), restore default window
 - Audio: mute and volume
 - Help: controls (read-only) and about
 - Prefs persist in the SDL pref path as `prefs.ini`
 - Rules are stored on the run. The cores do not enforce them.
+- Tracker is a compact location/boss list. FRLG is represented. Radical Red and Unbound are not. Difficulty is an atlas key persisted as `difficulty=` on `meta.ini`. Encounter state lives in `tracker.ini` on the run.
 
 ## V1 non-goals
 
-- Any nuzlocke suite UI (damage calc, tracker, QoL, nuzlocke.app-adjacent tools)
+- Any other nuzlocke suite UI (damage calc, QoL, nuzlocke.app-adjacent tools beyond Tracker)
 - Emulator lab tools (save states, rewind, cheats, disassemblers, memory viewers, movies, Lua, filters, HUD)
 - Frame skip (later cherry-pick)
 - Input remapping
@@ -81,12 +83,10 @@ A playable host. Suite is a Logs tab only.
 Recorded so later work does not invent the product twice:
 
 - Integrated damage calculator
-- Progression tracker
 - QoL tools
 - More as decided in this project
-- A native tracker adjacent to nuzlocke.app (encounter/route tracking UX), built in Emulocke. Not a fork. Not a webview of another app.
-- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. Home plates use box sprites. No suite UI in V1.
-- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. New Run shows this art at 64x48. Home plates use title art.
+- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. Tracker draws box sprites for caught species and boss teams. Home plates use box sprites.
+- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Official titles cover-crop into that well (DS Named_Titles are stacked 256x384; the top screen is kept). Missing uses a generated black plate. New Run shows this art at 64x48. Home plates use title art.
 
 ## Adapter
 
@@ -96,6 +96,9 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 - Latest revision we have is the live identity. When a newer dump ships, older revisions move to `src/adapter/archive/`.
 - Read-only for now. RAM writes (QoL cheats) are a separate interface later.
 - Nuzlocke rules, damage math, and encounter tracking are suite concerns, not adapter concerns.
+- Static route order, catch keys, and boss teams live in a suite `TrackerAtlas` keyed by catalog UUID and difficulty. The adapter never owns that list (hacks still identify as FireRed carts).
+- A title is represented only when that atlas exists. FRLG is represented. Radical Red and Unbound return null until they have their own atlas.
+- `GameAdapter::species(id)` returns national id, sprite slug, and display name. `GameSnapshot.progress` holds starter, badges, and flag bytes. A later hack adapter must supply species and flag layout for its atlas.
 - Adding a pure virtual on `GameAdapter` is how a new suite data need flags every adapter in CI.
 - If the suite needs a cart fact, add it to `GameSnapshot` and fill it in the adapter. A missing field is work, not a reason to drop the surface. Unimplemented titles leave the new fields zero.
 
@@ -105,7 +108,9 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 
 ## Platforms
 
-Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree must produce `emulocke.exe` on `windows-latest`. GitHub Actions uploads both binaries as artifacts on push. Native compile on each OS, not cross-compile.
+Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree must produce a Windows instance on `windows-latest`. `main` is Stable; `dev` is Vanguard. GitHub Actions stamps and uploads both OS instances on push. Native compile on each OS, not cross-compile.
+
+Stable instance names: `emulocke-vX.X.X-win-x64.exe` and `emulocke-vX.X.X-linux-x64`. Vanguard: `emulocke-vanguard-<commit>-win-x64.exe` and `emulocke-vanguard-<commit>-linux-x64`. Window caption is `Emulocke vX.X.X` (Stable) or `Emulocke VANGUARD [<commit>]` (Vanguard); a seated run appends ` - Pokémon <title>`.
 
 ## Tech
 
@@ -142,12 +147,13 @@ Bindings are fixed in V1. Help > Controls lists them. Remapping is later.
 | Select | Shift |
 | Stylus | Mouse on bottom screen |
 | Speed-up | Tab |
+| Right pane | F8 |
 
 Gamepad: standard SDL mapping.
 
 ## Design
 
-Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Logs is first. Compact chrome: primary actions stay named; secondary actions in dense chrome are icons with the name on hover.
+Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Tracker is first, Logs second. Compact chrome: primary actions stay named; secondary actions in dense chrome are icons with the name on hover.
 
 ## Decisions
 
@@ -165,17 +171,17 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 | Windows via MSVC in CI | Same CMake tree. Dynlib uses LoadLibrary. Pref path is SDL. JIT off on MSVC (no GNU `.S` assembler). |
 | Other chats are out of scope | Greenfield. Only this document and this repo set requirements. |
 | Sprite cache downloads at runtime | PokeAPI/PokéSprite/bamq host the pixels. Pref cache, not git. Box: PokéSprite then bamq Gen 9 then PokeAPI gen8 icons. Front/back: PokeAPI BW-style. Credits: PokeAPI, msikma/pokesprite, National Dex Version Delta (bamq), Smogon for fan 2D past 649. |
-| Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, letterboxed. Hacks use bundled stills if present, otherwise a black title plate. Pref cache, not git. |
+| Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, cover-cropped (DS stacked titles keep the top 256x192). Hacks use bundled stills if present, otherwise a black title plate. Pref cache, not git. |
 | Host playtime per title and per run | New Attempt deletes the old folder, so title totals cannot be summed from leftover runs. Unpaused seated wall clock. Home plates show `HH:MM`. Speed-up does not count. No suite UI. |
 
 ## V1 success
 
 1. The tree builds on the Linux/WSL machine used for development.
-2. GitHub Actions builds Linux and Windows artifacts on push (`emulocke` and `emulocke.exe`).
+2. GitHub Actions builds stamped Linux and Windows instances on push (Stable from `main`, Vanguard from `dev`).
 3. A verified Fire Red US 1.0 dump imports as its catalog UUID. Unknown files are refused.
 4. Video, audio, keyboard, gamepad, pause, reset, speed-up, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
-6. One-screen games stack game + party LCD; FRLG fills Logs from the adapter snapshot.
+6. One-screen games stack game + party LCD in the left pane; FRLG fills Tracker and Logs from the adapter snapshot plus the FRLG atlas.
 7. View, Audio, and Help work. Prefs survive a relaunch.
 
 ## Changelog
@@ -196,10 +202,17 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: New Run game picker uses art strips, type-to-search, and click-to-import for missing dumps. Versions sit in the title as FIRE RED (1.0). Subtext is region. Hack hover names the prerequisite.
 - 2026-09-13: Host playtime persisted per catalog title (`playtime.ini`) and per run (`playMs` in meta.ini). Counts unpaused seated time only. No suite UI.
 - 2026-09-13: Speed-up cherry-pick. Tab holds 3x by default. Emulation > Speed-up submenu holds 2x-8x and Hold Tab vs toggle.
+- 2026-09-13: Tracker is the first suite tab. FRLG atlas is static suite data. Adapter supplies species, flags, badges, starter, and live boxes. Encounter state is `tracker.ini`. Radical Red and Unbound stay unrepresented.
 - 2026-09-13: Home is last-played run plates (title art, party sockets, gym pips). FRLG snapshot grows gyms. Compact chrome: secondary actions are icons, names on hover.
 - 2026-09-13: Home-only start and load. File drops New Run and Load Run. Plate title is `GAME - Preset`. Subtitle is playtime, Attempt #N, Deaths, and badges, joined by •. Party sprites crop to opaque pixels and sit centered in the wells.
 - 2026-09-13: When home has run plates, START RUN is a compact full-width stamp rail, not the empty-home hero button.
 - 2026-09-13: Twelve ROM hacks in the catalog as games. Bundled IPS/UPS/BPS/xdelta. xdelta3 decode. Optional Patches for Blaze Black and Volt White. Hack art is a plate unless a bundled still exists.
+- 2026-09-13: View > Right Pane (F8) hides the suite column and shrinks the window by that column. Left pane and menu bar stay put.
 - 2026-09-13: Home playtime is host wall clock as `HH:MM`, not the in-game save clock. Tab speed-up does not advance it.
+- 2026-09-13: `main` is Stable, `dev` is Vanguard. Stamped instance names and window captions: version on Stable, commit hash on Vanguard.
+- 2026-09-13: Vanguard keeps the Stable mark and recasts the parchment metal as oxidized field-steel.
+- 2026-09-13: Left game pane keeps the home column size for DS and GBA. Screens integer-scale inside that pane.
+- 2026-09-13: Game art fills 256x192. Official DS titles crop to the top screen. Catalog hacks ship original 256x192 stills.
+- 2026-09-13: New Run hack rows show a `by [creator]` stamp.
 - 2026-09-13: One-screen games stack a party LCD under the game. 2x3 box sockets, HP tracks, occasional hop.
-- 2026-09-13: View > Bottom Screen toggles the GBA party LCD. Off fills the left column and centers the game well.
+- 2026-09-13: View > Bottom Screen toggles the GBA party LCD. Off fills the left pane and centers the game well.

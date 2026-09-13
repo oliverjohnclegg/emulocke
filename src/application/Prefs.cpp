@@ -48,6 +48,8 @@ Prefs Prefs::load() {
             prefs.hasWindowPos = parseFlag(value);
         } else if (key == "fullscreen") {
             prefs.fullscreen = parseFlag(value);
+        } else if (key == "right_pane") {
+            prefs.rightPane = parseFlag(value);
         } else if (key == "scale") {
             prefs.scale = parseInt(value);
         } else if (key == "mute") {
@@ -79,6 +81,7 @@ void Prefs::save() const {
     out << "window_h=" << windowH << '\n';
     out << "has_window_pos=" << (hasWindowPos ? 1 : 0) << '\n';
     out << "fullscreen=" << (fullscreen ? 1 : 0) << '\n';
+    out << "right_pane=" << (rightPane ? 1 : 0) << '\n';
     out << "scale=" << scale << '\n';
     out << "mute=" << (mute ? 1 : 0) << '\n';
     out << "volume=" << volume << '\n';

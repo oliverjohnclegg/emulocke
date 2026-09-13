@@ -84,6 +84,9 @@ void drawMenuBar(Application& app) {
             if (ImGui::MenuItem("Fullscreen", nullptr, app.prefs().fullscreen)) {
                 app.setFullscreen(!app.prefs().fullscreen);
             }
+            if (ImGui::MenuItem("Right Pane", "F8", app.prefs().rightPane)) {
+                app.setRightPane(!app.prefs().rightPane);
+            }
             if (ImGui::BeginMenu("Screen Scale")) {
                 scaleItem(app, "Fit", 0);
                 scaleItem(app, "1x", 1);
