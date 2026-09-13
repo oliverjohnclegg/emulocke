@@ -12,12 +12,12 @@ void drawLoadRunModal(Application& app) {
     }
     const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
     ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-    ImGui::SetNextWindowSize(ImVec2(480.f, 360.f), ImGuiCond_Appearing);
+    ImGui::SetNextWindowSize(ImVec2(640.f, 480.f), ImGuiCond_Appearing);
     if (!ImGui::Begin("LOAD RUN", nullptr, ImGuiWindowFlags_NoCollapse)) {
         ImGui::End();
         return;
     }
-    const std::string id = drawGroupedRunList(app, "load", false);
+    const std::string id = drawRunList(app, "load", false);
     if (!id.empty()) {
         app.queueLoadRun(id);
     }

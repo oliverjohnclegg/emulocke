@@ -1,6 +1,9 @@
 #include "application/Application.hpp"
 
 #include "emu/Paths.hpp"
+#include "run/SavePeek.hpp"
+#include "ui/MediaFetch.hpp"
+#include "ui/PngCache.hpp"
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
@@ -17,6 +20,9 @@ void onDumpPicked(void* userdata, const char* const* filelist, int) {
 }
 
 }  // namespace
+
+Application::Application() = default;
+Application::~Application() = default;
 
 bool Application::start(int argc, char** argv) {
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
@@ -40,6 +46,9 @@ bool Application::start(int argc, char** argv) {
     romLibrary_ = std::make_unique<RomLibrary>(romsRoot(), assetsDir());
     runStore_ = std::make_unique<RunStore>(runsRoot());
     runStore_->load();
+    media_ = std::make_unique<MediaFetch>();
+    pngs_ = std::make_unique<PngCache>(host_.renderer());
+    savePeek_ = std::make_unique<SavePeek>();
     if (argc > 1) {
         importPath(argv[1]);
         if (newRunDraft_.catalogUuid.empty()) {

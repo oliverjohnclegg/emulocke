@@ -3,6 +3,9 @@
 #include "adapter/GameAdapter.hpp"
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
+#include "run/SavePeek.hpp"
+#include "ui/MediaFetch.hpp"
+#include "ui/PngCache.hpp"
 
 #include <SDL3/SDL.h>
 #include <cctype>
@@ -129,6 +132,9 @@ void Application::shutdown() {
     persistPrefs();
     stopEmuThread();
     session_.reset();
+    pngs_.reset();
+    media_.reset();
+    savePeek_.reset();
     audio_.close();
     host_.destroy();
     SDL_Quit();

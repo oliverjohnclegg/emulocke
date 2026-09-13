@@ -52,7 +52,7 @@ void drawHome(Application& app) {
     if (app.runStore().runs().empty()) {
         drawEmptyHome(app);
     } else {
-        const std::string id = drawGroupedRunList(app, "home", true);
+        const std::string id = drawRunList(app, "home", true);
         if (!id.empty()) {
             app.queueLoadRun(id);
         }

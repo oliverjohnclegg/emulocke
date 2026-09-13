@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_set>
@@ -14,6 +15,7 @@ class GameArtCache {
 public:
     explicit GameArtCache(std::filesystem::path cacheDir);
     std::filesystem::path get(std::string_view slug);
+    std::optional<std::filesystem::path> ifReady(std::string_view slug) const;
 
 private:
     std::filesystem::path cacheFile(std::string_view slug) const;

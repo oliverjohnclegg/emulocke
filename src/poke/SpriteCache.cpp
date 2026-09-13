@@ -83,4 +83,12 @@ std::filesystem::path SpriteCache::get(std::string_view slug, SpriteKind kind) {
     return fallbackFile(kind);
 }
 
+std::optional<std::filesystem::path> SpriteCache::ifReady(std::string_view slug, SpriteKind kind) const {
+    const auto cached = cacheFile(slug, kind);
+    if (std::filesystem::exists(cached) && isPngFile(cached)) {
+        return cached;
+    }
+    return std::nullopt;
+}
+
 }  // namespace emulocke

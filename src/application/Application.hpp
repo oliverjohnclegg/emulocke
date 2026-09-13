@@ -23,9 +23,14 @@ struct ImFont;
 namespace emulocke {
 
 class GameAdapter;
+class MediaFetch;
+class PngCache;
+class SavePeek;
 
 class Application {
 public:
+    Application();
+    ~Application();
     bool start(int argc, char** argv);
     void run();
     void shutdown();
@@ -66,6 +71,9 @@ public:
     RunStore& runStore() { return *runStore_; }
     const RunStore& runStore() const { return *runStore_; }
     const std::string& activeRunId() const { return activeRunId_; }
+    MediaFetch& media() { return *media_; }
+    PngCache& pngs() { return *pngs_; }
+    SavePeek& savePeek() { return *savePeek_; }
 
 private:
     void startEmuThread();
@@ -88,6 +96,9 @@ private:
     std::unique_ptr<EmuSession> session_;
     std::unique_ptr<RomLibrary> romLibrary_;
     std::unique_ptr<RunStore> runStore_;
+    std::unique_ptr<MediaFetch> media_;
+    std::unique_ptr<PngCache> pngs_;
+    std::unique_ptr<SavePeek> savePeek_;
     const GameAdapter* adapter_{};
     GameSnapshot snapshot_{};
     mutable std::mutex sessionMutex_;
