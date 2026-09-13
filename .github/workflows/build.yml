@@ -31,7 +31,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ninja-build pkg-config \
-            libcurl4-openssl-dev \
+            libcurl4-openssl-dev liblzma-dev \
             libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
             libxi-dev libxfixes-dev libxrender-dev libxkbcommon-dev
 
@@ -47,6 +47,7 @@ jobs:
             mingw-w64-ucrt-x86_64-gcc
             mingw-w64-ucrt-x86_64-ninja
             mingw-w64-ucrt-x86_64-curl
+            mingw-w64-ucrt-x86_64-xz
             git
 
       - name: Configure Linux

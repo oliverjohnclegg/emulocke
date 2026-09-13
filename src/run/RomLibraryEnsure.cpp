@@ -5,13 +5,14 @@
 
 namespace emulocke {
 
-std::optional<std::filesystem::path> RomLibrary::ensurePlayable(const std::string& uuid) {
+std::optional<std::filesystem::path> RomLibrary::ensurePlayable(
+    const std::string& uuid, std::string_view optionId) {
     const CatalogTitle* title = catalogByUuid(uuid);
     if (!title) {
         error_ = "Unknown game.";
         return std::nullopt;
     }
-    const auto dest = storedPath(*title);
+    const auto dest = storedPath(*title, optionId);
     std::error_code ec;
     if (std::filesystem::is_regular_file(dest, ec)) {
         error_.clear();
@@ -23,19 +24,19 @@ std::optional<std::filesystem::path> RomLibrary::ensurePlayable(const std::strin
     }
     const CatalogTitle* prereq = catalogByUuid(title->prerequisiteUuid);
     if (!prereq || !has(prereq->uuid)) {
-        error_ = std::string(prereq ? prereq->fullName : "The baseline") +
-            " is a prerequisite for this ROM hack.";
+        error_ = std::string("Import ") + (prereq ? prereq->fullName : "the baseline") + " to play this game.";
         return std::nullopt;
     }
-    const auto patchPath = assetsRoot_ / title->patchAsset;
+    const char* asset = catalogPatchAsset(*title, optionId);
+    const auto patchPath = assetsRoot_ / (asset ? asset : "");
     const auto base = readWholeFile(storedPath(*prereq).string());
     const auto patch = readWholeFile(patchPath.string());
     if (base.empty()) {
-        error_ = std::string(prereq->fullName) + " is a prerequisite for this ROM hack.";
+        error_ = std::string("Import ") + prereq->fullName + " to play this game.";
         return std::nullopt;
     }
     if (patch.empty()) {
-        error_ = "Patch asset missing for this ROM hack.";
+        error_ = "Patch asset missing for this game.";
         return std::nullopt;
     }
     auto patched = applyRomPatch(base, patch);

@@ -98,7 +98,7 @@ void Application::bootRun(const Run& run) {
     stopEmuThread();
     harvestPlayOrigin();
     commitPlay();
-    auto rom = romLibrary_->ensurePlayable(run.catalogUuid);
+    auto rom = romLibrary_->ensurePlayable(run.catalogUuid, run.patchOption);
     std::unique_ptr<EmuSession> next;
     if (rom) {
         const std::string ext = lowerExt(rom->string());

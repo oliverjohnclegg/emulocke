@@ -1,3 +1,4 @@
+#include "adapter/gen3/BoxCrypt.hpp"
 #include "adapter/gen3/BoxMon.hpp"
 #include "adapter/gen3/Codec.hpp"
 #include "adapter/frlg/FrlgNames.hpp"
@@ -77,4 +78,26 @@ void testGen3Codec() {
     REQUIRE(std::string(emulocke::frlgSpeciesName(151)) == "MEW");
     REQUIRE(std::string(emulocke::frlgSpeciesName(251)) == "CELEBI");
     REQUIRE(std::string(emulocke::frlgSpeciesName(277)) == "TREECKO");
+    REQUIRE(std::string(emulocke::frlgSpeciesName(921)) == "SPRIGATITO");
+    REQUIRE(std::string(emulocke::frlgSpeciesName(923)) == "MEOWSCARADA");
+    REQUIRE(std::string(emulocke::frlgSpeciesName(1100)) == "DUDUNSPARCE");
+    REQUIRE(std::string(emulocke::frlgSpeciesName(1268)) == "BASCULEGION");
+    REQUIRE(std::string(emulocke::frlgSpeciesName(1374)) == "GOUGING FIRE");
+
+    std::array<uint8_t, emulocke::kPartyMonSize> plain = raw;
+    uint8_t data[48];
+    std::memcpy(data, plain.data() + 0x20, 48);
+    emulocke::xorBoxData(data, src.personality, src.otId);
+    uint8_t g[12], a[12], e[12], m[12];
+    emulocke::unshuffleBoxData(data, src.personality, g, a, e, m);
+    std::memcpy(plain.data() + 0x20, g, 12);
+    std::memcpy(plain.data() + 0x2C, a, 12);
+    std::memcpy(plain.data() + 0x38, e, 12);
+    std::memcpy(plain.data() + 0x44, m, 12);
+    emulocke::store16(plain.data() + 0x1C, 0);
+    emulocke::DecryptedMon fromPlain;
+    REQUIRE(emulocke::decryptPartyMon(plain, fromPlain));
+    REQUIRE(fromPlain.species == 1);
+    REQUIRE(fromPlain.moves[0] == 33);
+    REQUIRE(fromPlain.level == 5);
 }

@@ -19,7 +19,7 @@ public:
     const std::vector<Run>& runs() const { return runs_; }
     const Run* find(const std::string& id) const;
     Run* find(const std::string& id);
-    std::optional<Run> create(std::string catalogUuid, NuzlockeRules rules);
+    std::optional<Run> create(std::string catalogUuid, NuzlockeRules rules, std::string patchOption = {});
     std::optional<Run> createAttempt(const Run& source);
     bool touch(const std::string& id);
     bool addPlayMs(const std::string& id, uint64_t ms);

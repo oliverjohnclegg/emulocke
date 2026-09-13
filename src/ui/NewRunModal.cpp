@@ -3,6 +3,7 @@
 #include "application/Application.hpp"
 #include "run/Catalog.hpp"
 #include "run/NuzlockeRules.hpp"
+#include "ui/NewRunOptions.hpp"
 
 #include <imgui.h>
 #include <algorithm>
@@ -46,7 +47,7 @@ void drawNewRunModal(Application& app) {
     const auto titles = app.romLibrary().playableTitles();
     const CatalogTitle* selected = catalogByUuid(draft.catalogUuid);
     if (!titles.empty() && (!selected || std::find(titles.begin(), titles.end(), selected) == titles.end())) {
-        draft.catalogUuid = titles.front()->uuid;
+        selectNewRunTitle(draft, *titles.front());
         selected = titles.front();
     }
     if (titles.empty()) {
@@ -56,7 +57,7 @@ void drawNewRunModal(Application& app) {
         if (ImGui::BeginCombo("Game", current)) {
             for (const CatalogTitle* title : titles) {
                 if (ImGui::Selectable(title->title, title->uuid == draft.catalogUuid)) {
-                    draft.catalogUuid = title->uuid;
+                    selectNewRunTitle(draft, *title);
                     selected = title;
                 }
             }
@@ -65,8 +66,11 @@ void drawNewRunModal(Application& app) {
         if (selected && selected->kind == TitleKind::Hack) {
             const CatalogTitle* prereq = catalogByUuid(selected->prerequisiteUuid);
             if (prereq && !app.romLibrary().has(prereq->uuid)) {
-                ImGui::TextWrapped("%s is a prerequisite for this ROM hack.", prereq->fullName);
+                ImGui::TextWrapped("Import %s to play this game.", prereq->fullName);
             }
+        }
+        if (selected) {
+            drawOptionalPatches(draft, *selected);
         }
         drawPresetCombo(draft.rules);
         if (ImGui::BeginTable("rules", 2, ImGuiTableFlags_SizingStretchProp)) {

@@ -30,6 +30,7 @@ void checkSav(const std::filesystem::path& path, const char* expectOt, int expec
     } else {
         REQUIRE(snap.party.count > 0);
     }
+    REQUIRE(snap.party.mons[0].species != 0);
     if (expectOt) {
         REQUIRE(std::string(snap.trainer.name) == expectOt);
     }
@@ -52,4 +53,7 @@ void testLocalSaves() {
     checkSav(dir / "heartgold-U.sav", "Ethan", 6);
     checkSav(dir / "black-U.sav", "Raval", 6);
     checkSav(dir / "black2-U.sav", "Jason", 6);
+    checkSav(dir / "rom_hack_patches" / "Pokemon Unbound.sav", nullptr, 6);
+    checkSav(std::filesystem::path(home) / ".local/share/emulocke/emulocke/runs/6af31828902eec1e/battery.sav",
+        "A", 1);
 }

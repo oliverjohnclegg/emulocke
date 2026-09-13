@@ -53,10 +53,35 @@ int main() {
     if (emulocke::gameArtSlug("unbound-2.1.1.1") != "unbound") {
         return fail("unbound catalog slug");
     }
+    if (emulocke::gameArtSlug("blaze-black-3.1") != "blaze-black") {
+        return fail("blaze black slug");
+    }
+    if (emulocke::gameArtSlug("volt-white-2-redux") != "volt-white-2") {
+        return fail("vw2 slug");
+    }
+    if (emulocke::gameArtSlug("volt-white-3.1") != "volt-white") {
+        return fail("volt white slug");
+    }
+    if (emulocke::gameArtSlug("fire-red-omega") != "fire-red-omega") {
+        return fail("fro slug");
+    }
+    if (emulocke::gameArtTitle("sacred-gold") != "SACRED GOLD") {
+        return fail("sacred gold title");
+    }
+    if (emulocke::gameArtTitle("platinum-kaizo") != "PLATINUM KAIZO") {
+        return fail("platinum kaizo title");
+    }
+    if (emulocke::gameArtTitle("run-and-bun") != "RUN AND BUN") {
+        return fail("run and bun title");
+    }
+    if (emulocke::gameArtUrl("blaze-black") || emulocke::gameArtUrl("inclement-emerald")) {
+        return fail("hack url");
+    }
 
     emulocke::GameArtCache cache(emulocke::localDataPath("game-art"));
     const auto firered = cache.get("firered");
     const auto unbound = cache.get("unbound");
+    const auto blaze = cache.get("blaze-black");
     const auto missing = cache.get("not-a-game");
     std::printf("firered  %s\n", firered.string().c_str());
     std::printf("unbound  %s\n", unbound.string().c_str());
@@ -67,6 +92,9 @@ int main() {
     }
     if (!isCanvas(unbound) || !isPlate(unbound)) {
         return fail("expected unbound plate");
+    }
+    if (!isCanvas(blaze) || !isPlate(blaze)) {
+        return fail("expected blaze plate");
     }
     if (!isCanvas(missing) || !isPlate(missing)) {
         return fail("expected missing plate");

@@ -53,7 +53,17 @@ std::optional<uint16_t> pokemonId(std::string_view slug) {
     if (key.size() > 6 && key.compare(0, 6, "unown-") == 0) {
         return static_cast<uint16_t>(201);
     }
-    return std::nullopt;
+    const std::string prefix = key + "-";
+    std::optional<uint16_t> best;
+    for (; it != end; ++it) {
+        if (std::strncmp(it->slug, prefix.c_str(), prefix.size()) != 0) {
+            break;
+        }
+        if (!best || it->id < *best) {
+            best = it->id;
+        }
+    }
+    return best;
 }
 
 std::string speciesSlug(std::string_view name) {

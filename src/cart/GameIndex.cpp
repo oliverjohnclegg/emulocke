@@ -77,25 +77,5 @@ std::optional<std::string> gameArtUrl(std::string_view slug) {
            "/master/Named_Titles/" + encodePath(entry->file);
 }
 
-std::string gameArtSlug(std::string_view catalogSlug) {
-    const std::string key = normalizeSlug(catalogSlug);
-    if (key.starts_with("black2")) {
-        return "black-2";
-    }
-    if (key.starts_with("white2")) {
-        return "white-2";
-    }
-    if (key.starts_with("radical-red")) {
-        return "radical-red";
-    }
-    if (key.starts_with("unbound")) {
-        return "unbound";
-    }
-    const auto us = key.find("-us");
-    if (us != std::string::npos) {
-        return key.substr(0, us);
-    }
-    return key;
 }
 
-}

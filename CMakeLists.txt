@@ -57,6 +57,30 @@ set(BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(BUILD_STATIC ON CACHE BOOL "" FORCE)
 add_subdirectory(third_party/mgba EXCLUDE_FROM_ALL)
 
+find_package(LibLZMA REQUIRED)
+add_library(xdelta3 STATIC third_party/xdelta3/xdelta3.c)
+set_target_properties(xdelta3 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON)
+target_include_directories(xdelta3 PUBLIC ${CMAKE_SOURCE_DIR}/third_party/xdelta3)
+target_compile_definitions(xdelta3
+    PUBLIC
+        SIZEOF_SIZE_T=8
+        SIZEOF_UNSIGNED_LONG_LONG=8
+    PRIVATE
+        XD3_MAIN=0
+        SECONDARY_DJW=1
+        SECONDARY_LZMA=1
+        HAVE_LZMA_H=1
+        XD3_HARDMAXWINSIZE=1073741824)
+if(WIN32)
+    target_compile_definitions(xdelta3 PUBLIC SIZEOF_UNSIGNED_LONG=4)
+else()
+    target_compile_definitions(xdelta3 PUBLIC SIZEOF_UNSIGNED_LONG=8)
+endif()
+target_link_libraries(xdelta3 PUBLIC LibLZMA::LibLZMA)
+if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(xdelta3 PRIVATE -w -include assert.h)
+endif()
+
 add_library(imgui STATIC
     third_party/imgui/imgui.cpp
     third_party/imgui/imgui_draw.cpp
@@ -112,6 +136,7 @@ add_executable(emulocke
     src/ui/Shell.cpp
     src/ui/Home.cpp
     src/ui/NewRunModal.cpp
+    src/ui/NewRunOptions.cpp
     src/ui/RunList.cpp
     src/ui/Suite.cpp
     src/ui/FieldLog.cpp
@@ -138,6 +163,8 @@ add_executable(emulocke
     src/run/CatalogLookup.cpp
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
+    src/run/PatchBps.cpp
+    src/run/PatchXdelta.cpp
     src/run/RomLibrary.cpp
     src/run/RomLibraryEnsure.cpp
     src/run/RunLabel.cpp
@@ -149,7 +176,7 @@ add_executable(emulocke
     src/run/TitlePlay.cpp)
 
 target_include_directories(emulocke PRIVATE src)
-target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_sprites core mgba imgui SDL3::SDL3)
+target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
 target_compile_definitions(emulocke PRIVATE SDL_MAIN_HANDLED)
 get_target_property(MGBA_COMPILE_DEFS mgba COMPILE_DEFINITIONS)
 if(MGBA_COMPILE_DEFS)
@@ -181,6 +208,7 @@ if(CURL_FOUND)
         src/poke/HttpGet.cpp
         src/poke/SpriteCache.cpp
         src/cart/GameIndex.cpp
+        src/cart/GameIndexSlug.cpp
         src/cart/GameArtPng.cpp
         src/cart/GameArtCanvas.cpp
         src/cart/GameArtPlate.cpp
@@ -256,10 +284,12 @@ add_executable(emulocke-boot-check EXCLUDE_FROM_ALL
     src/emu/Paths.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
-    src/run/PatchApply.cpp)
+    src/run/PatchApply.cpp
+    src/run/PatchBps.cpp
+    src/run/PatchXdelta.cpp)
 target_include_directories(emulocke-boot-check PRIVATE src)
 target_compile_definitions(emulocke-boot-check PRIVATE SDL_MAIN_HANDLED)
-target_link_libraries(emulocke-boot-check PRIVATE emulocke_adapter core mgba SDL3::SDL3)
+target_link_libraries(emulocke-boot-check PRIVATE emulocke_adapter core mgba xdelta3 SDL3::SDL3)
 if(MGBA_COMPILE_DEFS)
     target_compile_definitions(emulocke-boot-check PRIVATE ${MGBA_COMPILE_DEFS})
 endif()
@@ -274,6 +304,8 @@ add_executable(emulocke-run-check
     src/run/CatalogLookup.cpp
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
+    src/run/PatchBps.cpp
+    src/run/PatchXdelta.cpp
     src/run/RomLibrary.cpp
     src/run/RomLibraryEnsure.cpp
     src/run/RunLabel.cpp
@@ -281,9 +313,11 @@ add_executable(emulocke-run-check
     src/run/RunMetaWrite.cpp
     src/run/RunStore.cpp
     src/run/RunStoreAttempts.cpp
-    src/run/TitlePlay.cpp)
+    src/run/TitlePlay.cpp
+    src/test/patch_format_check.cpp
+    src/test/local_patch_check.cpp)
 target_include_directories(emulocke-run-check PRIVATE src)
-target_link_libraries(emulocke-run-check PRIVATE mgba)
+target_link_libraries(emulocke-run-check PRIVATE mgba xdelta3)
 if(MGBA_COMPILE_DEFS)
     target_compile_definitions(emulocke-run-check PRIVATE ${MGBA_COMPILE_DEFS})
 endif()

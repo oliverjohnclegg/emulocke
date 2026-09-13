@@ -1,6 +1,5 @@
 #include "ui/RunStripDraw.hpp"
 
-#include "adapter/frlg/FrlgNames.hpp"
 #include "application/Application.hpp"
 #include "cart/GameIndex.hpp"
 #include "poke/SpriteIndex.hpp"
@@ -45,7 +44,7 @@ void drawRunParty(Application& app, const Party& party, ImVec2 p) {
         const ImVec2 b(a.x + kSockW, a.y + kSockH);
         well(dl, a, b);
         const Mon& mon = party.mons[static_cast<std::size_t>(i)];
-        const std::string slug = speciesSlug(frlgSpeciesName(mon.species));
+        const std::string slug = speciesSlug(mon.speciesName);
         if (slug.empty()) {
             continue;
         }
