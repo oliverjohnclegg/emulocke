@@ -136,6 +136,12 @@ add_library(emulocke_tracker STATIC
 target_include_directories(emulocke_tracker PUBLIC src)
 target_link_libraries(emulocke_tracker PUBLIC emulocke_adapter)
 
+add_library(emulocke_dex STATIC
+    src/poke/Dex.cpp
+    src/poke/Level.cpp
+    src/poke/Showdown.cpp)
+target_include_directories(emulocke_dex PUBLIC src)
+
 find_package(CURL REQUIRED)
 add_library(emulocke_sprites STATIC
     src/poke/SpriteIndex.cpp
@@ -160,6 +166,8 @@ add_executable(emulocke
     src/application/ApplicationPlay.cpp
     src/application/ApplicationPrefs.cpp
     src/application/ApplicationTracker.cpp
+    src/application/PreviewSuite.cpp
+    src/application/PreviewMons.cpp
     src/application/SessionControl.cpp
     src/application/AppLoop.cpp
     src/application/Prefs.cpp
@@ -185,6 +193,12 @@ add_executable(emulocke
     src/ui/TrackerStatus.cpp
     src/ui/BoxSprites.cpp
     src/ui/FieldLog.cpp
+    src/ui/Pokemon.cpp
+    src/ui/PokemonGather.cpp
+    src/ui/PokemonParty.cpp
+    src/ui/PokemonBox.cpp
+    src/ui/PokemonWell.cpp
+    src/ui/PokemonHover.cpp
     src/ui/MenuBar.cpp
     src/ui/HelpPopups.cpp
     src/ui/RunStrip.cpp
@@ -222,7 +236,7 @@ add_executable(emulocke
     src/run/TitlePlay.cpp)
 
 target_include_directories(emulocke PRIVATE src)
-target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_tracker emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
+target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_tracker emulocke_dex emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
 target_compile_definitions(emulocke PRIVATE SDL_MAIN_HANDLED)
 emulocke_stamp_target(emulocke)
 get_target_property(MGBA_COMPILE_DEFS mgba COMPILE_DEFINITIONS)
@@ -314,9 +328,17 @@ add_executable(emulocke-tracker-check
     src/test/tracker_check.cpp
     src/test/tracker_atlas_check.cpp
     src/test/tracker_fill_check.cpp
-    src/test/tracker_rival_fill_check.cpp)
+    src/test/tracker_rival_fill_check.cpp
+    src/test/preview_suite_check.cpp
+    src/application/PreviewSuite.cpp
+    src/application/PreviewMons.cpp)
 target_include_directories(emulocke-tracker-check PRIVATE src)
 target_link_libraries(emulocke-tracker-check PRIVATE emulocke_tracker emulocke_adapter)
+
+add_executable(emulocke-poke-check
+    src/test/poke_check.cpp)
+target_include_directories(emulocke-poke-check PRIVATE src)
+target_link_libraries(emulocke-poke-check PRIVATE emulocke_dex)
 
 add_executable(emulocke-frlg-live-check EXCLUDE_FROM_ALL
     src/test/frlg_live_check.cpp
@@ -395,6 +417,7 @@ endif()
 enable_testing()
 add_test(NAME adapter COMMAND emulocke-adapter-check)
 add_test(NAME tracker COMMAND emulocke-tracker-check)
+add_test(NAME poke COMMAND emulocke-poke-check)
 add_test(NAME gba-host COMMAND emulocke-gba-check)
 add_test(NAME run COMMAND emulocke-run-check)
 
