@@ -54,21 +54,13 @@ void Application::emuLoop() {
         wasFast = fast;
         audio_.setDropping(frames > 1);
         int queuedAfter = 0;
-        bool played = false;
+        bool ran = false;
         for (int i = 0; i < frames && running_; ++i) {
             std::lock_guard lock(sessionMutex_);
             if (!session_ || paused_) {
-                playOriginNs_.store(0);
                 break;
             }
-            if (!played) {
-                const Uint64 origin = playOriginNs_.load();
-                if (origin != 0) {
-                    pendingPlayNs_.fetch_add(start - origin);
-                }
-                playOriginNs_.store(start);
-                played = true;
-            }
+            ran = true;
             session_->setButtons(buttons_);
             session_->setTouch(touchDown_, touchX_, touchY_);
             session_->runFrame();
@@ -83,6 +75,14 @@ void Application::emuLoop() {
                     }
                 }
             }
+        }
+        if (ran) {
+            const Uint64 origin = playOriginNs_.exchange(start);
+            if (origin != 0) {
+                pendingPlayNs_.fetch_add(start - origin);
+            }
+        } else {
+            playOriginNs_.store(0);
         }
         const Uint64 frameNs = 16742706;
         const int cushion = 48000 * 4 / 15;

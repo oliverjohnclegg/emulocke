@@ -3,6 +3,7 @@
 #include "application/Application.hpp"
 #include "run/Catalog.hpp"
 #include "run/NuzlockeRules.hpp"
+#include "run/RunLabel.hpp"
 #include "run/SavePeek.hpp"
 #include "ui/IconAction.hpp"
 #include "ui/RunStripDraw.hpp"
@@ -44,16 +45,13 @@ bool drawRunStrip(Application& app, const Run& run) {
     if (app.displayFont()) {
         ImGui::PopFont();
     }
+    const std::string clock = formatPlayClock(run.playMs);
     char meta[96];
     if (snap.ok && snap.gyms.slots) {
-        std::snprintf(meta, sizeof meta, "%03u:%02u • Attempt #%d • Deaths: 0 • Badges: %u/%u",
-            snap.trainer.playHours, snap.trainer.playMinutes, run.attempt,
-            std::popcount(snap.gyms.earned), snap.gyms.slots);
-    } else if (snap.ok) {
-        std::snprintf(meta, sizeof meta, "%03u:%02u • Attempt #%d • Deaths: 0",
-            snap.trainer.playHours, snap.trainer.playMinutes, run.attempt);
+        std::snprintf(meta, sizeof meta, "%s • Attempt #%d • Deaths: 0 • Badges: %u/%u",
+            clock.c_str(), run.attempt, std::popcount(snap.gyms.earned), snap.gyms.slots);
     } else {
-        std::snprintf(meta, sizeof meta, "Attempt #%d • Deaths: 0", run.attempt);
+        std::snprintf(meta, sizeof meta, "%s • Attempt #%d • Deaths: 0", clock.c_str(), run.attempt);
     }
     ImGui::SetCursorScreenPos(ImVec2(text.x, origin.y + kRunPad + 22.f));
     ImGui::TextDisabled("%s", meta);
