@@ -10,6 +10,7 @@ constexpr float kConsolePad = 21.f;
 constexpr float kRightPaneSpan = kSuiteWidth + kConsolePad;
 constexpr int kNativeW = 256;
 constexpr int kNativeH = 192;
+constexpr float kFitSlop = 32.f;
 constexpr int kDefaultWindowW = 1035;
 constexpr int kDefaultWindowH = 836;
 
@@ -24,10 +25,10 @@ inline float consoleLeftHeight(float availY, float windowPadY) {
 }
 
 inline int fitScreenScale(int nativeW, int nativeH, int screens, float paneW, float paneH) {
-    const int fitW = std::max(1, static_cast<int>(paneW / static_cast<float>(nativeW)));
+    const int fitW = std::max(1, static_cast<int>((paneW + kFitSlop) / static_cast<float>(nativeW)));
     const int stack = nativeH * screens;
     if (static_cast<float>(stack * fitW) > paneH + static_cast<float>(stack)) {
-        return std::max(1, static_cast<int>(paneH / static_cast<float>(stack)));
+        return std::max(1, static_cast<int>((paneH + kFitSlop) / static_cast<float>(stack)));
     }
     return fitW;
 }
@@ -76,6 +77,7 @@ constexpr int widthAfterRightPaneToggle(int width, bool show) {
     return show ? width + span : width - span;
 }
 
+static_assert(static_cast<int>(kFitSlop) == 32);
 static_assert(static_cast<int>(kRightPaneSpan) == 481);
 static_assert(widthAfterRightPaneToggle(kDefaultWindowW, false) == 554);
 static_assert(widthAfterRightPaneToggle(554, true) == kDefaultWindowW);

@@ -24,7 +24,13 @@ int testLayout() {
     expect(emulocke::fitScreenScale(256, 192, 2, 512.f, 200.f) == 1, "ds 1x when far too short");
     expect(emulocke::fitScreenScale(240, 160, 1, 512.f, 768.f) == 2, "gba 2x in home pane");
     expect(emulocke::fitScreenScale(240, 160, 2, 512.f, 768.f) == 2, "gba party 2x in home pane");
-    expect(emulocke::fitScreenScale(256, 192, 2, 502.f, 768.f) == 1, "ds 1x from padded avail");
+    expect(emulocke::fitScreenScale(256, 192, 2, 502.f, 768.f) == 2, "ds 2x from padded avail");
+    expect(emulocke::fitScreenScale(256, 192, 2, 511.f, 768.f) == 2, "ds 2x from 511 pane");
+    expect(emulocke::fitScreenScale(256, 192, 2, 480.f, 768.f) == 2, "ds 2x when gba is 2x");
+    expect(emulocke::fitScreenScale(256, 192, 2, 256.f, 768.f) == 1, "ds 1x in native pane");
+    expect(emulocke::fitScreenScale(256, 192, 2, 257.f, 768.f) == 1, "ds 1x in 257 pane");
+    expect(emulocke::resolveScreenScale(0, 256, 192, 2, 502.f, 768.f) == 2, "fit ds padded");
+    expect(emulocke::resolveScreenScale(2, 256, 192, 2, 502.f, 768.f) == 2, "explicit 2x padded");
     expect(emulocke::resolveScreenScale(0, 256, 192, 2, 512.f, 768.f) == 2, "fit ds");
     expect(emulocke::resolveScreenScale(1, 256, 192, 2, 512.f, 768.f) == 1, "explicit 1x");
     expect(emulocke::resolveScreenScale(4, 256, 192, 2, 512.f, 768.f) == 2, "explicit 4x caps");
@@ -56,5 +62,10 @@ int testLayout() {
 
     const auto ds2xWanted = emulocke::layoutLcds(2, 256, 192, 2, 512.f, 768.f);
     expect(ds2xWanted.scale == 2 && ds2xWanted.x == 0.f, "explicit 2x matches fit");
+
+    const auto dsPadded = emulocke::layoutLcds(0, 256, 192, 2, 502.f, 768.f);
+    expect(dsPadded.scale == 2, "padded ds 2x");
+    expect(dsPadded.screenW == 512.f, "padded ds fills 2x width");
+    expect(dsPadded.x == 0.f, "padded ds flush");
     return fails;
 }

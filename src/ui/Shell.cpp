@@ -67,7 +67,9 @@ void drawConsoleScreens(Application& app, EmuSession& session, ImVec2 pane) {
     const int nativeW = session.screenWidth(0);
     const int nativeH = session.screenHeight(0);
     const int screens = (nds || partyLcd) ? 2 : 1;
-    const LcdLayout lcd = layoutLcds(app.screenScale(), nativeW, nativeH, screens, pane.x, pane.y);
+    const ImVec2 win = ImGui::GetWindowSize();
+    const LcdLayout lcd = layoutLcds(app.screenScale(), nativeW, nativeH, screens, std::max(pane.x, win.x),
+        std::max(pane.y, win.y));
     const ImVec2 screen(lcd.screenW, lcd.screenH);
     ImGui::SetCursorPos(ImVec2(lcd.x, lcd.y));
     drawScreen("top", app.screen(0), screen, app.paused(), false, app);
