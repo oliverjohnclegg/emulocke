@@ -91,19 +91,29 @@ void drawShell(Application& app) {
     const int wanted = app.screenScale();
     const int scale = wanted <= 0 ? fit : std::max(1, std::min(wanted, fit));
     const ImVec2 screen(static_cast<float>(nativeW * scale), static_cast<float>(nativeH * scale));
+    const float paneH = screen.y * static_cast<float>(screens) + gap;
     const ImVec2 cursor = ImGui::GetCursorPos();
     ImGui::SetCursorPos(ImVec2(cursor.x + insetX, cursor.y + insetY));
-    ImGui::BeginChild("left", ImVec2(screen.x, screen.y * static_cast<float>(screens) + gap), ImGuiChildFlags_None,
-        ImGuiWindowFlags_NoScrollbar);
+    const bool partyOn = nds || app.prefs().bottomScreen;
+    if (!partyOn) {
+        ImGui::PushStyleColor(ImGuiCol_ChildBg, kChassis);
+    }
+    ImGui::BeginChild("left", ImVec2(screen.x, paneH), ImGuiChildFlags_None, ImGuiWindowFlags_NoScrollbar);
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(kScreenGap, kScreenGap));
+    if (!partyOn) {
+        ImGui::SetCursorPosY((paneH - screen.y) * 0.5f);
+    }
     drawScreen("top", app.screen(0), screen, app.paused(), false, app);
     if (nds) {
         drawScreen("bottom", app.screen(1), screen, app.paused(), true, app);
-    } else {
+    } else if (app.prefs().bottomScreen) {
         drawGbaPartyLcd(app, screen);
     }
     ImGui::PopStyleVar();
     ImGui::EndChild();
+    if (!partyOn) {
+        ImGui::PopStyleColor();
+    }
     ImGui::SameLine(0.f, kConsolePad);
     drawRightSuite(app, insetX, insetY);
 }

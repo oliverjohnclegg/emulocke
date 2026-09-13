@@ -92,6 +92,9 @@ void drawMenuBar(Application& app) {
                 scaleItem(app, "4x", 4);
                 ImGui::EndMenu();
             }
+            if (ImGui::MenuItem("Bottom Screen", nullptr, app.prefs().bottomScreen)) {
+                app.setBottomScreen(!app.prefs().bottomScreen);
+            }
             if (ImGui::MenuItem("Restore Default Window")) {
                 app.restoreDefaultWindow();
             }

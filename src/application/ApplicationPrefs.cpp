@@ -50,6 +50,11 @@ void Application::setSpeedUpHold(bool hold) {
     prefs_.save();
 }
 
+void Application::setBottomScreen(bool on) {
+    prefs_.bottomScreen = on;
+    prefs_.save();
+}
+
 void Application::restoreDefaultWindow() {
     prefs_.fullscreen = false;
     pendingHost_ = PendingHost::RestoreDefault;
