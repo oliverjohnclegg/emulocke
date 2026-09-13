@@ -180,6 +180,7 @@ add_executable(emulocke
     src/ui/PresetPicker.cpp
     src/ui/GamePicker.cpp
     src/ui/GameStrip.cpp
+    src/ui/GameStripDraw.cpp
     src/ui/GameArtGpu.cpp
     src/ui/LoadingRunModal.cpp
     src/ui/RunList.cpp
@@ -287,6 +288,11 @@ target_link_libraries(emulocke-game-art-check PRIVATE emulocke_sprites SDL3::SDL
 if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-game-art-check PRIVATE pthread)
 endif()
+add_custom_command(
+    TARGET emulocke-game-art-check POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:emulocke-game-art-check>/assets)
 
 add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp

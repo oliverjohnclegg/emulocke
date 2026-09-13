@@ -120,6 +120,31 @@ int main() {
     for (const char* slug : hackSlugs) {
         expect(emulocke::catalogBySlug(slug) != nullptr, slug);
     }
+    const struct {
+        const char* slug;
+        const char* creator;
+    } hackCreators[] = {
+        {"blaze-black-3.1", "Drayano"},
+        {"volt-white-3.1", "Drayano"},
+        {"volt-white-2-redux", "AphexCubed"},
+        {"fire-red-omega", "Drayano"},
+        {"sacred-gold", "Drayano"},
+        {"platinum-kaizo", "SinisterHoodedFigure"},
+        {"renegade-platinum", "Drayano"},
+        {"radical-red-4.1", "Soupacell"},
+        {"unbound-2.1.1.1", "Skeli"},
+        {"run-and-bun-1.07", "dekzeh"},
+        {"inclement-emerald-1.13", "BuffelSaft"},
+        {"emerald-kaizo", "SinisterHoodedFigure"},
+    };
+    for (const auto& row : hackCreators) {
+        expect(std::string(emulocke::catalogBySlug(row.slug)->creator) == row.creator, row.slug);
+    }
+    for (const emulocke::CatalogTitle& title : emulocke::catalogTitles()) {
+        if (title.kind == emulocke::TitleKind::Baseline) {
+            expect(title.creator[0] == '\0', title.slug);
+        }
+    }
     expect(emulocke::catalogOptionId(*emulocke::catalogByUuid(emulocke::kBlazeBlackUuid), {}) == "full",
         "bb default");
     expect(emulocke::catalogOptionId(*emulocke::catalogByUuid(emulocke::kVoltWhiteUuid), {}) == "full",
