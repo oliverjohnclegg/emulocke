@@ -5,6 +5,8 @@
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
 #include "run/SavePeek.hpp"
+#include "ui/Layout.hpp"
+#include "ui/WindowFit.hpp"
 #include "ui/MediaFetch.hpp"
 #include "ui/PngCache.hpp"
 
@@ -132,6 +134,7 @@ void Application::bootRun(const Run& run) {
     }
     if (session_) {
         startEmuThread();
+        syncWindowToScale();
     }
     std::fprintf(stderr, "%s\n", status_.c_str());
 }
@@ -159,6 +162,14 @@ void Application::closeRun() {
         }
     }
     syncWindowTitle();
+    if (prefs_.scale > 0 && !host_.fullscreen()) {
+        host_.restoreDefaultSize();
+        if (!prefs_.rightPane) {
+            host_.adjustWidth(-static_cast<int>(kRightPaneSpan));
+        }
+        host_.captureWindowed(prefs_);
+        prefs_.save();
+    }
 }
 
 bool Application::copySnapshot(GameSnapshot& out) const {

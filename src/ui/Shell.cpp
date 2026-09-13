@@ -94,7 +94,8 @@ void drawShell(Application& app) {
     ImVec2 left(consoleLeftWidth(avail.x, ImGui::GetStyle().WindowPadding.x, rightSpan),
         consoleLeftHeight(avail.y, ImGui::GetStyle().WindowPadding.y));
     EmuSession* session = app.session();
-    if (session && (session->kind() == ConsoleKind::Nds || app.prefs().bottomScreen)) {
+    if (session && app.screenScale() <= 0
+        && (session->kind() == ConsoleKind::Nds || app.prefs().bottomScreen)) {
         left.y += kScreenGap;
     }
     const ImVec2 cursor = ImGui::GetCursorPos();

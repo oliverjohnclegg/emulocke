@@ -1,4 +1,5 @@
 #include "ui/Layout.hpp"
+#include "ui/WindowFit.hpp"
 
 #include <algorithm>
 #include <cstdio>
@@ -79,5 +80,34 @@ int testLayout() {
     expect(dsPadded.scale == 2, "padded ds 2x");
     expect(dsPadded.screenW == 512.f, "padded ds fills 2x width");
     expect(dsPadded.x == 0.f, "padded ds flush");
+
+    expect(emulocke::lcdClusterW(256, 1) == 256.f, "ds 1x cluster w");
+    expect(emulocke::lcdClusterH(192, 2, 1) == 389.f, "ds 1x cluster h");
+    expect(emulocke::lcdClusterH(192, 2, 2) == 773.f, "ds 2x cluster h");
+    expect(emulocke::lcdClusterW(240, 2) == 480.f, "gba 2x cluster w");
+    expect(emulocke::lcdClusterH(160, 2, 2) == 645.f, "gba party 2x cluster h");
+    expect(emulocke::lcdClusterH(160, 1, 2) == 320.f, "gba only 2x cluster h");
+    expect(emulocke::windowWidthForLeft(512.f, true) == 1035, "home window w");
+    expect(emulocke::windowWidthForLeft(256.f, true) == 779, "ds 1x window w");
+    expect(emulocke::windowWidthForLeft(256.f, false) == 298, "ds 1x no suite");
+    expect(emulocke::windowHeightForLeft(768.f) == 836, "home window h");
+    expect(emulocke::windowHeightForLeft(773.f) == 841, "ds 2x window h");
+    expect(emulocke::windowHeightForLeft(389.f) == 457, "ds 1x window h");
+
+    const float pad = 5.f;
+    const int ds1xW = emulocke::windowWidthForLeft(emulocke::lcdClusterW(256, 1), true);
+    const float ds1xAvail = static_cast<float>(ds1xW) - pad * 2.f;
+    expect(emulocke::consoleLeftWidth(ds1xAvail, pad) == 256.f, "1x window hugs ds width");
+    const int ds1xWinH = emulocke::windowHeightForLeft(emulocke::lcdClusterH(192, 2, 1));
+    expect(ds1xWinH - (emulocke::kDefaultWindowH - emulocke::kHomeLeftH) == 389, "1x window hugs ds height");
+
+    const auto dsHug = emulocke::layoutLcds(1, 256, 192, 2, 256.f, 389.f);
+    expect(dsHug.scale == 1 && dsHug.x == 0.f && dsHug.y == 0.f && dsHug.gap == 5.f, "1x ds fills snapped pane");
+    const auto ds2Hug = emulocke::layoutLcds(2, 256, 192, 2, 512.f, 773.f);
+    expect(ds2Hug.scale == 2 && ds2Hug.x == 0.f && ds2Hug.y == 0.f && ds2Hug.gap == 5.f, "2x ds fills snapped pane");
+    const auto gbaHug = emulocke::layoutLcds(2, 240, 160, 2, 480.f, 645.f);
+    expect(gbaHug.scale == 2 && gbaHug.x == 0.f && gbaHug.y == 0.f && gbaHug.gap == 5.f, "2x gba fills snapped pane");
+    const auto gbaOnlyHug = emulocke::layoutLcds(2, 240, 160, 1, 480.f, 320.f);
+    expect(gbaOnlyHug.scale == 2 && gbaOnlyHug.x == 0.f && gbaOnlyHug.y == 0.f, "2x gba only fills snapped pane");
     return fails;
 }
