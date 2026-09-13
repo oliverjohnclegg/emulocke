@@ -88,7 +88,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p dist
+          mkdir -p dist/roms
           if [ -f build/Release/emulocke.exe ]; then
             bin=build/Release/emulocke.exe
           elif [ -f build/emulocke.exe ]; then
@@ -98,6 +98,9 @@ jobs:
           fi
           cp "$bin" dist/
           cp -a "$(dirname "$bin")/assets" dist/
+          if [ -d "$(dirname "$bin")/roms" ]; then
+            cp -a "$(dirname "$bin")/roms/." dist/roms/
+          fi
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
