@@ -40,8 +40,17 @@ void Application::queueLoadRun(std::string id) {
     pendingLoadId_ = std::move(id);
 }
 
-void Application::queueNewAttempt(std::string sourceId) {
-    pendingAttemptId_ = std::move(sourceId);
+void Application::requestNewAttempt(std::string sourceId) {
+    confirmAttemptId_ = std::move(sourceId);
+}
+
+void Application::dismissNewAttempt() {
+    confirmAttemptId_.clear();
+}
+
+void Application::confirmNewAttempt() {
+    pendingAttemptId_ = std::move(confirmAttemptId_);
+    confirmAttemptId_.clear();
 }
 
 void Application::importPath(const std::string& path) {

@@ -48,7 +48,9 @@ public:
     void requestImportFor(std::string uuid);
     void queueImport(std::string path);
     void queueLoadRun(std::string id);
-    void queueNewAttempt(std::string sourceId);
+    void requestNewAttempt(std::string sourceId);
+    void dismissNewAttempt();
+    void confirmNewAttempt();
     void closeRun();
     void pauseToggle();
     void resetSession();
@@ -74,6 +76,7 @@ public:
     const std::string& status() const { return status_; }
     bool copySnapshot(GameSnapshot& out) const;
     bool showNewRun() const { return showNewRun_; }
+    bool showNewAttemptConfirm() const { return !confirmAttemptId_.empty(); }
     NewRunDraft& newRunDraft() { return newRunDraft_; }
     RomLibrary& romLibrary() { return *romLibrary_; }
     const RomLibrary& romLibrary() const { return *romLibrary_; }
@@ -147,6 +150,7 @@ private:
     std::string activeRunId_;
     std::string pendingLoadId_;
     std::string pendingAttemptId_;
+    std::string confirmAttemptId_;
     NewRunDraft newRunDraft_;
     std::atomic<uint64_t> pendingPlayNs_{0};
     std::atomic<uint64_t> playOriginNs_{0};

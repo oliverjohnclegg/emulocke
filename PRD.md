@@ -49,7 +49,7 @@ A playable host. Suite is Tracker then Logs.
 - Home START RUN opens New Run. New Run lists every catalog title as a strip (art, name with version in the title, region), including the 12 hacks as games. Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library.
 - Blaze Black and Volt White show Optional Patches (Full default, or Clean). The choice is stored on the run. Other hacks have a single bundled patch.
 - Starting a hack run applies the bundled IPS/UPS/BPS/xdelta onto the imported baseline if `roms/derived/<uuid>[-option].ext` is not already there.
-- One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage.
+- One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage. File > Start New Attempt and the home plus ask first: this ends the current attempt and deletes its save.
 - CLI `emulocke /path/to/dump` imports a known baseline and opens New Run. It does not silent-boot.
 - 60fps video in the left column once a run is seated
 - Audio
