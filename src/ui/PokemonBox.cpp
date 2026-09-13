@@ -13,11 +13,13 @@ void drawBoxGrid(BoxSprites& sprites, const MonView* mons, int n, int idBase) {
     if (cols < 1) {
         cols = 1;
     }
-    const float used = static_cast<float>(cols) * well + static_cast<float>(cols - 1) * gap;
-    const float pad = std::max(0.f, (inner - used) * 0.5f);
     const ImVec2 size(well, well);
     for (int i = 0; i < n; ++i) {
         if (i % cols == 0) {
+            const int remain = n - i;
+            const int rowN = remain < cols ? remain : cols;
+            const float used = static_cast<float>(rowN) * well + static_cast<float>(rowN - 1) * gap;
+            const float pad = std::max(0.f, (inner - used) * 0.5f);
             ImGui::SetCursorPosX(ImGui::GetCursorPosX() + pad);
         }
         ImGui::PushID(idBase + i);
