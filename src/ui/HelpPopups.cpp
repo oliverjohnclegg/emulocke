@@ -38,6 +38,7 @@ void drawHelpPopups(Application& app) {
         controlRow("Select", "Shift");
         controlRow("Stylus", "Mouse on bottom screen");
         controlRow("Speed-up", app.prefs().speedUpHold ? "Hold Tab" : "Tab");
+        controlRow("Right pane", "F8");
         ImGui::Dummy(ImVec2(0, 10));
         ImGui::TextDisabled("Gamepad uses the standard SDL map.");
         ImGui::Dummy(ImVec2(0, 12));

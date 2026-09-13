@@ -33,6 +33,7 @@ Left column is the game. Right column is the suite.
 - Two-screen games: stacked screens (256x192), top then bottom, 5px between them. Mouse on the bottom pane is the stylus.
 - One-screen games: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
 - 21px graphite around the screen cluster. Not between the two screens. Same 21px below and to the right of the suite.
+- View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
 - Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party, badges). Unsupported carts keep the empty log.
 - With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Logs.
@@ -57,7 +58,7 @@ A playable host. Suite is a Logs tab only.
 - Battery saves live in the run folder (`battery.sav`), never beside the ROM
 - Pause, reset, and speed-up (Tab, default 3x). Emulation > Speed-up holds the 2x-8x slider and Hold Tab vs toggle.
 - One run at a time; ROM extension picks the core
-- View: fullscreen, screen scale Fit / 1x / 2x / 3x / 4x, restore default window
+- View: fullscreen, right pane (F8), screen scale Fit / 1x / 2x / 3x / 4x, restore default window
 - Audio: mute and volume
 - Help: controls (read-only) and about
 - Prefs persist in the SDL pref path as `prefs.ini`
@@ -142,6 +143,7 @@ Bindings are fixed in V1. Help > Controls lists them. Remapping is later.
 | Select | Shift |
 | Stylus | Mouse on bottom screen |
 | Speed-up | Tab |
+| Right pane | F8 |
 
 Gamepad: standard SDL mapping.
 
@@ -200,4 +202,5 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Home-only start and load. File drops New Run and Load Run. Plate title is `GAME - Preset`. Subtitle is playtime, Attempt #N, Deaths, and badges, joined by •. Party sprites crop to opaque pixels and sit centered in the wells.
 - 2026-09-13: When home has run plates, START RUN is a compact full-width stamp rail, not the empty-home hero button.
 - 2026-09-13: Twelve ROM hacks in the catalog as games. Bundled IPS/UPS/BPS/xdelta. xdelta3 decode. Optional Patches for Blaze Black and Volt White. Hack art is a plate unless a bundled still exists.
+- 2026-09-13: View > Right Pane (F8) hides the suite column and shrinks the window by that column. Left pane and menu bar stay put.
 - 2026-09-13: Home playtime is host wall clock as `HH:MM`, not the in-game save clock. Tab speed-up does not advance it.
