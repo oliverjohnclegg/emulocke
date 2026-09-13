@@ -31,7 +31,7 @@ Stock emulators play the game and nothing else. Existing nuzlocke tools live in 
 Left column is the game. Right column is the suite.
 
 - Two-screen games: stacked screens (256x192), top then bottom, 5px between them. Mouse on the bottom pane is the stylus.
-- One-screen games: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
+- One-screen games: stacked wells (240x160), game then party LCD, 5px between them. Party LCD is suite chrome (box sprites, HP), not a second framebuffer. Not a stylus target.
 - 21px graphite around the screen cluster. Not between the two screens. Same 21px below and to the right of the suite.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
 - Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party, badges). Unsupported carts keep the empty log.
@@ -157,7 +157,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 | SDL3 + Dear ImGui, themed | Low-latency host. Suite can grow in the right pane later. Qt is the stock emulator look. Tauri adds IPC latency. |
 | Native cores, not libretro | This project named the standalone melonDS and mGBA repos. Native APIs also expose RAM/save for a later suite. |
 | Software 3D (no melonDS GL renderer) | Avoid sharing a GL context with ImGui. Fine for V1 on PC. |
-| One-screen games use one left pane | A 2x2 grid leaves a dead bottom-left tile. |
+| One-screen games stack game + party LCD | A 2x2 grid leaves a dead bottom-left tile. Party LCD is chrome, not a second core screen. |
 | FreeBIOS / generated firmware | Play DS Pokemon without shipping or requiring dumps. |
 | One session at a time | No dual-core process. Extension selects the core. |
 | Baseline View/Audio prefs in V1 | Window, scale, mute, and volume are how you play, not lab tools. |
@@ -175,7 +175,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 3. A verified Fire Red US 1.0 dump imports as its catalog UUID. Unknown files are refused.
 4. Video, audio, keyboard, gamepad, pause, reset, speed-up, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
-6. One-screen games use a single left pane; FRLG fills Logs from the adapter snapshot.
+6. One-screen games stack game + party LCD; FRLG fills Logs from the adapter snapshot.
 7. View, Audio, and Help work. Prefs survive a relaunch.
 
 ## Changelog
@@ -201,3 +201,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: When home has run plates, START RUN is a compact full-width stamp rail, not the empty-home hero button.
 - 2026-09-13: Twelve ROM hacks in the catalog as games. Bundled IPS/UPS/BPS/xdelta. xdelta3 decode. Optional Patches for Blaze Black and Volt White. Hack art is a plate unless a bundled still exists.
 - 2026-09-13: Home playtime is host wall clock as `HH:MM`, not the in-game save clock. Tab speed-up does not advance it.
+- 2026-09-13: One-screen games stack a party LCD under the game. 2x3 box sockets, HP tracks, occasional hop.

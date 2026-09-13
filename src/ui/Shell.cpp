@@ -2,6 +2,7 @@
 
 #include "application/Application.hpp"
 #include "emu/EmuSession.hpp"
+#include "ui/GbaPartyScreen.hpp"
 #include "ui/Layout.hpp"
 #include "ui/Suite.hpp"
 #include "ui/Theme.hpp"
@@ -82,8 +83,8 @@ void drawShell(Application& app) {
     const bool nds = session->kind() == ConsoleKind::Nds;
     const int nativeW = session->screenWidth(0);
     const int nativeH = session->screenHeight(0);
-    const int screens = nds ? 2 : 1;
-    const float gap = nds ? kScreenGap : 0.f;
+    const int screens = 2;
+    const float gap = kScreenGap;
     const float consoleAvailW = avail.x - insetX - kSuiteWidth - kConsolePad - insetX;
     const int fit = std::max(1, std::min(static_cast<int>(consoleAvailW / static_cast<float>(nativeW)),
         static_cast<int>((avail.y - insetY - gap) / static_cast<float>(nativeH * screens))));
@@ -98,6 +99,8 @@ void drawShell(Application& app) {
     drawScreen("top", app.screen(0), screen, app.paused(), false, app);
     if (nds) {
         drawScreen("bottom", app.screen(1), screen, app.paused(), true, app);
+    } else {
+        drawGbaPartyLcd(app, screen);
     }
     ImGui::PopStyleVar();
     ImGui::EndChild();

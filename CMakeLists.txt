@@ -134,6 +134,8 @@ add_executable(emulocke
     src/application/RunControl.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
+    src/ui/GbaPartyScreen.cpp
+    src/ui/GbaPartySlot.cpp
     src/ui/Home.cpp
     src/ui/NewRunModal.cpp
     src/ui/NewRunOptions.cpp
