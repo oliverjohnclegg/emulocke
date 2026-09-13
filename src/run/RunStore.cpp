@@ -101,6 +101,18 @@ bool RunStore::touch(const std::string& id) {
     return writeRunMeta(root_ / id, *run);
 }
 
+bool RunStore::addPlayMs(const std::string& id, uint64_t ms) {
+    Run* run = find(id);
+    if (!run) {
+        return false;
+    }
+    if (ms == 0) {
+        return true;
+    }
+    run->playMs += ms;
+    return writeRunMeta(root_ / id, *run);
+}
+
 std::filesystem::path RunStore::batteryPath(const std::string& id) const {
     return root_ / id / "battery.sav";
 }

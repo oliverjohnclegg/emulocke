@@ -2,6 +2,7 @@
 
 #include "run/Run.hpp"
 
+#include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -21,6 +22,7 @@ public:
     std::optional<Run> create(std::string catalogUuid, NuzlockeRules rules);
     std::optional<Run> createAttempt(const Run& source);
     bool touch(const std::string& id);
+    bool addPlayMs(const std::string& id, uint64_t ms);
     std::filesystem::path batteryPath(const std::string& id) const;
     std::vector<const Run*> byCatalogUuid(std::string_view uuid) const;
     std::vector<const Run*> recentLineages() const;

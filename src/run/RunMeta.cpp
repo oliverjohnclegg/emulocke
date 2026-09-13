@@ -70,6 +70,13 @@ std::optional<Run> readRunMeta(const std::filesystem::path& dir) {
     run.catalogUuid = kv["game"];
     run.createdAt = kv["createdAt"];
     run.lastPlayedAt = kv.count("lastPlayedAt") ? kv["lastPlayedAt"] : run.createdAt;
+    if (kv.count("playMs")) {
+        try {
+            run.playMs = std::stoull(kv["playMs"]);
+        } catch (...) {
+            run.playMs = 0;
+        }
+    }
     run.lineageId = kv.count("lineageId") && !kv["lineageId"].empty() ? kv["lineageId"] : run.id;
     run.attempt = 1;
     if (kv.count("attempt")) {

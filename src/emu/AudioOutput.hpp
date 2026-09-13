@@ -18,6 +18,8 @@ public:
     void push(const int16_t* interleavedStereo, int frames, int sourceHz);
     void setMuted(bool mute);
     void setVolume(int volume);
+    void setDropping(bool drop);
+    void clear();
     int queuedBytes() const;
 
 private:
@@ -26,6 +28,7 @@ private:
     int sourceHz_{48000};
     bool muted_{false};
     int volume_{100};
+    bool dropping_{false};
 };
 
 }

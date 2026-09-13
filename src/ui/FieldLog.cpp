@@ -1,7 +1,6 @@
 #include "ui/FieldLog.hpp"
 
 #include "adapter/Snapshot.hpp"
-#include "adapter/frlg/FrlgNames.hpp"
 #include "application/Application.hpp"
 
 #include <bit>
@@ -27,8 +26,8 @@ void drawParty(const GameSnapshot& snap) {
             ImGui::TextDisabled("  %d  --", i + 1);
             continue;
         }
-        ImGui::Text("  %d  %-11s  Lv%02u  %03u/%03u", i + 1, frlgSpeciesName(mon.species), mon.level, mon.hp,
-                    mon.maxHp);
+        const char* name = mon.speciesName[0] ? mon.speciesName : "--";
+        ImGui::Text("  %d  %-11s  Lv%02u  %03u/%03u", i + 1, name, mon.level, mon.hp, mon.maxHp);
     }
 }
 
@@ -58,7 +57,7 @@ void drawFieldLog(Application& app) {
     } else {
         ImGui::TextDisabled("No supported cart seated.");
         ImGui::Spacing();
-        ImGui::TextWrapped("FireRed and LeafGreen write party, boxes, and map here. Other titles stay dark.");
+        ImGui::TextWrapped("Supported carts write trainer, party, and boxes here.");
         if (!app.status().empty()) {
             ImGui::Dummy(ImVec2(0, 16));
             ImGui::TextUnformatted(app.status().c_str());

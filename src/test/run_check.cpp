@@ -6,11 +6,13 @@
 #include "run/RunLabel.hpp"
 #include "run/RunMeta.hpp"
 #include "run/RunStore.hpp"
+#include "run/TitlePlay.hpp"
 
 #include <mgba-util/crc32.h>
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -98,7 +100,22 @@ int main() {
     expect(std::string(emulocke::rulesLabel(emulocke::regularRules())) == "REGULAR", "regular");
     expect(std::string(emulocke::rulesLabel(emulocke::hardcoreRules())) == "HARDCORE", "hardcore");
 
-    expect(emulocke::catalogTitles().size() == 18, "catalog size");
+    expect(emulocke::catalogTitles().size() == 20, "catalog size");
+    expect(std::string(emulocke::catalogBySha1("66d2fbfb0dbc1f86a3d726971196989b950092bc")->slug) ==
+            "diamond-us",
+        "diamond 1.13 alias");
+    expect(std::string(emulocke::catalogBySha1("5da09a39424f1a76c52a3eebad9b5e8dcacb71ba")->slug) ==
+            "black2-us",
+        "black2 alias");
+    expect(std::string(emulocke::catalogBySha1("610b96a9c9a7d03d2bafb655e7560ccff1a6d894")->slug) ==
+            "ruby-us-1.1",
+        "ruby 1.1");
+    expect(std::string(emulocke::catalogBySha1("0862ec35b24de5c7e2dcb88c9eea0873110d755c")->slug) ==
+            "platinum-us-1.1",
+        "platinum 1.1");
+    expect(std::string(emulocke::catalogBySlug("black-us")->code) == "IRBO", "black code");
+    expect(std::string(emulocke::catalogBySlug("white-us")->code) == "IRAO", "white code");
+    expect(emulocke::catalogBySlug("diamond-us")->revision == 5, "diamond rev");
 
     const auto tmp = std::filesystem::temp_directory_path() / "emulocke_rom_library_test";
     std::filesystem::remove_all(tmp);
@@ -160,9 +177,30 @@ int main() {
     auto a = store.create(emulocke::kFireRedUs10Uuid, emulocke::regularRules());
     auto b = store.create(emulocke::kFireRedUs10Uuid, emulocke::hardcoreRules());
     expect(a && b, "create runs");
+    expect(a && a->playMs == 0, "new play 0");
     expect(emulocke::runHeadline(*a) == "Pokemon Fire Red: Regular Nuzlocke  |  Attempt #1", "headline");
-    auto a2 = store.createAttempt(*a);
+    expect(store.addPlayMs(a->id, 1500), "add play");
+    expect(store.find(a->id) && store.find(a->id)->playMs == 1500, "play ms");
+    {
+        emulocke::RunStore check(runs);
+        check.load();
+        expect(check.find(a->id) && check.find(a->id)->playMs == 1500, "reload play");
+    }
+
+    const auto playFile = tmp / "playtime.ini";
+    emulocke::TitlePlay titlePlay(playFile);
+    expect(titlePlay.get(emulocke::kFireRedUs10Uuid) == 0, "title 0");
+    expect(titlePlay.add(emulocke::kFireRedUs10Uuid, 4000), "title add");
+    expect(titlePlay.get(emulocke::kFireRedUs10Uuid) == 4000, "title 4s");
+    emulocke::TitlePlay reloadedPlay(playFile);
+    expect(reloadedPlay.get(emulocke::kFireRedUs10Uuid) == 4000, "title reload");
+
+    auto a2 = store.createAttempt(*store.find(a->id));
     expect(a2 && a2->attempt == 2 && !store.find(a->id), "replace attempt");
+    expect(a2 && a2->playMs == 0, "attempt play 0");
+    emulocke::TitlePlay afterAttempt(playFile);
+    expect(afterAttempt.get(emulocke::kFireRedUs10Uuid) == 4000, "title after attempt");
+    expect(store.addPlayMs(b->id, 250), "other add play");
     expect(store.byCatalogUuid(emulocke::kFireRedUs10Uuid).size() == 2, "two lineages");
 
     const char* kLeafGreen = "9f374685-6339-5285-a9e9-7953afa9802b";
@@ -189,6 +227,30 @@ int main() {
     const emulocke::Run* againRun = loaded.find(a2->id);
     expect(againRun && againRun->catalogUuid == emulocke::kFireRedUs10Uuid, "reload uuid");
     expect(againRun && againRun->attempt == 2, "reload attempt");
+    expect(againRun && againRun->playMs == 0, "reload play 0");
+    expect(loaded.find(b->id) && loaded.find(b->id)->playMs == 250, "other run play");
+
+    const auto legacyDir = runs / "0123456789abcdef";
+    std::filesystem::create_directory(legacyDir);
+    {
+        std::ofstream out(legacyDir / "meta.ini");
+        out << "game=" << emulocke::kFireRedUs10Uuid << "\n";
+        out << "lineageId=0123456789abcdef\n";
+        out << "attempt=1\n";
+        out << "firstEncounter=1\n";
+        out << "nicknames=1\n";
+        out << "faintIsDeath=1\n";
+        out << "setMode=0\n";
+        out << "noItemsInBattle=0\n";
+        out << "levelCap=0\n";
+        out << "dupesClause=1\n";
+        out << "shinyClause=1\n";
+        out << "createdAt=2026-01-01T00:00:00Z\n";
+        out << "lastPlayedAt=2026-01-01T00:00:00Z\n";
+    }
+    loaded.load();
+    const emulocke::Run* legacyRun = loaded.find("0123456789abcdef");
+    expect(legacyRun && legacyRun->playMs == 0, "legacy play 0");
 
     std::filesystem::remove_all(tmp);
     if (fails) {
