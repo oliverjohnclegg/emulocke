@@ -10,7 +10,6 @@
 
 #include <imgui.h>
 #include <algorithm>
-#include <cmath>
 #include <string>
 
 namespace emulocke {
@@ -60,10 +59,8 @@ void drawRunParty(Application& app, const Party& party, ImVec2 p) {
         }
         const float maxW = kSockW - kSockInset * 2.f;
         const float maxH = kSockH - kSockInset * 2.f;
-        float scale = std::min(maxW / static_cast<float>(png.cropW), maxH / static_cast<float>(png.cropH));
-        if (scale > 1.f) {
-            scale = std::floor(scale);
-        }
+        const float scale =
+            std::min(maxW / static_cast<float>(png.cropW), maxH / static_cast<float>(png.cropH));
         const ImVec2 sz(static_cast<float>(png.cropW) * scale, static_cast<float>(png.cropH) * scale);
         const ImVec2 pos(a.x + (kSockW - sz.x) * 0.5f, a.y + (kSockH - sz.y) * 0.5f);
         const ImVec2 uv0(static_cast<float>(png.cropX) / static_cast<float>(png.w),
