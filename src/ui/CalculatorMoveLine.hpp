@@ -19,6 +19,7 @@ int collectCalcMoves(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Po
     const uint16_t* moves, const Field& field, const int* pct, bool intoUs, CalcMoveLine* out);
 void sortCalcMoves(CalcMoveLine* lines, int n, bool byUse);
 void drawCalcMoveDmg(const CalcMoveLine& line, bool hugRight);
+void drawCalcMoveUseDmg(const CalcMoveLine& line);
 void drawCalcMoveName(const CalcMoveLine& line, bool right);
 
 }

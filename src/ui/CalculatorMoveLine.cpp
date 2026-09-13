@@ -54,6 +54,8 @@ void drawCalcMoveDmg(const CalcMoveLine& line, bool hugRight) {
     char d[20];
     if (line.blank) {
         std::snprintf(d, sizeof d, "--");
+    } else if (line.ohko) {
+        std::snprintf(d, sizeof d, "100%%+");
     } else if (line.pmin == line.pmax) {
         std::snprintf(d, sizeof d, "%d%%", line.pmin);
     } else {
@@ -69,6 +71,14 @@ void drawCalcMoveDmg(const CalcMoveLine& line, bool hugRight) {
     } else {
         ImGui::TextUnformatted(d);
     }
+}
+
+void drawCalcMoveUseDmg(const CalcMoveLine& line) {
+    if (line.use >= 0) {
+        ImGui::TextDisabled("%d%%", line.use);
+        ImGui::SameLine(0, 8.f);
+    }
+    drawCalcMoveDmg(line, false);
 }
 
 void drawCalcMoveName(const CalcMoveLine& line, bool right) {

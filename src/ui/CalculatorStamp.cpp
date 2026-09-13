@@ -30,7 +30,7 @@ void calcAlignRight(float width) {
 
 void calcPixelBar(int hp, int maxHp) {
     const float w = 48.f;
-    const float h = 5.f;
+    const float h = 8.f;
     const ImVec2 p = ImGui::GetCursorScreenPos();
     ImDrawList* dl = ImGui::GetWindowDrawList();
     dl->AddRectFilled(p, ImVec2(p.x + w, p.y + h), ImGui::GetColorU32(kScreenWell));
@@ -48,7 +48,10 @@ void calcPixelBar(int hp, int maxHp) {
         ? ImGui::GetColorU32(kMetal)
         : ImGui::GetColorU32(ImVec4(196 / 255.f, 43 / 255.f, 43 / 255.f, 1.f));
     if (px) {
-        dl->AddRectFilled(p, ImVec2(p.x + static_cast<float>(px), p.y + h), fill);
+        for (int i = 0; i < px; ++i) {
+            dl->AddRectFilled(ImVec2(p.x + static_cast<float>(i), p.y),
+                ImVec2(p.x + static_cast<float>(i) + 1.f, p.y + h), fill);
+        }
     }
     dl->AddRect(p, ImVec2(p.x + w, p.y + h), ImGui::GetColorU32(kBorder));
     ImGui::Dummy(ImVec2(w, h));
