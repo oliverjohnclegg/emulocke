@@ -26,4 +26,6 @@ xdelta3 is licensed under the Apache License 2.0. See third_party/xdelta3/LICENS
 
 SDL3 is licensed under the zlib license.
 
+Damage math follows the MIT-licensed Smogon damage calculator as used by Dynamic-Calc (hzla/Dynamic-Calc, @smogon/calc). Trainer tables for Fire Red / Leaf Green are generated from pret/pokefirered.
+
 Bundled UI fonts retain their own OFL licenses in assets/fonts/.

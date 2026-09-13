@@ -91,6 +91,28 @@ struct Gyms {
     uint8_t slots{};
 };
 
+struct BattleBattler {
+    uint16_t species{};
+    uint16_t hp{};
+    uint16_t maxHp{};
+    int8_t stages[8]{};
+    uint32_t status{};
+    uint8_t partyIndex{};
+};
+
+struct BattleState {
+    bool inBattle{};
+    uint8_t weather{};
+    uint16_t trainerId{};
+    BattleBattler player{};
+    BattleBattler foe{};
+    uint16_t foeHp[6]{};
+    uint16_t foeMaxHp[6]{};
+    uint16_t foeSpecies[6]{};
+    uint8_t foeLevel[6]{};
+    uint8_t foeCount{};
+};
+
 struct GameSnapshot {
     bool ok{};
     AdapterId adapterId{};
@@ -100,6 +122,7 @@ struct GameSnapshot {
     Boxes boxes{};
     Overworld overworld{};
     Gyms gyms{};
+    BattleState battle{};
 };
 
 }

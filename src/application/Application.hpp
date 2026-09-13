@@ -2,6 +2,7 @@
 
 #include "adapter/Snapshot.hpp"
 #include "application/Host.hpp"
+#include "calc/Session.hpp"
 #include "emu/AudioOutput.hpp"
 #include "emu/EmuSession.hpp"
 #include "emu/Input.hpp"
@@ -77,6 +78,9 @@ public:
     MediaFetch& media() { return *media_; }
     PngCache& pngs() { return *pngs_; }
     SavePeek& savePeek() { return *savePeek_; }
+    CalcSession& calc() { return calc_; }
+    bool previewCalc() const { return previewCalc_; }
+    void seedPreviewCalc();
 
 private:
     void startEmuThread();
@@ -139,6 +143,8 @@ private:
     std::atomic<uint16_t> touchX_{0};
     std::atomic<uint16_t> touchY_{0};
     std::vector<uint8_t> uploadScratch_;
+    CalcSession calc_{};
+    bool previewCalc_{};
 };
 
 }

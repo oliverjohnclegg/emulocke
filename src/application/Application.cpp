@@ -8,6 +8,7 @@
 
 #include <imgui.h>
 #include <SDL3/SDL.h>
+#include <string_view>
 
 namespace emulocke {
 namespace {
@@ -53,6 +54,11 @@ bool Application::start(int argc, char** argv) {
     pngs_ = std::make_unique<PngCache>(host_.renderer());
     savePeek_ = std::make_unique<SavePeek>();
     titlePlay_ = std::make_unique<TitlePlay>(prefDir() / "playtime.ini");
+    if (argc > 1 && std::string_view(argv[1]) == "--preview-calc") {
+        previewCalc_ = true;
+        seedPreviewCalc();
+        return true;
+    }
     if (argc > 1) {
         importPath(argv[1]);
         if (newRunDraft_.catalogUuid.empty()) {
