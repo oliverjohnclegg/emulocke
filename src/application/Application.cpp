@@ -1,6 +1,8 @@
 #include "application/Application.hpp"
 
+#include "application/BuildId.hpp"
 #include "emu/Paths.hpp"
+#include "run/Catalog.hpp"
 #include "run/SavePeek.hpp"
 #include "ui/MediaFetch.hpp"
 #include "ui/PngCache.hpp"
@@ -32,6 +34,7 @@ bool Application::start(int argc, char** argv) {
     if (!host_.create(prefs_)) {
         return false;
     }
+    syncWindowTitle();
     applyTheme();
     bodyFont_ = loadBodyFont();
     displayFont_ = loadDisplayFont();
@@ -108,6 +111,21 @@ void Application::pauseToggle() {
     if (paused_) {
         commitPlay();
     }
+}
+
+void Application::syncWindowTitle() {
+    std::string game;
+    if (!activeRunId_.empty() && runStore_) {
+        if (const Run* run = runStore_->find(activeRunId_)) {
+            if (const CatalogTitle* title = catalogByUuid(run->catalogUuid)) {
+                game = title->fullName;
+            } else {
+                game = "Pokemon";
+            }
+        }
+    }
+    const std::string title = windowTitle(buildChannel(), buildVersion(), buildHash(), game);
+    host_.setTitle(title.c_str());
 }
 
 void Application::pollSpeedUp(const bool* keys) {

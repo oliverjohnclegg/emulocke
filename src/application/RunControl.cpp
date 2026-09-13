@@ -158,6 +158,7 @@ void Application::loadRun(const std::string& id) {
         activeRunId_.clear();
         trackerLog_ = {};
     }
+    syncWindowTitle();
 }
 
 }

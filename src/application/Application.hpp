@@ -109,6 +109,7 @@ private:
     void bootRun(const Run& run);
     void harvestPlayOrigin();
     void commitPlay();
+    void syncWindowTitle();
     void initTracker();
     void loadTrackerLog();
     void destroyTracker();

@@ -59,9 +59,23 @@ Windows (MSVC): `build/Release/emulocke.exe`
 
 Gamepad uses the standard SDL map. Pause, reset, and speed-up are under Emulation. Hold Tab is the default; uncheck it to tap Tab on and off.
 
-## CI artifacts
+## Instances
 
-Every push runs `.github/workflows/build.yml` on Ubuntu and Windows. Download `emulocke-linux-x64` or `emulocke-windows-x64` from the Actions run. Keep the `assets/` folder next to the binary.
+`main` is Stable. `dev` is Vanguard.
+
+Every push runs `.github/workflows/build.yml` on Ubuntu and Windows. Keep `assets/` next to the binary.
+
+Stable:
+
+- `emulocke-vX.X.X-win-x64.exe`
+- `emulocke-vX.X.X-linux-x64`
+
+Vanguard:
+
+- `emulocke-vanguard-<commit>-win-x64.exe`
+- `emulocke-vanguard-<commit>-linux-x64`
+
+Window caption is `Emulocke vX.X.X` on Stable and `Emulocke VANGUARD [<commit>]` on Vanguard. A seated run appends ` - Pokémon <title>`.
 
 ## License
 

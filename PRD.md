@@ -108,7 +108,9 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 
 ## Platforms
 
-Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree must produce `emulocke.exe` on `windows-latest`. GitHub Actions uploads both binaries as artifacts on push. Native compile on each OS, not cross-compile.
+Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree must produce a Windows instance on `windows-latest`. `main` is Stable; `dev` is Vanguard. GitHub Actions stamps and uploads both OS instances on push. Native compile on each OS, not cross-compile.
+
+Stable instance names: `emulocke-vX.X.X-win-x64.exe` and `emulocke-vX.X.X-linux-x64`. Vanguard: `emulocke-vanguard-<commit>-win-x64.exe` and `emulocke-vanguard-<commit>-linux-x64`. Window caption is `Emulocke vX.X.X` (Stable) or `Emulocke VANGUARD [<commit>]` (Vanguard); a seated run appends ` - Pokémon <title>`.
 
 ## Tech
 
@@ -175,7 +177,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 ## V1 success
 
 1. The tree builds on the Linux/WSL machine used for development.
-2. GitHub Actions builds Linux and Windows artifacts on push (`emulocke` and `emulocke.exe`).
+2. GitHub Actions builds stamped Linux and Windows instances on push (Stable from `main`, Vanguard from `dev`).
 3. A verified Fire Red US 1.0 dump imports as its catalog UUID. Unknown files are refused.
 4. Video, audio, keyboard, gamepad, pause, reset, speed-up, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
@@ -207,4 +209,6 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Twelve ROM hacks in the catalog as games. Bundled IPS/UPS/BPS/xdelta. xdelta3 decode. Optional Patches for Blaze Black and Volt White. Hack art is a plate unless a bundled still exists.
 - 2026-09-13: View > Right Pane (F8) hides the suite column and shrinks the window by that column. Left pane and menu bar stay put.
 - 2026-09-13: Home playtime is host wall clock as `HH:MM`, not the in-game save clock. Tab speed-up does not advance it.
+- 2026-09-13: `main` is Stable, `dev` is Vanguard. Stamped instance names and window captions: version on Stable, commit hash on Vanguard.
+- 2026-09-13: Vanguard keeps the Stable mark and recasts the parchment metal as oxidized field-steel.
 - 2026-09-13: Left game pane keeps the home column size for DS and GBA. Screens integer-scale inside that pane.
