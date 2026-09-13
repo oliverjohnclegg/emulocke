@@ -38,6 +38,7 @@ std::optional<Run> RunStore::createAttempt(const Run& source) {
     run.attempt = attempt;
     run.createdAt = isoTimestamp();
     run.lastPlayedAt = run.createdAt;
+    run.playMs = 0;
     auto created = persist(std::move(run));
     if (!created) {
         return std::nullopt;

@@ -89,6 +89,7 @@ add_executable(emulocke
     src/main.cpp
     src/application/Host.cpp
     src/application/Application.cpp
+    src/application/ApplicationPlay.cpp
     src/application/ApplicationPrefs.cpp
     src/application/SessionControl.cpp
     src/application/AppLoop.cpp
@@ -126,7 +127,8 @@ add_executable(emulocke
     src/run/RunMeta.cpp
     src/run/RunMetaWrite.cpp
     src/run/RunStore.cpp
-    src/run/RunStoreAttempts.cpp)
+    src/run/RunStoreAttempts.cpp
+    src/run/TitlePlay.cpp)
 
 target_include_directories(emulocke PRIVATE src)
 target_link_libraries(emulocke PRIVATE emulocke_adapter core mgba imgui SDL3::SDL3)
@@ -240,7 +242,8 @@ add_executable(emulocke-run-check
     src/run/RunMeta.cpp
     src/run/RunMetaWrite.cpp
     src/run/RunStore.cpp
-    src/run/RunStoreAttempts.cpp)
+    src/run/RunStoreAttempts.cpp
+    src/run/TitlePlay.cpp)
 target_include_directories(emulocke-run-check PRIVATE src)
 target_link_libraries(emulocke-run-check PRIVATE mgba)
 if(MGBA_COMPILE_DEFS)

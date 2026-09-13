@@ -36,6 +36,15 @@ void Application::run() {
             }
         }
         drainPending();
+        if (!activeRunId_.empty()) {
+            const Uint64 now = SDL_GetTicksNS();
+            if (lastPlayCommitNs_ == 0) {
+                lastPlayCommitNs_ = now;
+            } else if (now - lastPlayCommitNs_ >= 5000000000ull) {
+                commitPlay();
+                lastPlayCommitNs_ = now;
+            }
+        }
         const bool* keys = SDL_GetKeyboardState(nullptr);
         if (!ImGui::GetIO().WantTextInput) {
             buttons_ = input_.poll(keys);
