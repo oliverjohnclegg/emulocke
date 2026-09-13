@@ -26,22 +26,31 @@ void drawInk(const CalcMoveLine& line, const char* s) {
 }  // namespace
 
 int collectCalcMoves(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Pokemon& def,
-    const uint16_t* moves, const Field& field, const int* pct, bool intoUs, CalcMoveLine* out) {
+    const uint16_t* moves, const Field& field, const int* pct, const bool* crits, bool intoUs,
+    CalcMoveLine* out) {
     int n = 0;
     for (int i = 0; i < 4; ++i) {
         const MoveRow* row = moveById(moves[i]);
         if (!row) {
             continue;
         }
-        const Move mv = moveFromRow(*row);
+        Move mv = moveFromRow(*row);
+        if (crits) {
+            mv.crit = crits[i];
+        }
         const DamageResult dmg = calculate(dmgGen, chart, atk, def, mv, field);
         CalcMoveLine& line = out[n++];
         line.name = mv.name;
         line.blank = dmg.immune || mv.kind == MoveKind::Status || mv.bp == 0;
+        line.ohko = dmg.ohko(intoUs ? def.hp : def.maxHp);
+        line.crit = mv.crit;
+        line.canCrit = !line.blank && mv.kind != MoveKind::Level && mv.kind != MoveKind::DragonRage &&
+            mv.kind != MoveKind::SonicBoom && mv.kind != MoveKind::SuperFang &&
+            mv.kind != MoveKind::Ohko;
+        line.slot = i;
         line.use = pct ? pct[i] : -1;
         line.pmin = def.maxHp > 0 ? dmg.min * 100 / def.maxHp : 0;
         line.pmax = def.maxHp > 0 ? dmg.max * 100 / def.maxHp : 0;
-        line.ohko = dmg.ohko(intoUs ? def.hp : def.maxHp);
     }
     return n;
 }

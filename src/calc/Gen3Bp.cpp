@@ -7,9 +7,13 @@ namespace emulocke {
 int advBasePower(const AdvCtx& ctx, int hit) {
     const Move& m = *ctx.move;
     const Pokemon& a = *ctx.atk;
+    const Field& f = *ctx.field;
     int bp = m.bp;
     if (m.kind == MoveKind::TripleKick) {
         bp = 10 * hit;
+    }
+    if (m.id == 228 && f.switchingOut) {
+        bp *= 2;
     }
     if (a.hp * 3 <= a.maxHp) {
         const uint8_t ab = a.ability;
@@ -19,6 +23,28 @@ int advBasePower(const AdvCtx& ctx, int hit) {
         }
     }
     return bp;
+}
+
+bool advSpread(uint16_t id) {
+    switch (id) {
+    case 57:
+    case 75:
+    case 89:
+    case 120:
+    case 129:
+    case 153:
+    case 157:
+    case 181:
+    case 196:
+    case 222:
+    case 239:
+    case 257:
+    case 284:
+    case 304:
+        return true;
+    default:
+        return false;
+    }
 }
 
 bool advImmune(const Pokemon& def, const Move& move, int typeEff) {

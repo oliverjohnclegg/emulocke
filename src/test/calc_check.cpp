@@ -13,6 +13,7 @@
 
 using emulocke::DamageResult;
 using emulocke::Field;
+using emulocke::FieldState;
 using emulocke::Move;
 using emulocke::MoveKind;
 using emulocke::Pokemon;
@@ -169,6 +170,77 @@ void testFairyCfru() {
     REQUIRE(!r.immune && r.min > 0);
 }
 
+void testField() {
+    Pokemon atk;
+    atk.name = "Mew";
+    atk.level = 50;
+    atk.atk = 100;
+    atk.spa = 100;
+    atk.t1 = Type::Normal;
+    Pokemon def;
+    def.name = "Mew";
+    def.def = 100;
+    def.spd = 100;
+    def.hp = 200;
+    def.maxHp = 200;
+    def.t1 = Type::Normal;
+    Move tackle;
+    tackle.name = "Tackle";
+    tackle.type = Type::Normal;
+    tackle.bp = 40;
+    Field f;
+    const DamageResult a = emulocke::calculate(3, 3, atk, def, tackle, f);
+    f.reflect = true;
+    const DamageResult ref = emulocke::calculate(3, 3, atk, def, tackle, f);
+    REQUIRE(ref.max < a.max && ref.max > 0);
+    f = {};
+    f.protect = true;
+    const DamageResult pr = emulocke::calculate(3, 3, atk, def, tackle, f);
+    REQUIRE(pr.min == 0 && pr.max == 0 && !pr.immune);
+    f = {};
+    tackle.crit = true;
+    const DamageResult cr = emulocke::calculate(3, 3, atk, def, tackle, f);
+    REQUIRE(cr.min > a.max);
+    def.t1 = Type::Ghost;
+    Move beam;
+    beam.name = "Hyper Beam";
+    beam.type = Type::Normal;
+    beam.bp = 150;
+    f = {};
+    const DamageResult miss = emulocke::calculate(3, 3, atk, def, beam, f);
+    REQUIRE(miss.immune || miss.max == 0);
+    f.foresight = true;
+    const DamageResult hit = emulocke::calculate(3, 3, atk, def, beam, f);
+    REQUIRE(!hit.immune && hit.max > 0);
+    Move pursuit;
+    pursuit.id = 228;
+    pursuit.name = "Pursuit";
+    pursuit.type = Type::Dark;
+    pursuit.bp = 40;
+    def.t1 = Type::Normal;
+    f = {};
+    const DamageResult p0 = emulocke::calculate(3, 3, atk, def, pursuit, f);
+    f.switchingOut = true;
+    const DamageResult p1 = emulocke::calculate(3, 3, atk, def, pursuit, f);
+    REQUIRE(p1.min > p0.min);
+    Move ember;
+    ember.name = "Ember";
+    ember.type = Type::Fire;
+    ember.bp = 40;
+    f = {};
+    const DamageResult dry = emulocke::calculate(3, 3, atk, def, ember, f);
+    f.weather = emulocke::Weather::Sun;
+    const DamageResult sun = emulocke::calculate(3, 3, atk, def, ember, f);
+    REQUIRE(sun.min > dry.min);
+    FieldState s;
+    s.theirs.reflect = true;
+    s.ours.helpingHand = true;
+    const Field intoFoe = emulocke::aimField(s, true);
+    REQUIRE(intoFoe.reflect && intoFoe.helpingHand);
+    const Field intoUs = emulocke::aimField(s, false);
+    REQUIRE(!intoUs.reflect && !intoUs.helpingHand);
+}
+
 }  // namespace
 
 int main() {
@@ -177,6 +249,7 @@ int main() {
     testFairyCfru();
     testHpBar();
     testSwitchIn();
+    testField();
     std::printf("calc check ok\n");
     return 0;
 }

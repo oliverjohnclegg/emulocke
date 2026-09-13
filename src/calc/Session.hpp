@@ -1,6 +1,7 @@
 #pragma once
 
 #include "adapter/Snapshot.hpp"
+#include "calc/Field.hpp"
 #include "calc/Pack.hpp"
 
 #include <string_view>
@@ -29,6 +30,10 @@ public:
     bool fainted(int slot) const;
     int nextIn() const;
     void foeOrder(int slots[6]) const;
+    FieldState& fieldState() { return field_; }
+    const FieldState& fieldState() const { return field_; }
+    bool* moveCrits(bool foe) { return foe ? critTheirs_ : critOurs_; }
+    void seedWeather(Weather w);
 
 private:
     void refreshFoe();
@@ -45,6 +50,10 @@ private:
     bool browsing_{};
     std::vector<const PackTrainer*> trainers_;
     std::vector<const PackLocation*> locations_;
+    FieldState field_{};
+    Weather liveWeather_{Weather::None};
+    bool critOurs_[4]{};
+    bool critTheirs_[4]{};
 };
 
 }

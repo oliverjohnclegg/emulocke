@@ -66,6 +66,10 @@ int advDefense(const AdvCtx& ctx) {
     if (stage < 0 || (!ctx.crit && stage > 0)) {
         df = boostedStat(df, stage);
     }
+    if (!ctx.physical && ctx.field->weather == Weather::Sand &&
+        (d.t1 == Type::Rock || d.t2 == Type::Rock)) {
+        df = df * 3 / 2;
+    }
     if (df < 1) {
         df = 1;
     }

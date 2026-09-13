@@ -15,10 +15,8 @@ int advFinal(int base, const AdvCtx& ctx) {
         base /= 2;
     }
     if (!ctx.crit) {
-        if (ctx.physical && f.reflect) {
-            base /= 2;
-        } else if (!ctx.physical && f.lightScreen) {
-            base /= 2;
+        if ((ctx.physical && f.reflect) || (!ctx.physical && f.lightScreen)) {
+            base = f.doubles ? base * 2 / 3 : base / 2;
         }
     }
     if ((f.weather == Weather::Sun && m.type == Type::Fire) ||
@@ -30,6 +28,9 @@ int advFinal(int base, const AdvCtx& ctx) {
     }
     if (a.ability == kAbFlashFire && a.flashFire && m.type == Type::Fire) {
         base = base * 3 / 2;
+    }
+    if (f.doubles && advSpread(m.id)) {
+        base /= 2;
     }
     base = (ctx.physical ? std::max(1, base) : base) + 2;
     if (ctx.crit) {

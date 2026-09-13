@@ -1,6 +1,5 @@
 #include "ui/CalculatorDraw.hpp"
 
-#include "calc/Ability.hpp"
 #include "calc/HpBar.hpp"
 #include "calc/Labels.hpp"
 
@@ -8,31 +7,6 @@
 #include <cstdio>
 
 namespace emulocke {
-namespace {
-
-const char* statusTag(uint32_t s) {
-    if (s & 7) {
-        return "SLP";
-    }
-    if (s & kStFrz) {
-        return "FRZ";
-    }
-    if (s & kStPar) {
-        return "PAR";
-    }
-    if (s & kStBurn) {
-        return "BRN";
-    }
-    if (s & kStToxic) {
-        return "TOX";
-    }
-    if (s & kStPsn) {
-        return "PSN";
-    }
-    return nullptr;
-}
-
-}  // namespace
 
 void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
     if (right) {
@@ -56,7 +30,7 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
     addStage("SPA", mon.spaStage);
     addStage("SPD", mon.spdStage);
     addStage("SPE", mon.speStage);
-    const char* status = statusTag(mon.status);
+    const char* status = statusAbbrev(mon.status);
     const int stamps = (status ? 1 : 0) + n;
     if (right) {
         float row = calcFoeHpWidth(mon.hp, mon.maxHp);
@@ -78,7 +52,6 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
             calcStamp(stages[i]);
         }
         calcFoeHp(mon.hp, mon.maxHp);
-        ImGui::NewLine();
     } else {
         ImGui::TextUnformatted(hp);
         if (stamps) {

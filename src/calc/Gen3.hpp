@@ -20,6 +20,7 @@ int advBasePower(const AdvCtx& ctx, int hit);
 int advAttack(const AdvCtx& ctx);
 int advDefense(const AdvCtx& ctx);
 int advFinal(int base, const AdvCtx& ctx);
+bool advSpread(uint16_t id);
 bool advImmune(const Pokemon& def, const Move& move, int typeEff);
 int fixedDamage(const Pokemon& atk, const Pokemon& def, const Move& move);
 

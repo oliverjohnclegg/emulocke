@@ -29,6 +29,19 @@ void CalcSession::setPack(const CalcPack* pack) {
     liveFoe_ = -1;
     liveParty_ = -1;
     browsing_ = false;
+    field_ = {};
+    liveWeather_ = Weather::None;
+    for (int i = 0; i < 4; ++i) {
+        critOurs_[i] = false;
+        critTheirs_[i] = false;
+    }
+}
+
+void CalcSession::seedWeather(Weather w) {
+    if (w != liveWeather_) {
+        field_.weather = w;
+        liveWeather_ = w;
+    }
 }
 
 void CalcSession::sync(std::string_view uuid, std::string_view variant, const GameSnapshot* snap) {
@@ -42,6 +55,7 @@ void CalcSession::sync(std::string_view uuid, std::string_view variant, const Ga
         snap_ = {};
     }
     refreshFoe();
+    seedWeather(fieldFromSnap(snap ? &snap_ : nullptr).weather);
 }
 
 bool CalcSession::fainted(int slot) const {

@@ -21,13 +21,12 @@ void fillRolls(DamageResult& out, int base) {
 DamageResult oneHit(uint8_t chart, const Pokemon& atk, const Pokemon& def, const Move& move,
     const Field& field, int hit) {
     DamageResult out;
-    int eff = 10;
-    eff = eff * typeMul(chart, move.type, def.t1) / 10;
-    if (def.t2 != Type::None && def.t2 != def.t1) {
-        eff = eff * typeMul(chart, move.type, def.t2) / 10;
-    }
+    const int eff = typeEff(chart, move.type, def.t1, def.t2, field.foresight);
     if (advImmune(def, move, eff) || move.kind == MoveKind::Status) {
         out.immune = true;
+        return out;
+    }
+    if (field.protect) {
         return out;
     }
     const int fixed = fixedDamage(atk, def, move);
@@ -47,10 +46,7 @@ DamageResult oneHit(uint8_t chart, const Pokemon& atk, const Pokemon& def, const
     }
     int base = ((2 * atk.level / 5 + 2) * advAttack(ctx) * bp / advDefense(ctx)) / 50;
     base = advFinal(base, ctx);
-    base = base * typeMul(chart, move.type, def.t1) / 10;
-    if (def.t2 != Type::None && def.t2 != def.t1) {
-        base = base * typeMul(chart, move.type, def.t2) / 10;
-    }
+    base = base * typeEff(chart, move.type, def.t1, def.t2, field.foresight) / 10;
     fillRolls(out, base);
     return out;
 }
@@ -62,7 +58,12 @@ int finalSpeed(const Pokemon& mon, const Field& field) {
     if (mon.status & kStPar) {
         spe /= 4;
     }
-    (void)field;
+    if (field.weather == Weather::Rain && mon.ability == kAbSwiftSwim) {
+        spe *= 2;
+    }
+    if (field.weather == Weather::Sun && mon.ability == kAbChlorophyll) {
+        spe *= 2;
+    }
     return spe;
 }
 

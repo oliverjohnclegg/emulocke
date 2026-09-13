@@ -26,6 +26,25 @@ int typeMul(uint8_t chart, Type atk, Type def) {
     return kChartAdv[a][d];
 }
 
+int typeEff(uint8_t chart, Type atk, Type t1, Type t2, bool foresight) {
+    auto one = [&](Type t) {
+        if (t == Type::None) {
+            return 10;
+        }
+        const int m = typeMul(chart, atk, t);
+        if (foresight && m == 0 && t == Type::Ghost &&
+            (atk == Type::Normal || atk == Type::Fighting)) {
+            return 10;
+        }
+        return m;
+    };
+    const int a = one(t1);
+    if (t2 == Type::None || t2 == t1) {
+        return a;
+    }
+    return a * one(t2) / 10;
+}
+
 bool physicalType(Type type) {
     return static_cast<uint8_t>(type) <= static_cast<uint8_t>(Type::Steel);
 }

@@ -28,6 +28,7 @@ enum class Type : uint8_t {
 };
 
 int typeMul(uint8_t chart, Type atk, Type def);
+int typeEff(uint8_t chart, Type atk, Type t1, Type t2, bool foresight);
 bool physicalType(Type type);
 const char* typeName(Type type);
 
