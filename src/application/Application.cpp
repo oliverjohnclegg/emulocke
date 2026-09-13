@@ -8,6 +8,8 @@
 
 #include <imgui.h>
 #include <SDL3/SDL.h>
+#include <cstring>
+#include <string>
 
 namespace emulocke {
 namespace {
@@ -20,9 +22,6 @@ void onDumpPicked(void* userdata, const char* const* filelist, int) {
 }
 
 }  // namespace
-
-Application::Application() = default;
-Application::~Application() = default;
 
 bool Application::start(int argc, char** argv) {
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
@@ -45,6 +44,7 @@ bool Application::start(int argc, char** argv) {
     speedUpHold_ = prefs_.speedUpHold;
     audio_.open();
     input_.attach();
+    initTracker();
     romLibrary_ = std::make_unique<RomLibrary>(romsRoot(), assetsDir());
     runStore_ = std::make_unique<RunStore>(runsRoot());
     runStore_->load();
@@ -53,8 +53,19 @@ bool Application::start(int argc, char** argv) {
     pngs_ = std::make_unique<PngCache>(host_.renderer());
     savePeek_ = std::make_unique<SavePeek>();
     titlePlay_ = std::make_unique<TitlePlay>(prefDir() / "playtime.ini");
-    if (argc > 1) {
-        importPath(argv[1]);
+    std::string import;
+    for (int i = 1; i < argc; ++i) {
+        if (std::strcmp(argv[i], "--preview-tracker") == 0) {
+            previewTracker_ = true;
+        } else {
+            import = argv[i];
+        }
+    }
+    if (previewTracker_) {
+        seedPreviewTracker();
+    }
+    if (!import.empty()) {
+        importPath(import);
         if (newRunDraft_.catalogUuid.empty()) {
             status_ = "Need a supported Pokemon dump.";
         } else {

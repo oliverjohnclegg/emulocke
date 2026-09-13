@@ -17,6 +17,8 @@ struct FrlgSaveBlocks {
 
 bool readFrlgSave(std::span<const uint8_t> sav, FrlgSaveBlocks& out);
 std::vector<uint8_t> writeFrlgSave(const FrlgSaveBlocks& blocks);
+void fillFrlgBoxes(std::span<const uint8_t> storage, Boxes& boxes);
+void fillFrlgProgress(const uint8_t* block1, GameSnapshot& snap);
 void fillSnapshotFromFrlg(const FrlgSaveBlocks& blocks, GameSnapshot& snap);
 
 }

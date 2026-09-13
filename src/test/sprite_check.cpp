@@ -1,10 +1,17 @@
 #include "emu/Paths.hpp"
 #include "poke/SpriteIndex.hpp"
 #include "poke/Sprites.hpp"
+#include "cart/GameArtPng.hpp"
+#include "cart/RgbaFit.hpp"
+#include "ui/Tracker.hpp"
 
 #include <SDL3/SDL.h>
+#include <algorithm>
+#include <chrono>
 #include <cstdio>
 #include <filesystem>
+#include <fstream>
+#include <iterator>
 #include <string>
 #include <vector>
 
@@ -79,6 +86,20 @@ int main(int argc, char** argv) {
         }
     }
 
+    {
+        const auto t0 = std::chrono::steady_clock::now();
+        const auto peeked = cache.peek("not-a-pokemon-xyz", emulocke::SpriteKind::Box);
+        const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::steady_clock::now() - t0)
+                            .count();
+        if (!peeked.empty()) {
+            return fail("peek miss should be empty");
+        }
+        if (ms > 200) {
+            return fail("peek blocked");
+        }
+    }
+
     const auto missingBox = std::filesystem::path(emulocke::assetPath("sprites/missing-box.png"));
     const auto missingFront =
         std::filesystem::path(emulocke::assetPath("sprites/missing-front.png"));
@@ -113,6 +134,55 @@ int main(int argc, char** argv) {
     if (!std::filesystem::exists(again)) {
         return fail("cache hit");
     }
+
+    auto loadRgba = [](const std::filesystem::path& path) -> emulocke::RgbaImage {
+        std::ifstream in(path, std::ios::binary);
+        std::vector<uint8_t> bytes((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+        auto image = emulocke::decodePngRgba(bytes);
+        return image ? *image : emulocke::RgbaImage{};
+    };
+    auto contentMax = [](const emulocke::RgbaImage& src) {
+        int minX = src.width;
+        int minY = src.height;
+        int maxX = -1;
+        int maxY = -1;
+        for (int y = 0; y < src.height; ++y) {
+            for (int x = 0; x < src.width; ++x) {
+                if (src.pixels[static_cast<std::size_t>((y * src.width + x) * 4 + 3)] >= 12) {
+                    minX = std::min(minX, x);
+                    minY = std::min(minY, y);
+                    maxX = std::max(maxX, x);
+                    maxY = std::max(maxY, y);
+                }
+            }
+        }
+        if (maxX < 0) {
+            return 0;
+        }
+        return std::max(maxX - minX + 1, maxY - minY + 1);
+    };
+    const auto diglettPath = cache.get("diglett", emulocke::SpriteKind::Box);
+    const auto zapdosPath = cache.get("zapdos", emulocke::SpriteKind::Box);
+    const auto digRaw = loadRgba(diglettPath);
+    const auto zapRaw = loadRgba(zapdosPath);
+    if (contentMax(digRaw) >= contentMax(zapRaw)) {
+        return fail("diglett should be the smaller raw sprite");
+    }
+    const auto digFit = emulocke::fitRgbaCell(digRaw, emulocke::kBoxSpriteW, emulocke::kBoxSpriteH);
+    const auto zapFit = emulocke::fitRgbaCell(zapRaw, emulocke::kBoxSpriteW, emulocke::kBoxSpriteH);
+    if (digFit.width != emulocke::kBoxSpriteW || digFit.height != emulocke::kBoxSpriteH ||
+        zapFit.width != emulocke::kBoxSpriteW || zapFit.height != emulocke::kBoxSpriteH) {
+        return fail("fit cell size");
+    }
+    const int digSpan = contentMax(digFit);
+    const int zapSpan = contentMax(zapFit);
+    if (digSpan < emulocke::kBoxSpriteH - 2 || zapSpan < emulocke::kBoxSpriteH - 2) {
+        return fail("fit should fill the cell");
+    }
+    if (std::max(digSpan, zapSpan) > std::min(digSpan, zapSpan) * 2) {
+        return fail("fit should normalise small and large sprites");
+    }
+
     SDL_Quit();
     return 0;
 }

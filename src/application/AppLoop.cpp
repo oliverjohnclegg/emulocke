@@ -86,12 +86,16 @@ void Application::run() {
         drawMenuBar(*this);
         drawShell(*this);
         drawNewRunModal(*this);
+        drawLoadingRunModal(*this);
         ImGui::End();
         ImGui::Render();
         SDL_SetRenderDrawColor(host_.renderer(), 26, 26, 28, 255);
         SDL_RenderClear(host_.renderer());
         ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), host_.renderer());
         SDL_RenderPresent(host_.renderer());
+        if (showLoadingRun_) {
+            noteLoadingPainted();
+        }
         applyPendingHost();
     }
 }
