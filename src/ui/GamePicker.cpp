@@ -57,9 +57,9 @@ void drawGamePicker(Application& app, std::string& catalogUuid) {
         catalogUuid = selected->uuid;
     }
     ImGui::SetNextWindowSizeConstraints(ImVec2(0.f, 0.f), ImVec2(800.f, kTitleStripH * 8.f + 40.f));
-    ImGui::SetNextItemWidth(360.f);
+    ImGui::SetNextItemWidth(300.f);
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(6.f, 20.f));
-    const bool open = ImGui::BeginCombo("Game", nullptr, ImGuiComboFlags_HeightLarge);
+    const bool open = ImGui::BeginCombo("##game", nullptr, ImGuiComboFlags_HeightLarge);
     ImGui::PopStyleVar();
     if (open) {
         static char query[64];
@@ -83,11 +83,16 @@ void drawGamePicker(Application& app, std::string& catalogUuid) {
     }
     if (ImGui::BeginComboPreview() && selected) {
         const ImVec2 p = ImGui::GetCursorScreenPos();
+        const float w = ImGui::GetContentRegionAvail().x;
         const bool ready = app.romLibrary().ready(*selected);
-        drawTitleStrip(app, *selected, p, ImVec2(p.x + 300.f, p.y + kTitleArtH), ready);
-        ImGui::Dummy(ImVec2(300.f, kTitleArtH));
+        drawTitleStrip(app, *selected, p, ImVec2(p.x + w, p.y + kTitleArtH), ready);
+        ImGui::Dummy(ImVec2(w, kTitleArtH));
         ImGui::EndComboPreview();
     }
+    ImGui::SameLine();
+    const float comboH = ImGui::GetItemRectSize().y;
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + (comboH - ImGui::GetTextLineHeight()) * 0.5f);
+    ImGui::TextUnformatted("Game");
 }
 
 }
