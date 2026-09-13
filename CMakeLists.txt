@@ -98,7 +98,6 @@ add_executable(emulocke
     src/ui/Shell.cpp
     src/ui/Home.cpp
     src/ui/NewRunModal.cpp
-    src/ui/LoadRunModal.cpp
     src/ui/RunList.cpp
     src/ui/Suite.cpp
     src/ui/FieldLog.cpp

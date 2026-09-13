@@ -9,8 +9,8 @@
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
-#include <SDL3/SDL.h>
 #include <algorithm>
+#include <cmath>
 #include <string>
 
 namespace emulocke {
@@ -18,7 +18,7 @@ namespace {
 
 constexpr float kSockW = 40.f;
 constexpr float kSockH = 30.f;
-const char* kBadgeName[] = {"Boulder", "Cascade", "Thunder", "Rainbow", "Soul", "Marsh", "Volcano", "Earth"};
+constexpr float kSockInset = 2.f;
 
 void well(ImDrawList* dl, ImVec2 a, ImVec2 b) {
     dl->AddRectFilled(a, b, ImGui::GetColorU32(kScreenWell));
@@ -36,41 +36,7 @@ void drawRunArt(Application& app, const CatalogTitle* title, ImVec2 p) {
     if (!path) {
         return;
     }
-    ImGui::SetCursorScreenPos(p);
-    PngCache::drawNearest(app.pngs().get(*path), ImVec2(kRunArtW, kRunArtH));
-}
-
-void drawRunBadges(const Gyms& gyms, ImVec2 p) {
-    if (gyms.slots == 0) {
-        return;
-    }
-    ImDrawList* dl = ImGui::GetWindowDrawList();
-    for (uint8_t i = 0; i < gyms.slots && i < 8; ++i) {
-        const ImVec2 a(p.x + i * 12.f, p.y);
-        const ImVec2 b(a.x + 10.f, a.y + 10.f);
-        const bool on = (gyms.earned & (1u << i)) != 0;
-        dl->AddRectFilled(a, b, ImGui::GetColorU32(on ? kMetal : kScreenWell));
-        dl->AddRect(a, b, ImGui::GetColorU32(kBorder));
-    }
-}
-
-void hitRunBadges(const Gyms& gyms, ImVec2 p) {
-    if (gyms.slots == 0) {
-        return;
-    }
-    ImGui::SetCursorScreenPos(p);
-    ImGui::InvisibleButton("gyms", ImVec2(gyms.slots * 12.f, 12.f));
-    if (!ImGui::IsItemHovered()) {
-        return;
-    }
-    int i = static_cast<int>((ImGui::GetMousePos().x - p.x) / 12.f);
-    if (i < 0) {
-        i = 0;
-    }
-    if (i >= gyms.slots) {
-        i = gyms.slots - 1;
-    }
-    ImGui::SetTooltip("%s", kBadgeName[i]);
+    PngCache::drawNearest(app.pngs().get(*path).tex, p, ImVec2(kRunArtW, kRunArtH));
 }
 
 void drawRunParty(Application& app, const Party& party, ImVec2 p) {
@@ -88,20 +54,23 @@ void drawRunParty(Application& app, const Party& party, ImVec2 p) {
         if (!path) {
             continue;
         }
-        SDL_Texture* tex = app.pngs().get(*path);
-        if (!tex) {
+        const CachedPng png = app.pngs().get(*path);
+        if (!png.tex || png.cropW <= 0 || png.cropH <= 0) {
             continue;
         }
-        float tw = 0.f;
-        float th = 0.f;
-        SDL_GetTextureSize(tex, &tw, &th);
-        if (tw <= 0.f || th <= 0.f) {
-            continue;
+        const float maxW = kSockW - kSockInset * 2.f;
+        const float maxH = kSockH - kSockInset * 2.f;
+        float scale = std::min(maxW / static_cast<float>(png.cropW), maxH / static_cast<float>(png.cropH));
+        if (scale > 1.f) {
+            scale = std::floor(scale);
         }
-        const float fit = std::min(kSockW / tw, kSockH / th);
-        const ImVec2 sz(tw * fit, th * fit);
-        ImGui::SetCursorScreenPos(ImVec2(a.x + (kSockW - sz.x) * 0.5f, a.y + (kSockH - sz.y) * 0.5f));
-        PngCache::drawNearest(tex, sz);
+        const ImVec2 sz(static_cast<float>(png.cropW) * scale, static_cast<float>(png.cropH) * scale);
+        const ImVec2 pos(a.x + (kSockW - sz.x) * 0.5f, a.y + (kSockH - sz.y) * 0.5f);
+        const ImVec2 uv0(static_cast<float>(png.cropX) / static_cast<float>(png.w),
+            static_cast<float>(png.cropY) / static_cast<float>(png.h));
+        const ImVec2 uv1(static_cast<float>(png.cropX + png.cropW) / static_cast<float>(png.w),
+            static_cast<float>(png.cropY + png.cropH) / static_cast<float>(png.h));
+        PngCache::drawNearest(png.tex, pos, sz, uv0, uv1);
     }
 }
 

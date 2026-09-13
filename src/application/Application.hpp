@@ -37,8 +37,6 @@ public:
     void requestNewRun();
     void dismissNewRun();
     void confirmNewRun();
-    void requestLoadRun();
-    void dismissLoadRun();
     void requestImportGame();
     void queueImport(std::string path);
     void queueLoadRun(std::string id);
@@ -64,7 +62,6 @@ public:
     const std::string& status() const { return status_; }
     bool copySnapshot(GameSnapshot& out) const;
     bool showNewRun() const { return showNewRun_; }
-    bool showLoadRun() const { return showLoadRun_; }
     NewRunDraft& newRunDraft() { return newRunDraft_; }
     RomLibrary& romLibrary() { return *romLibrary_; }
     const RomLibrary& romLibrary() const { return *romLibrary_; }
@@ -114,9 +111,7 @@ private:
     std::string pendingAttemptId_;
     NewRunDraft newRunDraft_;
     bool showNewRun_{false};
-    bool showLoadRun_{false};
     bool pendingNewRun_{false};
-    bool pendingLoadRun_{false};
     bool pendingCreate_{false};
     std::atomic<uint32_t> buttons_{0};
     std::atomic<bool> touchDown_{false};

@@ -41,12 +41,6 @@ void drawMenuBar(Application& app) {
             if (ImGui::MenuItem("Start New Attempt", nullptr, false, !app.activeRunId().empty())) {
                 app.queueNewAttempt(app.activeRunId());
             }
-            if (ImGui::MenuItem("New Run...")) {
-                app.requestNewRun();
-            }
-            if (ImGui::MenuItem("Load Run...", nullptr, false, !app.runStore().runs().empty())) {
-                app.requestLoadRun();
-            }
             if (ImGui::MenuItem("Import Game...")) {
                 app.requestImportGame();
             }

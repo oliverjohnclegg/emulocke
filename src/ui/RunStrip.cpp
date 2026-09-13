@@ -9,15 +9,16 @@
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
+#include <bit>
 #include <cstdio>
 #include <string>
 
 namespace emulocke {
 
-bool drawRunStrip(Application& app, const Run& run, const char* idPrefix, bool showNewAttempt) {
+bool drawRunStrip(Application& app, const Run& run) {
     const CatalogTitle* title = catalogByUuid(run.catalogUuid);
     const GameSnapshot& snap = app.savePeek().get(app.runStore(), run);
-    ImGui::PushID((std::string(idPrefix) + run.id).c_str());
+    ImGui::PushID(run.id.c_str());
     const ImVec2 origin = ImGui::GetCursorScreenPos();
     const float w = ImGui::GetContentRegionAvail().x;
     ImGui::SetNextItemAllowOverlap();
@@ -31,46 +32,39 @@ bool drawRunStrip(Application& app, const Run& run, const char* idPrefix, bool s
         ImGui::GetColorU32(hover ? kHeaderHover : kButton));
     dl->AddRect(origin, ImVec2(origin.x + w, origin.y + kRunStripH), ImGui::GetColorU32(kBorder));
     drawRunArt(app, title, ImVec2(origin.x + kRunPad, origin.y + kRunPad));
-    ImGui::SetCursorScreenPos(ImVec2(origin.x + kRunPad * 2.f + kRunArtW, origin.y + kRunPad));
+    const ImVec2 text(origin.x + kRunPad * 2.f + kRunArtW, origin.y + kRunPad);
+    char heading[48];
+    std::snprintf(heading, sizeof heading, "%s - %s", title ? title->title : "POKEMON",
+        rulesPresetTitle(run.rules));
+    ImGui::SetCursorScreenPos(text);
     if (ImFont* display = app.displayFont()) {
         ImGui::PushFont(display);
     }
-    ImGui::TextUnformatted(title ? title->title : "POKEMON");
+    ImGui::TextUnformatted(heading);
     if (app.displayFont()) {
         ImGui::PopFont();
     }
-    ImGui::SameLine(0.f, 12.f);
-    ImGui::TextDisabled("%s", rulesLabel(run.rules));
-    ImGui::SameLine(0.f, 10.f);
-    ImGui::TextDisabled("ATTEMPT %d", run.attempt);
-    ImVec2 pipPos{};
-    bool pips = false;
+    char meta[80];
     if (snap.ok) {
-        char clock[12];
-        std::snprintf(clock, sizeof clock, "%03u:%02u", snap.trainer.playHours, snap.trainer.playMinutes);
-        ImGui::SameLine(0.f, 10.f);
-        ImGui::TextDisabled("%s", clock);
-        if (snap.gyms.slots) {
-            ImGui::SameLine(0.f, 10.f);
-            pipPos = ImGui::GetCursorScreenPos();
-            pipPos.y += 6.f;
-            drawRunBadges(snap.gyms, pipPos);
-            pips = true;
+        int n = std::snprintf(meta, sizeof meta, "%03u:%02u  Attempt %d", snap.trainer.playHours,
+            snap.trainer.playMinutes, run.attempt);
+        if (snap.gyms.slots && n > 0) {
+            std::snprintf(meta + n, sizeof meta - static_cast<std::size_t>(n), "  Badges: %u/%u",
+                std::popcount(snap.gyms.earned), snap.gyms.slots);
         }
+    } else {
+        std::snprintf(meta, sizeof meta, "Attempt %d", run.attempt);
     }
-    drawRunParty(app, snap.party, ImVec2(origin.x + kRunPad * 2.f + kRunArtW, origin.y + kRunPad + 40.f));
-    if (showNewAttempt) {
-        const ImVec2 plus(origin.x + w - kRunPad - kRunPlus, origin.y + kRunPad);
-        ImGui::SetCursorScreenPos(plus);
-        if (iconAction("new", "NEW ATTEMPT", ImVec2(kRunPlus, kRunPlus))) {
-            app.queueNewAttempt(run.id);
-            load = false;
-        }
-        iconPlus(plus, ImVec2(kRunPlus, kRunPlus));
+    ImGui::SetCursorScreenPos(ImVec2(text.x, origin.y + kRunPad + 22.f));
+    ImGui::TextDisabled("%s", meta);
+    drawRunParty(app, snap.party, ImVec2(text.x, origin.y + kRunPad + 46.f));
+    const ImVec2 plus(origin.x + w - kRunPad - kRunPlus, origin.y + kRunPad);
+    ImGui::SetCursorScreenPos(plus);
+    if (iconAction("new", "NEW ATTEMPT", ImVec2(kRunPlus, kRunPlus))) {
+        app.queueNewAttempt(run.id);
+        load = false;
     }
-    if (pips) {
-        hitRunBadges(snap.gyms, pipPos);
-    }
+    iconPlus(plus, ImVec2(kRunPlus, kRunPlus));
     ImGui::SetCursorScreenPos(ImVec2(origin.x, origin.y + kRunStripH + 6.f));
     ImGui::Dummy(ImVec2(w, 0.f));
     ImGui::PopID();

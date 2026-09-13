@@ -24,24 +24,11 @@ void Application::confirmNewRun() {
     pendingCreate_ = true;
 }
 
-void Application::requestLoadRun() {
-    if (!runStore_->runs().empty()) {
-        pendingLoadRun_ = true;
-    }
-}
-
-void Application::dismissLoadRun() {
-    pendingLoadRun_ = false;
-    showLoadRun_ = false;
-}
-
 void Application::queueLoadRun(std::string id) {
-    showLoadRun_ = false;
     pendingLoadId_ = std::move(id);
 }
 
 void Application::queueNewAttempt(std::string sourceId) {
-    showLoadRun_ = false;
     pendingAttemptId_ = std::move(sourceId);
 }
 
@@ -57,10 +44,6 @@ void Application::drainPending() {
     if (pendingNewRun_) {
         pendingNewRun_ = false;
         showNewRun_ = true;
-    }
-    if (pendingLoadRun_) {
-        pendingLoadRun_ = false;
-        showLoadRun_ = true;
     }
     if (!pendingImport_.empty()) {
         const std::string path = std::move(pendingImport_);

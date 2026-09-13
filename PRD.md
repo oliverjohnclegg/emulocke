@@ -35,7 +35,7 @@ Left column is the game. Right column is the suite.
 - 21px graphite around the screen cluster. Not between the two screens. Same 21px below and to the right of the suite.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
 - Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party, badges). Unsupported carts keep the empty log.
-- With no run seated, the left column is home: last-played run plates (title art, party sockets, gym pips, preset, playtime, attempt). NEW ATTEMPT is a plus icon with a hover name. The right column stays Logs.
+- With no run seated, the left column is home: START RUN plus last-played run plates. Each plate is `GAME - Preset`, a subtitle of playtime / attempt / badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Logs.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
@@ -44,8 +44,8 @@ Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them.
 A playable host. Suite is a Logs tab only.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
-- File > New Run / Load Run / Start New Attempt / Close Run. No Open Game. No `roms/` drop folder.
-- New Run lists imported baselines plus Radical Red 4.1 and Unbound 2.1.1.1. A hack whose Fire Red 1.0 dump is missing stays listed, with `START RUN` disabled and copy that Fire Red is a prerequisite.
+- File > Import Game / Start New Attempt / Close Run. No New Run or Load Run in the menu. No Open Game. No `roms/` drop folder.
+- Home START RUN opens New Run. New Run lists imported baselines plus Radical Red 4.1 and Unbound 2.1.1.1. A hack whose Fire Red 1.0 dump is missing stays listed, with `START RUN` disabled and copy that Fire Red is a prerequisite.
 - Starting a hack run applies the bundled UPS onto the imported Fire Red 1.0 dump if `roms/derived/<uuid>.gba` is not already there.
 - One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage.
 - CLI `emulocke /path/to/dump` imports a known baseline and opens New Run. It does not silent-boot.
@@ -192,3 +192,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.
 - 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
 - 2026-09-13: Home is last-played run plates (title art, party sockets, gym pips). FRLG snapshot grows gyms. Compact chrome: secondary actions are icons, names on hover.
+- 2026-09-13: Home-only start and load. File drops New Run and Load Run. Plate title is `GAME - Preset`. Subtitle is playtime, attempt, and badges. Party sprites crop to opaque pixels and sit centered in the wells.

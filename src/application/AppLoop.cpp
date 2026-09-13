@@ -67,7 +67,6 @@ void Application::run() {
         drawMenuBar(*this);
         drawShell(*this);
         drawNewRunModal(*this);
-        drawLoadRunModal(*this);
         ImGui::End();
         ImGui::Render();
         SDL_SetRenderDrawColor(host_.renderer(), 26, 26, 28, 255);
