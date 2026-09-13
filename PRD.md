@@ -45,8 +45,9 @@ A playable host. Suite is a Logs tab only.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
 - File > Import Game / Start New Attempt / Close Run. No New Run or Load Run in the menu. No Open Game. No `roms/` drop folder.
-- Home START RUN opens New Run. New Run lists every catalog title as a strip (art, name with version in the title, region). Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library.
-- Starting a hack run applies the bundled UPS onto the imported Fire Red 1.0 dump if `roms/derived/<uuid>.gba` is not already there.
+- Home START RUN opens New Run. New Run lists every catalog title as a strip (art, name with version in the title, region), including the 12 hacks as games. Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library.
+- Blaze Black and Volt White show Optional Patches (Full default, or Clean). The choice is stored on the run. Other hacks have a single bundled patch.
+- Starting a hack run applies the bundled IPS/UPS/BPS/xdelta onto the imported baseline if `roms/derived/<uuid>[-option].ext` is not already there.
 - One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage.
 - CLI `emulocke /path/to/dump` imports a known baseline and opens New Run. It does not silent-boot.
 - 60fps video in the left column once a run is seated
@@ -123,9 +124,9 @@ Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree mus
 
 - Emulocke source: GPL-3.0-or-later (required by linking melonDS).
 - mGBA files stay MPL-2.0 (incompatible with secondary licenses). Do not relicense those files as GPL. Ship both licenses.
-- Do not ship Nintendo BIOS, firmware, or ROMs. Users import their own baseline dumps. Bundled UPS files are patches only.
+- Do not ship Nintendo BIOS, firmware, or ROMs. Users import their own baseline dumps. Bundled IPS/UPS/BPS/xdelta files in `assets/patches/` are patches only. Vendored xdelta3 is Apache 2.0.
 - Do not ship Pokemon sprite PNGs. `SpriteCache` downloads box/front/back art on demand into the SDL pref cache. Bundled `assets/sprites/missing-*.png` are original question-mark art, not TPC sprites.
-- Do not ship game title PNGs. `GameArtCache` downloads 256x192 title art on demand into the SDL pref cache, keyed by slug. Missing art is a generated black plate with the game title, not Nintendo pixels.
+- Do not ship Nintendo game title PNGs. `GameArtCache` downloads official 256x192 title art on demand into the SDL pref cache, keyed by slug. Optional `assets/game-art/<slug>.png` may hold original hack title stills. Missing art is a generated black plate with the game title.
 - V1 boots DS games with FreeBIOS so a BIOS dump is not required to play.
 
 ## Default input
@@ -164,7 +165,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 | Windows via MSVC in CI | Same CMake tree. Dynlib uses LoadLibrary. Pref path is SDL. JIT off on MSVC (no GNU `.S` assembler). |
 | Other chats are out of scope | Greenfield. Only this document and this repo set requirements. |
 | Sprite cache downloads at runtime | PokeAPI/PokéSprite/bamq host the pixels. Pref cache, not git. Box: PokéSprite then bamq Gen 9 then PokeAPI gen8 icons. Front/back: PokeAPI BW-style. Credits: PokeAPI, msikma/pokesprite, National Dex Version Delta (bamq), Smogon for fan 2D past 649. |
-| Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, letterboxed. Hacks and misses get a black title plate. Pref cache, not git. |
+| Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, letterboxed. Hacks use bundled stills if present, otherwise a black title plate. Pref cache, not git. |
 | Host playtime per title and per run | New Attempt deletes the old folder, so title totals cannot be summed from leftover runs. Unpaused seated wall clock. No suite UI. |
 
 ## V1 success
@@ -198,3 +199,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Home is last-played run plates (title art, party sockets, gym pips). FRLG snapshot grows gyms. Compact chrome: secondary actions are icons, names on hover.
 - 2026-09-13: Home-only start and load. File drops New Run and Load Run. Plate title is `GAME - Preset`. Subtitle is playtime, Attempt #N, Deaths, and badges, joined by •. Party sprites crop to opaque pixels and sit centered in the wells.
 - 2026-09-13: When home has run plates, START RUN is a compact full-width stamp rail, not the empty-home hero button.
+- 2026-09-13: Twelve ROM hacks in the catalog as games. Bundled IPS/UPS/BPS/xdelta. xdelta3 decode. Optional Patches for Blaze Black and Volt White. Hack art is a plate unless a bundled still exists.

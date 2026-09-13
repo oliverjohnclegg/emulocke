@@ -3,6 +3,7 @@
 #include "adapter/LiveMemory.hpp"
 #include "adapter/frlg/FrlgLayout.hpp"
 #include "adapter/frlg/FrlgSave.hpp"
+#include "adapter/gen3/BoxCrypt.hpp"
 #include "adapter/gen3/BoxMon.hpp"
 #include "adapter/gen3/Codec.hpp"
 #include "test/Check.hpp"
@@ -30,6 +31,21 @@ emulocke::DecryptedMon partyBulba() {
     std::strcpy(mon.nickname, "BULBASAUR");
     std::strcpy(mon.otName, "RED");
     return mon;
+}
+
+void storePlainParty(std::array<uint8_t, emulocke::kPartyMonSize>& raw) {
+    uint8_t data[48];
+    std::memcpy(data, raw.data() + 0x20, 48);
+    const uint32_t pid = emulocke::load32(raw.data());
+    const uint32_t ot = emulocke::load32(raw.data() + 4);
+    emulocke::xorBoxData(data, pid, ot);
+    uint8_t g[12], a[12], e[12], m[12];
+    emulocke::unshuffleBoxData(data, pid, g, a, e, m);
+    std::memcpy(raw.data() + 0x20, g, 12);
+    std::memcpy(raw.data() + 0x2C, a, 12);
+    std::memcpy(raw.data() + 0x38, e, 12);
+    std::memcpy(raw.data() + 0x44, m, 12);
+    emulocke::store16(raw.data() + 0x1C, 0);
 }
 
 }  // namespace
@@ -115,4 +131,25 @@ void testFrlgAdapter() {
     REQUIRE(std::string(live.overworld.mapName) == "PALLET TOWN");
     REQUIRE(live.gyms.slots == 8);
     REQUIRE(live.gyms.earned == 1);
+
+    std::array<uint8_t, emulocke::kPartyMonSize> plainParty = party;
+    storePlainParty(plainParty);
+    emulocke::FrlgSaveBlocks hack = blocks;
+    std::memcpy(hack.block1.data() + emulocke::kFrlgPartyOff, plainParty.data(), plainParty.size());
+    const uint32_t sigs[] = {0x08012025u, 0x01121999u};
+    for (uint32_t sig : sigs) {
+        std::vector<uint8_t> hackSav = emulocke::writeFrlgSave(hack);
+        for (int i = 0; i < 14; ++i) {
+            uint8_t* sec = hackSav.data() + static_cast<std::size_t>(i) * 0x1000;
+            emulocke::store16(sec + 0xFF6, static_cast<uint16_t>(emulocke::load16(sec + 0xFF6) + 1));
+            emulocke::store32(sec + 0xFF8, sig);
+        }
+        const emulocke::GameAdapter* hackAdapter = emulocke::adapterForSave(hackSav);
+        REQUIRE(hackAdapter != nullptr);
+        const emulocke::GameSnapshot hackSnap = hackAdapter->readSave(hackSav);
+        REQUIRE(hackSnap.ok);
+        REQUIRE(hackSnap.party.count == 1);
+        REQUIRE(hackSnap.party.mons[0].species == 1);
+        REQUIRE(hackSnap.party.mons[0].level == 5);
+    }
 }

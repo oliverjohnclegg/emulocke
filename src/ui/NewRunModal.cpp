@@ -3,9 +3,11 @@
 #include "application/Application.hpp"
 #include "run/Catalog.hpp"
 #include "ui/GamePicker.hpp"
+#include "ui/NewRunOptions.hpp"
 #include "ui/PresetPicker.hpp"
 
 #include <imgui.h>
+#include <string>
 
 namespace emulocke {
 
@@ -23,6 +25,10 @@ void drawNewRunModal(Application& app) {
     NewRunDraft& draft = app.newRunDraft();
     drawGamePicker(app, draft.catalogUuid);
     const CatalogTitle* selected = catalogByUuid(draft.catalogUuid);
+    if (selected) {
+        draft.patchOption = std::string(catalogOptionId(*selected, draft.patchOption));
+        drawOptionalPatches(draft, *selected);
+    }
     drawPresetCombo(draft.rules);
     if (ImGui::BeginTable("rules", 2, ImGuiTableFlags_SizingStretchProp)) {
         ImGui::TableNextColumn();

@@ -8,6 +8,8 @@
 #include "run/RunStore.hpp"
 #include "run/TitlePlay.hpp"
 
+#include "test/PatchChecks.hpp"
+
 #include <mgba-util/crc32.h>
 #include <cstdio>
 #include <cstring>
@@ -100,6 +102,50 @@ int main() {
     expect(std::string(emulocke::rulesLabel(emulocke::regularRules())) == "REGULAR", "regular");
     expect(std::string(emulocke::rulesLabel(emulocke::hardcoreRules())) == "HARDCORE", "hardcore");
 
+    expect(emulocke::catalogTitles().size() == 30, "catalog size");
+    expect(!emulocke::catalogBySlug("storm-silver"), "no storm silver");
+    expect(!emulocke::catalogBySlug("blaze-black-2-redux"), "no bb2r");
+    const char* hackSlugs[] = {"blaze-black-3.1", "volt-white-3.1", "volt-white-2-redux", "fire-red-omega",
+        "sacred-gold", "platinum-kaizo", "renegade-platinum", "radical-red-4.1", "unbound-2.1.1.1",
+        "run-and-bun-1.07", "inclement-emerald-1.13", "emerald-kaizo"};
+    for (const char* slug : hackSlugs) {
+        expect(emulocke::catalogBySlug(slug) != nullptr, slug);
+    }
+    expect(emulocke::catalogOptionId(*emulocke::catalogByUuid(emulocke::kBlazeBlackUuid), {}) == "full",
+        "bb default");
+    expect(emulocke::catalogOptionId(*emulocke::catalogByUuid(emulocke::kVoltWhiteUuid), {}) == "full",
+        "vw default");
+    expect(emulocke::catalogBySlug("volt-white-2-redux")->optionCount == 0, "vw2 no options");
+    expect(std::strcmp(emulocke::catalogByUuid(emulocke::kBlazeBlackUuid)->prerequisiteUuid,
+               emulocke::kBlackUsUuid) == 0,
+        "bb prereq");
+    expect(std::strcmp(emulocke::catalogByUuid(emulocke::kVoltWhiteUuid)->prerequisiteUuid,
+               emulocke::kWhiteUsUuid) == 0,
+        "vw prereq");
+    expect(std::strcmp(emulocke::catalogBySlug("volt-white-2-redux")->prerequisiteUuid,
+               emulocke::kWhite2UsUuid) == 0,
+        "vw2 prereq");
+    expect(std::strcmp(emulocke::catalogBySlug("sacred-gold")->prerequisiteUuid, emulocke::kHeartGoldUsUuid) ==
+            0,
+        "sg prereq");
+    expect(std::strcmp(emulocke::catalogBySlug("platinum-kaizo")->prerequisiteUuid,
+               emulocke::kPlatinumUs11Uuid) == 0,
+        "pk prereq");
+    expect(std::strcmp(emulocke::catalogBySlug("renegade-platinum")->prerequisiteUuid,
+               emulocke::kPlatinumUs11Uuid) == 0,
+        "rp prereq");
+    expect(std::strcmp(emulocke::catalogBySlug("fire-red-omega")->prerequisiteUuid,
+               emulocke::kFireRedUs10Uuid) == 0,
+        "fro prereq");
+    expect(std::strcmp(emulocke::catalogBySlug("run-and-bun-1.07")->prerequisiteUuid,
+               emulocke::kEmeraldUsUuid) == 0,
+        "rab prereq");
+    expect(std::strcmp(emulocke::catalogBySlug("inclement-emerald-1.13")->prerequisiteUuid,
+               emulocke::kEmeraldUsUuid) == 0,
+        "ie prereq");
+    expect(std::strcmp(emulocke::catalogBySlug("emerald-kaizo")->prerequisiteUuid, emulocke::kEmeraldUsUuid) ==
+            0,
+        "ek prereq");
     expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->artSlug) == "firered", "fr art");
     expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->version) == "1.0", "fr version");
     expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->details) == "US", "fr region");
@@ -132,7 +178,6 @@ int main() {
     expect(secondFr && std::string(secondFr->version) == "1.0", "picker fr 1.0 second");
     expect(emulocke::catalogListTitle(*emulocke::catalogBySlug("ruby-us")) == "RUBY (Rev 2)", "ruby list");
     expect(emulocke::catalogListTitle(*emulocke::catalogBySlug("emerald-us")) == "EMERALD", "emerald list");
-    expect(emulocke::catalogTitles().size() == 20, "catalog size");
     expect(std::string(emulocke::catalogBySha1("66d2fbfb0dbc1f86a3d726971196989b950092bc")->slug) ==
             "diamond-us",
         "diamond 1.13 alias");
@@ -177,7 +222,7 @@ int main() {
     expect(!lib.ready(*rr), "rr not ready");
     auto gated = lib.ensurePlayable(emulocke::kRadicalRedUuid);
     expect(!gated, "rr without prereq");
-    expect(lib.lastError().find("prerequisite") != std::string::npos, "prereq gate");
+    expect(lib.lastError().find("Import") != std::string::npos, "prereq gate");
 
     expect(lib.writeBaseline(*fr, src), "store baseline");
     expect(lib.has(emulocke::kFireRedUs10Uuid), "has fr");
@@ -200,6 +245,37 @@ int main() {
     expect(again && *again == *derived, "reuse derived");
     auto bytes = emulocke::readWholeFile(derived->string());
     expect(bytes == dst, "derived bytes");
+
+    const emulocke::CatalogTitle* black = emulocke::catalogByUuid(emulocke::kBlackUsUuid);
+    expect(lib.writeBaseline(*black, src), "store black");
+    std::vector<uint8_t> cleanDst{1, 9, 3, 4, 5};
+    const char* fullAsset = emulocke::catalogPatchAsset(*emulocke::catalogByUuid(emulocke::kBlazeBlackUuid), "full");
+    const char* cleanAsset = emulocke::catalogPatchAsset(*emulocke::catalogByUuid(emulocke::kBlazeBlackUuid), "clean");
+    auto fullUps = makeUps(src, dst);
+    auto cleanUps = makeUps(src, cleanDst);
+    emulocke::writeWholeFile((assets / fullAsset).string(), fullUps.data(), static_cast<uint32_t>(fullUps.size()));
+    emulocke::writeWholeFile(
+        (assets / cleanAsset).string(), cleanUps.data(), static_cast<uint32_t>(cleanUps.size()));
+    auto fullRom = lib.ensurePlayable(emulocke::kBlazeBlackUuid, "full");
+    auto cleanRom = lib.ensurePlayable(emulocke::kBlazeBlackUuid, "clean");
+    expect(fullRom && cleanRom && *fullRom != *cleanRom, "bb options split");
+    expect(fullRom && fullRom->filename().string().find("-full") != std::string::npos, "bb full name");
+    auto defRom = lib.ensurePlayable(emulocke::kBlazeBlackUuid, {});
+    expect(defRom && fullRom && *defRom == *fullRom, "bb default full");
+    auto fullAgain = lib.ensurePlayable(emulocke::kBlazeBlackUuid, "full");
+    auto cleanAgain = lib.ensurePlayable(emulocke::kBlazeBlackUuid, "clean");
+    expect(fullAgain && fullRom && *fullAgain == *fullRom, "bb full reuse");
+    expect(cleanAgain && cleanRom && *cleanAgain == *cleanRom, "bb clean reuse");
+
+    emulocke::RunStore optionStore(tmp / "option_runs");
+    auto optRun = optionStore.create(emulocke::kBlazeBlackUuid, emulocke::regularRules(), "clean");
+    expect(optRun && optRun->patchOption == "clean", "store option");
+    {
+        emulocke::RunStore reloadOpts(tmp / "option_runs");
+        reloadOpts.load();
+        expect(reloadOpts.find(optRun->id) && reloadOpts.find(optRun->id)->patchOption == "clean",
+            "reload option");
+    }
 
     const auto playable = lib.playableTitles();
     sawFr = false;
@@ -290,6 +366,8 @@ int main() {
     expect(legacyRun && legacyRun->playMs == 0, "legacy play 0");
 
     std::filesystem::remove_all(tmp);
+    fails += testPatchFormats();
+    fails += testLocalPatches();
     if (fails) {
         std::fprintf(stderr, "%d failed\n", fails);
         return 1;

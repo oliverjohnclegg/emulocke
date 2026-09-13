@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace emulocke {
@@ -23,8 +24,9 @@ public:
     bool writeBaseline(const CatalogTitle& title, const std::vector<uint8_t>& bytes);
     bool has(const std::string& uuid) const;
     bool ready(const CatalogTitle& title) const;
-    std::filesystem::path storedPath(const CatalogTitle& title) const;
-    std::optional<std::filesystem::path> ensurePlayable(const std::string& uuid);
+    std::filesystem::path storedPath(const CatalogTitle& title, std::string_view optionId = {}) const;
+    std::optional<std::filesystem::path> ensurePlayable(
+        const std::string& uuid, std::string_view optionId = {});
     const std::string& lastError() const { return error_; }
     std::vector<const CatalogTitle*> playableTitles() const;
 

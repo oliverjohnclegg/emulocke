@@ -18,6 +18,9 @@ void Application::requestNewRun() {
             newRunDraft_.catalogUuid = catalogTitles().front().uuid;
         }
     }
+    if (const CatalogTitle* title = catalogByUuid(newRunDraft_.catalogUuid)) {
+        newRunDraft_.patchOption = std::string(catalogOptionId(*title, newRunDraft_.patchOption));
+    }
     newRunDraft_.rules = regularRules();
     pendingNewRun_ = true;
 }
@@ -93,12 +96,12 @@ void Application::createRunFromDraft() {
         status_ = "Pick a game.";
         return;
     }
-    auto rom = romLibrary_->ensurePlayable(newRunDraft_.catalogUuid);
+    auto rom = romLibrary_->ensurePlayable(newRunDraft_.catalogUuid, newRunDraft_.patchOption);
     if (!rom) {
         status_ = romLibrary_->lastError();
         return;
     }
-    auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules);
+    auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules, newRunDraft_.patchOption);
     if (!created) {
         status_ = "Failed to create run.";
         return;

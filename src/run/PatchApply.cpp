@@ -22,27 +22,27 @@ std::optional<std::vector<uint8_t>> applyRomPatch(
     if (rom.empty() || patch.empty()) {
         return std::nullopt;
     }
+    if (patch.size() >= 4 && patch[0] == 'B' && patch[1] == 'P' && patch[2] == 'S' && patch[3] == '1') {
+        return applyBpsPatch(rom, patch);
+    }
     VFile* vf = VFileFromConstMemory(patch.data(), patch.size());
-    if (!vf) {
-        return std::nullopt;
-    }
-    Patch applied{};
-    if (!loadPatch(vf, &applied) || !applied.outputSize || !applied.applyPatch) {
+    if (vf) {
+        Patch applied{};
+        if (loadPatch(vf, &applied) && applied.outputSize && applied.applyPatch) {
+            const size_t outSize = applied.outputSize(&applied, rom.size());
+            if (outSize) {
+                std::vector<uint8_t> out(outSize);
+                const bool ok = applied.applyPatch(&applied, rom.data(), rom.size(), out.data(), outSize);
+                vf->close(vf);
+                if (ok) {
+                    return out;
+                }
+                return applyXdeltaPatch(rom, patch);
+            }
+        }
         vf->close(vf);
-        return std::nullopt;
     }
-    const size_t outSize = applied.outputSize(&applied, rom.size());
-    if (!outSize) {
-        vf->close(vf);
-        return std::nullopt;
-    }
-    std::vector<uint8_t> out(outSize);
-    const bool ok = applied.applyPatch(&applied, rom.data(), rom.size(), out.data(), outSize);
-    vf->close(vf);
-    if (!ok) {
-        return std::nullopt;
-    }
-    return out;
+    return applyXdeltaPatch(rom, patch);
 }
 
 }

@@ -2,6 +2,7 @@
 
 #include "cart/GameArtCanvas.hpp"
 #include "cart/GameIndex.hpp"
+#include "emu/Paths.hpp"
 #include "poke/HttpGet.hpp"
 #include "poke/SpriteIndex.hpp"
 
@@ -13,6 +14,10 @@ bool isCachedArt(const std::filesystem::path& path) {
     int height = 0;
     return std::filesystem::exists(path) && gameArtPngSize(path, width, height) &&
            width == kGameArtWidth && height == kGameArtHeight;
+}
+
+std::filesystem::path bundledArt(std::string_view slug) {
+    return assetsDir() / "game-art" / (normalizeSlug(slug) + ".png");
 }
 
 }  // namespace
@@ -28,6 +33,10 @@ std::filesystem::path GameArtCache::plateFile(std::string_view slug) const {
 }
 
 std::filesystem::path GameArtCache::ensurePlate(std::string_view slug) {
+    const auto bundled = bundledArt(slug);
+    if (isCachedArt(bundled)) {
+        return bundled;
+    }
     const auto plate = plateFile(slug);
     if (isCachedArt(plate)) {
         return plate;
@@ -52,6 +61,10 @@ std::optional<std::filesystem::path> GameArtCache::ifReady(std::string_view slug
     const auto cached = cacheFile(slug);
     if (isCachedArt(cached)) {
         return cached;
+    }
+    const auto bundled = bundledArt(slug);
+    if (isCachedArt(bundled)) {
+        return bundled;
     }
     const auto plate = plateFile(slug);
     if (isCachedArt(plate)) {

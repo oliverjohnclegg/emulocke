@@ -1,6 +1,7 @@
 #include "run/Catalog.hpp"
 
 #include <cctype>
+#include <cstddef>
 
 namespace emulocke {
 namespace {
@@ -61,6 +62,33 @@ const CatalogTitle* catalogBySlug(std::string_view slug) {
         }
     }
     return nullptr;
+}
+
+std::string_view catalogOptionId(const CatalogTitle& title, std::string_view requested) {
+    if (title.optionCount == 0 || !title.options) {
+        return {};
+    }
+    if (!requested.empty()) {
+        for (uint8_t i = 0; i < title.optionCount; ++i) {
+            if (requested == title.options[i].id) {
+                return title.options[i].id;
+            }
+        }
+    }
+    return title.options[0].id;
+}
+
+const char* catalogPatchAsset(const CatalogTitle& title, std::string_view requested) {
+    if (title.optionCount == 0 || !title.options) {
+        return title.patchAsset;
+    }
+    const std::string_view id = catalogOptionId(title, requested);
+    for (uint8_t i = 0; i < title.optionCount; ++i) {
+        if (id == title.options[i].id) {
+            return title.options[i].asset;
+        }
+    }
+    return title.options[0].asset;
 }
 
 }

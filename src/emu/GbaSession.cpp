@@ -46,14 +46,14 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const s
         return nullptr;
     }
     session->savePath_ = savePath;
-    auto save = readWholeFile(session->savePath_);
-    if (!save.empty()) {
-        session->core_->savedataRestore(session->core_, save.data(), save.size(), true);
-    }
     session->core_->loadConfig(session->core_, &session->core_->config);
     session->core_->opts.skipBios = true;
     session->core_->opts.frameskip = 0;
     session->core_->reset(session->core_);
+    auto save = readWholeFile(session->savePath_);
+    if (!save.empty()) {
+        session->core_->savedataRestore(session->core_, save.data(), save.size(), true);
+    }
     mCoreCallbacks callbacks{};
     callbacks.context = session.get();
     callbacks.savedataUpdated = [](void* ctx) { static_cast<GbaSession*>(ctx)->flushSave(); };

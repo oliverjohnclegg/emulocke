@@ -20,8 +20,13 @@ std::filesystem::path RomLibrary::derivedDir() const {
     return romsRoot_ / "derived";
 }
 
-std::filesystem::path RomLibrary::storedPath(const CatalogTitle& title) const {
-    const std::string name = std::string(title.uuid) + title.ext;
+std::filesystem::path RomLibrary::storedPath(const CatalogTitle& title, std::string_view optionId) const {
+    std::string name = title.uuid;
+    if (title.kind == TitleKind::Hack && title.optionCount > 0) {
+        name += "-";
+        name += catalogOptionId(title, optionId);
+    }
+    name += title.ext;
     if (title.kind == TitleKind::Hack) {
         return derivedDir() / name;
     }
