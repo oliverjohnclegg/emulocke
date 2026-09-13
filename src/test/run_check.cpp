@@ -1,5 +1,7 @@
+#include "application/Prefs.hpp"
 #include "emu/FileBytes.hpp"
 #include "run/Catalog.hpp"
+#include "ui/Layout.hpp"
 #include "run/NuzlockeRules.hpp"
 #include "run/PatchApply.hpp"
 #include "run/RomLibrary.hpp"
@@ -84,6 +86,10 @@ std::vector<uint8_t> makeUps(const std::vector<uint8_t>& src, const std::vector<
 int testLayout();
 
 int main() {
+    expect(static_cast<int>(emulocke::kRightPaneSpan) == 481, "right pane span");
+    expect(emulocke::widthAfterRightPaneToggle(emulocke::kDefaultWindowW, false) == 554, "hide shrinks");
+    expect(emulocke::widthAfterRightPaneToggle(554, true) == emulocke::kDefaultWindowW, "show grows");
+    expect(emulocke::Prefs{}.rightPane, "right pane default");
     expect(emulocke::catalogBySha1("41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc") ==
             emulocke::catalogBySlug("firered-us-1.0"),
         "fr 1.0 sha");

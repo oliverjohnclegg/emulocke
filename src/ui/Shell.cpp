@@ -84,7 +84,9 @@ void drawShell(Application& app) {
     const ImVec2 avail = ImGui::GetContentRegionAvail();
     const float insetX = kConsolePad - ImGui::GetStyle().WindowPadding.x;
     const float insetY = kConsolePad - ImGui::GetStyle().WindowPadding.y;
-    const ImVec2 left(consoleLeftWidth(avail.x, ImGui::GetStyle().WindowPadding.x),
+    const bool showRight = app.prefs().rightPane;
+    const float rightSpan = showRight ? kRightPaneSpan : 0.f;
+    const ImVec2 left(consoleLeftWidth(avail.x, ImGui::GetStyle().WindowPadding.x, rightSpan),
         consoleLeftHeight(avail.y, ImGui::GetStyle().WindowPadding.y));
     const ImVec2 cursor = ImGui::GetCursorPos();
     ImGui::SetCursorPos(ImVec2(cursor.x + insetX, cursor.y + insetY));
@@ -102,8 +104,10 @@ void drawShell(Application& app) {
         drawHome(app);
     }
     ImGui::EndChild();
-    ImGui::SameLine(0.f, kConsolePad);
-    drawRightSuite(app, insetX, insetY);
+    if (showRight) {
+        ImGui::SameLine(0.f, kConsolePad);
+        drawRightSuite(app, insetX, insetY);
+    }
 }
 
 }

@@ -16,6 +16,8 @@ public:
     void setFullscreen(bool on);
     bool fullscreen() const;
     void restoreDefaultSize();
+    void adjustWidth(int delta);
+    void setWindowSize(int w, int h);
     void captureWindowed(Prefs& prefs) const;
 
 private:

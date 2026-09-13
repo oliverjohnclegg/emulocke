@@ -50,6 +50,7 @@ public:
     void setTouch(bool down, uint16_t x, uint16_t y);
     void persistPrefs();
     void setFullscreen(bool on);
+    void setRightPane(bool on);
     void setScreenScale(int scale);
     void setMuted(bool mute);
     void setVolume(int volume);

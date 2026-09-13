@@ -7,14 +7,15 @@ namespace emulocke {
 constexpr float kScreenGap = 5.f;
 constexpr float kSuiteWidth = 460.f;
 constexpr float kConsolePad = 21.f;
+constexpr float kRightPaneSpan = kSuiteWidth + kConsolePad;
 constexpr int kNativeW = 256;
 constexpr int kNativeH = 192;
 constexpr int kDefaultWindowW = 1035;
 constexpr int kDefaultWindowH = 836;
 
-inline float consoleLeftWidth(float availX, float windowPadX) {
+inline float consoleLeftWidth(float availX, float windowPadX, float rightSpan = kRightPaneSpan) {
     const float insetX = kConsolePad - windowPadX;
-    return availX - insetX - kSuiteWidth - kConsolePad - insetX;
+    return availX - insetX - rightSpan - insetX;
 }
 
 inline float consoleLeftHeight(float availY, float windowPadY) {
@@ -46,5 +47,14 @@ inline float screenStackGap(bool stacked, float paneH, float pixelH) {
     }
     return std::min(kScreenGap, std::max(0.f, paneH - pixelH));
 }
+
+constexpr int widthAfterRightPaneToggle(int width, bool show) {
+    const int span = static_cast<int>(kRightPaneSpan);
+    return show ? width + span : width - span;
+}
+
+static_assert(static_cast<int>(kRightPaneSpan) == 481);
+static_assert(widthAfterRightPaneToggle(kDefaultWindowW, false) == 554);
+static_assert(widthAfterRightPaneToggle(554, true) == kDefaultWindowW);
 
 }

@@ -13,6 +13,7 @@ int testLayout() {
     };
 
     expect(emulocke::consoleLeftWidth(1025.f, 5.f) == 512.f, "home left width");
+    expect(emulocke::consoleLeftWidth(544.f, 5.f, 0.f) == 512.f, "left width with suite hidden");
     expect(emulocke::consoleLeftHeight(800.f, 5.f) == 768.f, "home left height");
 
     const int oldDsFit = std::min(static_cast<int>(512.f / 256.f),
