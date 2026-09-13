@@ -1,0 +1,1747 @@
+{
+  "id": "blaze",
+  "starters": [
+    495,
+    498,
+    501
+  ],
+  "stops": [
+    {
+      "id": "starter",
+      "kind": "encounter",
+      "name": "Starter",
+      "catch": "starter"
+    },
+    {
+      "id": "b1",
+      "kind": "boss",
+      "name": "Bianca",
+      "locale": "Nuvema Town",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "oshawott",
+          "lock": 495
+        },
+        {
+          "slug": "snivy",
+          "lock": 498
+        },
+        {
+          "slug": "tepig",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "c1",
+      "kind": "boss",
+      "name": "Cheren",
+      "locale": "Nuvema Town",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "tepig",
+          "lock": 495
+        },
+        {
+          "slug": "oshawott",
+          "lock": 498
+        },
+        {
+          "slug": "snivy",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "route-1",
+      "kind": "encounter",
+      "name": "Route 1",
+      "catch": "met",
+      "mets": [
+        14
+      ]
+    },
+    {
+      "id": "n1",
+      "kind": "boss",
+      "name": "N",
+      "locale": "Accumula Town",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "nincada",
+          "lock": 0
+        },
+        {
+          "slug": "purrloin",
+          "lock": 0
+        },
+        {
+          "slug": "mankey",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-2",
+      "kind": "encounter",
+      "name": "Route 2",
+      "catch": "met",
+      "mets": [
+        15
+      ]
+    },
+    {
+      "id": "b2",
+      "kind": "boss",
+      "name": "Bianca",
+      "locale": "Route 2",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "meowth",
+          "lock": 0
+        },
+        {
+          "slug": "oshawott",
+          "lock": 495
+        },
+        {
+          "slug": "snivy",
+          "lock": 498
+        },
+        {
+          "slug": "tepig",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "striaton-city",
+      "kind": "encounter",
+      "name": "Striaton City",
+      "catch": "met",
+      "mets": [
+        6
+      ]
+    },
+    {
+      "id": "c2",
+      "kind": "boss",
+      "name": "Cheren",
+      "locale": "Tranier's School",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "starly",
+          "lock": 0
+        },
+        {
+          "slug": "tepig",
+          "lock": 495
+        },
+        {
+          "slug": "oshawott",
+          "lock": 498
+        },
+        {
+          "slug": "snivy",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "gym-1",
+      "kind": "boss",
+      "name": "Chili, Cress or Cilan",
+      "locale": "Striaton Gym",
+      "boss": "gym",
+      "gym": 1,
+      "team": [
+        {
+          "slug": "tepig",
+          "lock": 495
+        },
+        {
+          "slug": "charmander",
+          "lock": 495
+        },
+        {
+          "slug": "cyndaquil",
+          "lock": 495
+        },
+        {
+          "slug": "torchic",
+          "lock": 495
+        },
+        {
+          "slug": "chimchar",
+          "lock": 495
+        },
+        {
+          "slug": "pansear",
+          "lock": 495
+        },
+        {
+          "slug": "oshawott",
+          "lock": 498
+        },
+        {
+          "slug": "squirtle",
+          "lock": 498
+        },
+        {
+          "slug": "totodile",
+          "lock": 498
+        },
+        {
+          "slug": "mudkip",
+          "lock": 498
+        },
+        {
+          "slug": "piplup",
+          "lock": 498
+        },
+        {
+          "slug": "panpour",
+          "lock": 498
+        },
+        {
+          "slug": "snivy",
+          "lock": 501
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 501
+        },
+        {
+          "slug": "chikorita",
+          "lock": 501
+        },
+        {
+          "slug": "treecko",
+          "lock": 501
+        },
+        {
+          "slug": "turtwig",
+          "lock": 501
+        },
+        {
+          "slug": "pansage",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "dreamyard",
+      "kind": "encounter",
+      "name": "Dreamyard",
+      "catch": "met",
+      "mets": [
+        32
+      ]
+    },
+    {
+      "id": "route-3",
+      "kind": "encounter",
+      "name": "Route 3",
+      "catch": "met",
+      "mets": [
+        16
+      ]
+    },
+    {
+      "id": "c3",
+      "kind": "boss",
+      "name": "Cheren",
+      "locale": "Preschool",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "staravia",
+          "lock": 495
+        },
+        {
+          "slug": "roggenrola",
+          "lock": 0
+        },
+        {
+          "slug": "pansage",
+          "lock": 495
+        },
+        {
+          "slug": "tepig",
+          "lock": 495
+        },
+        {
+          "slug": "pansear",
+          "lock": 498
+        },
+        {
+          "slug": "oshawott",
+          "lock": 498
+        },
+        {
+          "slug": "panpour",
+          "lock": 501
+        },
+        {
+          "slug": "snivy",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "wellspring-cave",
+      "kind": "encounter",
+      "name": "Wellspring Cave",
+      "catch": "met",
+      "mets": [
+        53
+      ]
+    },
+    {
+      "id": "nacrene-city",
+      "kind": "encounter",
+      "name": "Nacrene City",
+      "catch": "met",
+      "mets": [
+        7
+      ]
+    },
+    {
+      "id": "n2",
+      "kind": "boss",
+      "name": "N",
+      "locale": "Nacrene City",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "drilbur",
+          "lock": 0
+        },
+        {
+          "slug": "bronzor",
+          "lock": 0
+        },
+        {
+          "slug": "tympole",
+          "lock": 0
+        },
+        {
+          "slug": "vulpix",
+          "lock": 0
+        },
+        {
+          "slug": "zorua",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "gym-2",
+      "kind": "boss",
+      "name": "Lenora",
+      "locale": "Nacrene Gym",
+      "boss": "gym",
+      "gym": 2,
+      "team": [
+        {
+          "slug": "stantler",
+          "lock": 0
+        },
+        {
+          "slug": "herdier",
+          "lock": 0
+        },
+        {
+          "slug": "furret",
+          "lock": 0
+        },
+        {
+          "slug": "bibarel",
+          "lock": 0
+        },
+        {
+          "slug": "watchog",
+          "lock": 0
+        },
+        {
+          "slug": "bouffalant",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "pinwheel-forest",
+      "kind": "encounter",
+      "name": "Pinwheel Forest",
+      "catch": "met",
+      "mets": [
+        33
+      ]
+    },
+    {
+      "id": "liberty-garden",
+      "kind": "encounter",
+      "name": "Liberty Garden",
+      "catch": "met",
+      "mets": [
+        62
+      ]
+    },
+    {
+      "id": "gym-3",
+      "kind": "boss",
+      "name": "Burgh",
+      "locale": "Castelia Gym",
+      "boss": "gym",
+      "gym": 3,
+      "team": [
+        {
+          "slug": "masquerain",
+          "lock": 0
+        },
+        {
+          "slug": "vespiquen",
+          "lock": 0
+        },
+        {
+          "slug": "heracross",
+          "lock": 0
+        },
+        {
+          "slug": "yanmega",
+          "lock": 0
+        },
+        {
+          "slug": "scolipede",
+          "lock": 0
+        },
+        {
+          "slug": "leavanny",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "b3",
+      "kind": "boss",
+      "name": "Bianca",
+      "locale": "Castelia City",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "munna",
+          "lock": 0
+        },
+        {
+          "slug": "simisear",
+          "lock": 495
+        },
+        {
+          "slug": "simipour",
+          "lock": 498
+        },
+        {
+          "slug": "simisage",
+          "lock": 501
+        },
+        {
+          "slug": "persian",
+          "lock": 0
+        },
+        {
+          "slug": "dewott",
+          "lock": 495
+        },
+        {
+          "slug": "servine",
+          "lock": 498
+        },
+        {
+          "slug": "pignite",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "route-4",
+      "kind": "encounter",
+      "name": "Route 4",
+      "catch": "met",
+      "mets": [
+        17
+      ]
+    },
+    {
+      "id": "c4",
+      "kind": "boss",
+      "name": "Cheren",
+      "locale": "Route 4",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "staravia",
+          "lock": 495
+        },
+        {
+          "slug": "boldore",
+          "lock": 0
+        },
+        {
+          "slug": "kadabra",
+          "lock": 0
+        },
+        {
+          "slug": "simisage",
+          "lock": 495
+        },
+        {
+          "slug": "pignite",
+          "lock": 495
+        },
+        {
+          "slug": "simisear",
+          "lock": 498
+        },
+        {
+          "slug": "dewott",
+          "lock": 498
+        },
+        {
+          "slug": "simipour",
+          "lock": 501
+        },
+        {
+          "slug": "servine",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "desert-resort",
+      "kind": "encounter",
+      "name": "Desert Resort",
+      "catch": "met",
+      "mets": [
+        34
+      ]
+    },
+    {
+      "id": "relic-castle",
+      "kind": "encounter",
+      "name": "Relic Castle",
+      "catch": "met",
+      "mets": [
+        35
+      ]
+    },
+    {
+      "id": "n3",
+      "kind": "boss",
+      "name": "N",
+      "locale": "Nimbasa City",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "hippopotas",
+          "lock": 0
+        },
+        {
+          "slug": "maractus",
+          "lock": 0
+        },
+        {
+          "slug": "gligar",
+          "lock": 0
+        },
+        {
+          "slug": "larvesta",
+          "lock": 0
+        },
+        {
+          "slug": "golett",
+          "lock": 0
+        },
+        {
+          "slug": "sigilyph",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "gym-4",
+      "kind": "boss",
+      "name": "Elesa",
+      "locale": "Nimbasa Gym",
+      "boss": "gym",
+      "gym": 4,
+      "team": [
+        {
+          "slug": "emolga",
+          "lock": 0
+        },
+        {
+          "slug": "manectric",
+          "lock": 0
+        },
+        {
+          "slug": "ampharos",
+          "lock": 0
+        },
+        {
+          "slug": "raichu",
+          "lock": 0
+        },
+        {
+          "slug": "galvantula",
+          "lock": 0
+        },
+        {
+          "slug": "zebstrika",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-16",
+      "kind": "encounter",
+      "name": "Route 16",
+      "catch": "met",
+      "mets": [
+        29
+      ]
+    },
+    {
+      "id": "route-5",
+      "kind": "encounter",
+      "name": "Route 5",
+      "catch": "met",
+      "mets": [
+        18
+      ]
+    },
+    {
+      "id": "c5",
+      "kind": "boss",
+      "name": "Cheren",
+      "locale": "Route 5",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "staraptor",
+          "lock": 0
+        },
+        {
+          "slug": "gigalith",
+          "lock": 0
+        },
+        {
+          "slug": "alakazam",
+          "lock": 0
+        },
+        {
+          "slug": "simisage",
+          "lock": 495
+        },
+        {
+          "slug": "emboar",
+          "lock": 495
+        },
+        {
+          "slug": "simisear",
+          "lock": 498
+        },
+        {
+          "slug": "samurott",
+          "lock": 498
+        },
+        {
+          "slug": "simipour",
+          "lock": 501
+        },
+        {
+          "slug": "serperior",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "lostlorn-forest",
+      "kind": "encounter",
+      "name": "Lostlorn Forest",
+      "catch": "met",
+      "mets": [
+        72
+      ]
+    },
+    {
+      "id": "cold-storage",
+      "kind": "encounter",
+      "name": "Cold Storage",
+      "catch": "met"
+    },
+    {
+      "id": "driftveil-drawbidge",
+      "kind": "encounter",
+      "name": "Driftveil Drawbidge",
+      "catch": "met"
+    },
+    {
+      "id": "driftveil-city",
+      "kind": "encounter",
+      "name": "Driftveil City",
+      "catch": "met",
+      "mets": [
+        10
+      ]
+    },
+    {
+      "id": "gym-5",
+      "kind": "boss",
+      "name": "Clay",
+      "locale": "Driftveil Gym",
+      "boss": "gym",
+      "gym": 5,
+      "team": [
+        {
+          "slug": "hippowdon",
+          "lock": 0
+        },
+        {
+          "slug": "seismitoad",
+          "lock": 0
+        },
+        {
+          "slug": "steelix",
+          "lock": 0
+        },
+        {
+          "slug": "marowak",
+          "lock": 0
+        },
+        {
+          "slug": "krookodile",
+          "lock": 0
+        },
+        {
+          "slug": "excadrill",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "b4",
+      "kind": "boss",
+      "name": "Bianca",
+      "locale": "Driftveil City",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "mienfoo",
+          "lock": 0
+        },
+        {
+          "slug": "musharna",
+          "lock": 0
+        },
+        {
+          "slug": "persian",
+          "lock": 0
+        },
+        {
+          "slug": "simisear",
+          "lock": 495
+        },
+        {
+          "slug": "samurott",
+          "lock": 495
+        },
+        {
+          "slug": "simipour",
+          "lock": 498
+        },
+        {
+          "slug": "serperior",
+          "lock": 498
+        },
+        {
+          "slug": "simisage",
+          "lock": 501
+        },
+        {
+          "slug": "emboar",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "route-6",
+      "kind": "encounter",
+      "name": "Route 6",
+      "catch": "met",
+      "mets": [
+        19
+      ]
+    },
+    {
+      "id": "chargestone-cave",
+      "kind": "encounter",
+      "name": "Chargestone Cave",
+      "catch": "met",
+      "mets": [
+        37
+      ]
+    },
+    {
+      "id": "n4",
+      "kind": "boss",
+      "name": "N",
+      "locale": "Chargestone Cave",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "rotom",
+          "lock": 0
+        },
+        {
+          "slug": "rotom-heat",
+          "lock": 0
+        },
+        {
+          "slug": "rotom-wash",
+          "lock": 0
+        },
+        {
+          "slug": "rotom-frost",
+          "lock": 0
+        },
+        {
+          "slug": "rotom-fan",
+          "lock": 0
+        },
+        {
+          "slug": "rotom-mow",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-7",
+      "kind": "encounter",
+      "name": "Route 7",
+      "catch": "met",
+      "mets": [
+        20
+      ]
+    },
+    {
+      "id": "celestial-tower",
+      "kind": "encounter",
+      "name": "Celestial Tower",
+      "catch": "met",
+      "mets": [
+        56
+      ]
+    },
+    {
+      "id": "gym-6",
+      "kind": "boss",
+      "name": "Skyla",
+      "locale": "Mistralton Gym",
+      "boss": "gym",
+      "gym": 6,
+      "team": [
+        {
+          "slug": "mandibuzz",
+          "lock": 0
+        },
+        {
+          "slug": "skarmory",
+          "lock": 0
+        },
+        {
+          "slug": "braviary",
+          "lock": 0
+        },
+        {
+          "slug": "archeops",
+          "lock": 0
+        },
+        {
+          "slug": "gliscor",
+          "lock": 0
+        },
+        {
+          "slug": "swanna",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-17",
+      "kind": "encounter",
+      "name": "Route 17",
+      "catch": "met",
+      "mets": [
+        30
+      ]
+    },
+    {
+      "id": "route-18",
+      "kind": "encounter",
+      "name": "Route 18",
+      "catch": "met",
+      "mets": [
+        31
+      ]
+    },
+    {
+      "id": "p2-laboratory",
+      "kind": "encounter",
+      "name": "P2 Laboratory",
+      "catch": "met",
+      "mets": [
+        63
+      ]
+    },
+    {
+      "id": "mistralton-cave",
+      "kind": "encounter",
+      "name": "Mistralton Cave",
+      "catch": "met",
+      "mets": [
+        54
+      ]
+    },
+    {
+      "id": "twist-mountain",
+      "kind": "encounter",
+      "name": "Twist Mountain",
+      "catch": "met",
+      "mets": [
+        38
+      ]
+    },
+    {
+      "id": "c6",
+      "kind": "boss",
+      "name": "Cheren",
+      "locale": "Twist Mountain",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "staraptor",
+          "lock": 495
+        },
+        {
+          "slug": "gigalith",
+          "lock": 0
+        },
+        {
+          "slug": "alakazam",
+          "lock": 0
+        },
+        {
+          "slug": "gyarados",
+          "lock": 495
+        },
+        {
+          "slug": "simisage",
+          "lock": 495
+        },
+        {
+          "slug": "emboar",
+          "lock": 495
+        },
+        {
+          "slug": "whimsicott",
+          "lock": 498
+        },
+        {
+          "slug": "simisear",
+          "lock": 498
+        },
+        {
+          "slug": "samurott",
+          "lock": 498
+        },
+        {
+          "slug": "houndoom",
+          "lock": 501
+        },
+        {
+          "slug": "simipour",
+          "lock": 501
+        },
+        {
+          "slug": "serperior",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "iccirus-city",
+      "kind": "encounter",
+      "name": "Iccirus City",
+      "catch": "met"
+    },
+    {
+      "id": "gym-7",
+      "kind": "boss",
+      "name": "Brycen",
+      "locale": "Iccirus Gym",
+      "boss": "gym",
+      "gym": 7,
+      "team": [
+        {
+          "slug": "abomasnow",
+          "lock": 0
+        },
+        {
+          "slug": "glaceon",
+          "lock": 0
+        },
+        {
+          "slug": "froslass",
+          "lock": 0
+        },
+        {
+          "slug": "vanilluxe",
+          "lock": 0
+        },
+        {
+          "slug": "cryogonal",
+          "lock": 0
+        },
+        {
+          "slug": "beartic",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-8",
+      "kind": "encounter",
+      "name": "Route 8",
+      "catch": "met",
+      "mets": [
+        21
+      ]
+    },
+    {
+      "id": "b5",
+      "kind": "boss",
+      "name": "Bianca",
+      "locale": "Route 8",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "persian",
+          "lock": 0
+        },
+        {
+          "slug": "musharna",
+          "lock": 0
+        },
+        {
+          "slug": "mienshao",
+          "lock": 0
+        },
+        {
+          "slug": "lilligant",
+          "lock": 495
+        },
+        {
+          "slug": "simisear",
+          "lock": 495
+        },
+        {
+          "slug": "samurott",
+          "lock": 495
+        },
+        {
+          "slug": "chandelure",
+          "lock": 498
+        },
+        {
+          "slug": "simipour",
+          "lock": 498
+        },
+        {
+          "slug": "serperior",
+          "lock": 498
+        },
+        {
+          "slug": "milotic",
+          "lock": 501
+        },
+        {
+          "slug": "simisage",
+          "lock": 501
+        },
+        {
+          "slug": "emboar",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "moor-of-icirrus",
+      "kind": "encounter",
+      "name": "Moor of Icirrus",
+      "catch": "met",
+      "mets": [
+        57
+      ]
+    },
+    {
+      "id": "dragonspiral-tower",
+      "kind": "encounter",
+      "name": "Dragonspiral Tower",
+      "catch": "met",
+      "mets": [
+        39
+      ]
+    },
+    {
+      "id": "route-9",
+      "kind": "encounter",
+      "name": "Route 9",
+      "catch": "met",
+      "mets": [
+        22
+      ]
+    },
+    {
+      "id": "8a",
+      "kind": "boss",
+      "name": "Drayden",
+      "locale": "Opelucid Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "druddigon",
+          "lock": 0
+        },
+        {
+          "slug": "charizard",
+          "lock": 0
+        },
+        {
+          "slug": "flygon",
+          "lock": 0
+        },
+        {
+          "slug": "salamence",
+          "lock": 0
+        },
+        {
+          "slug": "kingdra",
+          "lock": 0
+        },
+        {
+          "slug": "haxorus",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-10",
+      "kind": "encounter",
+      "name": "Route 10",
+      "catch": "met",
+      "mets": [
+        23
+      ]
+    },
+    {
+      "id": "c7",
+      "kind": "boss",
+      "name": "Cheren",
+      "locale": "Route 10",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "staraptor",
+          "lock": 0
+        },
+        {
+          "slug": "gigalith",
+          "lock": 0
+        },
+        {
+          "slug": "alakazam",
+          "lock": 0
+        },
+        {
+          "slug": "gyarados",
+          "lock": 495
+        },
+        {
+          "slug": "simisage",
+          "lock": 495
+        },
+        {
+          "slug": "emboar",
+          "lock": 495
+        },
+        {
+          "slug": "whimsicott",
+          "lock": 498
+        },
+        {
+          "slug": "simisear",
+          "lock": 498
+        },
+        {
+          "slug": "samurott",
+          "lock": 498
+        },
+        {
+          "slug": "houndoom",
+          "lock": 501
+        },
+        {
+          "slug": "simipour",
+          "lock": 501
+        },
+        {
+          "slug": "serperior",
+          "lock": 501
+        }
+      ]
+    },
+    {
+      "id": "victory-road",
+      "kind": "encounter",
+      "name": "Victory Road",
+      "catch": "met"
+    },
+    {
+      "id": "e1",
+      "kind": "boss",
+      "name": "Shauntal",
+      "locale": "Pok\u00e9mon League W Room",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "drifblim",
+          "lock": 0
+        },
+        {
+          "slug": "golurk",
+          "lock": 0
+        },
+        {
+          "slug": "mismagius",
+          "lock": 0
+        },
+        {
+          "slug": "froslass",
+          "lock": 0
+        },
+        {
+          "slug": "jellicent",
+          "lock": 0
+        },
+        {
+          "slug": "chandelure",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e2",
+      "kind": "boss",
+      "name": "Grimsley",
+      "locale": "Pok\u00e9mon League NW Room",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "sharpedo",
+          "lock": 0
+        },
+        {
+          "slug": "liepard",
+          "lock": 0
+        },
+        {
+          "slug": "honchkrow",
+          "lock": 0
+        },
+        {
+          "slug": "absol",
+          "lock": 0
+        },
+        {
+          "slug": "houndoom",
+          "lock": 0
+        },
+        {
+          "slug": "bisharp",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e3",
+      "kind": "boss",
+      "name": "Caitlin",
+      "locale": "Pok\u00e9mon League NE Room",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "musharna",
+          "lock": 0
+        },
+        {
+          "slug": "sigilyph",
+          "lock": 0
+        },
+        {
+          "slug": "beheeyem",
+          "lock": 0
+        },
+        {
+          "slug": "bronzong",
+          "lock": 0
+        },
+        {
+          "slug": "gothitelle",
+          "lock": 0
+        },
+        {
+          "slug": "reuniclus",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e4",
+      "kind": "boss",
+      "name": "Caitlin",
+      "locale": "Pok\u00e9mon League E Room",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "throh",
+          "lock": 0
+        },
+        {
+          "slug": "sawk",
+          "lock": 0
+        },
+        {
+          "slug": "breloom",
+          "lock": 0
+        },
+        {
+          "slug": "poliwrath",
+          "lock": 0
+        },
+        {
+          "slug": "mienshao",
+          "lock": 0
+        },
+        {
+          "slug": "conkeldurr",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "ns-castle",
+      "kind": "encounter",
+      "name": "N's Castle",
+      "catch": "met",
+      "mets": [
+        45
+      ]
+    },
+    {
+      "id": "n5a",
+      "kind": "boss",
+      "name": "N",
+      "locale": "N's Castle",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "zoroark",
+          "lock": 0
+        },
+        {
+          "slug": "magmortar",
+          "lock": 0
+        },
+        {
+          "slug": "slowbro",
+          "lock": 0
+        },
+        {
+          "slug": "aerodactyl",
+          "lock": 0
+        },
+        {
+          "slug": "porygon-z",
+          "lock": 0
+        },
+        {
+          "slug": "zekrom",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "gh",
+      "kind": "boss",
+      "name": "Ghetsis",
+      "locale": "N's Castle",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "drapion",
+          "lock": 0
+        },
+        {
+          "slug": "dusknoir",
+          "lock": 0
+        },
+        {
+          "slug": "eelektross",
+          "lock": 0
+        },
+        {
+          "slug": "gyarados",
+          "lock": 0
+        },
+        {
+          "slug": "genesect",
+          "lock": 0
+        },
+        {
+          "slug": "hydreigon",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-11",
+      "kind": "encounter",
+      "name": "Route 11",
+      "catch": "met",
+      "mets": [
+        24
+      ]
+    },
+    {
+      "id": "village-bridge",
+      "kind": "encounter",
+      "name": "Village Bridge",
+      "catch": "met",
+      "mets": [
+        67
+      ]
+    },
+    {
+      "id": "route-12",
+      "kind": "encounter",
+      "name": "Route 12",
+      "catch": "met",
+      "mets": [
+        25
+      ]
+    },
+    {
+      "id": "route-13",
+      "kind": "encounter",
+      "name": "Route 13",
+      "catch": "met",
+      "mets": [
+        26
+      ]
+    },
+    {
+      "id": "giant-chasm",
+      "kind": "encounter",
+      "name": "Giant Chasm",
+      "catch": "met",
+      "mets": [
+        61
+      ]
+    },
+    {
+      "id": "undella-town",
+      "kind": "encounter",
+      "name": "Undella Town",
+      "catch": "met",
+      "mets": [
+        42
+      ]
+    },
+    {
+      "id": "ch1",
+      "kind": "boss",
+      "name": "Cynthia",
+      "locale": "Undella Town",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "spiritomb",
+          "lock": 0
+        },
+        {
+          "slug": "roserade",
+          "lock": 0
+        },
+        {
+          "slug": "milotic",
+          "lock": 0
+        },
+        {
+          "slug": "togekiss",
+          "lock": 0
+        },
+        {
+          "slug": "lucario",
+          "lock": 0
+        },
+        {
+          "slug": "garchomp",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "undella-bay",
+      "kind": "encounter",
+      "name": "Undella Bay",
+      "catch": "met",
+      "mets": [
+        71
+      ]
+    },
+    {
+      "id": "route-14",
+      "kind": "encounter",
+      "name": "Route 14",
+      "catch": "met",
+      "mets": [
+        27
+      ]
+    },
+    {
+      "id": "abundant-shrine",
+      "kind": "encounter",
+      "name": "Abundant Shrine",
+      "catch": "met",
+      "mets": [
+        70
+      ]
+    },
+    {
+      "id": "white-forest",
+      "kind": "encounter",
+      "name": "White Forest",
+      "catch": "met",
+      "mets": [
+        51
+      ]
+    },
+    {
+      "id": "e5",
+      "kind": "boss",
+      "name": "Shauntal",
+      "locale": "Pok\u00e9mon League W Room (Round 2)",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "cofagrigus",
+          "lock": 0
+        },
+        {
+          "slug": "gengar",
+          "lock": 0
+        },
+        {
+          "slug": "sableye",
+          "lock": 0
+        },
+        {
+          "slug": "golurk",
+          "lock": 0
+        },
+        {
+          "slug": "jellicent",
+          "lock": 0
+        },
+        {
+          "slug": "chandelure",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e6",
+      "kind": "boss",
+      "name": "Grimsley",
+      "locale": "Pok\u00e9mon League NW Room (Round 2)",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "honchkrow",
+          "lock": 0
+        },
+        {
+          "slug": "sharpedo",
+          "lock": 0
+        },
+        {
+          "slug": "weavile",
+          "lock": 0
+        },
+        {
+          "slug": "houndoom",
+          "lock": 0
+        },
+        {
+          "slug": "bisharp",
+          "lock": 0
+        },
+        {
+          "slug": "zoroark",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e7",
+      "kind": "boss",
+      "name": "Caitlin",
+      "locale": "Pok\u00e9mon League NE Room (Round 2)",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "mienshao",
+          "lock": 0
+        },
+        {
+          "slug": "breloom",
+          "lock": 0
+        },
+        {
+          "slug": "scrafty",
+          "lock": 0
+        },
+        {
+          "slug": "lucario",
+          "lock": 0
+        },
+        {
+          "slug": "blaziken",
+          "lock": 0
+        },
+        {
+          "slug": "conkeldurr",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e8",
+      "kind": "boss",
+      "name": "Marshal",
+      "locale": "Pok\u00e9mon League E Room (Round 2)",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "musharna",
+          "lock": 0
+        },
+        {
+          "slug": "gardevoir",
+          "lock": 0
+        },
+        {
+          "slug": "sigilyph",
+          "lock": 0
+        },
+        {
+          "slug": "gothitelle",
+          "lock": 0
+        },
+        {
+          "slug": "reuniclus",
+          "lock": 0
+        },
+        {
+          "slug": "metagross",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "ch2",
+      "kind": "boss",
+      "name": "Alder",
+      "locale": "Pok\u00e9mon League Champion",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "bouffalant",
+          "lock": 0
+        },
+        {
+          "slug": "braviary",
+          "lock": 0
+        },
+        {
+          "slug": "espeon",
+          "lock": 0
+        },
+        {
+          "slug": "flygon",
+          "lock": 0
+        },
+        {
+          "slug": "vanilluxe",
+          "lock": 0
+        },
+        {
+          "slug": "volcarona",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-15",
+      "kind": "encounter",
+      "name": "Route 15",
+      "catch": "met",
+      "mets": [
+        28
+      ]
+    },
+    {
+      "id": "marvelous-bridge",
+      "kind": "encounter",
+      "name": "Marvelous Bridge",
+      "catch": "met",
+      "mets": [
+        68
+      ]
+    },
+    {
+      "id": "challengers-cave",
+      "kind": "encounter",
+      "name": "Challenger's Cave",
+      "catch": "met",
+      "mets": [
+        59
+      ]
+    }
+  ]
+}

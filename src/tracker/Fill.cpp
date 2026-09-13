@@ -1,21 +1,32 @@
 #include "tracker/Log.hpp"
 
 #include "adapter/Snapshot.hpp"
+#include "adapter/gen45/Names.hpp"
 
 #include <cctype>
 #include <cstring>
+#include <string>
 #include <unordered_set>
 #include <vector>
 
 namespace emulocke {
 namespace {
 
-bool catchMatches(const TrackerStop& stop, const Mon& mon) {
+bool catchMatches(const TrackerStop& stop, const Mon& mon, const TrackerAtlas& atlas) {
     if (mon.species == 0 || mon.egg) {
         return false;
     }
     if (stop.catchKind == CatchKind::Starter) {
-        return mon.species == 1 || mon.species == 4 || mon.species == 7;
+        const uint16_t species = trackerSpeciesId(atlas.id, mon.species);
+        if (atlas.starters.empty()) {
+            return species == 1 || species == 4 || species == 7;
+        }
+        for (uint16_t id : atlas.starters) {
+            if (species == id) {
+                return true;
+            }
+        }
+        return false;
     }
     if (stop.catchKind != CatchKind::Met || !stop.mets) {
         return false;
@@ -26,6 +37,13 @@ bool catchMatches(const TrackerStop& stop, const Mon& mon) {
         }
     }
     return false;
+}
+
+bool gymBadgeEarned(const GameSnapshot& snap, uint8_t gymIndex) {
+    if (gymIndex == 0 || gymIndex > 8) {
+        return false;
+    }
+    return (snap.gyms.earned & static_cast<uint8_t>(1u << (gymIndex - 1))) != 0;
 }
 
 void gatherMons(const GameSnapshot& snap, std::vector<const Mon*>& out) {
@@ -67,13 +85,16 @@ void applyTrackerFill(TrackerLog& log, const TrackerAtlas& atlas, const GameSnap
                     }
                 }
             }
+            if (stop.bossKind == BossKind::Gym && gymBadgeEarned(snap, stop.gymIndex)) {
+                log.setDefeated(stop.id, true);
+            }
             continue;
         }
         Caught row = log.caught(stop.id);
         if (row.personality != 0) {
             for (const Mon* mon : mons) {
                 if (mon->personality == row.personality && mon->species != 0 && !mon->egg) {
-                    log.setCaught(stop.id, mon->species, mon->personality);
+                    log.setCaught(stop.id, trackerSpeciesId(atlas.id, mon->species), mon->personality);
                     break;
                 }
             }
@@ -89,10 +110,10 @@ void applyTrackerFill(TrackerLog& log, const TrackerAtlas& atlas, const GameSnap
             if (mon->personality != 0 && claimed.count(mon->personality)) {
                 continue;
             }
-            if (!catchMatches(stop, *mon)) {
+            if (!catchMatches(stop, *mon, atlas)) {
                 continue;
             }
-            log.setCaught(stop.id, mon->species, mon->personality);
+            log.setCaught(stop.id, trackerSpeciesId(atlas.id, mon->species), mon->personality);
             if (mon->personality != 0) {
                 claimed.insert(mon->personality);
             }
@@ -129,12 +150,14 @@ uint16_t matchSpeciesName(const GameAdapter& adapter, std::string_view typed) {
         return out;
     };
     const std::string wantCompact = compact(want);
-    for (uint16_t id = 1; id < 440; ++id) {
-        const SpeciesRef ref = adapter.species(id);
-        if (ref.slug && std::strcmp(ref.slug, want.c_str()) == 0) {
-            return id;
+    auto matches = [&](const SpeciesRef& ref) {
+        if (!ref.slug || !ref.slug[0]) {
+            return false;
         }
-        if (ref.slug && compact(ref.slug) == wantCompact) {
+        return std::strcmp(ref.slug, want.c_str()) == 0 || compact(ref.slug) == wantCompact;
+    };
+    for (uint16_t id = 1; id < 650; ++id) {
+        if (matches(adapter.species(id)) || matches(nationalSpeciesRef(id))) {
             return id;
         }
     }

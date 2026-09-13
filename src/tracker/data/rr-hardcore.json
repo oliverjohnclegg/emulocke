@@ -1,0 +1,3852 @@
+{
+  "id": "rr-hardcore",
+  "starters": [
+    1,
+    7,
+    4,
+    152,
+    155,
+    158,
+    252,
+    255,
+    258,
+    387,
+    390,
+    393,
+    495,
+    498,
+    501,
+    650,
+    653,
+    656,
+    722,
+    725,
+    728,
+    810,
+    813,
+    816,
+    909,
+    906,
+    912
+  ],
+  "stops": [
+    {
+      "id": "starter",
+      "kind": "encounter",
+      "name": "Starter",
+      "catch": "starter"
+    },
+    {
+      "id": "pallet-town",
+      "kind": "encounter",
+      "name": "Pallet Town",
+      "catch": "met",
+      "mets": [
+        0
+      ]
+    },
+    {
+      "id": "r1",
+      "kind": "boss",
+      "name": "Gary",
+      "locale": "Oak's Laboratory",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "squirtle",
+          "lock": 4
+        },
+        {
+          "slug": "squirtle",
+          "lock": 155
+        },
+        {
+          "slug": "squirtle",
+          "lock": 255
+        },
+        {
+          "slug": "squirtle",
+          "lock": 390
+        },
+        {
+          "slug": "squirtle",
+          "lock": 498
+        },
+        {
+          "slug": "squirtle",
+          "lock": 653
+        },
+        {
+          "slug": "squirtle",
+          "lock": 725
+        },
+        {
+          "slug": "squirtle",
+          "lock": 813
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 7
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 158
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 258
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 393
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 501
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 656
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 728
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 816
+        },
+        {
+          "slug": "charmander",
+          "lock": 1
+        },
+        {
+          "slug": "charmander",
+          "lock": 152
+        },
+        {
+          "slug": "charmander",
+          "lock": 252
+        },
+        {
+          "slug": "charmander",
+          "lock": 387
+        },
+        {
+          "slug": "charmander",
+          "lock": 495
+        },
+        {
+          "slug": "charmander",
+          "lock": 650
+        },
+        {
+          "slug": "charmander",
+          "lock": 722
+        },
+        {
+          "slug": "charmander",
+          "lock": 810
+        }
+      ]
+    },
+    {
+      "id": "route-1",
+      "kind": "encounter",
+      "name": "Route 1",
+      "catch": "met",
+      "mets": [
+        13
+      ]
+    },
+    {
+      "id": "r2-hard",
+      "kind": "boss",
+      "name": "Gary",
+      "locale": "Route 1",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "snubbull",
+          "lock": 0
+        },
+        {
+          "slug": "litleo",
+          "lock": 4
+        },
+        {
+          "slug": "litleo",
+          "lock": 155
+        },
+        {
+          "slug": "litleo",
+          "lock": 255
+        },
+        {
+          "slug": "litleo",
+          "lock": 390
+        },
+        {
+          "slug": "litleo",
+          "lock": 498
+        },
+        {
+          "slug": "litleo",
+          "lock": 653
+        },
+        {
+          "slug": "litleo",
+          "lock": 725
+        },
+        {
+          "slug": "litleo",
+          "lock": 813
+        },
+        {
+          "slug": "slowpoke",
+          "lock": 7
+        },
+        {
+          "slug": "slowpoke",
+          "lock": 158
+        },
+        {
+          "slug": "slowpoke",
+          "lock": 258
+        },
+        {
+          "slug": "slowpoke",
+          "lock": 393
+        },
+        {
+          "slug": "slowpoke",
+          "lock": 501
+        },
+        {
+          "slug": "slowpoke",
+          "lock": 656
+        },
+        {
+          "slug": "slowpoke",
+          "lock": 728
+        },
+        {
+          "slug": "slowpoke",
+          "lock": 816
+        },
+        {
+          "slug": "slowpoke",
+          "lock": 0
+        },
+        {
+          "slug": "squirtle",
+          "lock": 4
+        },
+        {
+          "slug": "squirtle",
+          "lock": 155
+        },
+        {
+          "slug": "squirtle",
+          "lock": 255
+        },
+        {
+          "slug": "squirtle",
+          "lock": 390
+        },
+        {
+          "slug": "squirtle",
+          "lock": 498
+        },
+        {
+          "slug": "squirtle",
+          "lock": 653
+        },
+        {
+          "slug": "squirtle",
+          "lock": 725
+        },
+        {
+          "slug": "squirtle",
+          "lock": 813
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 7
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 158
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 258
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 393
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 501
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 656
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 728
+        },
+        {
+          "slug": "bulbasaur",
+          "lock": 816
+        },
+        {
+          "slug": "charmander",
+          "lock": 1
+        },
+        {
+          "slug": "charmander",
+          "lock": 152
+        },
+        {
+          "slug": "charmander",
+          "lock": 252
+        },
+        {
+          "slug": "charmander",
+          "lock": 387
+        },
+        {
+          "slug": "charmander",
+          "lock": 495
+        },
+        {
+          "slug": "charmander",
+          "lock": 650
+        },
+        {
+          "slug": "charmander",
+          "lock": 722
+        },
+        {
+          "slug": "charmander",
+          "lock": 810
+        }
+      ]
+    },
+    {
+      "id": "viridian-city",
+      "kind": "encounter",
+      "name": "Viridian City",
+      "catch": "met",
+      "mets": [
+        1
+      ]
+    },
+    {
+      "id": "route-22",
+      "kind": "encounter",
+      "name": "Route 22",
+      "catch": "met",
+      "mets": [
+        34
+      ]
+    },
+    {
+      "id": "route-2",
+      "kind": "encounter",
+      "name": "Route 2",
+      "catch": "met",
+      "mets": [
+        14
+      ]
+    },
+    {
+      "id": "viridian-forest",
+      "kind": "encounter",
+      "name": "Viridian Forest",
+      "catch": "met",
+      "mets": [
+        38
+      ]
+    },
+    {
+      "id": "b1-hard",
+      "kind": "boss",
+      "name": "Brendan",
+      "locale": "Virdian Forest",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "meditite",
+          "lock": 4
+        },
+        {
+          "slug": "corphish",
+          "lock": 4
+        },
+        {
+          "slug": "numel",
+          "lock": 4
+        },
+        {
+          "slug": "treecko",
+          "lock": 4
+        }
+      ]
+    },
+    {
+      "id": "mb1-hard",
+      "kind": "boss",
+      "name": "Falkner",
+      "locale": "Pewter City Museum",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "trumbeak",
+          "lock": 0
+        },
+        {
+          "slug": "wattrel",
+          "lock": 0
+        },
+        {
+          "slug": "yanma",
+          "lock": 0
+        },
+        {
+          "slug": "squawkabilly-g",
+          "lock": 0
+        },
+        {
+          "slug": "farfetchd-galar",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "gym-1",
+      "kind": "boss",
+      "name": "Brock",
+      "locale": "Pewter City Gym",
+      "boss": "gym",
+      "gym": 1,
+      "team": [
+        {
+          "slug": "hippopotas",
+          "lock": 0
+        },
+        {
+          "slug": "cacnea",
+          "lock": 0
+        },
+        {
+          "slug": "lunatone",
+          "lock": 0
+        },
+        {
+          "slug": "lileep",
+          "lock": 0
+        },
+        {
+          "slug": "archen",
+          "lock": 0
+        },
+        {
+          "slug": "varoom",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "pewter-city",
+      "kind": "encounter",
+      "name": "Pewter City",
+      "catch": "met",
+      "mets": [
+        2
+      ]
+    },
+    {
+      "id": "route-3",
+      "kind": "encounter",
+      "name": "Route 3",
+      "catch": "met",
+      "mets": [
+        15
+      ]
+    },
+    {
+      "id": "route-4",
+      "kind": "encounter",
+      "name": "Route 4",
+      "catch": "met",
+      "mets": [
+        16,
+        11
+      ]
+    },
+    {
+      "id": "mt-moon",
+      "kind": "encounter",
+      "name": "Mt. Moon",
+      "catch": "met",
+      "mets": [
+        39
+      ]
+    },
+    {
+      "id": "ev1-hard",
+      "kind": "boss",
+      "name": "Admin Archer",
+      "locale": "Mt. Moon",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "glimmet",
+          "lock": 0
+        },
+        {
+          "slug": "seviper",
+          "lock": 0
+        },
+        {
+          "slug": "houndour",
+          "lock": 0
+        },
+        {
+          "slug": "mightyena",
+          "lock": 0
+        },
+        {
+          "slug": "fearow",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-24",
+      "kind": "encounter",
+      "name": "Route 24",
+      "catch": "met",
+      "mets": [
+        36
+      ]
+    },
+    {
+      "id": "r3-hard",
+      "kind": "boss",
+      "name": "Gary",
+      "locale": "Route 24",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "hitmonlee",
+          "lock": 4
+        },
+        {
+          "slug": "hitmonlee",
+          "lock": 155
+        },
+        {
+          "slug": "hitmonlee",
+          "lock": 255
+        },
+        {
+          "slug": "hitmonlee",
+          "lock": 390
+        },
+        {
+          "slug": "hitmonlee",
+          "lock": 498
+        },
+        {
+          "slug": "hitmonlee",
+          "lock": 653
+        },
+        {
+          "slug": "hitmonlee",
+          "lock": 725
+        },
+        {
+          "slug": "hitmonlee",
+          "lock": 813
+        },
+        {
+          "slug": "hitmonchan",
+          "lock": 7
+        },
+        {
+          "slug": "hitmonchan",
+          "lock": 158
+        },
+        {
+          "slug": "hitmonchan",
+          "lock": 258
+        },
+        {
+          "slug": "hitmonchan",
+          "lock": 393
+        },
+        {
+          "slug": "hitmonchan",
+          "lock": 501
+        },
+        {
+          "slug": "hitmonchan",
+          "lock": 656
+        },
+        {
+          "slug": "hitmonchan",
+          "lock": 728
+        },
+        {
+          "slug": "hitmonchan",
+          "lock": 816
+        },
+        {
+          "slug": "hitmontop",
+          "lock": 1
+        },
+        {
+          "slug": "hitmontop",
+          "lock": 152
+        },
+        {
+          "slug": "hitmontop",
+          "lock": 252
+        },
+        {
+          "slug": "hitmontop",
+          "lock": 387
+        },
+        {
+          "slug": "hitmontop",
+          "lock": 495
+        },
+        {
+          "slug": "hitmontop",
+          "lock": 650
+        },
+        {
+          "slug": "hitmontop",
+          "lock": 722
+        },
+        {
+          "slug": "hitmontop",
+          "lock": 810
+        },
+        {
+          "slug": "eevee",
+          "lock": 0
+        },
+        {
+          "slug": "clefable",
+          "lock": 0
+        },
+        {
+          "slug": "simipour",
+          "lock": 7
+        },
+        {
+          "slug": "simipour",
+          "lock": 158
+        },
+        {
+          "slug": "simipour",
+          "lock": 258
+        },
+        {
+          "slug": "simipour",
+          "lock": 393
+        },
+        {
+          "slug": "simipour",
+          "lock": 501
+        },
+        {
+          "slug": "simipour",
+          "lock": 656
+        },
+        {
+          "slug": "simipour",
+          "lock": 728
+        },
+        {
+          "slug": "simipour",
+          "lock": 816
+        },
+        {
+          "slug": "simisage",
+          "lock": 1
+        },
+        {
+          "slug": "simisage",
+          "lock": 152
+        },
+        {
+          "slug": "simisage",
+          "lock": 252
+        },
+        {
+          "slug": "simisage",
+          "lock": 387
+        },
+        {
+          "slug": "simisage",
+          "lock": 495
+        },
+        {
+          "slug": "simisage",
+          "lock": 650
+        },
+        {
+          "slug": "simisage",
+          "lock": 722
+        },
+        {
+          "slug": "simisage",
+          "lock": 810
+        },
+        {
+          "slug": "simisear",
+          "lock": 4
+        },
+        {
+          "slug": "simisear",
+          "lock": 155
+        },
+        {
+          "slug": "simisear",
+          "lock": 255
+        },
+        {
+          "slug": "simisear",
+          "lock": 390
+        },
+        {
+          "slug": "simisear",
+          "lock": 498
+        },
+        {
+          "slug": "simisear",
+          "lock": 653
+        },
+        {
+          "slug": "simisear",
+          "lock": 725
+        },
+        {
+          "slug": "simisear",
+          "lock": 813
+        },
+        {
+          "slug": "arbok",
+          "lock": 0
+        },
+        {
+          "slug": "wartortle",
+          "lock": 4
+        },
+        {
+          "slug": "wartortle",
+          "lock": 155
+        },
+        {
+          "slug": "wartortle",
+          "lock": 255
+        },
+        {
+          "slug": "wartortle",
+          "lock": 390
+        },
+        {
+          "slug": "wartortle",
+          "lock": 498
+        },
+        {
+          "slug": "wartortle",
+          "lock": 653
+        },
+        {
+          "slug": "wartortle",
+          "lock": 725
+        },
+        {
+          "slug": "wartortle",
+          "lock": 813
+        },
+        {
+          "slug": "ivysaur",
+          "lock": 7
+        },
+        {
+          "slug": "ivysaur",
+          "lock": 158
+        },
+        {
+          "slug": "ivysaur",
+          "lock": 258
+        },
+        {
+          "slug": "ivysaur",
+          "lock": 393
+        },
+        {
+          "slug": "ivysaur",
+          "lock": 501
+        },
+        {
+          "slug": "ivysaur",
+          "lock": 656
+        },
+        {
+          "slug": "ivysaur",
+          "lock": 728
+        },
+        {
+          "slug": "ivysaur",
+          "lock": 816
+        },
+        {
+          "slug": "charmeleon",
+          "lock": 1
+        },
+        {
+          "slug": "charmeleon",
+          "lock": 152
+        },
+        {
+          "slug": "charmeleon",
+          "lock": 252
+        },
+        {
+          "slug": "charmeleon",
+          "lock": 387
+        },
+        {
+          "slug": "charmeleon",
+          "lock": 495
+        },
+        {
+          "slug": "charmeleon",
+          "lock": 650
+        },
+        {
+          "slug": "charmeleon",
+          "lock": 722
+        },
+        {
+          "slug": "charmeleon",
+          "lock": 810
+        }
+      ]
+    },
+    {
+      "id": "route-25",
+      "kind": "encounter",
+      "name": "Route 25",
+      "catch": "met",
+      "mets": [
+        37
+      ]
+    },
+    {
+      "id": "mb2-hard",
+      "kind": "boss",
+      "name": "Bugsy",
+      "locale": "Bill's House",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "kleavor",
+          "lock": 0
+        },
+        {
+          "slug": "scizor",
+          "lock": 0
+        },
+        {
+          "slug": "scyther",
+          "lock": 0
+        },
+        {
+          "slug": "lokix",
+          "lock": 0
+        },
+        {
+          "slug": "araquanid",
+          "lock": 0
+        },
+        {
+          "slug": "vikavolt",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "cerulean-city",
+      "kind": "encounter",
+      "name": "Cerulean City",
+      "catch": "met",
+      "mets": [
+        3
+      ]
+    },
+    {
+      "id": "gym-2",
+      "kind": "boss",
+      "name": "Misty",
+      "locale": "Cerulean City Gym",
+      "boss": "gym",
+      "gym": 2,
+      "team": [
+        {
+          "slug": "politoed",
+          "lock": 0
+        },
+        {
+          "slug": "ludicolo",
+          "lock": 0
+        },
+        {
+          "slug": "mantine",
+          "lock": 0
+        },
+        {
+          "slug": "clodsire",
+          "lock": 0
+        },
+        {
+          "slug": "starmie",
+          "lock": 0
+        },
+        {
+          "slug": "toxicroak",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-5",
+      "kind": "encounter",
+      "name": "Route 5",
+      "catch": "met",
+      "mets": [
+        17
+      ]
+    },
+    {
+      "id": "route-6",
+      "kind": "encounter",
+      "name": "Route 6",
+      "catch": "met",
+      "mets": [
+        18
+      ]
+    },
+    {
+      "id": "vermillion-city",
+      "kind": "encounter",
+      "name": "Vermillion City",
+      "catch": "met"
+    },
+    {
+      "id": "gym-3",
+      "kind": "boss",
+      "name": "Lt. Surge",
+      "locale": "Vermillion City Gym",
+      "boss": "gym",
+      "gym": 3,
+      "team": [
+        {
+          "slug": "rotom-f",
+          "lock": 0
+        },
+        {
+          "slug": "electrode-hisui",
+          "lock": 0
+        },
+        {
+          "slug": "raichu-alola",
+          "lock": 0
+        },
+        {
+          "slug": "hitmonlee",
+          "lock": 0
+        },
+        {
+          "slug": "pawmot",
+          "lock": 0
+        },
+        {
+          "slug": "ampharos-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "digletts-cave",
+      "kind": "encounter",
+      "name": "Digletts Cave",
+      "catch": "met",
+      "mets": [
+        43
+      ]
+    },
+    {
+      "id": "b2-hard",
+      "kind": "boss",
+      "name": "Brendan",
+      "locale": "S.S. Anne",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "meditite",
+          "lock": 4
+        },
+        {
+          "slug": "corphish",
+          "lock": 4
+        },
+        {
+          "slug": "numel",
+          "lock": 4
+        },
+        {
+          "slug": "treecko",
+          "lock": 4
+        }
+      ]
+    },
+    {
+      "id": "route-11",
+      "kind": "encounter",
+      "name": "Route 11",
+      "catch": "met",
+      "mets": [
+        23
+      ]
+    },
+    {
+      "id": "mb3-hard",
+      "kind": "boss",
+      "name": "Whitney",
+      "locale": "Route 11",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "pyroar-male",
+          "lock": 0
+        },
+        {
+          "slug": "farigiraf",
+          "lock": 0
+        },
+        {
+          "slug": "luvdisc",
+          "lock": 0
+        },
+        {
+          "slug": "swellow",
+          "lock": 0
+        },
+        {
+          "slug": "togekiss",
+          "lock": 0
+        },
+        {
+          "slug": "altaria-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-9",
+      "kind": "encounter",
+      "name": "Route 9",
+      "catch": "met",
+      "mets": [
+        21
+      ]
+    },
+    {
+      "id": "rock-tunnel",
+      "kind": "encounter",
+      "name": "Rock Tunnel",
+      "catch": "met",
+      "mets": [
+        50
+      ]
+    },
+    {
+      "id": "route-10",
+      "kind": "encounter",
+      "name": "Route 10",
+      "catch": "met",
+      "mets": [
+        22,
+        12
+      ]
+    },
+    {
+      "id": "mb4-hard",
+      "kind": "boss",
+      "name": "Morty",
+      "locale": "Lavender Town",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "krookodile",
+          "lock": 0
+        },
+        {
+          "slug": "dusknoir",
+          "lock": 0
+        },
+        {
+          "slug": "mismagius",
+          "lock": 0
+        },
+        {
+          "slug": "ceruledge",
+          "lock": 0
+        },
+        {
+          "slug": "weavile",
+          "lock": 0
+        },
+        {
+          "slug": "gengar-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "pokemon-tower",
+      "kind": "encounter",
+      "name": "Pok\u00e9mon Tower",
+      "catch": "met",
+      "mets": [
+        52
+      ]
+    },
+    {
+      "id": "route-12",
+      "kind": "encounter",
+      "name": "Route 12",
+      "catch": "met",
+      "mets": [
+        24
+      ]
+    },
+    {
+      "id": "route-8",
+      "kind": "encounter",
+      "name": "Route 8",
+      "catch": "met",
+      "mets": [
+        20
+      ]
+    },
+    {
+      "id": "route-7",
+      "kind": "encounter",
+      "name": "Route 7",
+      "catch": "met",
+      "mets": [
+        19
+      ]
+    },
+    {
+      "id": "celadon-city",
+      "kind": "encounter",
+      "name": "Celadon City",
+      "catch": "met",
+      "mets": [
+        6
+      ]
+    },
+    {
+      "id": "gym-4",
+      "kind": "boss",
+      "name": "Erika",
+      "locale": "Celadon City Gym",
+      "boss": "gym",
+      "gym": 4,
+      "team": [
+        {
+          "slug": "ogerpon-c",
+          "lock": 0
+        },
+        {
+          "slug": "hawlucha",
+          "lock": 0
+        },
+        {
+          "slug": "sceptile-mega",
+          "lock": 0
+        },
+        {
+          "slug": "toxtricity-amped",
+          "lock": 0
+        },
+        {
+          "slug": "slowbro-galar",
+          "lock": 0
+        },
+        {
+          "slug": "kartana",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "ev2-hard",
+      "kind": "boss",
+      "name": "Giovanni",
+      "locale": "Celadon City Game Corner",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "infernape",
+          "lock": 0
+        },
+        {
+          "slug": "nidoking",
+          "lock": 0
+        },
+        {
+          "slug": "torterra",
+          "lock": 0
+        },
+        {
+          "slug": "orthworm",
+          "lock": 0
+        },
+        {
+          "slug": "gyarados",
+          "lock": 0
+        },
+        {
+          "slug": "kangaskhan-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "saffron-city",
+      "kind": "encounter",
+      "name": "Saffron City",
+      "catch": "met",
+      "mets": [
+        10
+      ]
+    },
+    {
+      "id": "r4-hard",
+      "kind": "boss",
+      "name": "Gary",
+      "locale": "Silph Co. Rival",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "azelf",
+          "lock": 0
+        },
+        {
+          "slug": "celesteela",
+          "lock": 0
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 1
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 152
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 252
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 387
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 495
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 650
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 722
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 810
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 4
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 155
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 255
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 390
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 498
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 653
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 725
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 813
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 7
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 158
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 258
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 393
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 501
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 656
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 728
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 816
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 1
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 152
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 252
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 387
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 495
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 650
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 722
+        },
+        {
+          "slug": "gorebyss",
+          "lock": 810
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 4
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 155
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 255
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 390
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 498
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 653
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 725
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 813
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 7
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 158
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 258
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 393
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 501
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 656
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 728
+        },
+        {
+          "slug": "darmanitan-standard",
+          "lock": 816
+        },
+        {
+          "slug": "electivire",
+          "lock": 0
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 4
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 155
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 255
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 390
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 498
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 653
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 725
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 813
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 7
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 158
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 258
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 393
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 501
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 656
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 728
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 816
+        },
+        {
+          "slug": "charizard-mega-x",
+          "lock": 1
+        },
+        {
+          "slug": "charizard-mega-x",
+          "lock": 152
+        },
+        {
+          "slug": "charizard-mega-x",
+          "lock": 252
+        },
+        {
+          "slug": "charizard-mega-x",
+          "lock": 387
+        },
+        {
+          "slug": "charizard-mega-x",
+          "lock": 495
+        },
+        {
+          "slug": "charizard-mega-x",
+          "lock": 650
+        },
+        {
+          "slug": "charizard-mega-x",
+          "lock": 722
+        },
+        {
+          "slug": "charizard-mega-x",
+          "lock": 810
+        }
+      ]
+    },
+    {
+      "id": "ev3-hard",
+      "kind": "boss",
+      "name": "Archer & Ariana",
+      "locale": "Silph Co.",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "wailord",
+          "lock": 0
+        },
+        {
+          "slug": "espeon",
+          "lock": 0
+        },
+        {
+          "slug": "buzzwole",
+          "lock": 0
+        },
+        {
+          "slug": "mawile-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "ev4-hard",
+      "kind": "boss",
+      "name": "Giovanni",
+      "locale": "Silph Co.",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "infernape",
+          "lock": 0
+        },
+        {
+          "slug": "nidoking",
+          "lock": 0
+        },
+        {
+          "slug": "torterra",
+          "lock": 0
+        },
+        {
+          "slug": "orthworm",
+          "lock": 0
+        },
+        {
+          "slug": "gyarados",
+          "lock": 0
+        },
+        {
+          "slug": "kangaskhan-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "mb5-hard",
+      "kind": "boss",
+      "name": "Chuck",
+      "locale": "Saffron City Dojo",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "iron-crown",
+          "lock": 0
+        },
+        {
+          "slug": "sneasler",
+          "lock": 0
+        },
+        {
+          "slug": "kommo-o",
+          "lock": 0
+        },
+        {
+          "slug": "annihilape",
+          "lock": 0
+        },
+        {
+          "slug": "zamazenta-c",
+          "lock": 0
+        },
+        {
+          "slug": "gallade-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "gym-5",
+      "kind": "boss",
+      "name": "Sabrina",
+      "locale": "Saffron City Gym",
+      "boss": "gym",
+      "gym": 5,
+      "team": [
+        {
+          "slug": "tapu-fini",
+          "lock": 0
+        },
+        {
+          "slug": "camerupt-mega",
+          "lock": 0
+        },
+        {
+          "slug": "glastrier",
+          "lock": 0
+        },
+        {
+          "slug": "magearna",
+          "lock": 0
+        },
+        {
+          "slug": "iron-hands",
+          "lock": 0
+        },
+        {
+          "slug": "jellicent-male",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-16",
+      "kind": "encounter",
+      "name": "Route 16",
+      "catch": "met",
+      "mets": [
+        28
+      ]
+    },
+    {
+      "id": "route-17",
+      "kind": "encounter",
+      "name": "Route 17",
+      "catch": "met",
+      "mets": [
+        29
+      ]
+    },
+    {
+      "id": "route-18",
+      "kind": "encounter",
+      "name": "Route 18",
+      "catch": "met",
+      "mets": [
+        30
+      ]
+    },
+    {
+      "id": "fuschia-city",
+      "kind": "encounter",
+      "name": "Fuschia City",
+      "catch": "met"
+    },
+    {
+      "id": "b3-hard",
+      "kind": "boss",
+      "name": "Brendan",
+      "locale": "Safari Zone",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "meditite",
+          "lock": 4
+        },
+        {
+          "slug": "corphish",
+          "lock": 4
+        },
+        {
+          "slug": "numel",
+          "lock": 4
+        },
+        {
+          "slug": "treecko",
+          "lock": 4
+        }
+      ]
+    },
+    {
+      "id": "gym-6",
+      "kind": "boss",
+      "name": "Koga",
+      "locale": "Fuschia City Gym",
+      "boss": "gym",
+      "gym": 6,
+      "team": [
+        {
+          "slug": "tapu-lele",
+          "lock": 0
+        },
+        {
+          "slug": "hoopa-u",
+          "lock": 0
+        },
+        {
+          "slug": "krookodile",
+          "lock": 0
+        },
+        {
+          "slug": "chi-yu",
+          "lock": 0
+        },
+        {
+          "slug": "nidoking",
+          "lock": 0
+        },
+        {
+          "slug": "toxtricity-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "safari-zone",
+      "kind": "encounter",
+      "name": "Safari Zone",
+      "catch": "met",
+      "mets": [
+        48
+      ]
+    },
+    {
+      "id": "route-15",
+      "kind": "encounter",
+      "name": "Route 15",
+      "catch": "met",
+      "mets": [
+        27
+      ]
+    },
+    {
+      "id": "route-14",
+      "kind": "encounter",
+      "name": "Route 14",
+      "catch": "met",
+      "mets": [
+        26
+      ]
+    },
+    {
+      "id": "route-13",
+      "kind": "encounter",
+      "name": "Route 13",
+      "catch": "met",
+      "mets": [
+        25
+      ]
+    },
+    {
+      "id": "power-plant",
+      "kind": "encounter",
+      "name": "Power Plant",
+      "catch": "met",
+      "mets": [
+        54
+      ]
+    },
+    {
+      "id": "route-19",
+      "kind": "encounter",
+      "name": "Route 19",
+      "catch": "met",
+      "mets": [
+        31
+      ]
+    },
+    {
+      "id": "route-20",
+      "kind": "encounter",
+      "name": "Route 20",
+      "catch": "met",
+      "mets": [
+        32
+      ]
+    },
+    {
+      "id": "seafoam-islands",
+      "kind": "encounter",
+      "name": "Seafoam Islands",
+      "catch": "met",
+      "mets": [
+        51
+      ]
+    },
+    {
+      "id": "mb6a-hard",
+      "kind": "boss",
+      "name": "Pryce (Team A)",
+      "locale": "Seafoam Islands",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "effecthail",
+          "lock": 0
+        },
+        {
+          "slug": "cloyster",
+          "lock": 0
+        },
+        {
+          "slug": "suicune",
+          "lock": 0
+        },
+        {
+          "slug": "clefable",
+          "lock": 0
+        },
+        {
+          "slug": "kyurem-black",
+          "lock": 0
+        },
+        {
+          "slug": "arctozolt",
+          "lock": 0
+        },
+        {
+          "slug": "glalie",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "mb6b-hard",
+      "kind": "boss",
+      "name": "Pryce (Team B)",
+      "locale": "Seafoam Islands",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "effecthail",
+          "lock": 0
+        },
+        {
+          "slug": "sandslash-alola",
+          "lock": 0
+        },
+        {
+          "slug": "reuniclus",
+          "lock": 0
+        },
+        {
+          "slug": "clefable",
+          "lock": 0
+        },
+        {
+          "slug": "kyurem-black",
+          "lock": 0
+        },
+        {
+          "slug": "arctovish",
+          "lock": 0
+        },
+        {
+          "slug": "glalie",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "mb6c-hard",
+      "kind": "boss",
+      "name": "Pryce (Team C)",
+      "locale": "Seafoam Islands",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "effecthail",
+          "lock": 0
+        },
+        {
+          "slug": "cloyster",
+          "lock": 0
+        },
+        {
+          "slug": "suicune",
+          "lock": 0
+        },
+        {
+          "slug": "clefable",
+          "lock": 0
+        },
+        {
+          "slug": "kyurem-black",
+          "lock": 0
+        },
+        {
+          "slug": "arctozolt",
+          "lock": 0
+        },
+        {
+          "slug": "glalie",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "cinnabar-island",
+      "kind": "encounter",
+      "name": "Cinnabar Island",
+      "catch": "met",
+      "mets": [
+        8
+      ]
+    },
+    {
+      "id": "mb7-hard",
+      "kind": "boss",
+      "name": "Jasmine",
+      "locale": "Cinnabar Island",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "gliscor",
+          "lock": 0
+        },
+        {
+          "slug": "tapu-bulu",
+          "lock": 0
+        },
+        {
+          "slug": "necrozma-dm",
+          "lock": 0
+        },
+        {
+          "slug": "genesect",
+          "lock": 0
+        },
+        {
+          "slug": "magnezone",
+          "lock": 0
+        },
+        {
+          "slug": "aggron-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "m1-hard",
+      "kind": "boss",
+      "name": "May",
+      "locale": "Pok\u00e9mon Mansion Entrance",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "aggron",
+          "lock": 4
+        },
+        {
+          "slug": "jumpluff",
+          "lock": 4
+        },
+        {
+          "slug": "regieleki",
+          "lock": 4
+        },
+        {
+          "slug": "slowbro",
+          "lock": 4
+        },
+        {
+          "slug": "snorlax",
+          "lock": 4
+        },
+        {
+          "slug": "blaziken-mega",
+          "lock": 4
+        }
+      ]
+    },
+    {
+      "id": "pokemon-mansion",
+      "kind": "encounter",
+      "name": "Pok\u00e9mon Mansion",
+      "catch": "met",
+      "mets": [
+        47
+      ]
+    },
+    {
+      "id": "gym-7",
+      "kind": "boss",
+      "name": "Blaine",
+      "locale": "Cinnabar Island Gym",
+      "boss": "gym",
+      "gym": 7,
+      "team": [
+        {
+          "slug": "sandy-shocks",
+          "lock": 0
+        },
+        {
+          "slug": "great-tusk",
+          "lock": 0
+        },
+        {
+          "slug": "walking-wake",
+          "lock": 0
+        },
+        {
+          "slug": "venusaur",
+          "lock": 0
+        },
+        {
+          "slug": "ho-oh",
+          "lock": 0
+        },
+        {
+          "slug": "charizard-megax",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-21",
+      "kind": "encounter",
+      "name": "Route 21",
+      "catch": "met",
+      "mets": [
+        33
+      ]
+    },
+    {
+      "id": "gym-8",
+      "kind": "boss",
+      "name": "Clair",
+      "locale": "Viridian City Gym",
+      "boss": "gym",
+      "gym": 8,
+      "team": [
+        {
+          "slug": "shuckle",
+          "lock": 0
+        },
+        {
+          "slug": "roaring-moon",
+          "lock": 0
+        },
+        {
+          "slug": "magearna",
+          "lock": 0
+        },
+        {
+          "slug": "necrozma-ultra",
+          "lock": 0
+        },
+        {
+          "slug": "eternatus",
+          "lock": 0
+        },
+        {
+          "slug": "archaludon",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "r5-hard",
+      "kind": "boss",
+      "name": "Gary",
+      "locale": "Route 22",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "zapdos",
+          "lock": 4
+        },
+        {
+          "slug": "zapdos",
+          "lock": 155
+        },
+        {
+          "slug": "zapdos",
+          "lock": 255
+        },
+        {
+          "slug": "zapdos",
+          "lock": 390
+        },
+        {
+          "slug": "zapdos",
+          "lock": 498
+        },
+        {
+          "slug": "zapdos",
+          "lock": 653
+        },
+        {
+          "slug": "zapdos",
+          "lock": 725
+        },
+        {
+          "slug": "zapdos",
+          "lock": 813
+        },
+        {
+          "slug": "ferrothorn",
+          "lock": 4
+        },
+        {
+          "slug": "ferrothorn",
+          "lock": 155
+        },
+        {
+          "slug": "ferrothorn",
+          "lock": 255
+        },
+        {
+          "slug": "ferrothorn",
+          "lock": 390
+        },
+        {
+          "slug": "ferrothorn",
+          "lock": 498
+        },
+        {
+          "slug": "ferrothorn",
+          "lock": 653
+        },
+        {
+          "slug": "ferrothorn",
+          "lock": 725
+        },
+        {
+          "slug": "ferrothorn",
+          "lock": 813
+        },
+        {
+          "slug": "celesteela",
+          "lock": 4
+        },
+        {
+          "slug": "celesteela",
+          "lock": 155
+        },
+        {
+          "slug": "celesteela",
+          "lock": 255
+        },
+        {
+          "slug": "celesteela",
+          "lock": 390
+        },
+        {
+          "slug": "celesteela",
+          "lock": 498
+        },
+        {
+          "slug": "celesteela",
+          "lock": 653
+        },
+        {
+          "slug": "celesteela",
+          "lock": 725
+        },
+        {
+          "slug": "celesteela",
+          "lock": 813
+        },
+        {
+          "slug": "barraskewda",
+          "lock": 4
+        },
+        {
+          "slug": "barraskewda",
+          "lock": 155
+        },
+        {
+          "slug": "barraskewda",
+          "lock": 255
+        },
+        {
+          "slug": "barraskewda",
+          "lock": 390
+        },
+        {
+          "slug": "barraskewda",
+          "lock": 498
+        },
+        {
+          "slug": "barraskewda",
+          "lock": 653
+        },
+        {
+          "slug": "barraskewda",
+          "lock": 725
+        },
+        {
+          "slug": "barraskewda",
+          "lock": 813
+        },
+        {
+          "slug": "goodra",
+          "lock": 4
+        },
+        {
+          "slug": "goodra",
+          "lock": 155
+        },
+        {
+          "slug": "goodra",
+          "lock": 255
+        },
+        {
+          "slug": "goodra",
+          "lock": 390
+        },
+        {
+          "slug": "goodra",
+          "lock": 498
+        },
+        {
+          "slug": "goodra",
+          "lock": 653
+        },
+        {
+          "slug": "goodra",
+          "lock": 725
+        },
+        {
+          "slug": "goodra",
+          "lock": 813
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 4
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 155
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 255
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 390
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 498
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 653
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 725
+        },
+        {
+          "slug": "blastoise-mega",
+          "lock": 813
+        },
+        {
+          "slug": "conkeldurr",
+          "lock": 7
+        },
+        {
+          "slug": "conkeldurr",
+          "lock": 158
+        },
+        {
+          "slug": "conkeldurr",
+          "lock": 258
+        },
+        {
+          "slug": "conkeldurr",
+          "lock": 393
+        },
+        {
+          "slug": "conkeldurr",
+          "lock": 501
+        },
+        {
+          "slug": "conkeldurr",
+          "lock": 656
+        },
+        {
+          "slug": "conkeldurr",
+          "lock": 728
+        },
+        {
+          "slug": "conkeldurr",
+          "lock": 816
+        },
+        {
+          "slug": "bisharp",
+          "lock": 7
+        },
+        {
+          "slug": "bisharp",
+          "lock": 158
+        },
+        {
+          "slug": "bisharp",
+          "lock": 258
+        },
+        {
+          "slug": "bisharp",
+          "lock": 393
+        },
+        {
+          "slug": "bisharp",
+          "lock": 501
+        },
+        {
+          "slug": "bisharp",
+          "lock": 656
+        },
+        {
+          "slug": "bisharp",
+          "lock": 728
+        },
+        {
+          "slug": "bisharp",
+          "lock": 816
+        },
+        {
+          "slug": "primarina",
+          "lock": 7
+        },
+        {
+          "slug": "primarina",
+          "lock": 158
+        },
+        {
+          "slug": "primarina",
+          "lock": 258
+        },
+        {
+          "slug": "primarina",
+          "lock": 393
+        },
+        {
+          "slug": "primarina",
+          "lock": 501
+        },
+        {
+          "slug": "primarina",
+          "lock": 656
+        },
+        {
+          "slug": "primarina",
+          "lock": 728
+        },
+        {
+          "slug": "primarina",
+          "lock": 816
+        },
+        {
+          "slug": "chandelure",
+          "lock": 7
+        },
+        {
+          "slug": "chandelure",
+          "lock": 158
+        },
+        {
+          "slug": "chandelure",
+          "lock": 258
+        },
+        {
+          "slug": "chandelure",
+          "lock": 393
+        },
+        {
+          "slug": "chandelure",
+          "lock": 501
+        },
+        {
+          "slug": "chandelure",
+          "lock": 656
+        },
+        {
+          "slug": "chandelure",
+          "lock": 728
+        },
+        {
+          "slug": "chandelure",
+          "lock": 816
+        },
+        {
+          "slug": "hydreigon",
+          "lock": 7
+        },
+        {
+          "slug": "hydreigon",
+          "lock": 158
+        },
+        {
+          "slug": "hydreigon",
+          "lock": 258
+        },
+        {
+          "slug": "hydreigon",
+          "lock": 393
+        },
+        {
+          "slug": "hydreigon",
+          "lock": 501
+        },
+        {
+          "slug": "hydreigon",
+          "lock": 656
+        },
+        {
+          "slug": "hydreigon",
+          "lock": 728
+        },
+        {
+          "slug": "hydreigon",
+          "lock": 816
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 7
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 158
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 258
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 393
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 501
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 656
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 728
+        },
+        {
+          "slug": "venusaur-mega",
+          "lock": 816
+        },
+        {
+          "slug": "charizard-mega-y",
+          "lock": 1
+        },
+        {
+          "slug": "charizard-mega-y",
+          "lock": 152
+        },
+        {
+          "slug": "charizard-mega-y",
+          "lock": 252
+        },
+        {
+          "slug": "charizard-mega-y",
+          "lock": 387
+        },
+        {
+          "slug": "charizard-mega-y",
+          "lock": 495
+        },
+        {
+          "slug": "charizard-mega-y",
+          "lock": 650
+        },
+        {
+          "slug": "charizard-mega-y",
+          "lock": 722
+        },
+        {
+          "slug": "charizard-mega-y",
+          "lock": 810
+        },
+        {
+          "slug": "garchomp",
+          "lock": 1
+        },
+        {
+          "slug": "garchomp",
+          "lock": 152
+        },
+        {
+          "slug": "garchomp",
+          "lock": 252
+        },
+        {
+          "slug": "garchomp",
+          "lock": 387
+        },
+        {
+          "slug": "garchomp",
+          "lock": 495
+        },
+        {
+          "slug": "garchomp",
+          "lock": 650
+        },
+        {
+          "slug": "garchomp",
+          "lock": 722
+        },
+        {
+          "slug": "garchomp",
+          "lock": 810
+        },
+        {
+          "slug": "sunflora",
+          "lock": 1
+        },
+        {
+          "slug": "sunflora",
+          "lock": 152
+        },
+        {
+          "slug": "sunflora",
+          "lock": 252
+        },
+        {
+          "slug": "sunflora",
+          "lock": 387
+        },
+        {
+          "slug": "sunflora",
+          "lock": 495
+        },
+        {
+          "slug": "sunflora",
+          "lock": 650
+        },
+        {
+          "slug": "sunflora",
+          "lock": 722
+        },
+        {
+          "slug": "sunflora",
+          "lock": 810
+        },
+        {
+          "slug": "zamazenta-crowned",
+          "lock": 1
+        },
+        {
+          "slug": "zamazenta-crowned",
+          "lock": 152
+        },
+        {
+          "slug": "zamazenta-crowned",
+          "lock": 252
+        },
+        {
+          "slug": "zamazenta-crowned",
+          "lock": 387
+        },
+        {
+          "slug": "zamazenta-crowned",
+          "lock": 495
+        },
+        {
+          "slug": "zamazenta-crowned",
+          "lock": 650
+        },
+        {
+          "slug": "zamazenta-crowned",
+          "lock": 722
+        },
+        {
+          "slug": "zamazenta-crowned",
+          "lock": 810
+        },
+        {
+          "slug": "gliscor",
+          "lock": 1
+        },
+        {
+          "slug": "gliscor",
+          "lock": 152
+        },
+        {
+          "slug": "gliscor",
+          "lock": 252
+        },
+        {
+          "slug": "gliscor",
+          "lock": 387
+        },
+        {
+          "slug": "gliscor",
+          "lock": 495
+        },
+        {
+          "slug": "gliscor",
+          "lock": 650
+        },
+        {
+          "slug": "gliscor",
+          "lock": 722
+        },
+        {
+          "slug": "gliscor",
+          "lock": 810
+        },
+        {
+          "slug": "latias",
+          "lock": 1
+        },
+        {
+          "slug": "latias",
+          "lock": 152
+        },
+        {
+          "slug": "latias",
+          "lock": 252
+        },
+        {
+          "slug": "latias",
+          "lock": 387
+        },
+        {
+          "slug": "latias",
+          "lock": 495
+        },
+        {
+          "slug": "latias",
+          "lock": 650
+        },
+        {
+          "slug": "latias",
+          "lock": 722
+        },
+        {
+          "slug": "latias",
+          "lock": 810
+        }
+      ]
+    },
+    {
+      "id": "route-23",
+      "kind": "encounter",
+      "name": "Route 23",
+      "catch": "met",
+      "mets": [
+        35
+      ]
+    },
+    {
+      "id": "victory-road",
+      "kind": "encounter",
+      "name": "Victory Road",
+      "catch": "met",
+      "mets": [
+        44
+      ]
+    },
+    {
+      "id": "b4-hard",
+      "kind": "boss",
+      "name": "Brendan",
+      "locale": "Indigo Plateau",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "meditite",
+          "lock": 4
+        },
+        {
+          "slug": "corphish",
+          "lock": 4
+        },
+        {
+          "slug": "numel",
+          "lock": 4
+        },
+        {
+          "slug": "treecko",
+          "lock": 4
+        }
+      ]
+    },
+    {
+      "id": "e1a-hard",
+      "kind": "boss",
+      "name": "Lorelei (Team A)",
+      "locale": "Indigo Plateau",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "doubletrue",
+          "lock": 0
+        },
+        {
+          "slug": "ludicolo",
+          "lock": 0
+        },
+        {
+          "slug": "kingdra",
+          "lock": 0
+        },
+        {
+          "slug": "genesect",
+          "lock": 0
+        },
+        {
+          "slug": "dragonite",
+          "lock": 0
+        },
+        {
+          "slug": "palkia",
+          "lock": 0
+        },
+        {
+          "slug": "swampert-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e1b-hard",
+      "kind": "boss",
+      "name": "Lorelei (Team B)",
+      "locale": "Indigo Plateau",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "doubletrue",
+          "lock": 0
+        },
+        {
+          "slug": "glaceon",
+          "lock": 0
+        },
+        {
+          "slug": "landorus-therian",
+          "lock": 0
+        },
+        {
+          "slug": "beartic",
+          "lock": 0
+        },
+        {
+          "slug": "tapu-fini",
+          "lock": 0
+        },
+        {
+          "slug": "kyurem-white",
+          "lock": 0
+        },
+        {
+          "slug": "abomasnow-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e2a-hard",
+      "kind": "boss",
+      "name": "Bruno (Team A)",
+      "locale": "Indigo Plateau",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "infernape",
+          "lock": 0
+        },
+        {
+          "slug": "zeraora",
+          "lock": 0
+        },
+        {
+          "slug": "zamazenta-crowned",
+          "lock": 0
+        },
+        {
+          "slug": "necrozma-dusk",
+          "lock": 0
+        },
+        {
+          "slug": "zacian-crowned",
+          "lock": 0
+        },
+        {
+          "slug": "lucario-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e2b-hard",
+      "kind": "boss",
+      "name": "Bruno (Team B)",
+      "locale": "Indigo Plateau",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "urshifu-single-strike",
+          "lock": 0
+        },
+        {
+          "slug": "hawlucha",
+          "lock": 0
+        },
+        {
+          "slug": "zamazenta-crowned",
+          "lock": 0
+        },
+        {
+          "slug": "necrozma-dusk",
+          "lock": 0
+        },
+        {
+          "slug": "zacian-crowned",
+          "lock": 0
+        },
+        {
+          "slug": "medicham-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e3-hard",
+      "kind": "boss",
+      "name": "Agatha",
+      "locale": "Indigo Plateau",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "krookodile",
+          "lock": 0
+        },
+        {
+          "slug": "mewtwo-megax",
+          "lock": 0
+        },
+        {
+          "slug": "yveltal",
+          "lock": 0
+        },
+        {
+          "slug": "flutter-mane",
+          "lock": 0
+        },
+        {
+          "slug": "victini",
+          "lock": 0
+        },
+        {
+          "slug": "calyrex-s",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e4a-hard",
+      "kind": "boss",
+      "name": "Lance (Team A)",
+      "locale": "Indigo Plateau",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "deoxys-speed",
+          "lock": 0
+        },
+        {
+          "slug": "melmetal",
+          "lock": 0
+        },
+        {
+          "slug": "arceus-fairy",
+          "lock": 0
+        },
+        {
+          "slug": "dragonite",
+          "lock": 0
+        },
+        {
+          "slug": "dialga-origin",
+          "lock": 0
+        },
+        {
+          "slug": "rayquaza-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e4b-hard",
+      "kind": "boss",
+      "name": "Lance (Team B)",
+      "locale": "Indigo Plateau",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "deoxys-speed",
+          "lock": 0
+        },
+        {
+          "slug": "melmetal",
+          "lock": 0
+        },
+        {
+          "slug": "arceus-fairy",
+          "lock": 0
+        },
+        {
+          "slug": "dragonite",
+          "lock": 0
+        },
+        {
+          "slug": "dialga-origin",
+          "lock": 0
+        },
+        {
+          "slug": "rayquaza-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "ec-hard",
+      "kind": "boss",
+      "name": "Gary",
+      "locale": "Champion",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "kyogre-primal",
+          "lock": 4
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 155
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 255
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 390
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 498
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 653
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 725
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 813
+        },
+        {
+          "slug": "swampert-mega",
+          "lock": 4
+        },
+        {
+          "slug": "swampert-mega",
+          "lock": 155
+        },
+        {
+          "slug": "swampert-mega",
+          "lock": 255
+        },
+        {
+          "slug": "swampert-mega",
+          "lock": 390
+        },
+        {
+          "slug": "swampert-mega",
+          "lock": 498
+        },
+        {
+          "slug": "swampert-mega",
+          "lock": 653
+        },
+        {
+          "slug": "swampert-mega",
+          "lock": 725
+        },
+        {
+          "slug": "swampert-mega",
+          "lock": 813
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 4
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 155
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 255
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 390
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 498
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 653
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 725
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 813
+        },
+        {
+          "slug": "arceus",
+          "lock": 4
+        },
+        {
+          "slug": "arceus",
+          "lock": 155
+        },
+        {
+          "slug": "arceus",
+          "lock": 255
+        },
+        {
+          "slug": "arceus",
+          "lock": 390
+        },
+        {
+          "slug": "arceus",
+          "lock": 498
+        },
+        {
+          "slug": "arceus",
+          "lock": 653
+        },
+        {
+          "slug": "arceus",
+          "lock": 725
+        },
+        {
+          "slug": "arceus",
+          "lock": 813
+        },
+        {
+          "slug": "metagross-mega",
+          "lock": 4
+        },
+        {
+          "slug": "metagross-mega",
+          "lock": 155
+        },
+        {
+          "slug": "metagross-mega",
+          "lock": 255
+        },
+        {
+          "slug": "metagross-mega",
+          "lock": 390
+        },
+        {
+          "slug": "metagross-mega",
+          "lock": 498
+        },
+        {
+          "slug": "metagross-mega",
+          "lock": 653
+        },
+        {
+          "slug": "metagross-mega",
+          "lock": 725
+        },
+        {
+          "slug": "metagross-mega",
+          "lock": 813
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 4
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 155
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 255
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 390
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 498
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 653
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 725
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 813
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 7
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 158
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 258
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 393
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 501
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 656
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 728
+        },
+        {
+          "slug": "kyogre-primal",
+          "lock": 816
+        },
+        {
+          "slug": "swampert",
+          "lock": 7
+        },
+        {
+          "slug": "swampert",
+          "lock": 158
+        },
+        {
+          "slug": "swampert",
+          "lock": 258
+        },
+        {
+          "slug": "swampert",
+          "lock": 393
+        },
+        {
+          "slug": "swampert",
+          "lock": 501
+        },
+        {
+          "slug": "swampert",
+          "lock": 656
+        },
+        {
+          "slug": "swampert",
+          "lock": 728
+        },
+        {
+          "slug": "swampert",
+          "lock": 816
+        },
+        {
+          "slug": "xerneas",
+          "lock": 7
+        },
+        {
+          "slug": "xerneas",
+          "lock": 158
+        },
+        {
+          "slug": "xerneas",
+          "lock": 258
+        },
+        {
+          "slug": "xerneas",
+          "lock": 393
+        },
+        {
+          "slug": "xerneas",
+          "lock": 501
+        },
+        {
+          "slug": "xerneas",
+          "lock": 656
+        },
+        {
+          "slug": "xerneas",
+          "lock": 728
+        },
+        {
+          "slug": "xerneas",
+          "lock": 816
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 7
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 158
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 258
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 393
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 501
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 656
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 728
+        },
+        {
+          "slug": "necrozma-dawn",
+          "lock": 816
+        },
+        {
+          "slug": "arceus-steel",
+          "lock": 7
+        },
+        {
+          "slug": "arceus-steel",
+          "lock": 158
+        },
+        {
+          "slug": "arceus-steel",
+          "lock": 258
+        },
+        {
+          "slug": "arceus-steel",
+          "lock": 393
+        },
+        {
+          "slug": "arceus-steel",
+          "lock": 501
+        },
+        {
+          "slug": "arceus-steel",
+          "lock": 656
+        },
+        {
+          "slug": "arceus-steel",
+          "lock": 728
+        },
+        {
+          "slug": "arceus-steel",
+          "lock": 816
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 7
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 158
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 258
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 393
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 501
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 656
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 728
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 816
+        },
+        {
+          "slug": "groudon-primal",
+          "lock": 1
+        },
+        {
+          "slug": "groudon-primal",
+          "lock": 152
+        },
+        {
+          "slug": "groudon-primal",
+          "lock": 252
+        },
+        {
+          "slug": "groudon-primal",
+          "lock": 387
+        },
+        {
+          "slug": "groudon-primal",
+          "lock": 495
+        },
+        {
+          "slug": "groudon-primal",
+          "lock": 650
+        },
+        {
+          "slug": "groudon-primal",
+          "lock": 722
+        },
+        {
+          "slug": "groudon-primal",
+          "lock": 810
+        },
+        {
+          "slug": "houndoom-mega",
+          "lock": 1
+        },
+        {
+          "slug": "houndoom-mega",
+          "lock": 152
+        },
+        {
+          "slug": "houndoom-mega",
+          "lock": 252
+        },
+        {
+          "slug": "houndoom-mega",
+          "lock": 387
+        },
+        {
+          "slug": "houndoom-mega",
+          "lock": 495
+        },
+        {
+          "slug": "houndoom-mega",
+          "lock": 650
+        },
+        {
+          "slug": "houndoom-mega",
+          "lock": 722
+        },
+        {
+          "slug": "houndoom-mega",
+          "lock": 810
+        },
+        {
+          "slug": "ho-oh",
+          "lock": 1
+        },
+        {
+          "slug": "ho-oh",
+          "lock": 152
+        },
+        {
+          "slug": "ho-oh",
+          "lock": 252
+        },
+        {
+          "slug": "ho-oh",
+          "lock": 387
+        },
+        {
+          "slug": "ho-oh",
+          "lock": 495
+        },
+        {
+          "slug": "ho-oh",
+          "lock": 650
+        },
+        {
+          "slug": "ho-oh",
+          "lock": 722
+        },
+        {
+          "slug": "ho-oh",
+          "lock": 810
+        },
+        {
+          "slug": "arceus-ground",
+          "lock": 1
+        },
+        {
+          "slug": "arceus-ground",
+          "lock": 152
+        },
+        {
+          "slug": "arceus-ground",
+          "lock": 252
+        },
+        {
+          "slug": "arceus-ground",
+          "lock": 387
+        },
+        {
+          "slug": "arceus-ground",
+          "lock": 495
+        },
+        {
+          "slug": "arceus-ground",
+          "lock": 650
+        },
+        {
+          "slug": "arceus-ground",
+          "lock": 722
+        },
+        {
+          "slug": "arceus-ground",
+          "lock": 810
+        },
+        {
+          "slug": "xerneas",
+          "lock": 1
+        },
+        {
+          "slug": "xerneas",
+          "lock": 152
+        },
+        {
+          "slug": "xerneas",
+          "lock": 252
+        },
+        {
+          "slug": "xerneas",
+          "lock": 387
+        },
+        {
+          "slug": "xerneas",
+          "lock": 495
+        },
+        {
+          "slug": "xerneas",
+          "lock": 650
+        },
+        {
+          "slug": "xerneas",
+          "lock": 722
+        },
+        {
+          "slug": "xerneas",
+          "lock": 810
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 1
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 152
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 252
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 387
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 495
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 650
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 722
+        },
+        {
+          "slug": "eternatus-eternamax",
+          "lock": 810
+        }
+      ]
+    },
+    {
+      "id": "three-island",
+      "kind": "encounter",
+      "name": "Three Island",
+      "catch": "met",
+      "mets": [
+        57
+      ]
+    },
+    {
+      "id": "mt-ember",
+      "kind": "encounter",
+      "name": "Mt. Ember",
+      "catch": "met"
+    },
+    {
+      "id": "treasure-beach",
+      "kind": "encounter",
+      "name": "Treasure Beach",
+      "catch": "met"
+    },
+    {
+      "id": "berry-forest",
+      "kind": "encounter",
+      "name": "Berry Forest",
+      "catch": "met"
+    },
+    {
+      "id": "bond-bridge",
+      "kind": "encounter",
+      "name": "Bond Bridge",
+      "catch": "met"
+    },
+    {
+      "id": "cape-brink",
+      "kind": "encounter",
+      "name": "Cape Brink",
+      "catch": "met"
+    },
+    {
+      "id": "kindle-road",
+      "kind": "encounter",
+      "name": "Kindle Road",
+      "catch": "met"
+    },
+    {
+      "id": "1r-hard",
+      "kind": "boss",
+      "name": "Brock Rematch",
+      "locale": "Pewter City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "effectsandstorm",
+          "lock": 0
+        },
+        {
+          "slug": "terrakion",
+          "lock": 0
+        },
+        {
+          "slug": "landorus-incarnate",
+          "lock": 0
+        },
+        {
+          "slug": "zygarde-50",
+          "lock": 0
+        },
+        {
+          "slug": "sandslash",
+          "lock": 0
+        },
+        {
+          "slug": "empoleon",
+          "lock": 0
+        },
+        {
+          "slug": "aerodactyl-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "2r-hard",
+      "kind": "boss",
+      "name": "Misty Rematch",
+      "locale": "Cerulean City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "greninja",
+          "lock": 0
+        },
+        {
+          "slug": "kingdra",
+          "lock": 0
+        },
+        {
+          "slug": "seismitoad",
+          "lock": 0
+        },
+        {
+          "slug": "jirachi",
+          "lock": 0
+        },
+        {
+          "slug": "thundurus-therian",
+          "lock": 0
+        },
+        {
+          "slug": "gyarados-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "3r-hard",
+      "kind": "boss",
+      "name": "Lt. Surge Rematch",
+      "locale": "Vermillion City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "effectelectric-terrain",
+          "lock": 0
+        },
+        {
+          "slug": "electivire",
+          "lock": 0
+        },
+        {
+          "slug": "raichu-alola",
+          "lock": 0
+        },
+        {
+          "slug": "magnezone",
+          "lock": 0
+        },
+        {
+          "slug": "zekrom",
+          "lock": 0
+        },
+        {
+          "slug": "raikou",
+          "lock": 0
+        },
+        {
+          "slug": "manectric-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "4r-hard",
+      "kind": "boss",
+      "name": "Erika Rematch",
+      "locale": "Celadon City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "tsareena",
+          "lock": 0
+        },
+        {
+          "slug": "serperior",
+          "lock": 0
+        },
+        {
+          "slug": "hawlucha",
+          "lock": 0
+        },
+        {
+          "slug": "kartana",
+          "lock": 0
+        },
+        {
+          "slug": "magearna",
+          "lock": 0
+        },
+        {
+          "slug": "ampharos-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "cerulean-cave",
+      "kind": "encounter",
+      "name": "Cerulean Cave",
+      "catch": "met",
+      "mets": [
+        53
+      ]
+    },
+    {
+      "id": "ev5-hard",
+      "kind": "boss",
+      "name": "Admin Archer",
+      "locale": "Cerulean Cave",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "glimmet",
+          "lock": 0
+        },
+        {
+          "slug": "seviper",
+          "lock": 0
+        },
+        {
+          "slug": "houndour",
+          "lock": 0
+        },
+        {
+          "slug": "mightyena",
+          "lock": 0
+        },
+        {
+          "slug": "fearow",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "ev6-hard",
+      "kind": "boss",
+      "name": "Admin Ariana",
+      "locale": "Cerulean Cave",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "wailord",
+          "lock": 0
+        },
+        {
+          "slug": "espeon",
+          "lock": 0
+        },
+        {
+          "slug": "buzzwole",
+          "lock": 0
+        },
+        {
+          "slug": "mawile-mega",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "ev7-hard",
+      "kind": "boss",
+      "name": "Giovanni",
+      "locale": "Cerulean Cave",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "infernape",
+          "lock": 0
+        },
+        {
+          "slug": "nidoking",
+          "lock": 0
+        },
+        {
+          "slug": "torterra",
+          "lock": 0
+        },
+        {
+          "slug": "orthworm",
+          "lock": 0
+        },
+        {
+          "slug": "gyarados",
+          "lock": 0
+        },
+        {
+          "slug": "kangaskhan-mega",
+          "lock": 0
+        }
+      ]
+    }
+  ]
+}

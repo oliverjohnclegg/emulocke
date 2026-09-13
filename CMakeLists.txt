@@ -116,6 +116,7 @@ add_library(emulocke_adapter STATIC
     src/adapter/rse/RseLive.cpp
     src/adapter/rse/RseAdapter.cpp
     src/adapter/gen45/Names.cpp
+    src/adapter/gen45/SpeciesRef.cpp
     src/adapter/gen45/Crypto.cpp
     src/adapter/gen45/Text.cpp
     src/adapter/gen45/Parse.cpp
@@ -126,13 +127,33 @@ add_library(emulocke_adapter STATIC
     src/adapter/bw/BwAdapter.cpp)
 target_include_directories(emulocke_adapter PUBLIC src)
 
+file(GLOB EMULOCKE_TRACKER_ATLASES CONFIGURE_DEPENDS
+    src/tracker/rse/*.cpp
+    src/tracker/dp/*.cpp
+    src/tracker/pt/*.cpp
+    src/tracker/hgss/*.cpp
+    src/tracker/bw/*.cpp
+    src/tracker/b2w2/*.cpp
+    src/tracker/blazevolt/*.cpp
+    src/tracker/vw2/*.cpp
+    src/tracker/sacredgold/*.cpp
+    src/tracker/renegade/*.cpp
+    src/tracker/emkaizo/*.cpp
+    src/tracker/runbun/*.cpp
+    src/tracker/incem/*.cpp
+    src/tracker/rr/*.cpp
+    src/tracker/unbound/*.cpp
+    src/tracker/fro/*.cpp
+    src/tracker/pkaizo/*.cpp)
 add_library(emulocke_tracker STATIC
     src/tracker/Atlas.cpp
+    src/tracker/Difficulty.cpp
     src/tracker/Log.cpp
     src/tracker/LogIo.cpp
     src/tracker/Fill.cpp
     src/tracker/frlg/Stops.cpp
-    src/tracker/frlg/Teams.cpp)
+    src/tracker/frlg/Teams.cpp
+    ${EMULOCKE_TRACKER_ATLASES})
 target_include_directories(emulocke_tracker PUBLIC src)
 target_link_libraries(emulocke_tracker PUBLIC emulocke_adapter)
 

@@ -1,0 +1,1454 @@
+{
+  "id": "em",
+  "starters": [
+    252,
+    258,
+    255
+  ],
+  "stops": [
+    {
+      "id": "starter",
+      "kind": "encounter",
+      "name": "Starter",
+      "catch": "starter"
+    },
+    {
+      "id": "littleroot-town",
+      "kind": "encounter",
+      "name": "Littleroot Town",
+      "catch": "met",
+      "mets": [
+        0
+      ]
+    },
+    {
+      "id": "route-101",
+      "kind": "encounter",
+      "name": "Route 101",
+      "catch": "met",
+      "mets": [
+        16
+      ]
+    },
+    {
+      "id": "route-103",
+      "kind": "encounter",
+      "name": "Route 103",
+      "catch": "met",
+      "mets": [
+        18
+      ]
+    },
+    {
+      "id": "r1",
+      "kind": "boss",
+      "name": "May",
+      "locale": "Route 103",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "torchic",
+          "lock": 252
+        },
+        {
+          "slug": "mudkip",
+          "lock": 255
+        },
+        {
+          "slug": "treecko",
+          "lock": 258
+        }
+      ]
+    },
+    {
+      "id": "route-102",
+      "kind": "encounter",
+      "name": "Route 102",
+      "catch": "met",
+      "mets": [
+        17
+      ]
+    },
+    {
+      "id": "petalburg-city",
+      "kind": "encounter",
+      "name": "Petalburg City",
+      "catch": "met",
+      "mets": [
+        7
+      ]
+    },
+    {
+      "id": "route-104",
+      "kind": "encounter",
+      "name": "Route 104",
+      "catch": "met",
+      "mets": [
+        19
+      ]
+    },
+    {
+      "id": "petalburg-woods",
+      "kind": "encounter",
+      "name": "Petalburg Woods",
+      "catch": "met",
+      "mets": [
+        59
+      ]
+    },
+    {
+      "id": "rustboro-city",
+      "kind": "encounter",
+      "name": "Rustboro City",
+      "catch": "met",
+      "mets": [
+        10
+      ]
+    },
+    {
+      "id": "gym-1",
+      "kind": "boss",
+      "name": "Roxanne",
+      "locale": "Rustboro Gym",
+      "boss": "gym",
+      "gym": 1,
+      "team": [
+        {
+          "slug": "geodude",
+          "lock": 0
+        },
+        {
+          "slug": "geodude",
+          "lock": 0
+        },
+        {
+          "slug": "nosepass",
+          "lock": 0
+        }
+      ],
+      "defeat": 2151
+    },
+    {
+      "id": "r2",
+      "kind": "boss",
+      "name": "May",
+      "locale": "Rustboro City",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "lotad",
+          "lock": 252
+        },
+        {
+          "slug": "torchic",
+          "lock": 252
+        },
+        {
+          "slug": "torkoal",
+          "lock": 255
+        },
+        {
+          "slug": "mudkip",
+          "lock": 255
+        },
+        {
+          "slug": "wingull",
+          "lock": 258
+        },
+        {
+          "slug": "treecko",
+          "lock": 258
+        }
+      ]
+    },
+    {
+      "id": "route-105",
+      "kind": "encounter",
+      "name": "Route 105",
+      "catch": "met",
+      "mets": [
+        20
+      ]
+    },
+    {
+      "id": "route-116",
+      "kind": "encounter",
+      "name": "Route 116",
+      "catch": "met",
+      "mets": [
+        31
+      ]
+    },
+    {
+      "id": "rusturf-tunnel",
+      "kind": "encounter",
+      "name": "Rusturf Tunnel",
+      "catch": "met",
+      "mets": [
+        60
+      ]
+    },
+    {
+      "id": "dewford-town",
+      "kind": "encounter",
+      "name": "Dewford Town",
+      "catch": "met",
+      "mets": [
+        2
+      ]
+    },
+    {
+      "id": "gym-2",
+      "kind": "boss",
+      "name": "Brawly",
+      "locale": "Dewford Gym",
+      "boss": "gym",
+      "gym": 2,
+      "team": [
+        {
+          "slug": "machop",
+          "lock": 0
+        },
+        {
+          "slug": "meditite",
+          "lock": 0
+        },
+        {
+          "slug": "makuhita",
+          "lock": 0
+        }
+      ],
+      "defeat": 2152
+    },
+    {
+      "id": "route-106",
+      "kind": "encounter",
+      "name": "Route 106",
+      "catch": "met",
+      "mets": [
+        21
+      ]
+    },
+    {
+      "id": "granite-cave",
+      "kind": "encounter",
+      "name": "Granite Cave",
+      "catch": "met",
+      "mets": [
+        55
+      ]
+    },
+    {
+      "id": "route-107",
+      "kind": "encounter",
+      "name": "Route 107",
+      "catch": "met",
+      "mets": [
+        22
+      ]
+    },
+    {
+      "id": "slateport-city",
+      "kind": "encounter",
+      "name": "Slateport City",
+      "catch": "met",
+      "mets": [
+        8
+      ]
+    },
+    {
+      "id": "route-110",
+      "kind": "encounter",
+      "name": "Route 110",
+      "catch": "met",
+      "mets": [
+        25
+      ]
+    },
+    {
+      "id": "r3",
+      "kind": "boss",
+      "name": "May",
+      "locale": "Route 110",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "wingull",
+          "lock": 252
+        },
+        {
+          "slug": "lombre",
+          "lock": 252
+        },
+        {
+          "slug": "combusken",
+          "lock": 252
+        },
+        {
+          "slug": "lombre",
+          "lock": 255
+        },
+        {
+          "slug": "slugma",
+          "lock": 255
+        },
+        {
+          "slug": "marshtomp",
+          "lock": 255
+        },
+        {
+          "slug": "slugma",
+          "lock": 258
+        },
+        {
+          "slug": "wingull",
+          "lock": 258
+        },
+        {
+          "slug": "grovyle",
+          "lock": 258
+        }
+      ]
+    },
+    {
+      "id": "altering-cave",
+      "kind": "encounter",
+      "name": "Altering Cave",
+      "catch": "met",
+      "mets": [
+        183,
+        210
+      ]
+    },
+    {
+      "id": "w1",
+      "kind": "boss",
+      "name": "Wally",
+      "locale": "Mauville City",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "ralts",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "gym-3",
+      "kind": "boss",
+      "name": "Wattson",
+      "locale": "Mauville City Gym",
+      "boss": "gym",
+      "gym": 3,
+      "team": [
+        {
+          "slug": "voltorb",
+          "lock": 0
+        },
+        {
+          "slug": "electrike",
+          "lock": 0
+        },
+        {
+          "slug": "magneton",
+          "lock": 0
+        },
+        {
+          "slug": "manectric",
+          "lock": 0
+        }
+      ],
+      "defeat": 2153
+    },
+    {
+      "id": "route-117",
+      "kind": "encounter",
+      "name": "Route 117",
+      "catch": "met",
+      "mets": [
+        32
+      ]
+    },
+    {
+      "id": "route-112",
+      "kind": "encounter",
+      "name": "Route 112",
+      "catch": "met",
+      "mets": [
+        27
+      ]
+    },
+    {
+      "id": "mt1",
+      "kind": "boss",
+      "name": "Tabitha",
+      "locale": "Mt. Chimney",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "numel",
+          "lock": 0
+        },
+        {
+          "slug": "poochyena",
+          "lock": 0
+        },
+        {
+          "slug": "numel",
+          "lock": 0
+        },
+        {
+          "slug": "zubat",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-113",
+      "kind": "encounter",
+      "name": "Route 113",
+      "catch": "met",
+      "mets": [
+        28
+      ]
+    },
+    {
+      "id": "route-114",
+      "kind": "encounter",
+      "name": "Route 114",
+      "catch": "met",
+      "mets": [
+        29
+      ]
+    },
+    {
+      "id": "desert-underpass",
+      "kind": "encounter",
+      "name": "Desert Underpass",
+      "catch": "met",
+      "mets": [
+        209
+      ]
+    },
+    {
+      "id": "meteor-falls",
+      "kind": "encounter",
+      "name": "Meteor Falls",
+      "catch": "met",
+      "mets": [
+        63,
+        64
+      ]
+    },
+    {
+      "id": "route-115",
+      "kind": "encounter",
+      "name": "Route 115",
+      "catch": "met",
+      "mets": [
+        30
+      ]
+    },
+    {
+      "id": "jagged-pass",
+      "kind": "encounter",
+      "name": "Jagged Pass",
+      "catch": "met",
+      "mets": [
+        76,
+        77
+      ]
+    },
+    {
+      "id": "lavaridge-town",
+      "kind": "encounter",
+      "name": "Lavaridge Town",
+      "catch": "met",
+      "mets": [
+        3
+      ]
+    },
+    {
+      "id": "gym-4",
+      "kind": "boss",
+      "name": "Flannery",
+      "locale": "Lavaridge Gym",
+      "boss": "gym",
+      "gym": 4,
+      "team": [
+        {
+          "slug": "numel",
+          "lock": 0
+        },
+        {
+          "slug": "slugma",
+          "lock": 0
+        },
+        {
+          "slug": "camerupt",
+          "lock": 0
+        },
+        {
+          "slug": "torkoal",
+          "lock": 0
+        }
+      ],
+      "defeat": 2154
+    },
+    {
+      "id": "fiery-path",
+      "kind": "encounter",
+      "name": "Fiery Path",
+      "catch": "met",
+      "mets": [
+        74,
+        75
+      ]
+    },
+    {
+      "id": "route-111",
+      "kind": "encounter",
+      "name": "Route 111",
+      "catch": "met",
+      "mets": [
+        26
+      ]
+    },
+    {
+      "id": "mirage-tower",
+      "kind": "encounter",
+      "name": "Mirage Tower",
+      "catch": "met",
+      "mets": [
+        199
+      ]
+    },
+    {
+      "id": "gym-5",
+      "kind": "boss",
+      "name": "Norman",
+      "locale": "Petalburg Gym",
+      "boss": "gym",
+      "gym": 5,
+      "team": [
+        {
+          "slug": "spinda",
+          "lock": 0
+        },
+        {
+          "slug": "vigoroth",
+          "lock": 0
+        },
+        {
+          "slug": "linoone",
+          "lock": 0
+        },
+        {
+          "slug": "slaking",
+          "lock": 0
+        }
+      ],
+      "defeat": 2155
+    },
+    {
+      "id": "new-mauville",
+      "kind": "encounter",
+      "name": "New Mauville",
+      "catch": "met",
+      "mets": [
+        62
+      ]
+    },
+    {
+      "id": "route-118",
+      "kind": "encounter",
+      "name": "Route 118",
+      "catch": "met",
+      "mets": [
+        33
+      ]
+    },
+    {
+      "id": "route-119",
+      "kind": "encounter",
+      "name": "Route 119",
+      "catch": "met",
+      "mets": [
+        34
+      ]
+    },
+    {
+      "id": "as1",
+      "kind": "boss",
+      "name": "Shelly",
+      "locale": "Weather Institute",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "carvanha",
+          "lock": 0
+        },
+        {
+          "slug": "mightyena",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "r4",
+      "kind": "boss",
+      "name": "May",
+      "locale": "Weather Institute",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "pelipper",
+          "lock": 252
+        },
+        {
+          "slug": "pelipper",
+          "lock": 258
+        },
+        {
+          "slug": "lombre",
+          "lock": 252
+        },
+        {
+          "slug": "lombre",
+          "lock": 255
+        },
+        {
+          "slug": "slugma",
+          "lock": 255
+        },
+        {
+          "slug": "slugma",
+          "lock": 258
+        },
+        {
+          "slug": "combusken",
+          "lock": 252
+        },
+        {
+          "slug": "marshtomp",
+          "lock": 255
+        },
+        {
+          "slug": "grovyle",
+          "lock": 258
+        }
+      ]
+    },
+    {
+      "id": "fortree-city",
+      "kind": "encounter",
+      "name": "Fortree City",
+      "catch": "met",
+      "mets": [
+        11
+      ]
+    },
+    {
+      "id": "route-120",
+      "kind": "encounter",
+      "name": "Route 120",
+      "catch": "met",
+      "mets": [
+        35
+      ]
+    },
+    {
+      "id": "gym-6",
+      "kind": "boss",
+      "name": "Winona",
+      "locale": "Fortree City Gym",
+      "boss": "gym",
+      "gym": 6,
+      "team": [
+        {
+          "slug": "swablu",
+          "lock": 0
+        },
+        {
+          "slug": "tropius",
+          "lock": 0
+        },
+        {
+          "slug": "pelipper",
+          "lock": 0
+        },
+        {
+          "slug": "skarmory",
+          "lock": 0
+        },
+        {
+          "slug": "altaria",
+          "lock": 0
+        }
+      ],
+      "defeat": 2156
+    },
+    {
+      "id": "route-121",
+      "kind": "encounter",
+      "name": "Route 121",
+      "catch": "met",
+      "mets": [
+        36
+      ]
+    },
+    {
+      "id": "safari-zone",
+      "kind": "encounter",
+      "name": "Safari Zone",
+      "catch": "met",
+      "mets": [
+        57,
+        136
+      ]
+    },
+    {
+      "id": "route-122",
+      "kind": "encounter",
+      "name": "Route 122",
+      "catch": "met",
+      "mets": [
+        37
+      ]
+    },
+    {
+      "id": "mt-pyre",
+      "kind": "encounter",
+      "name": "Mt. Pyre",
+      "catch": "met",
+      "mets": [
+        65
+      ]
+    },
+    {
+      "id": "route-123",
+      "kind": "encounter",
+      "name": "Route 123",
+      "catch": "met",
+      "mets": [
+        38
+      ]
+    },
+    {
+      "id": "team-magma-hideout",
+      "kind": "encounter",
+      "name": "Team Magma Hideout",
+      "catch": "met"
+    },
+    {
+      "id": "mt2",
+      "kind": "boss",
+      "name": "Tabitha",
+      "locale": "Team Magma Hideout",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "numel",
+          "lock": 0
+        },
+        {
+          "slug": "mightyena",
+          "lock": 0
+        },
+        {
+          "slug": "camerupt",
+          "lock": 0
+        },
+        {
+          "slug": "zubat",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "mtmax",
+      "kind": "boss",
+      "name": "Maxie",
+      "locale": "Team Magma Hideout",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "mightyena",
+          "lock": 0
+        },
+        {
+          "slug": "crobat",
+          "lock": 0
+        },
+        {
+          "slug": "camerupt",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "lilycove-city",
+      "kind": "encounter",
+      "name": "Lilycove City",
+      "catch": "met",
+      "mets": [
+        12
+      ]
+    },
+    {
+      "id": "r5",
+      "kind": "boss",
+      "name": "May",
+      "locale": "Lilycove City",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "tropius",
+          "lock": 0
+        },
+        {
+          "slug": "pelipper",
+          "lock": 252
+        },
+        {
+          "slug": "pelipper",
+          "lock": 258
+        },
+        {
+          "slug": "ludicolo",
+          "lock": 252
+        },
+        {
+          "slug": "ludicolo",
+          "lock": 255
+        },
+        {
+          "slug": "slugma",
+          "lock": 255
+        },
+        {
+          "slug": "slugma",
+          "lock": 258
+        },
+        {
+          "slug": "combusken",
+          "lock": 252
+        },
+        {
+          "slug": "marshtomp",
+          "lock": 255
+        },
+        {
+          "slug": "grovyle",
+          "lock": 258
+        }
+      ]
+    },
+    {
+      "id": "am1",
+      "kind": "boss",
+      "name": "Matt",
+      "locale": "Team Aqua Hideout",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "sharpedo",
+          "lock": 0
+        },
+        {
+          "slug": "mightyena",
+          "lock": 0
+        },
+        {
+          "slug": "golbat",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-124",
+      "kind": "encounter",
+      "name": "Route 124",
+      "catch": "met",
+      "mets": [
+        39
+      ]
+    },
+    {
+      "id": "mossdeep-city",
+      "kind": "encounter",
+      "name": "Mossdeep City",
+      "catch": "met",
+      "mets": [
+        13
+      ]
+    },
+    {
+      "id": "gym-7",
+      "kind": "boss",
+      "name": "Tate & Liza",
+      "locale": "Mossdeep City Gym",
+      "boss": "gym",
+      "gym": 7,
+      "team": [
+        {
+          "slug": "claydol",
+          "lock": 0
+        },
+        {
+          "slug": "xatu",
+          "lock": 0
+        },
+        {
+          "slug": "lunatone",
+          "lock": 0
+        },
+        {
+          "slug": "solrock",
+          "lock": 0
+        }
+      ],
+      "defeat": 2157
+    },
+    {
+      "id": "mtmaxt",
+      "kind": "boss",
+      "name": "Maxie & Tabitha",
+      "locale": "Mossdeep Space Center",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "mightyena",
+          "lock": 0
+        },
+        {
+          "slug": "crobat",
+          "lock": 0
+        },
+        {
+          "slug": "camerupt",
+          "lock": 0
+        },
+        {
+          "slug": "camerupt",
+          "lock": 0
+        },
+        {
+          "slug": "mightyena",
+          "lock": 0
+        },
+        {
+          "slug": "golbat",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-125",
+      "kind": "encounter",
+      "name": "Route 125",
+      "catch": "met",
+      "mets": [
+        40
+      ]
+    },
+    {
+      "id": "shoal-cave",
+      "kind": "encounter",
+      "name": "Shoal Cave",
+      "catch": "met",
+      "mets": [
+        67
+      ]
+    },
+    {
+      "id": "route-127",
+      "kind": "encounter",
+      "name": "Route 127",
+      "catch": "met",
+      "mets": [
+        42
+      ]
+    },
+    {
+      "id": "route-128",
+      "kind": "encounter",
+      "name": "Route 128",
+      "catch": "met",
+      "mets": [
+        43
+      ]
+    },
+    {
+      "id": "seafloor-cavern",
+      "kind": "encounter",
+      "name": "Seafloor Cavern",
+      "catch": "met",
+      "mets": [
+        68
+      ]
+    },
+    {
+      "id": "as2",
+      "kind": "boss",
+      "name": "Shelly",
+      "locale": "Seafloor Cavern",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "sharpedo",
+          "lock": 0
+        },
+        {
+          "slug": "mightyena",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "aqarc",
+      "kind": "boss",
+      "name": "Archie",
+      "locale": "Seafloor Cavern",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "mightyena",
+          "lock": 0
+        },
+        {
+          "slug": "golbat",
+          "lock": 0
+        },
+        {
+          "slug": "sharpedo",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-126",
+      "kind": "encounter",
+      "name": "Route 126",
+      "catch": "met",
+      "mets": [
+        41
+      ]
+    },
+    {
+      "id": "sootopolis-city",
+      "kind": "encounter",
+      "name": "Sootopolis City",
+      "catch": "met",
+      "mets": [
+        14
+      ]
+    },
+    {
+      "id": "gym-8",
+      "kind": "boss",
+      "name": "Juan",
+      "locale": "Sootopolis Gym",
+      "boss": "gym",
+      "gym": 8,
+      "team": [
+        {
+          "slug": "luvdisc",
+          "lock": 0
+        },
+        {
+          "slug": "whiscash",
+          "lock": 0
+        },
+        {
+          "slug": "sealeo",
+          "lock": 0
+        },
+        {
+          "slug": "crawdaunt",
+          "lock": 0
+        },
+        {
+          "slug": "kingdra",
+          "lock": 0
+        }
+      ],
+      "defeat": 2158
+    },
+    {
+      "id": "cave-of-origin",
+      "kind": "encounter",
+      "name": "Cave of Origin",
+      "catch": "met",
+      "mets": [
+        72
+      ]
+    },
+    {
+      "id": "route-129",
+      "kind": "encounter",
+      "name": "Route 129",
+      "catch": "met",
+      "mets": [
+        44
+      ]
+    },
+    {
+      "id": "route-130",
+      "kind": "encounter",
+      "name": "Route 130",
+      "catch": "met",
+      "mets": [
+        45
+      ]
+    },
+    {
+      "id": "route-131",
+      "kind": "encounter",
+      "name": "Route 131",
+      "catch": "met",
+      "mets": [
+        46
+      ]
+    },
+    {
+      "id": "sky-pillar",
+      "kind": "encounter",
+      "name": "Sky Pillar",
+      "catch": "met",
+      "mets": [
+        85
+      ]
+    },
+    {
+      "id": "pacifidlog-town",
+      "kind": "encounter",
+      "name": "Pacifidlog Town",
+      "catch": "met",
+      "mets": [
+        6
+      ]
+    },
+    {
+      "id": "mirage-island",
+      "kind": "encounter",
+      "name": "Mirage Island",
+      "catch": "met",
+      "mets": [
+        71
+      ]
+    },
+    {
+      "id": "route-108",
+      "kind": "encounter",
+      "name": "Route 108",
+      "catch": "met",
+      "mets": [
+        23
+      ]
+    },
+    {
+      "id": "abandoned-ship",
+      "kind": "encounter",
+      "name": "Abandoned Ship",
+      "catch": "met",
+      "mets": [
+        61
+      ]
+    },
+    {
+      "id": "route-109",
+      "kind": "encounter",
+      "name": "Route 109",
+      "catch": "met",
+      "mets": [
+        24
+      ]
+    },
+    {
+      "id": "route-132",
+      "kind": "encounter",
+      "name": "Route 132",
+      "catch": "met",
+      "mets": [
+        47
+      ]
+    },
+    {
+      "id": "route-133",
+      "kind": "encounter",
+      "name": "Route 133",
+      "catch": "met",
+      "mets": [
+        48
+      ]
+    },
+    {
+      "id": "route-134",
+      "kind": "encounter",
+      "name": "Route 134",
+      "catch": "met",
+      "mets": [
+        49
+      ]
+    },
+    {
+      "id": "ever-grande-city",
+      "kind": "encounter",
+      "name": "Ever Grande City",
+      "catch": "met",
+      "mets": [
+        15
+      ]
+    },
+    {
+      "id": "victory-road",
+      "kind": "encounter",
+      "name": "Victory Road",
+      "catch": "met",
+      "mets": [
+        70,
+        132
+      ]
+    },
+    {
+      "id": "w2",
+      "kind": "boss",
+      "name": "Wally",
+      "locale": "Victory Road",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "altaria",
+          "lock": 0
+        },
+        {
+          "slug": "delcatty",
+          "lock": 0
+        },
+        {
+          "slug": "roselia",
+          "lock": 0
+        },
+        {
+          "slug": "magneton",
+          "lock": 0
+        },
+        {
+          "slug": "gardevoir",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e1",
+      "kind": "boss",
+      "name": "Sidney",
+      "locale": "Pok\u00e9mon League",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "mightyena",
+          "lock": 0
+        },
+        {
+          "slug": "shiftry",
+          "lock": 0
+        },
+        {
+          "slug": "cacturne",
+          "lock": 0
+        },
+        {
+          "slug": "crawdaunt",
+          "lock": 0
+        },
+        {
+          "slug": "absol",
+          "lock": 0
+        }
+      ],
+      "defeat": 1275
+    },
+    {
+      "id": "e2",
+      "kind": "boss",
+      "name": "Phoebe",
+      "locale": "Pok\u00e9mon League",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "dusclops",
+          "lock": 0
+        },
+        {
+          "slug": "banette",
+          "lock": 0
+        },
+        {
+          "slug": "sableye",
+          "lock": 0
+        },
+        {
+          "slug": "banette",
+          "lock": 0
+        },
+        {
+          "slug": "dusclops",
+          "lock": 0
+        }
+      ],
+      "defeat": 1276
+    },
+    {
+      "id": "e3",
+      "kind": "boss",
+      "name": "Glacia",
+      "locale": "Pok\u00e9mon League",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "sealeo",
+          "lock": 0
+        },
+        {
+          "slug": "glalie",
+          "lock": 0
+        },
+        {
+          "slug": "sealeo",
+          "lock": 0
+        },
+        {
+          "slug": "glalie",
+          "lock": 0
+        },
+        {
+          "slug": "walrein",
+          "lock": 0
+        }
+      ],
+      "defeat": 1277
+    },
+    {
+      "id": "e4",
+      "kind": "boss",
+      "name": "Drake",
+      "locale": "Pok\u00e9mon League",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "shelgon",
+          "lock": 0
+        },
+        {
+          "slug": "altaria",
+          "lock": 0
+        },
+        {
+          "slug": "kingdra",
+          "lock": 0
+        },
+        {
+          "slug": "flygon",
+          "lock": 0
+        },
+        {
+          "slug": "salamence",
+          "lock": 0
+        }
+      ],
+      "defeat": 1278
+    },
+    {
+      "id": "c1",
+      "kind": "boss",
+      "name": "Wallace",
+      "locale": "Pok\u00e9mon League Champion",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "wailord",
+          "lock": 0
+        },
+        {
+          "slug": "tentacruel",
+          "lock": 0
+        },
+        {
+          "slug": "ludicolo",
+          "lock": 0
+        },
+        {
+          "slug": "whiscash",
+          "lock": 0
+        },
+        {
+          "slug": "gyarados",
+          "lock": 0
+        },
+        {
+          "slug": "milotic",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "c2",
+      "kind": "boss",
+      "name": "Steven",
+      "locale": "Meteor Falls Champion",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "skarmory",
+          "lock": 0
+        },
+        {
+          "slug": "claydol",
+          "lock": 0
+        },
+        {
+          "slug": "aggron",
+          "lock": 0
+        },
+        {
+          "slug": "cradily",
+          "lock": 0
+        },
+        {
+          "slug": "armaldo",
+          "lock": 0
+        },
+        {
+          "slug": "metagross",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "ss-tidal",
+      "kind": "encounter",
+      "name": "S.S. Tidal",
+      "catch": "met"
+    },
+    {
+      "id": "battle-frontier",
+      "kind": "encounter",
+      "name": "Battle Frontier",
+      "catch": "met",
+      "mets": [
+        58
+      ]
+    },
+    {
+      "id": "artisan-cave",
+      "kind": "encounter",
+      "name": "Artisan Cave",
+      "catch": "met",
+      "mets": [
+        202
+      ]
+    }
+  ]
+}
