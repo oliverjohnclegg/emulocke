@@ -11,6 +11,8 @@ class Application;
 void calcStamp(const char* label);
 void calcAlignRight(float width);
 void calcPixelBar(int hp, int maxHp);
+float calcFoeHpWidth(int hp, int maxHp);
+void calcFoeHp(int hp, int maxHp);
 void drawCalcSearch(Application& app, CalcSession& session);
 void drawCalcPartyRail(Application& app, CalcSession& session);
 void drawCalcFoeRail(Application& app, CalcSession& session);

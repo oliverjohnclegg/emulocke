@@ -1,8 +1,10 @@
 #include "ui/CalculatorDraw.hpp"
 
+#include "calc/HpBar.hpp"
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
+#include <cstdio>
 
 namespace emulocke {
 
@@ -29,32 +31,53 @@ void calcAlignRight(float width) {
 }
 
 void calcPixelBar(int hp, int maxHp) {
-    const float w = 48.f;
+    const float w = static_cast<float>(kHpBarPx);
     const float h = 8.f;
+    const float row = ImGui::GetTextLineHeight();
     const ImVec2 p = ImGui::GetCursorScreenPos();
+    const float y = p.y + (row - h) * 0.5f;
     ImDrawList* dl = ImGui::GetWindowDrawList();
-    dl->AddRectFilled(p, ImVec2(p.x + w, p.y + h), ImGui::GetColorU32(kScreenWell));
-    int px = 0;
-    if (maxHp > 0 && hp > 0) {
-        px = hp * 48 / maxHp;
-        if (px < 1) {
-            px = 1;
-        }
-        if (px > 48) {
-            px = 48;
-        }
-    }
+    dl->AddRectFilled(ImVec2(p.x, y), ImVec2(p.x + w, y + h), ImGui::GetColorU32(kScreenWell));
+    const int px = hpBarPixels(hp, maxHp);
     const ImU32 fill = (hp * 2 > maxHp)
         ? ImGui::GetColorU32(kMetal)
         : ImGui::GetColorU32(ImVec4(196 / 255.f, 43 / 255.f, 43 / 255.f, 1.f));
-    if (px) {
-        for (int i = 0; i < px; ++i) {
-            dl->AddRectFilled(ImVec2(p.x + static_cast<float>(i), p.y),
-                ImVec2(p.x + static_cast<float>(i) + 1.f, p.y + h), fill);
-        }
+    for (int i = 0; i < px; ++i) {
+        dl->AddRectFilled(ImVec2(p.x + static_cast<float>(i), y),
+            ImVec2(p.x + static_cast<float>(i) + 1.f, y + h), fill);
     }
-    dl->AddRect(p, ImVec2(p.x + w, p.y + h), ImGui::GetColorU32(kBorder));
-    ImGui::Dummy(ImVec2(w, h));
+    dl->AddRect(ImVec2(p.x, y), ImVec2(p.x + w, y + h), ImGui::GetColorU32(kBorder));
+    ImGui::Dummy(ImVec2(w, row));
+}
+
+namespace {
+
+void foeHpRange(char* buf, int n, int hp, int maxHp) {
+    int lo = 0;
+    int hi = 0;
+    hpBarPctRange(hpBarPixels(hp, maxHp), lo, hi);
+    if (lo == hi) {
+        std::snprintf(buf, n, "(%d%%)", lo);
+    } else {
+        std::snprintf(buf, n, "(%d-%d%%)", lo, hi);
+    }
+}
+
+}  // namespace
+
+float calcFoeHpWidth(int hp, int maxHp) {
+    char range[16];
+    foeHpRange(range, sizeof range, hp, maxHp);
+    return static_cast<float>(kHpBarPx) + ImGui::GetStyle().ItemSpacing.x +
+        ImGui::CalcTextSize(range).x;
+}
+
+void calcFoeHp(int hp, int maxHp) {
+    char range[16];
+    foeHpRange(range, sizeof range, hp, maxHp);
+    calcPixelBar(hp, maxHp);
+    ImGui::SameLine();
+    ImGui::TextUnformatted(range);
 }
 
 }

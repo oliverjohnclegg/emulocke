@@ -1,6 +1,7 @@
 #include "calc/Build.hpp"
 #include "calc/Calculate.hpp"
 #include "calc/Dex.hpp"
+#include "calc/HpBar.hpp"
 #include "calc/Pack.hpp"
 #include "calc/Stats.hpp"
 #include "calc/Type.hpp"
@@ -71,6 +72,48 @@ void testFixedAndImmune() {
     REQUIRE(immune.immune || immune.max == 0);
 }
 
+void testHpBar() {
+    REQUIRE(emulocke::hpBarPixels(80, 80) == 48);
+    REQUIRE(emulocke::hpBarPixels(40, 80) == 24);
+    REQUIRE(emulocke::hpBarPixels(1, 80) == 1);
+    REQUIRE(emulocke::hpBarPixels(0, 80) == 0);
+    REQUIRE(emulocke::hpBarPixels(1, 300) == 1);
+    int lo = 0;
+    int hi = 0;
+    emulocke::hpBarPctRange(48, lo, hi);
+    REQUIRE(lo == 100 && hi == 100);
+    emulocke::hpBarPctRange(24, lo, hi);
+    REQUIRE(lo == 50 && hi == 52);
+    emulocke::hpBarPctRange(1, lo, hi);
+    REQUIRE(lo == 1 && hi == 4);
+    emulocke::hpBarPctRange(0, lo, hi);
+    REQUIRE(lo == 0 && hi == 0);
+    emulocke::hpBarPctRange(9, lo, hi);
+    REQUIRE(lo == 18 && hi == 20);
+    REQUIRE(emulocke::hpExactPct(80, 80) == 100);
+    REQUIRE(emulocke::hpExactPct(40, 80) == 50);
+    REQUIRE(emulocke::hpExactPct(1, 80) == 1);
+    REQUIRE(emulocke::hpExactPct(1, 300) == 1);
+    for (int maxHp = 1; maxHp <= 200; ++maxHp) {
+        int prevPx = -1;
+        int prevLo = -1;
+        int prevHi = -1;
+        for (int hp = 0; hp <= maxHp; ++hp) {
+            const int px = emulocke::hpBarPixels(hp, maxHp);
+            emulocke::hpBarPctRange(px, lo, hi);
+            if (px == 24) {
+                REQUIRE(lo == 50 && hi == 52);
+            }
+            if (px == prevPx) {
+                REQUIRE(lo == prevLo && hi == prevHi);
+            }
+            prevPx = px;
+            prevLo = lo;
+            prevHi = hi;
+        }
+    }
+}
+
 void testFairyCfru() {
     REQUIRE(emulocke::typeMul(6, Type::Fairy, Type::Dragon) == 20);
     REQUIRE(emulocke::typeMul(3, Type::Fairy, Type::Dragon) == 10);
@@ -100,6 +143,7 @@ int main() {
     testCometPunch();
     testFixedAndImmune();
     testFairyCfru();
+    testHpBar();
     std::printf("calc check ok\n");
     return 0;
 }

@@ -1,6 +1,7 @@
 #include "ui/CalculatorDraw.hpp"
 
 #include "calc/Ability.hpp"
+#include "calc/HpBar.hpp"
 #include "calc/Labels.hpp"
 
 #include <imgui.h>
@@ -39,8 +40,8 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
     }
     ImGui::TextUnformatted(name);
 
-    char hp[16];
-    std::snprintf(hp, sizeof hp, "%d/%d", mon.hp, mon.maxHp);
+    char hp[24];
+    std::snprintf(hp, sizeof hp, "%d/%d (%d%%)", mon.hp, mon.maxHp, hpExactPct(mon.hp, mon.maxHp));
     char stages[5][8];
     int n = 0;
     auto addStage = [&](const char* stat, int8_t v) {
@@ -58,7 +59,7 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
     const char* status = statusTag(mon.status);
     const int stamps = (status ? 1 : 0) + n;
     if (right) {
-        float row = 48.f;
+        float row = calcFoeHpWidth(mon.hp, mon.maxHp);
         if (stamps) {
             row += ImGui::GetStyle().ItemSpacing.x;
             if (status) {
@@ -76,7 +77,7 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
         for (int i = 0; i < n; ++i) {
             calcStamp(stages[i]);
         }
-        calcPixelBar(mon.hp, mon.maxHp);
+        calcFoeHp(mon.hp, mon.maxHp);
         ImGui::NewLine();
     } else {
         ImGui::TextUnformatted(hp);
