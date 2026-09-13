@@ -48,6 +48,29 @@ inline float screenStackGap(bool stacked, float paneH, float pixelH) {
     return std::min(kScreenGap, std::max(0.f, paneH - pixelH));
 }
 
+struct LcdLayout {
+    int scale{};
+    float screenW{};
+    float screenH{};
+    float gap{};
+    float stackH{};
+    float x{};
+    float y{};
+};
+
+inline LcdLayout layoutLcds(int wanted, int nativeW, int nativeH, int screens, float paneW,
+    float paneH) {
+    LcdLayout lcd;
+    lcd.scale = resolveScreenScale(wanted, nativeW, nativeH, screens, paneW, paneH);
+    lcd.screenW = static_cast<float>(nativeW * lcd.scale);
+    lcd.screenH = static_cast<float>(nativeH * lcd.scale);
+    lcd.gap = screenStackGap(screens > 1, paneH, lcd.screenH * static_cast<float>(screens));
+    lcd.stackH = lcd.screenH * static_cast<float>(screens) + (screens > 1 ? lcd.gap : 0.f);
+    lcd.x = std::max(0.f, (paneW - lcd.screenW) * 0.5f);
+    lcd.y = screens > 1 ? 0.f : std::max(0.f, (paneH - lcd.screenH) * 0.5f);
+    return lcd;
+}
+
 constexpr int widthAfterRightPaneToggle(int width, bool show) {
     const int span = static_cast<int>(kRightPaneSpan);
     return show ? width + span : width - span;

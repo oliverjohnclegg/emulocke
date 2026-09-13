@@ -67,21 +67,19 @@ void drawConsoleScreens(Application& app, EmuSession& session) {
     const int nativeW = session.screenWidth(0);
     const int nativeH = session.screenHeight(0);
     const int screens = (nds || partyLcd) ? 2 : 1;
-    const ImVec2 pane = ImGui::GetContentRegionAvail();
-    const int scale = resolveScreenScale(app.screenScale(), nativeW, nativeH, screens, pane.x, pane.y);
-    const ImVec2 screen(static_cast<float>(nativeW * scale), static_cast<float>(nativeH * scale));
-    const float gap = screenStackGap(nds || partyLcd, pane.y, screen.y * static_cast<float>(screens));
-    const float x = (pane.x - screen.x) * 0.5f;
-    const float y = (nds || partyLcd) ? 0.f : std::max(0.f, (pane.y - screen.y) * 0.5f);
-    ImGui::SetCursorPos(ImVec2(x, y));
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(kScreenGap, gap));
+    const ImVec2 pane = ImGui::GetWindowSize();
+    const LcdLayout lcd = layoutLcds(app.screenScale(), nativeW, nativeH, screens, pane.x, pane.y);
+    const ImVec2 screen(lcd.screenW, lcd.screenH);
+    ImGui::SetCursorPos(ImVec2(lcd.x, lcd.y));
     drawScreen("top", app.screen(0), screen, app.paused(), false, app);
-    if (nds) {
-        drawScreen("bottom", app.screen(1), screen, app.paused(), true, app);
-    } else if (partyLcd) {
-        drawGbaPartyLcd(app, screen);
+    if (nds || partyLcd) {
+        ImGui::SetCursorPos(ImVec2(lcd.x, lcd.y + lcd.screenH + lcd.gap));
+        if (nds) {
+            drawScreen("bottom", app.screen(1), screen, app.paused(), true, app);
+        } else {
+            drawGbaPartyLcd(app, screen);
+        }
     }
-    ImGui::PopStyleVar();
 }
 
 }  // namespace
@@ -103,13 +101,15 @@ void drawShell(Application& app) {
     }
     ImGui::BeginChild("left", left, ImGuiChildFlags_None, ImGuiWindowFlags_NoScrollbar);
     if (session) {
-        ImGui::PopStyleVar();
-        ImGui::PopStyleColor();
         drawConsoleScreens(app, *session);
     } else {
         drawHome(app);
     }
     ImGui::EndChild();
+    if (session) {
+        ImGui::PopStyleVar();
+        ImGui::PopStyleColor();
+    }
     if (showRight) {
         ImGui::SameLine(0.f, kConsolePad);
         drawRightSuite(app, insetX, insetY);
