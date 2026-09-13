@@ -47,6 +47,7 @@ public:
     void requestImportGame();
     void requestImportFor(std::string uuid);
     void requestImportSav();
+    void savPickerClosed();
     void queueImport(std::string path);
     void queueImportSav(std::string path);
     void queueLoadRun(std::string id);
@@ -166,6 +167,7 @@ private:
     bool pendingCreate_{false};
     bool pendingDumpPicker_{false};
     bool pendingSavPicker_{false};
+    bool savPickerOpen_{false};
     std::atomic<uint32_t> buttons_{0};
     std::atomic<bool> touchDown_{false};
     std::atomic<uint16_t> touchX_{0};

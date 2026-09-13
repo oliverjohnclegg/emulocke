@@ -16,10 +16,7 @@ void drawImportSavButton(Application& app, bool canStart) {
     const char* label = "Import from Existing .sav";
     const float width = ImGui::CalcTextSize(label).x + ImGui::GetStyle().FramePadding.x * 2.f;
     ImGui::SameLine();
-    const float rest = ImGui::GetContentRegionAvail().x;
-    if (rest > width) {
-        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + rest - width);
-    }
+    ImGui::SetCursorPosX(ImGui::GetWindowWidth() - ImGui::GetStyle().WindowPadding.x - width);
     if (!canStart) {
         ImGui::BeginDisabled();
     }

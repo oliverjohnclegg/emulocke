@@ -27,6 +27,8 @@ void onSavPicked(void* userdata, const char* const* filelist, int) {
     auto* app = static_cast<Application*>(userdata);
     if (filelist && filelist[0]) {
         app->queueImportSav(filelist[0]);
+    } else {
+        app->savPickerClosed();
     }
 }
 
@@ -91,6 +93,7 @@ void Application::queueImport(std::string path) {
 }
 
 void Application::queueImportSav(std::string path) {
+    savPickerOpen_ = false;
     pendingImportSav_ = std::move(path);
     pendingNewRun_ = false;
     showNewRun_ = false;
@@ -108,6 +111,7 @@ void Application::showSavPicker() {
     const SDL_DialogFileFilter filters[] = {
         {"Save files", "sav"},
     };
+    savPickerOpen_ = true;
     SDL_ShowOpenFileDialog(onSavPicked, this, host_.window(), filters, 1, nullptr, false);
 }
 
@@ -117,7 +121,14 @@ void Application::requestImportGame() {
 }
 
 void Application::requestImportSav() {
+    if (pendingSavPicker_ || savPickerOpen_ || pendingCreate_) {
+        return;
+    }
     pendingSavPicker_ = true;
+}
+
+void Application::savPickerClosed() {
+    savPickerOpen_ = false;
 }
 
 void Application::requestImportFor(std::string uuid) {
