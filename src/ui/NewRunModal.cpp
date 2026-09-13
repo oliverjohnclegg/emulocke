@@ -10,31 +10,45 @@
 namespace emulocke {
 namespace {
 
+struct RulesPreset {
+    const char* title;
+    NuzlockeRules (*make)();
+};
+
+const RulesPreset kRulesPresets[] = {
+    {"Regular", regularRules},
+    {"Hardcore", hardcoreRules},
+};
+
 void drawPresetCombo(NuzlockeRules& rules) {
     ImGui::AlignTextToFramePadding();
     ImGui::TextUnformatted("Preset");
     ImGui::SameLine();
-    const bool regular = rules == regularRules();
-    if (regular) {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
+    ImGui::SetNextItemWidth(160.f);
+    const ImVec2 origin = ImGui::GetCursorScreenPos();
+    const float row = ImGui::GetTextLineHeightWithSpacing();
+    ImGui::SetNextWindowPos(ImVec2(origin.x, origin.y + ImGui::GetFrameHeight()));
+    ImGui::SetNextWindowSizeConstraints(
+        ImVec2(160.f, row * static_cast<float>(IM_COUNTOF(kRulesPresets))),
+        ImVec2(FLT_MAX, FLT_MAX));
+    if (!ImGui::BeginCombo("##preset", rulesPresetTitle(rules), ImGuiComboFlags_HeightSmall)) {
+        return;
     }
-    if (ImGui::Button("Regular")) {
-        rules = regularRules();
+    static bool armed = false;
+    if (ImGui::IsWindowAppearing()) {
+        armed = false;
     }
-    if (regular) {
-        ImGui::PopStyleColor();
+    if (!armed && !ImGui::IsMouseDown(ImGuiMouseButton_Left) && !ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+        armed = true;
     }
-    ImGui::SameLine();
-    const bool hardcore = rules == hardcoreRules();
-    if (hardcore) {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
+    const ImGuiSelectableFlags flags = armed ? 0 : ImGuiSelectableFlags_NoAutoClosePopups;
+    for (const RulesPreset& preset : kRulesPresets) {
+        const NuzlockeRules baked = preset.make();
+        if (ImGui::Selectable(preset.title, rules == baked, flags) && armed) {
+            rules = baked;
+        }
     }
-    if (ImGui::Button("Hardcore")) {
-        rules = hardcoreRules();
-    }
-    if (hardcore) {
-        ImGui::PopStyleColor();
-    }
+    ImGui::EndCombo();
 }
 
 }  // namespace
