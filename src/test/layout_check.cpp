@@ -47,16 +47,24 @@ int testLayout() {
     expect(ds.screenW == 512.f, "ds stack width");
     expect(ds.screenH == 384.f, "ds stack height");
     expect(ds.x == 0.f, "ds stack flush");
-    expect(ds.y == 0.f, "ds stack top");
+    expect(ds.y == 0.f, "ds stack fills y");
     expect(ds.gap == 5.f, "ds stack hinge");
     expect(ds.stackH == 773.f, "ds stack with hinge");
 
-    const auto gbaParty = emulocke::layoutLcds(0, 240, 160, 2, 512.f, 768.f);
+    const auto ds1x = emulocke::layoutLcds(1, 256, 192, 2, 512.f, 768.f + emulocke::kScreenGap);
+    expect(ds1x.scale == 1, "ds 1x");
+    expect(ds1x.screenW == 256.f, "ds 1x width");
+    expect(ds1x.gap == 5.f, "ds 1x hinge");
+    expect(ds1x.stackH == 389.f, "ds 1x stack");
+    expect(ds1x.x == 128.f, "ds 1x centered x");
+    expect(ds1x.y == 192.f, "ds 1x centered y");
+
+    const auto gbaParty = emulocke::layoutLcds(0, 240, 160, 2, 512.f, 768.f + emulocke::kScreenGap);
     expect(gbaParty.scale == 2, "gba party 2x");
     expect(gbaParty.screenW == 480.f, "gba party width");
     expect(gbaParty.screenH == 320.f, "gba party height");
-    expect(gbaParty.x == 16.f, "gba party centered");
-    expect(gbaParty.y == 0.f, "gba party top");
+    expect(gbaParty.x == 16.f, "gba party centered x");
+    expect(gbaParty.y == 64.f, "gba party centered y");
     expect(gbaParty.gap == 5.f, "gba party hinge");
     expect(gbaParty.stackH == 645.f, "gba party stack");
 

@@ -68,7 +68,7 @@ inline LcdLayout layoutLcds(int wanted, int nativeW, int nativeH, int screens, f
     lcd.gap = screenStackGap(screens > 1, paneH, lcd.screenH * static_cast<float>(screens));
     lcd.stackH = lcd.screenH * static_cast<float>(screens) + (screens > 1 ? lcd.gap : 0.f);
     lcd.x = std::max(0.f, (paneW - lcd.screenW) * 0.5f);
-    lcd.y = screens > 1 ? 0.f : std::max(0.f, (paneH - lcd.screenH) * 0.5f);
+    lcd.y = std::max(0.f, (paneH - lcd.stackH) * 0.5f);
     return lcd;
 }
 
