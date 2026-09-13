@@ -23,7 +23,10 @@ inline constexpr std::size_t kFrlgMapGroupOff = 0x04;
 inline constexpr std::size_t kFrlgMapNumOff = 0x05;
 inline constexpr std::size_t kFrlgBoxStart = 0x0004;
 inline constexpr std::size_t kFrlgBoxNameOff = 0x8344;
+inline constexpr std::size_t kFrlgFlagsOff = 0x0EE0;
+inline constexpr std::size_t kFrlgFlagBytes = 288;
 inline constexpr std::size_t kFrlgSaveSize = 0x20000;
+inline constexpr uint16_t kFrlgFlagBadge1 = 0x820;
 
 inline constexpr uint8_t kVersionFireRed = 4;
 inline constexpr uint8_t kVersionLeafGreen = 5;

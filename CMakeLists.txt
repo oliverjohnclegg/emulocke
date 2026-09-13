@@ -82,8 +82,18 @@ add_library(emulocke_adapter STATIC
     src/adapter/frlg/FrlgLive.cpp
     src/adapter/frlg/FrlgAdapter.cpp
     src/adapter/frlg/SpeciesNames.cpp
+    src/adapter/frlg/SpeciesRef.cpp
     src/adapter/frlg/MapNames.cpp)
 target_include_directories(emulocke_adapter PUBLIC src)
+
+add_library(emulocke_tracker STATIC
+    src/tracker/Atlas.cpp
+    src/tracker/Log.cpp
+    src/tracker/Fill.cpp
+    src/tracker/frlg/Stops.cpp
+    src/tracker/frlg/Teams.cpp)
+target_include_directories(emulocke_tracker PUBLIC src)
+target_link_libraries(emulocke_tracker PUBLIC emulocke_adapter)
 
 add_executable(emulocke
     src/main.cpp
@@ -91,6 +101,7 @@ add_executable(emulocke
     src/application/Application.cpp
     src/application/ApplicationPlay.cpp
     src/application/ApplicationPrefs.cpp
+    src/application/ApplicationTracker.cpp
     src/application/SessionControl.cpp
     src/application/AppLoop.cpp
     src/application/Prefs.cpp
@@ -102,6 +113,9 @@ add_executable(emulocke
     src/ui/LoadRunModal.cpp
     src/ui/RunList.cpp
     src/ui/Suite.cpp
+    src/ui/Tracker.cpp
+    src/ui/TrackerRow.cpp
+    src/ui/BoxSprites.cpp
     src/ui/FieldLog.cpp
     src/ui/MenuBar.cpp
     src/ui/HelpPopups.cpp
@@ -131,7 +145,7 @@ add_executable(emulocke
     src/run/TitlePlay.cpp)
 
 target_include_directories(emulocke PRIVATE src)
-target_link_libraries(emulocke PRIVATE emulocke_adapter core mgba imgui SDL3::SDL3)
+target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_tracker core mgba imgui SDL3::SDL3)
 target_compile_definitions(emulocke PRIVATE SDL_MAIN_HANDLED)
 get_target_property(MGBA_COMPILE_DEFS mgba COMPILE_DEFINITIONS)
 if(MGBA_COMPILE_DEFS)
@@ -168,6 +182,7 @@ add_library(emulocke_sprites STATIC
     src/cart/GameArtCache.cpp)
 target_include_directories(emulocke_sprites PUBLIC src PRIVATE ${CMAKE_SOURCE_DIR}/third_party/stb)
 target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
+target_link_libraries(emulocke PRIVATE emulocke_sprites)
 
 add_executable(emulocke-sprite-check
     src/test/sprite_check.cpp
@@ -215,6 +230,13 @@ add_executable(emulocke-adapter-check
 target_include_directories(emulocke-adapter-check PRIVATE src)
 target_link_libraries(emulocke-adapter-check PRIVATE emulocke_adapter)
 
+add_executable(emulocke-tracker-check
+    src/test/tracker_check.cpp
+    src/test/tracker_atlas_check.cpp
+    src/test/tracker_fill_check.cpp)
+target_include_directories(emulocke-tracker-check PRIVATE src)
+target_link_libraries(emulocke-tracker-check PRIVATE emulocke_tracker emulocke_adapter)
+
 add_executable(emulocke-frlg-live-check EXCLUDE_FROM_ALL
     src/test/frlg_live_check.cpp
     src/emu/GbaSession.cpp
@@ -255,6 +277,7 @@ endif()
 
 enable_testing()
 add_test(NAME adapter COMMAND emulocke-adapter-check)
+add_test(NAME tracker COMMAND emulocke-tracker-check)
 add_test(NAME gba-host COMMAND emulocke-gba-check)
 add_test(NAME run COMMAND emulocke-run-check)
 

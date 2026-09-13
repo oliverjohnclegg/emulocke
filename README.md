@@ -4,7 +4,7 @@
 
 # Emulocke
 
-A desktop Pokemon nuzlocking suite. One window runs the game on the left. The nuzlocke tools will live on the right later. V1 is the playable host: no tracker, no damage calc.
+A desktop Pokemon nuzlocking suite. One window runs the game on the left. Tracker and Logs live on the right.
 
 Import a verified baseline dump (File > Import Game). New Run scopes the expedition. Battery saves live in the app data `runs/` folder, never beside the ROM. DS boots with FreeBIOS. Do not put Nintendo BIOS, firmware, or ROMs in this repo.
 
@@ -18,7 +18,7 @@ That imports a known dump and opens New Run. It does not silent-boot.
 
 - Two-screen games: stacked screens. Mouse on the bottom pane is the stylus.
 - One-screen games: one left pane.
-- With no run seated, the left column lists expeditions. Right column: Logs tab until more suite tools exist.
+- With no run seated, the left column lists expeditions. Right column: Tracker tab first, then Logs.
 
 ## Menus
 

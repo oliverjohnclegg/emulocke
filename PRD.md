@@ -34,14 +34,14 @@ Left column is the game. Right column is the suite.
 - One-screen games: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
 - 21px graphite around the screen cluster. Not between the two screens. Same 21px below and to the right of the suite.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
-- Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party). Unsupported carts keep the empty log.
-- With no run seated, the left column is home (saved runs, NEW ATTEMPT). The right column stays Logs.
+- Right column is the suite. Tabs hold each function. Tracker is first. Logs is second. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Logs still shows trainer, map, and party for FRLG.
+- With no run seated, the left column is home (saved runs, NEW ATTEMPT). The right column stays Tracker, empty until a represented title is seated.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
 ## V1 (this pass)
 
-A playable host. Suite is a Logs tab only.
+A playable host. Suite is Tracker then Logs.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
 - File > New Run / Load Run / Start New Attempt / Close Run. No Open Game. No `roms/` drop folder.
@@ -61,10 +61,11 @@ A playable host. Suite is a Logs tab only.
 - Help: controls (read-only) and about
 - Prefs persist in the SDL pref path as `prefs.ini`
 - Rules are stored on the run. The cores do not enforce them.
+- Tracker is a compact location/boss list. FRLG is represented. Radical Red and Unbound are not. Difficulty is an atlas key persisted as `difficulty=` on `meta.ini`. Encounter state lives in `tracker.ini` on the run.
 
 ## V1 non-goals
 
-- Any nuzlocke suite UI (damage calc, tracker, QoL, nuzlocke.app-adjacent tools)
+- Any other nuzlocke suite UI (damage calc, QoL, nuzlocke.app-adjacent tools beyond Tracker)
 - Emulator lab tools (save states, rewind, cheats, disassemblers, memory viewers, movies, Lua, filters, HUD)
 - Frame skip (later cherry-pick)
 - Input remapping
@@ -80,11 +81,9 @@ A playable host. Suite is a Logs tab only.
 Recorded so later work does not invent the product twice:
 
 - Integrated damage calculator
-- Progression tracker
 - QoL tools
 - More as decided in this project
-- A native tracker adjacent to nuzlocke.app (encounter/route tracking UX), built in Emulocke. Not a fork. Not a webview of another app.
-- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. No suite UI in V1.
+- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. Tracker draws box sprites for caught species and boss teams.
 - On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. No suite UI in V1.
 
 ## Adapter
@@ -95,6 +94,9 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 - Latest revision we have is the live identity. When a newer dump ships, older revisions move to `src/adapter/archive/`.
 - Read-only for now. RAM writes (QoL cheats) are a separate interface later.
 - Nuzlocke rules, damage math, and encounter tracking are suite concerns, not adapter concerns.
+- Static route order, catch keys, and boss teams live in a suite `TrackerAtlas` keyed by catalog UUID and difficulty. The adapter never owns that list (hacks still identify as FireRed carts).
+- A title is represented only when that atlas exists. FRLG is represented. Radical Red and Unbound return null until they have their own atlas.
+- `GameAdapter::species(id)` returns national id, sprite slug, and display name. `GameSnapshot.progress` holds starter, badges, and flag bytes. A later hack adapter must supply species and flag layout for its atlas.
 - Adding a pure virtual on `GameAdapter` is how a new suite data need flags every adapter in CI.
 
 ## Later host (not V1)
@@ -145,7 +147,7 @@ Gamepad: standard SDL mapping.
 
 ## Design
 
-Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Logs is first.
+Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Tracker is first, Logs second.
 
 ## Decisions
 
@@ -173,7 +175,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 3. A verified Fire Red US 1.0 dump imports as its catalog UUID. Unknown files are refused.
 4. Video, audio, keyboard, gamepad, pause, reset, speed-up, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
-6. One-screen games use a single left pane; FRLG fills Logs from the adapter snapshot.
+6. One-screen games use a single left pane; FRLG fills Tracker and Logs from the adapter snapshot plus the FRLG atlas.
 7. View, Audio, and Help work. Prefs survive a relaunch.
 
 ## Changelog
@@ -193,3 +195,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
 - 2026-09-13: Host playtime persisted per catalog title (`playtime.ini`) and per run (`playMs` in meta.ini). Counts unpaused seated time only. No suite UI.
 - 2026-09-13: Speed-up cherry-pick. Tab holds 3x by default. Emulation > Speed-up submenu holds 2x-8x and Hold Tab vs toggle.
+- 2026-09-13: Tracker is the first suite tab. FRLG atlas is static suite data. Adapter supplies species, flags, badges, starter, and live boxes. Encounter state is `tracker.ini`. Radical Red and Unbound stay unrepresented.

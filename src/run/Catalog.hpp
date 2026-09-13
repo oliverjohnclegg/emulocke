@@ -23,6 +23,9 @@ struct CatalogTitle {
 };
 
 inline constexpr const char* kFireRedUs10Uuid = "e8e92ba8-429b-55a0-b78d-2c269b6d2b56";
+inline constexpr const char* kFireRedUs11Uuid = "7dba07d2-93e3-5b45-9030-3a579e46ab7b";
+inline constexpr const char* kLeafGreenUs10Uuid = "9f374685-6339-5285-a9e9-7953afa9802b";
+inline constexpr const char* kLeafGreenUs11Uuid = "ca04c1af-7d8a-55c7-9cda-3467c0acad8f";
 inline constexpr const char* kRadicalRedUuid = "b395cc4c-f482-5b62-865f-3b7e78899024";
 inline constexpr const char* kUnboundUuid = "55498517-2419-5cd9-8a01-bd787a53c8dd";
 

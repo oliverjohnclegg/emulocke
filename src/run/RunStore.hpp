@@ -24,6 +24,7 @@ public:
     bool touch(const std::string& id);
     bool addPlayMs(const std::string& id, uint64_t ms);
     std::filesystem::path batteryPath(const std::string& id) const;
+    std::filesystem::path dir(const std::string& id) const;
     std::vector<const Run*> byCatalogUuid(std::string_view uuid) const;
 
 private:

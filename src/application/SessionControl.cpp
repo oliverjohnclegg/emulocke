@@ -123,6 +123,7 @@ void Application::bootRun(const Run& run) {
 }
 
 void Application::closeRun() {
+    persistTracker();
     stopEmuThread();
     harvestPlayOrigin();
     commitPlay();
@@ -132,6 +133,7 @@ void Application::closeRun() {
     snapshot_ = GameSnapshot{};
     speedUpOn_ = false;
     activeRunId_.clear();
+    trackerLog_ = {};
     lastPlayCommitNs_ = 0;
     status_ = "No cart.";
 }
@@ -153,6 +155,7 @@ void Application::resetSession() {
 }
 
 void Application::shutdown() {
+    destroyTracker();
     stopEmuThread();
     harvestPlayOrigin();
     commitPlay();

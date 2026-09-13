@@ -117,4 +117,8 @@ std::filesystem::path RunStore::batteryPath(const std::string& id) const {
     return root_ / id / "battery.sav";
 }
 
+std::filesystem::path RunStore::dir(const std::string& id) const {
+    return root_ / id;
+}
+
 }

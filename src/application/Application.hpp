@@ -10,6 +10,7 @@
 #include "run/Run.hpp"
 #include "run/RunStore.hpp"
 #include "run/TitlePlay.hpp"
+#include "tracker/Log.hpp"
 
 #include <atomic>
 #include <cstdint>
@@ -23,10 +24,15 @@ struct ImFont;
 
 namespace emulocke {
 
+class BoxSprites;
 class GameAdapter;
+class SpriteCache;
+struct TrackerAtlas;
 
 class Application {
 public:
+    Application();
+    ~Application();
     bool start(int argc, char** argv);
     void run();
     void shutdown();
@@ -69,6 +75,12 @@ public:
     RunStore& runStore() { return *runStore_; }
     const RunStore& runStore() const { return *runStore_; }
     const std::string& activeRunId() const { return activeRunId_; }
+    const GameAdapter* adapter() const;
+    const TrackerAtlas* trackerAtlas() const;
+    TrackerLog& trackerLog() { return trackerLog_; }
+    BoxSprites* boxSprites() { return boxSprites_.get(); }
+    void syncTracker();
+    void persistTracker();
 
 private:
     void startEmuThread();
@@ -84,6 +96,9 @@ private:
     void bootRun(const Run& run);
     void harvestPlayOrigin();
     void commitPlay();
+    void initTracker();
+    void loadTrackerLog();
+    void destroyTracker();
     enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
     Host host_;
     PendingHost pendingHost_{PendingHost::None};
@@ -126,6 +141,9 @@ private:
     std::atomic<uint16_t> touchX_{0};
     std::atomic<uint16_t> touchY_{0};
     std::vector<uint8_t> uploadScratch_;
+    std::unique_ptr<SpriteCache> spriteCache_;
+    std::unique_ptr<BoxSprites> boxSprites_;
+    TrackerLog trackerLog_;
 };
 
 }

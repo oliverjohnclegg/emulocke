@@ -125,12 +125,15 @@ void Application::loadRun(const std::string& id) {
         status_ = "Run not found.";
         return;
     }
+    persistTracker();
     bootRun(*run);
     if (session_) {
         activeRunId_ = id;
         runStore_->touch(id);
+        loadTrackerLog();
     } else {
         activeRunId_.clear();
+        trackerLog_ = {};
     }
 }
 

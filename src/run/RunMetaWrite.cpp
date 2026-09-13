@@ -24,6 +24,7 @@ bool writeRunMeta(const std::filesystem::path& dir, const Run& run) {
     out << "createdAt=" << run.createdAt << "\n";
     out << "lastPlayedAt=" << run.lastPlayedAt << "\n";
     out << "playMs=" << run.playMs << "\n";
+    out << "difficulty=" << run.difficulty << "\n";
     return static_cast<bool>(out);
 }
 

@@ -16,6 +16,7 @@ struct Run {
     std::string createdAt;
     std::string lastPlayedAt;
     uint64_t playMs = 0;
+    std::string difficulty;
 
     const std::string& lineageKey() const {
         return lineageId.empty() ? id : lineageId;

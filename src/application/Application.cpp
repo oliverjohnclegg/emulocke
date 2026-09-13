@@ -39,6 +39,7 @@ bool Application::start(int argc, char** argv) {
     speedUpHold_ = prefs_.speedUpHold;
     audio_.open();
     input_.attach();
+    initTracker();
     romLibrary_ = std::make_unique<RomLibrary>(romsRoot(), assetsDir());
     runStore_ = std::make_unique<RunStore>(runsRoot());
     runStore_->load();
