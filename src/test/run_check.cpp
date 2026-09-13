@@ -203,6 +203,25 @@ int main() {
     expect(store.addPlayMs(b->id, 250), "other add play");
     expect(store.byCatalogUuid(emulocke::kFireRedUs10Uuid).size() == 2, "two lineages");
 
+    const char* kLeafGreen = "9f374685-6339-5285-a9e9-7953afa9802b";
+    auto lg = store.create(kLeafGreen, emulocke::regularRules());
+    expect(lg.has_value(), "create leaf green");
+    emulocke::Run* older = store.find(lg->id);
+    emulocke::Run* newer = store.find(a2->id);
+    emulocke::Run* mid = store.find(b->id);
+    expect(older && newer && mid, "find lineages");
+    older->lastPlayedAt = "2020-01-01T00:00:00Z";
+    mid->lastPlayedAt = "2024-06-01T00:00:00Z";
+    newer->lastPlayedAt = "2026-12-31T00:00:00Z";
+    expect(emulocke::writeRunMeta(runs / older->id, *older), "stamp lg");
+    expect(emulocke::writeRunMeta(runs / mid->id, *mid), "stamp hardcore");
+    expect(emulocke::writeRunMeta(runs / newer->id, *newer), "stamp fr");
+    const auto recent = store.recentLineages();
+    expect(recent.size() == 3, "three lineages");
+    expect(recent[0]->id == newer->id, "last played first");
+    expect(recent[0]->catalogUuid == emulocke::kFireRedUs10Uuid, "fr not catalog-grouped");
+    expect(recent.back()->id == older->id, "oldest last");
+
     emulocke::RunStore loaded(runs);
     loaded.load();
     const emulocke::Run* againRun = loaded.find(a2->id);

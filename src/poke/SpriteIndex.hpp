@@ -9,5 +9,6 @@ namespace emulocke {
 
 std::string normalizeSlug(std::string_view raw);
 std::optional<uint16_t> pokemonId(std::string_view slug);
+std::string speciesSlug(std::string_view name);
 
 }

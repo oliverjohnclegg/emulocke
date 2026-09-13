@@ -3,6 +3,7 @@
 #include "adapter/Snapshot.hpp"
 #include "application/Application.hpp"
 
+#include <bit>
 #include <imgui.h>
 #include <cstdio>
 
@@ -46,6 +47,12 @@ void drawFieldLog(Application& app) {
         const char* otName = (snap.trainer.name[0] && snap.trainer.name[0] != ' ') ? snap.trainer.name : "--";
         std::snprintf(ot, sizeof(ot), "%s  %05u", otName, static_cast<unsigned>(snap.trainer.trainerId & 0xFFFFu));
         logLine("OT", ot);
+        logLine("MAP", snap.overworld.mapName[0] ? snap.overworld.mapName : "--");
+        if (snap.gyms.slots) {
+            char badges[16];
+            std::snprintf(badges, sizeof badges, "%u/%u", std::popcount(snap.gyms.earned), snap.gyms.slots);
+            logLine("BADGES", badges);
+        }
         drawParty(snap);
     } else {
         ImGui::TextDisabled("No supported cart seated.");

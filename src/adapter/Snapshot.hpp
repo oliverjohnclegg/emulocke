@@ -86,6 +86,11 @@ struct Boxes {
     std::array<PcBox, kMaxBoxes> boxes{};
 };
 
+struct Gyms {
+    uint8_t earned{};
+    uint8_t slots{};
+};
+
 struct GameSnapshot {
     bool ok{};
     AdapterId adapterId{};
@@ -94,6 +99,7 @@ struct GameSnapshot {
     Party party{};
     Boxes boxes{};
     Overworld overworld{};
+    Gyms gyms{};
 };
 
 }

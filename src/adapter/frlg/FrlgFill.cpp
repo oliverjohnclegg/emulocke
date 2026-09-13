@@ -49,12 +49,18 @@ void readBoxes(const uint8_t* storage, Boxes& boxes) {
     }
 }
 
+void readGyms(const uint8_t* block1, Gyms& gyms) {
+    gyms.slots = kFrlgBadgeCount;
+    gyms.earned = block1[kFrlgBadgeByteOff];
+}
+
 }  // namespace
 
 void fillSnapshotFromFrlg(const FrlgSaveBlocks& blocks, GameSnapshot& snap) {
     readTrainer(blocks.block2.data(), snap.trainer);
     readParty(blocks.block1.data(), snap.party);
     readBoxes(blocks.storage.data(), snap.boxes);
+    readGyms(blocks.block1.data(), snap.gyms);
     snap.overworld.mapGroup = blocks.block1[kFrlgMapGroupOff];
     snap.overworld.mapNum = blocks.block1[kFrlgMapNumOff];
     char scratch[32];

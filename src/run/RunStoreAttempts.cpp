@@ -69,4 +69,23 @@ std::vector<const Run*> RunStore::byCatalogUuid(std::string_view uuid) const {
     return out;
 }
 
+std::vector<const Run*> RunStore::recentLineages() const {
+    std::vector<const Run*> out;
+    for (const Run& run : runs_) {
+        auto it = std::find_if(out.begin(), out.end(), [&](const Run* existing) {
+            return existing->lineageKey() == run.lineageKey();
+        });
+        if (it == out.end()) {
+            out.push_back(&run);
+        } else if (run.attempt > (*it)->attempt ||
+            (run.attempt == (*it)->attempt && run.lastPlayedAt > (*it)->lastPlayedAt)) {
+            *it = &run;
+        }
+    }
+    std::sort(out.begin(), out.end(), [](const Run* a, const Run* b) {
+        return a->lastPlayedAt > b->lastPlayedAt;
+    });
+    return out;
+}
+
 }

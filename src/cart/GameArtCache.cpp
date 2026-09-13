@@ -54,4 +54,16 @@ std::filesystem::path GameArtCache::get(std::string_view slug) {
     return plate;
 }
 
+std::optional<std::filesystem::path> GameArtCache::ifReady(std::string_view slug) const {
+    const auto cached = cacheFile(slug);
+    if (isCachedArt(cached)) {
+        return cached;
+    }
+    const auto plate = plateFile(slug);
+    if (isCachedArt(plate)) {
+        return plate;
+    }
+    return std::nullopt;
+}
+
 }

@@ -31,6 +31,21 @@ int main(int argc, char** argv) {
     if (emulocke::pokemonId("not-a-pokemon")) {
         return fail("garbage id");
     }
+    if (emulocke::normalizeSlug("MR. MIME") != "mr-mime") {
+        return fail("mr mime slug");
+    }
+    if (emulocke::normalizeSlug("FARFETCH'D") != "farfetchd") {
+        return fail("farfetchd slug");
+    }
+    if (emulocke::speciesSlug("BULBASAUR") != "bulbasaur") {
+        return fail("bulbasaur slug");
+    }
+    if (emulocke::speciesSlug("TREECKO") != "treecko") {
+        return fail("treecko slug");
+    }
+    if (!emulocke::speciesSlug("-----").empty() || !emulocke::speciesSlug("???").empty()) {
+        return fail("empty slug");
+    }
 
     emulocke::SpriteCache cache(emulocke::localDataPath("sprites"),
                                 std::filesystem::path(emulocke::assetPath("sprites")));

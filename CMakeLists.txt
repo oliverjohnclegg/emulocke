@@ -112,12 +112,16 @@ add_executable(emulocke
     src/ui/Shell.cpp
     src/ui/Home.cpp
     src/ui/NewRunModal.cpp
-    src/ui/LoadRunModal.cpp
     src/ui/RunList.cpp
     src/ui/Suite.cpp
     src/ui/FieldLog.cpp
     src/ui/MenuBar.cpp
     src/ui/HelpPopups.cpp
+    src/ui/RunStrip.cpp
+    src/ui/RunStripDraw.cpp
+    src/ui/IconAction.cpp
+    src/ui/PngCache.cpp
+    src/ui/MediaFetch.cpp
     src/emu/Paths.cpp
     src/emu/FileBytes.cpp
     src/emu/Input.cpp
@@ -141,10 +145,11 @@ add_executable(emulocke
     src/run/RunMetaWrite.cpp
     src/run/RunStore.cpp
     src/run/RunStoreAttempts.cpp
+    src/run/SavePeek.cpp
     src/run/TitlePlay.cpp)
 
 target_include_directories(emulocke PRIVATE src)
-target_link_libraries(emulocke PRIVATE emulocke_adapter core mgba imgui SDL3::SDL3)
+target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_sprites core mgba imgui SDL3::SDL3)
 target_compile_definitions(emulocke PRIVATE SDL_MAIN_HANDLED)
 get_target_property(MGBA_COMPILE_DEFS mgba COMPILE_DEFINITIONS)
 if(MGBA_COMPILE_DEFS)

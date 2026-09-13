@@ -83,6 +83,7 @@ void testFrlgAdapter() {
     REQUIRE(emulocke::encryptBoxMon(boxMon, boxed));
     std::memcpy(blocks.storage.data() + emulocke::kFrlgBoxStart, boxed.data(), boxed.size());
     emulocke::encodeGen3Text("BOX 1", {blocks.storage.data() + emulocke::kFrlgBoxNameOff, 9});
+    blocks.block1[emulocke::kFrlgBadgeByteOff] = 0x01;
 
     const std::vector<uint8_t> sav = emulocke::writeFrlgSave(blocks);
     const emulocke::GameAdapter* fromSave = emulocke::adapterForSave(sav);
@@ -97,16 +98,21 @@ void testFrlgAdapter() {
     REQUIRE(snap.overworld.mapGroup == 3);
     REQUIRE(std::string(snap.overworld.mapName) == "PALLET TOWN");
     REQUIRE(snap.boxes.boxes[0].mons[0].species == 4);
+    REQUIRE(snap.gyms.slots == 8);
+    REQUIRE(snap.gyms.earned == 1);
 
     std::vector<uint8_t> ewram(0x40000, 0);
     ewram[emulocke::kFrlgPartyCount - 0x02000000] = 1;
     std::memcpy(ewram.data() + (emulocke::kFrlgParty - 0x02000000), party.data(), party.size());
     std::memcpy(ewram.data() + (emulocke::kFrlgSaveBlock2 - 0x02000000), blocks.block2.data(), blocks.block2.size());
-    std::memcpy(ewram.data() + (emulocke::kFrlgSaveBlock1 - 0x02000000), blocks.block1.data(), 16);
+    std::memcpy(ewram.data() + (emulocke::kFrlgSaveBlock1 - 0x02000000), blocks.block1.data(),
+        blocks.block1.size());
     emulocke::SpanMemory mem(0x02000000, ewram);
     const emulocke::GameSnapshot live = fr->readLive(mem);
     REQUIRE(live.ok);
     REQUIRE(live.party.mons[0].species == 1);
     REQUIRE(std::string(live.trainer.name) == "RED");
     REQUIRE(std::string(live.overworld.mapName) == "PALLET TOWN");
+    REQUIRE(live.gyms.slots == 8);
+    REQUIRE(live.gyms.earned == 1);
 }
