@@ -24,17 +24,13 @@ void drawPresetCombo(NuzlockeRules& rules) {
     ImGui::TextUnformatted("Preset");
     ImGui::SameLine();
     const float w = 160.f;
-    const float row = ImGui::GetTextLineHeightWithSpacing();
+    const ImVec2 origin = ImGui::GetCursorScreenPos();
+    const float h = ImGui::GetFrameHeight();
     ImGui::SetNextItemWidth(w);
-    ImGui::SetNextWindowSize(
-        ImVec2(w, row * static_cast<float>(IM_COUNTOF(kRulesPresets)) + ImGui::GetStyle().WindowPadding.y * 2.f));
-    const bool open = ImGui::BeginCombo("##preset", rulesPresetTitle(rules), ImGuiComboFlags_HeightSmall);
-    const ImVec2 min = ImGui::GetItemRectMin();
-    const ImVec2 max = ImGui::GetItemRectMax();
-    if (!open) {
+    if (!ImGui::BeginCombo("##preset", rulesPresetTitle(rules), ImGuiComboFlags_HeightSmall)) {
         return;
     }
-    ImGui::SetWindowPos(ImVec2(min.x, max.y));
+    ImGui::SetWindowPos(ImVec2(origin.x, origin.y + h));
     static bool armed = false;
     if (ImGui::IsWindowAppearing()) {
         armed = false;
