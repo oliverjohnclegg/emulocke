@@ -29,22 +29,24 @@ void weatherBar(FieldState& f) {
     }
 }
 
-void sideToggle(const char* label, bool& v) {
-    if (calcChip(label, v, -1.f)) {
+void sideToggle(const char* label, bool& v, float w) {
+    if (calcChip(label, v, w)) {
         v = !v;
     }
 }
 
-void sideCol(const char* id, SideMods& s) {
+void sideCol(const char* id, SideMods& s, float w) {
     ImGui::PushID(id);
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(5.f, 3.f));
-    sideToggle("Reflect", s.reflect);
-    sideToggle("Light Screen", s.lightScreen);
-    sideToggle("Protect", s.protect);
-    sideToggle("Leech Seed", s.seeded);
-    sideToggle("Foresight", s.foresight);
-    sideToggle("Helping Hand", s.helpingHand);
-    sideToggle("Switching Out", s.switchingOut);
+    ImGui::BeginGroup();
+    sideToggle("Reflect", s.reflect, w);
+    sideToggle("Light Screen", s.lightScreen, w);
+    sideToggle("Protect", s.protect, w);
+    sideToggle("Leech Seed", s.seeded, w);
+    sideToggle("Foresight", s.foresight, w);
+    sideToggle("Helping Hand", s.helpingHand, w);
+    sideToggle("Switching Out", s.switchingOut, w);
+    ImGui::EndGroup();
     ImGui::PopStyleVar();
     ImGui::PopID();
 }
@@ -56,16 +58,17 @@ void drawCalcField(Application&, CalcSession& session) {
     ImGui::Dummy(ImVec2(0, 6));
     weatherBar(session.fieldState());
     ImGui::Dummy(ImVec2(0, 6));
+    const ImVec2 origin = ImGui::GetCursorScreenPos();
     const float w = ImGui::GetContentRegionAvail().x;
     const float gap = 8.f;
     const float col = (w - gap) * 0.5f;
-    ImGui::BeginChild("calc-fo", ImVec2(col, 0), ImGuiChildFlags_AutoResizeY);
-    sideCol("o", session.fieldState().ours);
-    ImGui::EndChild();
-    ImGui::SameLine(0, gap);
-    ImGui::BeginChild("calc-ft", ImVec2(col, 0), ImGuiChildFlags_AutoResizeY);
-    sideCol("t", session.fieldState().theirs);
-    ImGui::EndChild();
+    ImGui::SetCursorScreenPos(origin);
+    sideCol("o", session.fieldState().ours, col);
+    ImGui::SetCursorScreenPos(ImVec2(origin.x + col + gap, origin.y));
+    sideCol("t", session.fieldState().theirs, col);
+    const float h = ImGui::GetItemRectSize().y;
+    ImGui::SetCursorScreenPos(ImVec2(origin.x, origin.y + h));
+    ImGui::Dummy(ImVec2(w, 0));
 }
 
 }
