@@ -85,6 +85,7 @@ void drawMonWell(BoxSprites& sprites, const MonView& view, ImVec2 size, bool hpB
         ImGui::SetClipboardText(exportSet(mon, view.ref, view.gen3).c_str());
         gCopiedPid = mon.personality;
         gCopiedSpecies = mon.species;
+        gCopiedAt = ImGui::GetTime();
     }
 }
 
