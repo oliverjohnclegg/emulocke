@@ -1,8 +1,12 @@
 #include "application/Application.hpp"
 
 #include "adapter/GameAdapter.hpp"
+#include "emu/FileBytes.hpp"
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
+#include "run/SavePeek.hpp"
+#include "ui/MediaFetch.hpp"
+#include "ui/PngCache.hpp"
 
 #include <SDL3/SDL.h>
 #include <cctype>
@@ -38,19 +42,45 @@ void Application::stopEmuThread() {
 }
 
 void Application::emuLoop() {
+    bool wasFast = false;
     while (running_) {
         const Uint64 start = SDL_GetTicksNS();
+        const bool fast = speedUpOn_.load();
+        const int mul = speedUp_.load();
+        const int frames = (fast && mul > 1) ? mul : 1;
+        if (fast && !wasFast) {
+            audio_.clear();
+        }
+        wasFast = fast;
+        audio_.setDropping(frames > 1);
         int queuedAfter = 0;
-        {
+        bool played = false;
+        for (int i = 0; i < frames && running_; ++i) {
             std::lock_guard lock(sessionMutex_);
-            if (session_ && !paused_) {
-                session_->setButtons(buttons_);
-                session_->setTouch(touchDown_, touchX_, touchY_);
-                session_->runFrame();
-                session_->drainAudio(audio_);
-                queuedAfter = audio_.queuedBytes();
-                if (adapter_ && session_->liveMemory()) {
-                    snapshot_ = adapter_->readLive(*session_->liveMemory());
+            if (!session_ || paused_) {
+                playOriginNs_.store(0);
+                break;
+            }
+            if (!played) {
+                const Uint64 origin = playOriginNs_.load();
+                if (origin != 0) {
+                    pendingPlayNs_.fetch_add(start - origin);
+                }
+                playOriginNs_.store(start);
+                played = true;
+            }
+            session_->setButtons(buttons_);
+            session_->setTouch(touchDown_, touchX_, touchY_);
+            session_->runFrame();
+            session_->drainAudio(audio_);
+            queuedAfter = audio_.queuedBytes();
+            if (adapter_ && session_->liveMemory()) {
+                snapshot_ = adapter_->readLive(*session_->liveMemory());
+                if ((!snapshot_.ok || snapshot_.party.count == 0) && !activeRunId_.empty()) {
+                    const auto sav = readWholeFile(runStore_->batteryPath(activeRunId_).string());
+                    if (!sav.empty()) {
+                        snapshot_ = adapter_->readSave(sav);
+                    }
                 }
             }
         }
@@ -66,6 +96,8 @@ void Application::emuLoop() {
 
 void Application::bootRun(const Run& run) {
     stopEmuThread();
+    harvestPlayOrigin();
+    commitPlay();
     auto rom = romLibrary_->ensurePlayable(run.catalogUuid);
     std::unique_ptr<EmuSession> next;
     if (rom) {
@@ -89,6 +121,7 @@ void Application::bootRun(const Run& run) {
         adapter_ = nullptr;
         snapshot_ = GameSnapshot{};
         paused_ = false;
+        speedUpOn_ = false;
         if (session_ && session_->cartridge()) {
             adapter_ = adapterFor(*session_->cartridge());
         }
@@ -101,11 +134,15 @@ void Application::bootRun(const Run& run) {
 
 void Application::closeRun() {
     stopEmuThread();
+    harvestPlayOrigin();
+    commitPlay();
     std::lock_guard lock(sessionMutex_);
     session_.reset();
     adapter_ = nullptr;
     snapshot_ = GameSnapshot{};
+    speedUpOn_ = false;
     activeRunId_.clear();
+    lastPlayCommitNs_ = 0;
     status_ = "No cart.";
 }
 
@@ -126,13 +163,18 @@ void Application::resetSession() {
 }
 
 void Application::shutdown() {
-    persistPrefs();
     stopEmuThread();
+    harvestPlayOrigin();
+    commitPlay();
+    persistPrefs();
     session_.reset();
     if (gameArt_) {
         gameArt_->destroy();
         gameArt_.reset();
     }
+    pngs_.reset();
+    media_.reset();
+    savePeek_.reset();
     audio_.close();
     host_.destroy();
     SDL_Quit();

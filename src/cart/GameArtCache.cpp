@@ -47,6 +47,19 @@ std::filesystem::path GameArtCache::existing(std::string_view slug) {
     return ensurePlate(slug);
 }
 
+std::optional<std::filesystem::path> GameArtCache::ifReady(std::string_view slug) const {
+    std::lock_guard lock(mu_);
+    const auto cached = cacheFile(slug);
+    if (isCachedArt(cached)) {
+        return cached;
+    }
+    const auto plate = plateFile(slug);
+    if (isCachedArt(plate)) {
+        return plate;
+    }
+    return std::nullopt;
+}
+
 std::filesystem::path GameArtCache::get(std::string_view slug) {
     const std::string key = normalizeSlug(slug);
     {

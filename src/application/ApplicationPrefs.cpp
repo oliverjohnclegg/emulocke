@@ -37,6 +37,19 @@ void Application::setVolume(int volume) {
     prefs_.save();
 }
 
+void Application::setSpeedUp(int speed) {
+    prefs_.speedUp = std::clamp(speed, 2, 8);
+    speedUp_ = prefs_.speedUp;
+    prefs_.save();
+}
+
+void Application::setSpeedUpHold(bool hold) {
+    prefs_.speedUpHold = hold;
+    speedUpHold_ = hold;
+    speedUpOn_ = false;
+    prefs_.save();
+}
+
 void Application::restoreDefaultWindow() {
     prefs_.fullscreen = false;
     pendingHost_ = PendingHost::RestoreDefault;

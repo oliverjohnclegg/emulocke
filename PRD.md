@@ -14,7 +14,7 @@ This is the filter for every menu, setting, and tool decision.
 - The user imports a Pokemon dump. `.gba` and `.nds` pick a core. The UI does not split GBA vs DS: no dual file-type identity, no GBA slot, no LCD layout, no firmware or BIOS chores.
 - Cores (mGBA, melonDS) are implementation. They are not product surfaces.
 - Emulator lab tools stay out: save states, rewind, cheats, disassemblers, memory viewers, movie recording, Lua, scanline filters, HUD counters.
-- Cherry-pick later, only when named: speed-up and frame skip under Emulation. Do not stub empty items.
+- Cherry-pick later, only when named: frame skip under Emulation. Do not stub empty items.
 
 DeSmuME is an analog for host comfort (window size, sound), not a menu to clone.
 
@@ -34,8 +34,8 @@ Left column is the game. Right column is the suite.
 - One-screen games: one left pane (240x160). No empty bottom tile. Bezel is only as tall as the scaled screen.
 - 21px graphite around the screen cluster. Not between the two screens. Same 21px below and to the right of the suite.
 - Game column sizes to the integer-scaled screens. Default window hugs 2x two-screen plus a 460px suite.
-- Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party). Unsupported carts keep the empty log.
-- With no run seated, the left column is home (saved runs, NEW ATTEMPT). The right column stays Logs.
+- Right column is the suite. Tabs hold each function. V1 ships a Logs tab. Supported games fill Logs with adapter facts (trainer, map, party, badges). Unsupported carts keep the empty log.
+- With no run seated, the left column is home: START RUN plus last-played run plates. Each plate is `GAME - Preset`, a subtitle of playtime • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Logs.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
@@ -44,8 +44,8 @@ Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them.
 A playable host. Suite is a Logs tab only.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
-- File > New Run / Load Run / Start New Attempt / Close Run. No Open Game. No `roms/` drop folder.
-- New Run lists every catalog title as a strip (art, name with version in the title, region). Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library.
+- File > Import Game / Start New Attempt / Close Run. No New Run or Load Run in the menu. No Open Game. No `roms/` drop folder.
+- Home START RUN opens New Run. New Run lists every catalog title as a strip (art, name with version in the title, region). Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library.
 - Starting a hack run applies the bundled UPS onto the imported Fire Red 1.0 dump if `roms/derived/<uuid>.gba` is not already there.
 - One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage.
 - CLI `emulocke /path/to/dump` imports a known baseline and opens New Run. It does not silent-boot.
@@ -54,7 +54,7 @@ A playable host. Suite is a Logs tab only.
 - Keyboard and SDL gamepad
 - Stylus on the bottom pane for two-screen games
 - Battery saves live in the run folder (`battery.sav`), never beside the ROM
-- Pause and reset
+- Pause, reset, and speed-up (Tab, default 3x). Emulation > Speed-up holds the 2x-8x slider and Hold Tab vs toggle.
 - One run at a time; ROM extension picks the core
 - View: fullscreen, screen scale Fit / 1x / 2x / 3x / 4x, restore default window
 - Audio: mute and volume
@@ -66,7 +66,7 @@ A playable host. Suite is a Logs tab only.
 
 - Any nuzlocke suite UI (damage calc, tracker, QoL, nuzlocke.app-adjacent tools)
 - Emulator lab tools (save states, rewind, cheats, disassemblers, memory viewers, movies, Lua, filters, HUD)
-- Speed-up and frame skip (later cherry-pick)
+- Frame skip (later cherry-pick)
 - Input remapping
 - Treating GBA and DS as separate products in the UI
 - DSi NAND, WiFi
@@ -84,8 +84,8 @@ Recorded so later work does not invent the product twice:
 - QoL tools
 - More as decided in this project
 - A native tracker adjacent to nuzlocke.app (encounter/route tracking UX), built in Emulocke. Not a fork. Not a webview of another app.
-- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. No suite UI in V1.
-- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. New Run shows this art at 64x48.
+- On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. Home plates use box sprites. No suite UI in V1.
+- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. New Run shows this art at 64x48. Home plates use title art.
 
 ## Adapter
 
@@ -96,10 +96,10 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 - Read-only for now. RAM writes (QoL cheats) are a separate interface later.
 - Nuzlocke rules, damage math, and encounter tracking are suite concerns, not adapter concerns.
 - Adding a pure virtual on `GameAdapter` is how a new suite data need flags every adapter in CI.
+- If the suite needs a cart fact, add it to `GameSnapshot` and fill it in the adapter. A missing field is work, not a reason to drop the surface. Unimplemented titles leave the new fields zero.
 
 ## Later host (not V1)
 
-- Speed-up
 - Frame skip
 
 ## Platforms
@@ -140,12 +140,13 @@ Bindings are fixed in V1. Help > Controls lists them. Remapping is later.
 | Start | Enter |
 | Select | Shift |
 | Stylus | Mouse on bottom screen |
+| Speed-up | Tab |
 
 Gamepad: standard SDL mapping.
 
 ## Design
 
-Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Logs is first.
+Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Logs is first. Compact chrome: primary actions stay named; secondary actions in dense chrome are icons with the name on hover.
 
 ## Decisions
 
@@ -164,13 +165,14 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 | Other chats are out of scope | Greenfield. Only this document and this repo set requirements. |
 | Sprite cache downloads at runtime | PokeAPI/PokéSprite/bamq host the pixels. Pref cache, not git. Box: PokéSprite then bamq Gen 9 then PokeAPI gen8 icons. Front/back: PokeAPI BW-style. Credits: PokeAPI, msikma/pokesprite, National Dex Version Delta (bamq), Smogon for fan 2D past 649. |
 | Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, letterboxed. Hacks and misses get a black title plate. Pref cache, not git. |
+| Host playtime per title and per run | New Attempt deletes the old folder, so title totals cannot be summed from leftover runs. Unpaused seated wall clock. No suite UI. |
 
 ## V1 success
 
 1. The tree builds on the Linux/WSL machine used for development.
 2. GitHub Actions builds Linux and Windows artifacts on push (`emulocke` and `emulocke.exe`).
 3. A verified Fire Red US 1.0 dump imports as its catalog UUID. Unknown files are refused.
-4. Video, audio, keyboard, gamepad, pause, reset, and run-folder `battery.sav` creation work.
+4. Video, audio, keyboard, gamepad, pause, reset, speed-up, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
 6. One-screen games use a single left pane; FRLG fills Logs from the adapter snapshot.
 7. View, Audio, and Help work. Prefs survive a relaunch.
@@ -191,3 +193,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.
 - 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
 - 2026-09-13: New Run game picker uses art strips, type-to-search, and click-to-import for missing dumps. Versions sit in the title as FIRE RED (1.0). Subtext is region. Hack hover names the prerequisite.
+- 2026-09-13: Host playtime persisted per catalog title (`playtime.ini`) and per run (`playMs` in meta.ini). Counts unpaused seated time only. No suite UI.
+- 2026-09-13: Speed-up cherry-pick. Tab holds 3x by default. Emulation > Speed-up submenu holds 2x-8x and Hold Tab vs toggle.
+- 2026-09-13: Home is last-played run plates (title art, party sockets, gym pips). FRLG snapshot grows gyms. Compact chrome: secondary actions are icons, names on hover.
+- 2026-09-13: Home-only start and load. File drops New Run and Load Run. Plate title is `GAME - Preset`. Subtitle is playtime, Attempt #N, Deaths, and badges, joined by •. Party sprites crop to opaque pixels and sit centered in the wells.

@@ -13,7 +13,12 @@ void Application::run() {
     while (true) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
-            ImGui_ImplSDL3_ProcessEvent(&event);
+            const bool tabKey =
+                (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) &&
+                event.key.scancode == SDL_SCANCODE_TAB;
+            if (!(tabKey && session_ && !ImGui::GetIO().WantTextInput)) {
+                ImGui_ImplSDL3_ProcessEvent(&event);
+            }
             if (event.type == SDL_EVENT_QUIT) {
                 return;
             }
@@ -36,10 +41,20 @@ void Application::run() {
             }
         }
         drainPending();
+        if (!activeRunId_.empty()) {
+            const Uint64 now = SDL_GetTicksNS();
+            if (lastPlayCommitNs_ == 0) {
+                lastPlayCommitNs_ = now;
+            } else if (now - lastPlayCommitNs_ >= 5000000000ull) {
+                commitPlay();
+                lastPlayCommitNs_ = now;
+            }
+        }
         const bool* keys = SDL_GetKeyboardState(nullptr);
         if (!ImGui::GetIO().WantTextInput) {
             buttons_ = input_.poll(keys);
         }
+        pollSpeedUp(keys);
         {
             std::lock_guard lock(sessionMutex_);
             if (session_) {
@@ -67,7 +82,6 @@ void Application::run() {
         drawMenuBar(*this);
         drawShell(*this);
         drawNewRunModal(*this);
-        drawLoadRunModal(*this);
         ImGui::End();
         ImGui::Render();
         SDL_SetRenderDrawColor(host_.renderer(), 26, 26, 28, 255);

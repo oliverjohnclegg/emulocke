@@ -32,6 +32,9 @@ std::string normalizeSlug(std::string_view raw) {
             }
             continue;
         }
+        if (c == '\'' || c == '.') {
+            continue;
+        }
         out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));
     }
     while (!out.empty() && out.back() == '-') {
@@ -51,6 +54,13 @@ std::optional<uint16_t> pokemonId(std::string_view slug) {
         return static_cast<uint16_t>(201);
     }
     return std::nullopt;
+}
+
+std::string speciesSlug(std::string_view name) {
+    if (name.empty() || name == "???" || name[0] == '-') {
+        return {};
+    }
+    return normalizeSlug(name);
 }
 
 }  // namespace emulocke

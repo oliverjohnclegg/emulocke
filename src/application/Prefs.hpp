@@ -12,6 +12,8 @@ struct Prefs {
     int scale = 0;
     bool mute = false;
     int volume = 100;
+    int speedUp = 3;
+    bool speedUpHold = true;
 
     static Prefs load();
     void save() const;
