@@ -35,17 +35,21 @@ int testLayout() {
     expect(emulocke::resolveScreenScale(1, 256, 192, 2, 512.f, 768.f) == 1, "explicit 1x");
     expect(emulocke::resolveScreenScale(4, 256, 192, 2, 512.f, 768.f) == 2, "explicit 4x caps");
     expect(emulocke::screenStackGap(true, 768.f, 768.f) == 0.f, "tight ds hinge");
+    expect(emulocke::screenStackGap(true, 773.f, 768.f) == 5.f, "hinge when column has 5px");
     expect(emulocke::screenStackGap(true, 780.f, 768.f) == 5.f, "roomy ds hinge");
     expect(emulocke::screenStackGap(false, 768.f, 320.f) == 0.f, "gba no hinge");
 
-    const auto ds = emulocke::layoutLcds(0, 256, 192, 2, 512.f, 768.f);
+    const auto dsTight = emulocke::layoutLcds(0, 256, 192, 2, 512.f, 768.f);
+    expect(dsTight.scale == 2 && dsTight.gap == 0.f, "ds 2x without hinge room");
+
+    const auto ds = emulocke::layoutLcds(0, 256, 192, 2, 512.f, 768.f + emulocke::kScreenGap);
     expect(ds.scale == 2, "ds stack 2x");
     expect(ds.screenW == 512.f, "ds stack width");
     expect(ds.screenH == 384.f, "ds stack height");
     expect(ds.x == 0.f, "ds stack flush");
     expect(ds.y == 0.f, "ds stack top");
-    expect(ds.gap == 0.f, "ds stack tight gap");
-    expect(ds.stackH == 768.f, "ds stack fills column");
+    expect(ds.gap == 5.f, "ds stack hinge");
+    expect(ds.stackH == 773.f, "ds stack with hinge");
 
     const auto gbaParty = emulocke::layoutLcds(0, 240, 160, 2, 512.f, 768.f);
     expect(gbaParty.scale == 2, "gba party 2x");
@@ -60,8 +64,8 @@ int testLayout() {
     expect(gbaOnly.x == 16.f, "gba only centered x");
     expect(gbaOnly.y == 224.f, "gba only centered y");
 
-    const auto ds2xWanted = emulocke::layoutLcds(2, 256, 192, 2, 512.f, 768.f);
-    expect(ds2xWanted.scale == 2 && ds2xWanted.x == 0.f, "explicit 2x matches fit");
+    const auto ds2xWanted = emulocke::layoutLcds(2, 256, 192, 2, 512.f, 768.f + emulocke::kScreenGap);
+    expect(ds2xWanted.scale == 2 && ds2xWanted.x == 0.f && ds2xWanted.gap == 5.f, "explicit 2x matches fit");
 
     const auto dsPadded = emulocke::layoutLcds(0, 256, 192, 2, 502.f, 768.f);
     expect(dsPadded.scale == 2, "padded ds 2x");

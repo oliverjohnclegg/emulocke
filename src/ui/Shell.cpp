@@ -91,11 +91,14 @@ void drawShell(Application& app) {
     const float insetY = kConsolePad - ImGui::GetStyle().WindowPadding.y;
     const bool showRight = app.prefs().rightPane;
     const float rightSpan = showRight ? kRightPaneSpan : 0.f;
-    const ImVec2 left(consoleLeftWidth(avail.x, ImGui::GetStyle().WindowPadding.x, rightSpan),
+    ImVec2 left(consoleLeftWidth(avail.x, ImGui::GetStyle().WindowPadding.x, rightSpan),
         consoleLeftHeight(avail.y, ImGui::GetStyle().WindowPadding.y));
+    EmuSession* session = app.session();
+    if (session && (session->kind() == ConsoleKind::Nds || app.prefs().bottomScreen)) {
+        left.y += kScreenGap;
+    }
     const ImVec2 cursor = ImGui::GetCursorPos();
     ImGui::SetCursorPos(ImVec2(cursor.x + insetX, cursor.y + insetY));
-    EmuSession* session = app.session();
     if (session) {
         ImGui::PushStyleColor(ImGuiCol_ChildBg, kChassis);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
