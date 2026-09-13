@@ -38,6 +38,7 @@ private:
     std::string romName_;
     std::vector<uint32_t> top_;
     std::vector<uint32_t> bottom_;
+    std::vector<int16_t> audioScratch_;
     mutable std::mutex frameMutex_;
 };
 

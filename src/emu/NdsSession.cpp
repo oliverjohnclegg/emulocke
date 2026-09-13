@@ -37,11 +37,12 @@ std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath, const s
         return nullptr;
     }
     melonDS::NDSArgs args;
-    if (args.JIT) {
-        args.JIT->FastMemory = false;
-    }
     session->nds_ = std::make_unique<melonDS::NDS>(std::move(args), session.get());
     session->nds_->SetNDSCart(std::move(cart));
+    melonDS::RendererSettings settings{};
+    settings.ScaleFactor = 1;
+    settings.Threaded = true;
+    session->nds_->GetRenderer().SetRenderSettings(settings);
     session->nds_->Reset();
     if (session->nds_->NeedsDirectBoot()) {
         session->nds_->SetupDirectBoot(session->romName_);
@@ -100,9 +101,9 @@ void NdsSession::drainAudio(AudioOutput& audio) {
     if (available <= 0) {
         return;
     }
-    std::vector<int16_t> samples(static_cast<size_t>(available) * 2);
-    const int got = nds_->SPU.ReadOutput(samples.data(), available);
-    audio.push(samples.data(), got, 48000);
+    audioScratch_.resize(static_cast<size_t>(available) * 2);
+    const int got = nds_->SPU.ReadOutput(audioScratch_.data(), available);
+    audio.push(audioScratch_.data(), got, 48000);
 }
 
 void NdsSession::writeSave(const uint8_t* data, uint32_t length) {
