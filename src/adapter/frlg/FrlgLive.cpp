@@ -7,6 +7,7 @@
 
 #include <array>
 #include <cstdio>
+#include <span>
 
 namespace emulocke {
 namespace {
@@ -67,6 +68,11 @@ void fillSnapshotFromFrlgLive(const LiveMemory& mem, GameSnapshot& snap) {
         char scratch[32];
         std::snprintf(snap.overworld.mapName, sizeof(snap.overworld.mapName), "%s",
                       frlgMapName(loc[0], loc[1], scratch, sizeof(scratch)));
+    }
+    uint8_t badges = 0;
+    if (copy(mem, sb1 + kFrlgBadgeByteOff, {&badges, 1})) {
+        snap.gyms.slots = kFrlgBadgeCount;
+        snap.gyms.earned = badges;
     }
     snap.ok = true;
 }

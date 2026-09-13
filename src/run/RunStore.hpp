@@ -23,6 +23,7 @@ public:
     bool touch(const std::string& id);
     std::filesystem::path batteryPath(const std::string& id) const;
     std::vector<const Run*> byCatalogUuid(std::string_view uuid) const;
+    std::vector<const Run*> recentLineages() const;
 
 private:
     std::optional<Run> persist(Run run);

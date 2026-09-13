@@ -44,6 +44,15 @@ int main() {
     if (!emulocke::gameArtUrl("firered") || emulocke::gameArtUrl("unbound")) {
         return fail("url catalog");
     }
+    if (emulocke::gameArtSlug("firered-us-1.0") != "firered") {
+        return fail("firered catalog slug");
+    }
+    if (emulocke::gameArtSlug("black2-us") != "black-2") {
+        return fail("black2 catalog slug");
+    }
+    if (emulocke::gameArtSlug("unbound-2.1.1.1") != "unbound") {
+        return fail("unbound catalog slug");
+    }
 
     emulocke::GameArtCache cache(emulocke::localDataPath("game-art"));
     const auto firered = cache.get("firered");
