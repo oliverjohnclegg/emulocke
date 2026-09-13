@@ -2,6 +2,7 @@
 
 #include "application/Application.hpp"
 #include "poke/SpriteIndex.hpp"
+#include "ui/MediaFetch.hpp"
 #include "ui/PngCache.hpp"
 #include "ui/Theme.hpp"
 
