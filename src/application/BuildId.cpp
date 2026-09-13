@@ -67,4 +67,11 @@ std::string artifactFileName(ReleaseChannel channel, DistOs os, std::string_view
     return name;
 }
 
+const char* windowIconBmp(ReleaseChannel channel) {
+    if (channel == ReleaseChannel::Stable) {
+        return "icons/emulocke.bmp";
+    }
+    return "icons/emulocke-vanguard.bmp";
+}
+
 }

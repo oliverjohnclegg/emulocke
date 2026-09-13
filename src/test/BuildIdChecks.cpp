@@ -33,6 +33,9 @@ int testBuildId() {
         "emulocke-v1.2.3-linux-x64", "stable linux");
     expectEq(artifactFileName(ReleaseChannel::Vanguard, DistOs::LinuxX64, "1.2.3", "abc1234"),
         "emulocke-vanguard-abc1234-linux-x64", "vanguard linux");
+    expectEq(emulocke::windowIconBmp(ReleaseChannel::Stable), "icons/emulocke.bmp", "stable icon");
+    expectEq(emulocke::windowIconBmp(ReleaseChannel::Vanguard), "icons/emulocke-vanguard.bmp",
+        "vanguard icon");
     const std::string bakedIdle = windowTitle(emulocke::buildChannel(), emulocke::buildVersion(),
         emulocke::buildHash(), {});
     if (emulocke::buildChannel() == ReleaseChannel::Stable) {

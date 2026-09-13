@@ -205,8 +205,13 @@ if(MINGW)
 endif()
 if(WIN32)
     enable_language(RC)
-    target_sources(emulocke PRIVATE assets/icons/emulocke.rc)
-    set_source_files_properties(assets/icons/emulocke.rc PROPERTIES
+    if(EMULOCKE_CHANNEL STREQUAL "stable")
+        set(EMULOCKE_WIN_ICON assets/icons/emulocke.rc)
+    else()
+        set(EMULOCKE_WIN_ICON assets/icons/emulocke-vanguard.rc)
+    endif()
+    target_sources(emulocke PRIVATE ${EMULOCKE_WIN_ICON})
+    set_source_files_properties(${EMULOCKE_WIN_ICON} PROPERTIES
         INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/assets/icons")
 endif()
 

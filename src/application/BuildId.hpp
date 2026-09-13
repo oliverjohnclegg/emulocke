@@ -16,5 +16,6 @@ std::string windowTitle(ReleaseChannel channel, std::string_view version, std::s
     std::string_view gameTitle);
 std::string artifactFileName(ReleaseChannel channel, DistOs os, std::string_view version,
     std::string_view hash);
+const char* windowIconBmp(ReleaseChannel channel);
 
 }

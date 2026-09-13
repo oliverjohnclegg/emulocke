@@ -46,7 +46,7 @@ bool Host::create(const Prefs& prefs) {
     if (prefs.fullscreen) {
         SDL_SetWindowFullscreen(window_, true);
     }
-    if (SDL_Surface* icon = SDL_LoadBMP(assetPath("icons/emulocke.bmp").c_str())) {
+    if (SDL_Surface* icon = SDL_LoadBMP(assetPath(windowIconBmp(buildChannel())).c_str())) {
         SDL_SetWindowIcon(window_, icon);
         SDL_DestroySurface(icon);
     }
