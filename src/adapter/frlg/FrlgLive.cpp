@@ -1,5 +1,6 @@
 #include "adapter/frlg/FrlgLive.hpp"
 
+#include "adapter/frlg/FrlgBattle.hpp"
 #include "adapter/frlg/FrlgLayout.hpp"
 #include "adapter/frlg/FrlgNames.hpp"
 #include "adapter/frlg/FrlgSave.hpp"
@@ -82,6 +83,7 @@ void fillSnapshotFromFrlgLive(const LiveMemory& mem, GameSnapshot& snap) {
         snap.gyms.slots = kFrlgBadgeCount;
         snap.gyms.earned = block1[kFrlgBadgeByteOff];
     }
+    fillFrlgBattle(mem, snap);
     snap.ok = true;
 }
 

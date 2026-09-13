@@ -3,6 +3,7 @@
 #include "adapter/Snapshot.hpp"
 #include "adapter/Species.hpp"
 #include "application/Host.hpp"
+#include "calc/Session.hpp"
 #include "emu/AudioOutput.hpp"
 #include "emu/EmuSession.hpp"
 #include "emu/Input.hpp"
@@ -93,6 +94,10 @@ public:
     MediaFetch& media() { return *media_; }
     PngCache& pngs() { return *pngs_; }
     SavePeek& savePeek() { return *savePeek_; }
+    CalcSession& calc() { return calc_; }
+    bool previewCalc() const { return previewCalc_; }
+    bool consumePreviewCalcSelect();
+    void seedPreviewCalc();
 
 private:
     void startEmuThread();
@@ -168,6 +173,9 @@ private:
     std::unique_ptr<SpriteCache> spriteCache_;
     std::unique_ptr<BoxSprites> boxSprites_;
     TrackerLog trackerLog_;
+    CalcSession calc_{};
+    bool previewCalc_{};
+    bool previewCalcSelect_{};
 };
 
 }

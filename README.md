@@ -4,7 +4,7 @@
 
 # Emulocke
 
-A desktop Pokemon nuzlocking suite. One window runs the game on the left. Tracker and Logs live on the right.
+A desktop Pokemon nuzlocking suite. One window runs the game on the left. Tracker, Logs, and Calculator live on the right.
 
 Import a verified baseline dump (File > Import Game). Home START RUN scopes the expedition. Battery saves live in the app data `runs/` folder, never beside the ROM. DS boots with FreeBIOS. Do not put Nintendo BIOS, firmware, or ROMs in this repo.
 
@@ -14,11 +14,17 @@ emulocke /path/to/firered.gba
 
 That imports a known dump and opens New Run. It does not silent-boot.
 
+```
+emulocke --preview-calc
+```
+
+Opens the Calculator tab on the Fire Red pack with a fixture party. No ROM required.
+
 ## Layout
 
 - Two-screen games: stacked screens. Mouse on the bottom pane is the stylus.
 - One-screen games: one left pane.
-- With no run seated, the left column lists expeditions. Right column: Tracker tab first, then Logs.
+- With no run seated, the left column lists expeditions. Right column: Tracker, Logs, then Calculator.
 
 ## Menus
 

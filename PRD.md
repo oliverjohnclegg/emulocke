@@ -35,14 +35,15 @@ Left column is the game. Right column is the suite.
 - 21px graphite around the left pane. Not between the two screens. Same 21px below and to the right of the suite.
 - Left pane stays the home column size when a cart seats. Screens integer-scale inside it. View > Screen Scale is the explicit size control. Default window fits 2x two-screen plus a 460px suite.
 - View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
-- Right column is the suite. Tabs hold each function. Tracker is first. Logs is second. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Logs shows trainer, map, party, and badges for supported games.
-- With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, empty until a represented title is seated.
+- Right column is the suite. Tabs hold each function. Tracker is first. Logs is second. Calculator is third. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Logs shows trainer, map, party, and badges for supported games. Calculator searches trainers and locations, then reads damage into the current party. A title is represented only when we ship every trainer battle plus that game's stat/type/ability/move tables. Cartridge generation is not damage generation. CFRU titles do not inherit FireRed gen 3 math.
+- With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, Logs, and Calculator. Tracker is empty until a represented title is seated.
+
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
 ## V1 (this pass)
 
-A playable host. Suite is Tracker then Logs.
+A playable host. Suite is Tracker, Logs, then Calculator.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
 - File > Import Game / Start New Attempt / Close Run. No New Run or Load Run in the menu. No Open Game. No `roms/` drop folder.
@@ -67,7 +68,8 @@ A playable host. Suite is Tracker then Logs.
 
 ## V1 non-goals
 
-- Any other nuzlocke suite UI (damage calc, QoL, nuzlocke.app-adjacent tools beyond Tracker)
+- QoL and other nuzlocke.app-adjacent tools not yet seated as tabs
+
 - Emulator lab tools (save states, rewind, cheats, disassemblers, memory viewers, movies, Lua, filters, HUD)
 - Frame skip (later cherry-pick)
 - Input remapping
@@ -82,11 +84,21 @@ A playable host. Suite is Tracker then Logs.
 
 Recorded so later work does not invent the product twice:
 
-- Integrated damage calculator
 - QoL tools
 - More as decided in this project
 - On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. Tracker draws box sprites for caught species and boss teams. Home plates use box sprites.
+
 - On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. New Run shows this art at 64x48. Home plates use title art.
+
+## Calculator
+
+Native ImGui tab. Not a webview. Dynamic-Calc / Smogon math, restyled in graphite.
+
+- Search trainers and locations. A location hit lists the trainers there. No species-first SETDEX.
+- `calcPack(catalogUuid, variant)` is the gate. No pack means the empty plate. Fire Red and Leaf Green US 1.0/1.1 share one pack generated from pret. Radical Red 4.1 and Unbound 2.1.1.1 stay unrepresented until version-matched tables exist. Dynamic-Calc Radical Red 3.02 is refused.
+- Pack carries `dmgGen`, `typeChart`, and `switchIn` of its own. Cartridge generation is not the default. CFRU is not gen 3.
+- Live FRLG battles fill `GameSnapshot.battle` (HP, stages, weather, enemy party). CFRU live battle structs stay zero; party HP still comes from the party snapshot.
+- `--preview-calc` opens the host on the FRLG pack with a fixture party so the tab can be exercised without a ROM.
 
 ## Adapter
 
@@ -208,3 +220,5 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: View > Right Pane (F8) hides the suite column and shrinks the window by that column. Left pane and menu bar stay put.
 - 2026-09-13: Home playtime is host wall clock as `HH:MM`, not the in-game save clock. Tab speed-up does not advance it.
 - 2026-09-13: Left game pane keeps the home column size for DS and GBA. Screens integer-scale inside that pane.
+- 2026-09-13: Calculator tab. Trainer/location search, FRLG trainer pack from pret, Smogon-faithful gen 3 damage, live FRLG battle overlay. Radical Red and Unbound have no pack. `--preview-calc` fixtures the tab.
+

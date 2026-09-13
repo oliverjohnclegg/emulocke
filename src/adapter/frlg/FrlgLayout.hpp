@@ -31,6 +31,17 @@ inline constexpr uint16_t kFrlgBadge1Flag = kFrlgFlagBadge1;
 inline constexpr uint8_t kFrlgBadgeCount = 8;
 inline constexpr std::size_t kFrlgBadgeByteOff = kFrlgFlagsOff + kFrlgBadge1Flag / 8;
 
+inline constexpr uint32_t kFrlgBattleTypeFlags = 0x02022B4C;
+inline constexpr uint32_t kFrlgBattleMons = 0x02023BE4;
+inline constexpr uint32_t kFrlgBattleWeather = 0x02023F1C;
+inline constexpr uint32_t kFrlgEnemyPartyCount = 0x0202402A;
+inline constexpr uint32_t kFrlgEnemyParty = 0x0202402C;
+inline constexpr std::size_t kFrlgBattleMonSize = 0x58;
+inline constexpr std::size_t kFrlgPartyHpOff = 0x56;
+inline constexpr std::size_t kFrlgPartyMaxHpOff = 0x58;
+inline constexpr std::size_t kFrlgPartyLevelOff = 0x54;
+inline constexpr uint32_t kFrlgBattleTypeTrainer = 1u << 3;
+
 inline constexpr uint8_t kVersionFireRed = 4;
 inline constexpr uint8_t kVersionLeafGreen = 5;
 

@@ -2,6 +2,7 @@
 
 #include "application/Application.hpp"
 #include "ui/FieldLog.hpp"
+#include "ui/Calculator.hpp"
 #include "ui/Theme.hpp"
 #include "ui/Tracker.hpp"
 
@@ -37,6 +38,17 @@ void drawSuite(Application& app, ImVec2 size) {
         }
         if (ImGui::BeginTabItem("Logs")) {
             suitePane("logs", drawFieldLog, app);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Calculator", nullptr,
+                app.consumePreviewCalcSelect() ? ImGuiTabItemFlags_SetSelected : 0)) {
+            ImGui::PushStyleColor(ImGuiCol_ChildBg, kPanel);
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10.f, 10.f));
+            ImGui::BeginChild("calc", ImVec2(0, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_AlwaysUseWindowPadding);
+            drawCalculator(app);
+            ImGui::EndChild();
+            ImGui::PopStyleVar();
+            ImGui::PopStyleColor();
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
