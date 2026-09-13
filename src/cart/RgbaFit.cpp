@@ -41,23 +41,19 @@ RgbaImage fitRgbaCell(const RgbaImage& src, int cellW, int cellH) {
     }
     const int cw = maxX - minX + 1;
     const int ch = maxY - minY + 1;
-    int scale = std::max(1, std::min(cellW / cw, cellH / ch));
-    while (scale > 1 && (cw * scale > cellW || ch * scale > cellH)) {
-        --scale;
-    }
-    const int dw = cw * scale;
-    const int dh = ch * scale;
+    const float scale = std::min(static_cast<float>(cellW) / static_cast<float>(cw),
+                                   static_cast<float>(cellH) / static_cast<float>(ch));
+    int dw = std::max(1, static_cast<int>(static_cast<float>(cw) * scale + 0.5f));
+    int dh = std::max(1, static_cast<int>(static_cast<float>(ch) * scale + 0.5f));
+    dw = std::min(dw, cellW);
+    dh = std::min(dh, cellH);
     const int ox = (cellW - dw) / 2;
     const int oy = (cellH - dh) / 2;
-    const int x0 = std::max(0, ox);
-    const int y0 = std::max(0, oy);
-    const int x1 = std::min(cellW, ox + dw);
-    const int y1 = std::min(cellH, oy + dh);
-    for (int y = y0; y < y1; ++y) {
-        const int sy = minY + (y - oy) / scale;
-        for (int x = x0; x < x1; ++x) {
-            const int sx = minX + (x - ox) / scale;
-            const std::size_t di = static_cast<std::size_t>((y * cellW + x) * 4);
+    for (int y = 0; y < dh; ++y) {
+        const int sy = minY + std::min(ch - 1, (y * ch) / dh);
+        for (int x = 0; x < dw; ++x) {
+            const int sx = minX + std::min(cw - 1, (x * cw) / dw);
+            const std::size_t di = static_cast<std::size_t>(((oy + y) * cellW + (ox + x)) * 4);
             const std::size_t si = static_cast<std::size_t>((sy * src.width + sx) * 4);
             out.pixels[di] = src.pixels[si];
             out.pixels[di + 1] = src.pixels[si + 1];

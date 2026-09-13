@@ -11,9 +11,9 @@ class BoxSprites;
 class TrackerLog;
 struct SpeciesRef;
 
-inline constexpr int kBoxSpriteW = 64;
-inline constexpr int kBoxSpriteH = 48;
-inline constexpr float kTrackerRowH = 56.f;
+inline constexpr int kBoxSpriteW = 32;
+inline constexpr int kBoxSpriteH = 24;
+inline constexpr float kTrackerRowH = 28.f;
 
 void drawTracker(Application& app);
 void drawEncounterRow(const TrackerStop& stop, const SpeciesRef& species, BoxSprites& sprites, bool editing,

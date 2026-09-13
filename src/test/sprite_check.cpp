@@ -3,6 +3,7 @@
 #include "poke/Sprites.hpp"
 #include "cart/GameArtPng.hpp"
 #include "cart/RgbaFit.hpp"
+#include "ui/Tracker.hpp"
 
 #include <SDL3/SDL.h>
 #include <algorithm>
@@ -131,13 +132,19 @@ int main(int argc, char** argv) {
     if (contentMax(digRaw) >= contentMax(zapRaw)) {
         return fail("diglett should be the smaller raw sprite");
     }
-    const auto digFit = emulocke::fitRgbaCell(digRaw, 64, 48);
-    const auto zapFit = emulocke::fitRgbaCell(zapRaw, 64, 48);
-    if (digFit.width != 64 || digFit.height != 48 || zapFit.width != 64 || zapFit.height != 48) {
+    const auto digFit = emulocke::fitRgbaCell(digRaw, emulocke::kBoxSpriteW, emulocke::kBoxSpriteH);
+    const auto zapFit = emulocke::fitRgbaCell(zapRaw, emulocke::kBoxSpriteW, emulocke::kBoxSpriteH);
+    if (digFit.width != emulocke::kBoxSpriteW || digFit.height != emulocke::kBoxSpriteH ||
+        zapFit.width != emulocke::kBoxSpriteW || zapFit.height != emulocke::kBoxSpriteH) {
         return fail("fit cell size");
     }
-    if (contentMax(digFit) < 36 || contentMax(zapFit) < 36) {
+    const int digSpan = contentMax(digFit);
+    const int zapSpan = contentMax(zapFit);
+    if (digSpan < emulocke::kBoxSpriteH - 2 || zapSpan < emulocke::kBoxSpriteH - 2) {
         return fail("fit should fill the cell");
+    }
+    if (std::max(digSpan, zapSpan) > std::min(digSpan, zapSpan) * 2) {
+        return fail("fit should normalise small and large sprites");
     }
 
     SDL_Quit();
