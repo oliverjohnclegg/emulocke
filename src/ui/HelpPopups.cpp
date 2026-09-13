@@ -37,6 +37,7 @@ void drawHelpPopups(Application& app) {
         controlRow("Start", "Enter");
         controlRow("Select", "Shift");
         controlRow("Stylus", "Mouse on bottom screen");
+        controlRow("Speed-up", app.prefs().speedUpHold ? "Hold Tab" : "Tab");
         ImGui::Dummy(ImVec2(0, 10));
         ImGui::TextDisabled("Gamepad uses the standard SDL map.");
         ImGui::Dummy(ImVec2(0, 12));
@@ -65,8 +66,7 @@ void drawHelpPopups(Application& app) {
         ImGui::TextWrapped(
             "One field kit for the game and the expedition tools. GBA and DS carts are just games here.");
         ImGui::Spacing();
-        ImGui::TextWrapped(
-            "No save states, disassemblers, or memory tools. Speed-up and frame skip come later.");
+        ImGui::TextWrapped("No save states, disassemblers, or memory tools. Frame skip comes later.");
         ImGui::Dummy(ImVec2(0, 12));
         if (ImGui::Button("Close", ImVec2(140, 0))) {
             ImGui::CloseCurrentPopup();

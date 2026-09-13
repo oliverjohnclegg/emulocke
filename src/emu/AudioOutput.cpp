@@ -33,7 +33,7 @@ void AudioOutput::close() {
 }
 
 void AudioOutput::push(const int16_t* interleavedStereo, int frames, int sourceHz) {
-    if (!stream_ || frames <= 0) {
+    if (!stream_ || frames <= 0 || dropping_) {
         return;
     }
     if (sourceHz != sourceHz_) {
@@ -55,6 +55,16 @@ void AudioOutput::setMuted(bool mute) {
 void AudioOutput::setVolume(int volume) {
     volume_ = std::clamp(volume, 0, 100);
     applyGain();
+}
+
+void AudioOutput::setDropping(bool drop) {
+    dropping_ = drop;
+}
+
+void AudioOutput::clear() {
+    if (stream_) {
+        SDL_ClearAudioStream(stream_);
+    }
 }
 
 void AudioOutput::applyGain() {

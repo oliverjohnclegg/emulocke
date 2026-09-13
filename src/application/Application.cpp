@@ -35,6 +35,8 @@ bool Application::start(int argc, char** argv) {
     }
     audio_.setMuted(prefs_.mute);
     audio_.setVolume(prefs_.volume);
+    speedUp_ = prefs_.speedUp;
+    speedUpHold_ = prefs_.speedUpHold;
     audio_.open();
     input_.attach();
     romLibrary_ = std::make_unique<RomLibrary>(romsRoot(), assetsDir());
@@ -75,6 +77,19 @@ void Application::pauseToggle() {
     if (paused_) {
         commitPlay();
     }
+}
+
+void Application::pollSpeedUp(const bool* keys) {
+    const bool down = keys && keys[SDL_SCANCODE_TAB];
+    const bool usable = down && session_ && !ImGui::GetIO().WantTextInput;
+    if (!session_) {
+        speedUpOn_ = false;
+    } else if (speedUpHold_.load()) {
+        speedUpOn_ = usable;
+    } else if (usable && !tabWasDown_) {
+        speedUpOn_ = !speedUpOn_.load();
+    }
+    tabWasDown_ = down;
 }
 
 }

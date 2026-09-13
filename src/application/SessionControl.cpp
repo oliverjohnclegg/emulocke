@@ -38,27 +38,40 @@ void Application::stopEmuThread() {
 }
 
 void Application::emuLoop() {
+    bool wasFast = false;
     while (running_) {
         const Uint64 start = SDL_GetTicksNS();
+        const bool fast = speedUpOn_.load();
+        const int mul = speedUp_.load();
+        const int frames = (fast && mul > 1) ? mul : 1;
+        if (fast && !wasFast) {
+            audio_.clear();
+        }
+        wasFast = fast;
+        audio_.setDropping(frames > 1);
         int queuedAfter = 0;
-        {
+        bool played = false;
+        for (int i = 0; i < frames && running_; ++i) {
             std::lock_guard lock(sessionMutex_);
-            if (session_ && !paused_) {
+            if (!session_ || paused_) {
+                playOriginNs_.store(0);
+                break;
+            }
+            if (!played) {
                 const Uint64 origin = playOriginNs_.load();
                 if (origin != 0) {
                     pendingPlayNs_.fetch_add(start - origin);
                 }
                 playOriginNs_.store(start);
-                session_->setButtons(buttons_);
-                session_->setTouch(touchDown_, touchX_, touchY_);
-                session_->runFrame();
-                session_->drainAudio(audio_);
-                queuedAfter = audio_.queuedBytes();
-                if (adapter_ && session_->liveMemory()) {
-                    snapshot_ = adapter_->readLive(*session_->liveMemory());
-                }
-            } else {
-                playOriginNs_.store(0);
+                played = true;
+            }
+            session_->setButtons(buttons_);
+            session_->setTouch(touchDown_, touchX_, touchY_);
+            session_->runFrame();
+            session_->drainAudio(audio_);
+            queuedAfter = audio_.queuedBytes();
+            if (adapter_ && session_->liveMemory()) {
+                snapshot_ = adapter_->readLive(*session_->liveMemory());
             }
         }
         const Uint64 frameNs = 16742706;
@@ -98,6 +111,7 @@ void Application::bootRun(const Run& run) {
         adapter_ = nullptr;
         snapshot_ = GameSnapshot{};
         paused_ = false;
+        speedUpOn_ = false;
         if (session_ && session_->cartridge()) {
             adapter_ = adapterFor(*session_->cartridge());
         }
@@ -116,6 +130,7 @@ void Application::closeRun() {
     session_.reset();
     adapter_ = nullptr;
     snapshot_ = GameSnapshot{};
+    speedUpOn_ = false;
     activeRunId_.clear();
     lastPlayCommitNs_ = 0;
     status_ = "No cart.";
