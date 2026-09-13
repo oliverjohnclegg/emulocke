@@ -35,7 +35,7 @@ Left column is the game. Right column is the suite.
 - 21px graphite around the left pane. Not between the two screens. Same 21px below and to the right of the suite.
 - Left pane stays the home column size when a cart seats. Screens integer-scale inside it. View > Screen Scale is the explicit size control. Default window fits 2x two-screen plus a 460px suite.
 - View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
-- Right column is the suite. Tabs hold each function. Tracker is first. Pokémon is second. Logs is third. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Pokémon lists the live party (with HP) and boxed mons as box sprites. Logs shows trainer, map, party, and badges for supported games.
+- Right column is the suite. Tabs hold each function. Tracker is first. Pokémon is second. Logs is third. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Pokémon lists the live party (with HP), boxed mons as box sprites, and a Grave of tracker-dead mons. Logs shows trainer, map, party, and badges for supported games.
 - With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, empty until a represented title is seated.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
@@ -64,7 +64,7 @@ A playable host. Suite is Tracker, Pokémon, then Logs.
 - Prefs persist in the SDL pref path as `prefs.ini`
 - Rules are stored on the run. The cores do not enforce them.
 - Tracker is a compact location/boss list. FRLG is represented. Radical Red and Unbound are not. Difficulty is an atlas key persisted as `difficulty=` on `meta.ini`. Encounter state lives in `tracker.ini` on the run.
-- Pokémon is the living roster: party wells with HP bars, then boxed mons sorted by BST. Tracker-dead PIDs are omitted. Click copies a Showdown set. Hover shows the same fields. Vanilla national-dex names and BST.
+- Pokémon is party wells with HP bars, boxed mons sorted by BST, then Grave: the same grid, greyscale, tracker-dead only. Click copies a Showdown set. Hover shows the same fields. Vanilla national-dex names and BST.
 
 ## V1 non-goals
 
@@ -213,4 +213,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: `main` is Stable, `dev` is Vanguard. Stamped instance names and window captions: version on Stable, commit hash on Vanguard.
 - 2026-09-13: Vanguard keeps the Stable mark and recasts the parchment metal as oxidized field-steel.
 - 2026-09-13: Left game pane keeps the home column size for DS and GBA. Screens integer-scale inside that pane.
-- 2026-09-13: Pokémon suite tab. Live party wells with HP bars, boxed mons sorted by BST, tracker-dead omitted. Hover shows the Showdown fields. Click copies the set.
+- 2026-09-13: Pokémon suite tab. Live party wells with HP bars, boxed mons sorted by BST, Grave for tracker-dead greyscale sprites. Hover shows the Showdown fields. Click copies the set.

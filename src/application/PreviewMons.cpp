@@ -71,6 +71,10 @@ void fillPreviewBoxes(Boxes& boxes) {
     for (uint16_t species : kExtra) {
         apply(box.mons[n++], species, 0x1100u + species, 40, 120, 120, 0, 0, 33, 0, 0, 0, nullptr);
     }
+    constexpr uint16_t kGrave[] = {13, 17, 21, 23, 43, 74};
+    for (uint16_t species : kGrave) {
+        apply(box.mons[n++], species, 0x2000u + species, 12, 0, 28, 0, 0, 33, 0, 0, 0, nullptr);
+    }
     for (Mon& mon : box.mons) {
         if (mon.species == 65) {
             mon.heldItem = 200;

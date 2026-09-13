@@ -39,7 +39,6 @@ void seedPreviewSuite(TrackerLog& log, GameSnapshot& snap) {
     log.setDefeated("rival-1", true);
     log.setDefeated("brock", true);
     log.setDefeated("misty", true);
-    log.clearDirty();
 
     snap = {};
     snap.ok = true;
@@ -55,6 +54,16 @@ void seedPreviewSuite(TrackerLog& log, GameSnapshot& snap) {
     snap.gyms.earned = 7;
     fillPreviewParty(snap.party);
     fillPreviewBoxes(snap.boxes);
+    for (const Mon& mon : snap.boxes.boxes[0].mons) {
+        if (mon.personality < 0x2000 || mon.personality > 0x2FFF) {
+            continue;
+        }
+        char id[32];
+        std::snprintf(id, sizeof id, "preview-grave-%u", mon.species);
+        log.setCaught(id, mon.species, mon.personality);
+        log.setStatus(id, EncounterStatus::Dead);
+    }
+    log.clearDirty();
 }
 
 }

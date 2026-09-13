@@ -47,7 +47,7 @@ void drawMonWell(BoxSprites& sprites, const MonView& view, ImVec2 size, bool hpB
         const float x = a.x + (size.x - kBoxSpriteW) * 0.5f;
         const float y = a.y + (spriteArea - kBoxSpriteH) * 0.5f;
         ImGui::SetCursorScreenPos(ImVec2(x, y));
-        drawBoxSprite(sprites.get(slugOf(view)), nullptr, false);
+        drawBoxSprite(sprites.get(slugOf(view)), nullptr, view.grey);
         if (hpBar && mon.maxHp) {
             const float x = a.x + 4.f;
             const float y = b.y - 7.f;

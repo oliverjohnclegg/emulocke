@@ -27,6 +27,7 @@ void testPreviewSuite() {
     bool caterpie = false;
     bool magikarp = false;
     int boxedLiving = 0;
+    int boxedDead = 0;
     for (int i = 0; i < 6; ++i) {
         const emulocke::Mon& mon = snap.party.mons[static_cast<std::size_t>(i)];
         REQUIRE(mon.species != 0);
@@ -50,11 +51,16 @@ void testPreviewSuite() {
         if (!mon.egg && !log.markedDead(mon.personality)) {
             ++boxedLiving;
         }
+        if (!mon.egg && log.markedDead(mon.personality)) {
+            ++boxedDead;
+        }
     }
     REQUIRE(caterpie);
     REQUIRE(!magikarp);
     REQUIRE(boxedLiving >= 16);
+    REQUIRE(boxedDead >= 7);
     REQUIRE(log.markedDead(0x1004));
+    REQUIRE(log.markedDead(0x2000u + 13));
 
     const emulocke::TrackerAtlas* atlas = emulocke::trackerAtlas(emulocke::kFireRedUs10Uuid, "");
     REQUIRE(atlas != nullptr);

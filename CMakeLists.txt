@@ -191,6 +191,7 @@ add_executable(emulocke
     src/ui/BoxSprites.cpp
     src/ui/FieldLog.cpp
     src/ui/Pokemon.cpp
+    src/ui/PokemonGather.cpp
     src/ui/PokemonParty.cpp
     src/ui/PokemonBox.cpp
     src/ui/PokemonWell.cpp
