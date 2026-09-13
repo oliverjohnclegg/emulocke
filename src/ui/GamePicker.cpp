@@ -89,7 +89,6 @@ void drawGamePicker(Application& app, std::string& catalogUuid) {
         const float w = ImGui::GetContentRegionAvail().x;
         const bool ready = app.romLibrary().ready(*selected);
         drawTitleStrip(app, *selected, p, ImVec2(p.x + w, p.y + kTitleArtH), ready);
-        ImGui::Dummy(ImVec2(w, kTitleArtH));
         ImGui::EndComboPreview();
     }
 }
