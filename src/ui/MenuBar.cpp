@@ -70,9 +70,10 @@ void drawMenuBar(Application& app) {
             if (ImGui::MenuItem("Reset", nullptr, false, has)) {
                 app.resetSession();
             }
+            ImGui::SetNextWindowSize(ImVec2(200.f, 0.f));
             if (ImGui::BeginMenu("Speed-up")) {
                 int speed = app.prefs().speedUp;
-                ImGui::SetNextItemWidth(168.f);
+                ImGui::SetNextItemWidth(-1.f);
                 if (ImGui::SliderInt("##speed-up", &speed, 2, 8, "%dx")) {
                     app.setSpeedUp(speed);
                 }
