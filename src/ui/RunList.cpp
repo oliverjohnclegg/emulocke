@@ -21,7 +21,7 @@ std::string drawGroupedRunList(Application& app, const char* idPrefix, bool show
             ImGui::PushFont(display);
         }
         ImGui::Dummy(ImVec2(0, 8));
-        ImGui::TextUnformatted(title.title);
+        ImGui::TextUnformatted(catalogListTitle(title).c_str());
         if (app.displayFont()) {
             ImGui::PopFont();
         }

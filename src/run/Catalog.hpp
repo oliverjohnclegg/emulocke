@@ -2,7 +2,9 @@
 
 #include <cstdint>
 #include <span>
+#include <string>
 #include <string_view>
+#include <vector>
 
 namespace emulocke {
 
@@ -21,6 +23,7 @@ struct CatalogTitle {
     const char* prerequisiteUuid;
     const char* patchAsset;
     const char* artSlug;
+    const char* version;
     const char* details;
 };
 
@@ -29,6 +32,9 @@ inline constexpr const char* kRadicalRedUuid = "b395cc4c-f482-5b62-865f-3b7e7889
 inline constexpr const char* kUnboundUuid = "55498517-2419-5cd9-8a01-bd787a53c8dd";
 
 std::span<const CatalogTitle> catalogTitles();
+std::string catalogListTitle(const CatalogTitle& title);
+int catalogVersionCompare(std::string_view a, std::string_view b);
+std::vector<const CatalogTitle*> catalogPickerRows();
 const CatalogTitle* catalogByUuid(std::string_view uuid);
 const CatalogTitle* catalogBySha1(std::string_view sha1);
 const CatalogTitle* catalogBySlug(std::string_view slug);

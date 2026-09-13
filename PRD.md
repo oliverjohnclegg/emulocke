@@ -45,7 +45,7 @@ A playable host. Suite is a Logs tab only.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
 - File > New Run / Load Run / Start New Attempt / Close Run. No Open Game. No `roms/` drop folder.
-- New Run lists every catalog title as a strip (art, name, version/region). Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library.
+- New Run lists every catalog title as a strip (art, name with version in the title, region). Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library.
 - Starting a hack run applies the bundled UPS onto the imported Fire Red 1.0 dump if `roms/derived/<uuid>.gba` is not already there.
 - One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage.
 - CLI `emulocke /path/to/dump` imports a known baseline and opens New Run. It does not silent-boot.
@@ -190,4 +190,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.
 - 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.
 - 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
-- 2026-09-13: New Run game picker uses art strips, type-to-search, and click-to-import for missing dumps.
+- 2026-09-13: New Run game picker uses art strips, type-to-search, and click-to-import for missing dumps. Versions sit in the title as FIRE RED (1.0). Subtext is region. Hack hover names the prerequisite.

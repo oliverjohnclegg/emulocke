@@ -99,11 +99,37 @@ int main() {
     expect(std::string(emulocke::rulesLabel(emulocke::hardcoreRules())) == "HARDCORE", "hardcore");
 
     expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->artSlug) == "firered", "fr art");
-    expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->details) == "1.0, US",
-        "fr details");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->version) == "1.0", "fr version");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->details) == "US", "fr region");
+    expect(emulocke::catalogListTitle(*emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)) ==
+            "FIRE RED (1.0)",
+        "fr list title");
     expect(std::string(emulocke::catalogByUuid(emulocke::kUnboundUuid)->artSlug) == "unbound", "unbound art");
-    expect(std::string(emulocke::catalogByUuid(emulocke::kUnboundUuid)->details) == "2.1.1.1, US",
-        "unbound details");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kUnboundUuid)->details) == "US", "unbound region");
+    expect(emulocke::catalogListTitle(*emulocke::catalogByUuid(emulocke::kUnboundUuid)) ==
+            "UNBOUND (2.1.1.1)",
+        "unbound list title");
+    const emulocke::CatalogTitle* fr11 = emulocke::catalogBySlug("firered-us-1.1");
+    expect(fr11 && emulocke::catalogListTitle(*fr11) == "FIRE RED (1.1)", "fr11 list title");
+    expect(emulocke::catalogVersionCompare("1.1", "1.0") > 0, "1.1 > 1.0");
+    expect(emulocke::catalogVersionCompare("2.1.1.1", "4.1") < 0, "2.1.1.1 < 4.1");
+    const auto picker = emulocke::catalogPickerRows();
+    const emulocke::CatalogTitle* firstFr = nullptr;
+    const emulocke::CatalogTitle* secondFr = nullptr;
+    for (const emulocke::CatalogTitle* title : picker) {
+        if (std::string(title->artSlug) != "firered") {
+            continue;
+        }
+        if (!firstFr) {
+            firstFr = title;
+        } else if (!secondFr) {
+            secondFr = title;
+        }
+    }
+    expect(firstFr && std::string(firstFr->version) == "1.1", "picker fr 1.1 first");
+    expect(secondFr && std::string(secondFr->version) == "1.0", "picker fr 1.0 second");
+    expect(emulocke::catalogListTitle(*emulocke::catalogBySlug("ruby-us")) == "RUBY (Rev 2)", "ruby list");
+    expect(emulocke::catalogListTitle(*emulocke::catalogBySlug("emerald-us")) == "EMERALD", "emerald list");
     expect(emulocke::catalogTitles().size() == 18, "catalog size");
 
     const auto tmp = std::filesystem::temp_directory_path() / "emulocke_rom_library_test";

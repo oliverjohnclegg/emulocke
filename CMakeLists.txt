@@ -121,6 +121,7 @@ add_executable(emulocke
     src/emu/NdsPlatformSave.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
+    src/run/CatalogFormat.cpp
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
     src/run/RomLibrary.cpp
@@ -237,6 +238,7 @@ add_executable(emulocke-run-check
     src/emu/FileBytes.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
+    src/run/CatalogFormat.cpp
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
     src/run/RomLibrary.cpp

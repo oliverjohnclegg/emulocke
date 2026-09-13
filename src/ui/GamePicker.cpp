@@ -7,6 +7,7 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <cctype>
+#include <string>
 #include <string_view>
 
 namespace emulocke {
@@ -37,7 +38,9 @@ bool containsInsensitive(std::string_view hay, std::string_view needle) {
 }
 
 bool titleMatches(const CatalogTitle& title, std::string_view query) {
-    return containsInsensitive(title.title, query) || containsInsensitive(title.fullName, query) ||
+    const std::string listed = catalogListTitle(title);
+    return containsInsensitive(title.title, query) || containsInsensitive(listed, query) ||
+           containsInsensitive(title.fullName, query) || containsInsensitive(title.version, query) ||
            containsInsensitive(title.details, query) || containsInsensitive(title.slug, query);
 }
 
@@ -57,7 +60,7 @@ void drawGamePicker(Application& app, std::string& catalogUuid) {
         catalogUuid = selected->uuid;
     }
     ImGui::SetNextWindowSizeConstraints(ImVec2(0.f, 0.f), ImVec2(800.f, kTitleStripH * 8.f + 40.f));
-    ImGui::SetNextItemWidth(300.f);
+    ImGui::SetNextItemWidth(-FLT_MIN);
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(6.f, 20.f));
     const bool open = ImGui::BeginCombo("##game", nullptr, ImGuiComboFlags_HeightLarge);
     ImGui::PopStyleVar();
@@ -70,9 +73,9 @@ void drawGamePicker(Application& app, std::string& catalogUuid) {
         ImGui::SetNextItemWidth(-1.f);
         ImGui::InputTextWithHint("##search", "SEARCH", query, sizeof(query));
         int shown = 0;
-        for (const CatalogTitle& title : catalogTitles()) {
-            if (titleMatches(title, query)) {
-                drawTitleStripRow(app, title, catalogUuid);
+        for (const CatalogTitle* title : catalogPickerRows()) {
+            if (titleMatches(*title, query)) {
+                drawTitleStripRow(app, *title, catalogUuid);
                 ++shown;
             }
         }
@@ -89,10 +92,6 @@ void drawGamePicker(Application& app, std::string& catalogUuid) {
         ImGui::Dummy(ImVec2(w, kTitleArtH));
         ImGui::EndComboPreview();
     }
-    ImGui::SameLine();
-    const float comboH = ImGui::GetItemRectSize().y;
-    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + (comboH - ImGui::GetTextLineHeight()) * 0.5f);
-    ImGui::TextUnformatted("Game");
 }
 
 }
