@@ -98,6 +98,12 @@ int main() {
     expect(std::string(emulocke::rulesLabel(emulocke::regularRules())) == "REGULAR", "regular");
     expect(std::string(emulocke::rulesLabel(emulocke::hardcoreRules())) == "HARDCORE", "hardcore");
 
+    expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->artSlug) == "firered", "fr art");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid)->details) == "1.0, US",
+        "fr details");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kUnboundUuid)->artSlug) == "unbound", "unbound art");
+    expect(std::string(emulocke::catalogByUuid(emulocke::kUnboundUuid)->details) == "2.1.1.1, US",
+        "unbound details");
     expect(emulocke::catalogTitles().size() == 18, "catalog size");
 
     const auto tmp = std::filesystem::temp_directory_path() / "emulocke_rom_library_test";
@@ -122,13 +128,18 @@ int main() {
     }
     expect(!sawFr && sawRr && sawUnbound, "hacks listed without import");
     expect(!lib.has(emulocke::kFireRedUs10Uuid), "no fr yet");
+    const emulocke::CatalogTitle* fr = emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid);
+    const emulocke::CatalogTitle* rr = emulocke::catalogByUuid(emulocke::kRadicalRedUuid);
+    expect(!lib.ready(*fr), "fr not ready");
+    expect(!lib.ready(*rr), "rr not ready");
     auto gated = lib.ensurePlayable(emulocke::kRadicalRedUuid);
     expect(!gated, "rr without prereq");
     expect(lib.lastError().find("prerequisite") != std::string::npos, "prereq gate");
 
-    const emulocke::CatalogTitle* fr = emulocke::catalogByUuid(emulocke::kFireRedUs10Uuid);
     expect(lib.writeBaseline(*fr, src), "store baseline");
     expect(lib.has(emulocke::kFireRedUs10Uuid), "has fr");
+    expect(lib.ready(*fr), "fr ready");
+    expect(lib.ready(*rr), "rr ready with prereq");
     expect(std::filesystem::path(lib.storedPath(*fr)).filename() ==
             (std::string(emulocke::kFireRedUs10Uuid) + ".gba"),
         "uuid filename");

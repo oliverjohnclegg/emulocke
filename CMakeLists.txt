@@ -98,6 +98,9 @@ add_executable(emulocke
     src/ui/Shell.cpp
     src/ui/Home.cpp
     src/ui/NewRunModal.cpp
+    src/ui/GamePicker.cpp
+    src/ui/GameStrip.cpp
+    src/ui/GameArtGpu.cpp
     src/ui/LoadRunModal.cpp
     src/ui/RunList.cpp
     src/ui/Suite.cpp
@@ -166,6 +169,8 @@ add_library(emulocke_sprites STATIC
     src/cart/GameArtCache.cpp)
 target_include_directories(emulocke_sprites PUBLIC src PRIVATE ${CMAKE_SOURCE_DIR}/third_party/stb)
 target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
+
+target_link_libraries(emulocke PRIVATE emulocke_sprites)
 
 add_executable(emulocke-sprite-check
     src/test/sprite_check.cpp

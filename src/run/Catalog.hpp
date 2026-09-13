@@ -20,6 +20,8 @@ struct CatalogTitle {
     uint8_t revision;
     const char* prerequisiteUuid;
     const char* patchAsset;
+    const char* artSlug;
+    const char* details;
 };
 
 inline constexpr const char* kFireRedUs10Uuid = "e8e92ba8-429b-55a0-b78d-2c269b6d2b56";

@@ -129,6 +129,10 @@ void Application::shutdown() {
     persistPrefs();
     stopEmuThread();
     session_.reset();
+    if (gameArt_) {
+        gameArt_->destroy();
+        gameArt_.reset();
+    }
     audio_.close();
     host_.destroy();
     SDL_Quit();
