@@ -213,3 +213,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Vanguard keeps the Stable mark and recasts the parchment metal as oxidized field-steel.
 - 2026-09-13: Left game pane keeps the home column size for DS and GBA. Screens integer-scale inside that pane.
 - 2026-09-13: Game art fills 256x192. Official DS titles crop to the top screen. Catalog hacks ship original 256x192 stills.
+- 2026-09-13: New Run hack rows show a `by [creator]` stamp.
