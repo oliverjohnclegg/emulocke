@@ -53,20 +53,9 @@ void testTrackerAtlas() {
     REQUIRE(emulocke::trackerAtlas(emulocke::kLeafGreenUs10Uuid, "") == atlas);
     REQUIRE(emulocke::trackerAtlas(emulocke::kLeafGreenUs11Uuid, "") == atlas);
 
-    const char* all[] = {
-        emulocke::kRubyUsUuid,           emulocke::kRubyUs11Uuid,        emulocke::kSapphireUsUuid,
-        emulocke::kEmeraldUsUuid,        emulocke::kFireRedUs10Uuid,     emulocke::kFireRedUs11Uuid,
-        emulocke::kLeafGreenUs10Uuid,     emulocke::kLeafGreenUs11Uuid,    emulocke::kDiamondUsUuid,
-        emulocke::kPearlUsUuid,          emulocke::kPlatinumUsUuid,       emulocke::kPlatinumUs11Uuid,
-        emulocke::kHeartGoldUsUuid,      emulocke::kSoulSilverUsUuid,     emulocke::kBlackUsUuid,
-        emulocke::kWhiteUsUuid,          emulocke::kBlack2UsUuid,         emulocke::kWhite2UsUuid,
-        emulocke::kBlazeBlackUuid,        emulocke::kVoltWhiteUuid,        emulocke::kVoltWhite2ReduxUuid,
-        emulocke::kFireRedOmegaUuid,      emulocke::kSacredGoldUuid,        emulocke::kPlatinumKaizoUuid,
-        emulocke::kRenegadePlatinumUuid,   emulocke::kRadicalRedUuid,       emulocke::kUnboundUuid,
-        emulocke::kRunAndBunUuid,        emulocke::kInclementEmeraldUuid,  emulocke::kEmeraldKaizoUuid,
-    };
-    for (const char* uuid : all) {
-        requireAtlas(emulocke::trackerAtlas(uuid, ""));
+    REQUIRE(!emulocke::catalogTitles().empty());
+    for (const emulocke::CatalogTitle& title : emulocke::catalogTitles()) {
+        requireAtlas(emulocke::trackerAtlas(title.uuid, ""));
     }
 
     REQUIRE(emulocke::trackerAtlas(emulocke::kRubyUsUuid, "") ==
@@ -87,6 +76,8 @@ void testTrackerAtlas() {
     const emulocke::TrackerAtlas* rr = emulocke::trackerAtlas(emulocke::kRadicalRedUuid, "");
     const emulocke::TrackerAtlas* rrh = emulocke::trackerAtlas(emulocke::kRadicalRedUuid, "hardcore");
     REQUIRE(rr != rrh);
+    REQUIRE(emulocke::trackerAtlas(emulocke::kRadicalRedUuid, "2") == rrh);
+    REQUIRE(emulocke::trackerAtlas(emulocke::kRadicalRedUuid, "easy") == rr);
     const emulocke::TrackerStop* brock = findStop(*rr, "gym-1");
     REQUIRE(brock != nullptr);
     REQUIRE(brock->teamCount == 4);
@@ -94,8 +85,12 @@ void testTrackerAtlas() {
 
     REQUIRE(emulocke::trackerAtlas(emulocke::kUnboundUuid, "") !=
             emulocke::trackerAtlas(emulocke::kUnboundUuid, "expert"));
+    REQUIRE(emulocke::trackerAtlas(emulocke::kUnboundUuid, "2") ==
+            emulocke::trackerAtlas(emulocke::kUnboundUuid, "expert"));
     REQUIRE(emulocke::trackerAtlas(emulocke::kUnboundUuid, "insane") ==
             emulocke::trackerAtlas(emulocke::kUnboundUuid, "expert"));
+    REQUIRE(emulocke::trackerAtlas(emulocke::kUnboundUuid, "easy") ==
+            emulocke::trackerAtlas(emulocke::kUnboundUuid, ""));
     REQUIRE(emulocke::trackerAtlas(emulocke::kVoltWhite2ReduxUuid, "") !=
             emulocke::trackerAtlas(emulocke::kVoltWhite2ReduxUuid, "challenge"));
     REQUIRE(emulocke::trackerAtlas(emulocke::kBlazeBlackUuid, "", "full") ==

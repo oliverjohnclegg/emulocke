@@ -35,7 +35,7 @@ Left column is the game. Right column is the suite.
 - 21px graphite around the left pane. Not between the two screens. Same 21px below and to the right of the suite.
 - Left pane stays the home column size when a cart seats. Screens integer-scale inside it. View > Screen Scale is the explicit size control. Default window fits 2x two-screen plus a 460px suite.
 - View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
-- Right column is the suite. Tabs hold each function. Tracker is first. Logs is second. Every catalog title is represented: Tracker fills from a static atlas plus adapter facts. Difficulty is derived from the cart when the hack has an in-game setting. Unsupported titles show an empty plate. Logs shows trainer, map, party, and badges for supported games.
+- Right column is the suite. Tabs hold each function. Tracker is first. Logs is second. Every catalog title is represented: Tracker fills from a static atlas plus adapter facts. Difficulty is derived from the cart when the hack has an in-game setting. Logs shows trainer, map, party, and badges for supported games.
 - With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, empty until a represented title is seated.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.

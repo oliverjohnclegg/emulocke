@@ -332,7 +332,8 @@ add_executable(emulocke-tracker-check
     src/test/tracker_check.cpp
     src/test/tracker_atlas_check.cpp
     src/test/tracker_fill_check.cpp
-    src/test/tracker_rival_fill_check.cpp)
+    src/test/tracker_rival_fill_check.cpp
+    src/run/Catalog.cpp)
 target_include_directories(emulocke-tracker-check PRIVATE src)
 target_link_libraries(emulocke-tracker-check PRIVATE emulocke_tracker emulocke_adapter)
 
