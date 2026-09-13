@@ -166,6 +166,8 @@ add_executable(emulocke
     src/application/ApplicationPlay.cpp
     src/application/ApplicationPrefs.cpp
     src/application/ApplicationTracker.cpp
+    src/application/PreviewSuite.cpp
+    src/application/PreviewMons.cpp
     src/application/SessionControl.cpp
     src/application/AppLoop.cpp
     src/application/Prefs.cpp
@@ -317,7 +319,10 @@ add_executable(emulocke-tracker-check
     src/test/tracker_check.cpp
     src/test/tracker_atlas_check.cpp
     src/test/tracker_fill_check.cpp
-    src/test/tracker_rival_fill_check.cpp)
+    src/test/tracker_rival_fill_check.cpp
+    src/test/preview_suite_check.cpp
+    src/application/PreviewSuite.cpp
+    src/application/PreviewMons.cpp)
 target_include_directories(emulocke-tracker-check PRIVATE src)
 target_link_libraries(emulocke-tracker-check PRIVATE emulocke_tracker emulocke_adapter)
 

@@ -2,6 +2,7 @@
 
 #include "adapter/GameAdapter.hpp"
 #include "adapter/frlg/FrlgNames.hpp"
+#include "application/PreviewSuite.hpp"
 #include "emu/Paths.hpp"
 #include "poke/Sprites.hpp"
 #include "tracker/Atlas.hpp"
@@ -56,24 +57,7 @@ const TrackerAtlas* Application::trackerAtlas() const {
 }
 
 void Application::seedPreviewTracker() {
-    trackerLog_ = {};
-    trackerLog_.setCaught("starter", 1, 1);
-    trackerLog_.setCaught("route-1", 16, 1);
-    trackerLog_.setCaught("route-2", 25, 1);
-    trackerLog_.setCaught("viridian-forest", 10, 1);
-    trackerLog_.setStatus("viridian-forest", EncounterStatus::Dead);
-    trackerLog_.setCaught("route-3", 19, 1);
-    trackerLog_.setCaught("mt-moon", 41, 1);
-    trackerLog_.setCaught("route-4", 129, 1);
-    trackerLog_.setStatus("route-4", EncounterStatus::Missed);
-    trackerLog_.setCaught("digletts-cave", 50, 1);
-    trackerLog_.setCaught("celadon-city", 122, 1);
-    trackerLog_.setStatus("celadon-city", EncounterStatus::Traded);
-    trackerLog_.setCaught("power-plant", 145, 1);
-    trackerLog_.setDefeated("rival-1", true);
-    trackerLog_.setDefeated("brock", true);
-    trackerLog_.setDefeated("misty", true);
-    trackerLog_.clearDirty();
+    seedPreviewSuite(trackerLog_, snapshot_);
 }
 
 void Application::syncTracker(const GameSnapshot& snap) {
