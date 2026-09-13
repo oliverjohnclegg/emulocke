@@ -77,7 +77,10 @@ void drawCalcMatchup(Application&, CalcSession& session) {
     ImGui::Dummy(ImVec2(0, 8));
     int pct[4]{};
     moveUsePct(pack->dmgGen, pack->typeChart, t->aiFlags, foe, player, foeSet->moves, field, pct);
-    if (ImGui::BeginTable("calc-mv", 2, ImGuiTableFlags_NoPadInnerX, ImVec2(pane, 0))) {
+    if (ImGui::BeginTable("calc-mv", 2,
+            ImGuiTableFlags_NoPadInnerX | ImGuiTableFlags_SizingStretchSame, ImVec2(pane, 0))) {
+        ImGui::TableSetupColumn("a", ImGuiTableColumnFlags_WidthStretch, 1.f);
+        ImGui::TableSetupColumn("b", ImGuiTableColumnFlags_WidthStretch, 1.f);
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
         drawCalcMoveCol(
