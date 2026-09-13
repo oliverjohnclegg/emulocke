@@ -5,6 +5,11 @@
 int main() {
     testGen3Codec();
     testFrlgAdapter();
+    testRseAdapter();
+    testGen4Adapter();
+    testGen5Adapter();
+    testSnapshotContract();
+    testLocalSaves();
     std::printf("adapter check ok\n");
     return 0;
 }

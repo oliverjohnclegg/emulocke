@@ -13,3 +13,8 @@
 
 void testGen3Codec();
 void testFrlgAdapter();
+void testRseAdapter();
+void testGen4Adapter();
+void testGen5Adapter();
+void testLocalSaves();
+void testSnapshotContract();

@@ -82,7 +82,20 @@ add_library(emulocke_adapter STATIC
     src/adapter/frlg/FrlgLive.cpp
     src/adapter/frlg/FrlgAdapter.cpp
     src/adapter/frlg/SpeciesNames.cpp
-    src/adapter/frlg/MapNames.cpp)
+    src/adapter/frlg/MapNames.cpp
+    src/adapter/rse/RseSave.cpp
+    src/adapter/rse/RseFill.cpp
+    src/adapter/rse/RseLive.cpp
+    src/adapter/rse/RseAdapter.cpp
+    src/adapter/gen45/Names.cpp
+    src/adapter/gen45/Crypto.cpp
+    src/adapter/gen45/Text.cpp
+    src/adapter/gen45/Parse.cpp
+    src/adapter/gen4/Save.cpp
+    src/adapter/dppt/DpptAdapter.cpp
+    src/adapter/hgss/HgssAdapter.cpp
+    src/adapter/gen5/Save.cpp
+    src/adapter/bw/BwAdapter.cpp)
 target_include_directories(emulocke_adapter PUBLIC src)
 
 add_executable(emulocke
@@ -155,43 +168,45 @@ if(WIN32)
         INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/assets/icons")
 endif()
 
-find_package(CURL REQUIRED)
-add_library(emulocke_sprites STATIC
-    src/poke/SpriteIndex.cpp
-    src/poke/SpriteUrls.cpp
-    src/poke/HttpGet.cpp
-    src/poke/SpriteCache.cpp
-    src/cart/GameIndex.cpp
-    src/cart/GameArtPng.cpp
-    src/cart/GameArtCanvas.cpp
-    src/cart/GameArtPlate.cpp
-    src/cart/GameArtCache.cpp)
-target_include_directories(emulocke_sprites PUBLIC src PRIVATE ${CMAKE_SOURCE_DIR}/third_party/stb)
-target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
+find_package(CURL)
+if(CURL_FOUND)
+    add_library(emulocke_sprites STATIC
+        src/poke/SpriteIndex.cpp
+        src/poke/SpriteUrls.cpp
+        src/poke/HttpGet.cpp
+        src/poke/SpriteCache.cpp
+        src/cart/GameIndex.cpp
+        src/cart/GameArtPng.cpp
+        src/cart/GameArtCanvas.cpp
+        src/cart/GameArtPlate.cpp
+        src/cart/GameArtCache.cpp)
+    target_include_directories(emulocke_sprites PUBLIC src PRIVATE ${CMAKE_SOURCE_DIR}/third_party/stb)
+    target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
 
-add_executable(emulocke-sprite-check
-    src/test/sprite_check.cpp
-    src/emu/Paths.cpp)
-target_include_directories(emulocke-sprite-check PRIVATE src)
-target_compile_definitions(emulocke-sprite-check PRIVATE SDL_MAIN_HANDLED)
-target_link_libraries(emulocke-sprite-check PRIVATE emulocke_sprites SDL3::SDL3)
-if(UNIX AND NOT APPLE)
-    target_link_libraries(emulocke-sprite-check PRIVATE pthread)
-endif()
-add_custom_command(
-    TARGET emulocke-sprite-check POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:emulocke-sprite-check>/assets)
+    add_executable(emulocke-sprite-check
+        src/test/sprite_check.cpp
+        src/emu/Paths.cpp)
+    target_include_directories(emulocke-sprite-check PRIVATE src)
+    target_compile_definitions(emulocke-sprite-check PRIVATE SDL_MAIN_HANDLED)
+    target_link_libraries(emulocke-sprite-check PRIVATE emulocke_sprites SDL3::SDL3)
+    if(UNIX AND NOT APPLE)
+        target_link_libraries(emulocke-sprite-check PRIVATE pthread)
+    endif()
+    add_custom_command(
+        TARGET emulocke-sprite-check POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/assets
+            $<TARGET_FILE_DIR:emulocke-sprite-check>/assets)
 
-add_executable(emulocke-game-art-check
-    src/test/game_art_check.cpp
-    src/emu/Paths.cpp)
-target_include_directories(emulocke-game-art-check PRIVATE src)
-target_compile_definitions(emulocke-game-art-check PRIVATE SDL_MAIN_HANDLED)
-target_link_libraries(emulocke-game-art-check PRIVATE emulocke_sprites SDL3::SDL3)
-if(UNIX AND NOT APPLE)
-    target_link_libraries(emulocke-game-art-check PRIVATE pthread)
+    add_executable(emulocke-game-art-check
+        src/test/game_art_check.cpp
+        src/emu/Paths.cpp)
+    target_include_directories(emulocke-game-art-check PRIVATE src)
+    target_compile_definitions(emulocke-game-art-check PRIVATE SDL_MAIN_HANDLED)
+    target_link_libraries(emulocke-game-art-check PRIVATE emulocke_sprites SDL3::SDL3)
+    if(UNIX AND NOT APPLE)
+        target_link_libraries(emulocke-game-art-check PRIVATE pthread)
+    endif()
 endif()
 
 add_executable(emulocke-gba-check
@@ -211,22 +226,40 @@ endif()
 add_executable(emulocke-adapter-check
     src/test/adapter_check.cpp
     src/test/gen3_codec_check.cpp
-    src/test/frlg_adapter_check.cpp)
+    src/test/frlg_adapter_check.cpp
+    src/test/rse_adapter_check.cpp
+    src/test/gen4_adapter_check.cpp
+    src/test/gen5_adapter_check.cpp
+    src/test/SnapshotContract.cpp
+    src/test/snapshot_fixtures.cpp
+    src/test/snapshot_contract_check.cpp
+    src/test/local_sav_check.cpp)
 target_include_directories(emulocke-adapter-check PRIVATE src)
 target_link_libraries(emulocke-adapter-check PRIVATE emulocke_adapter)
 
-add_executable(emulocke-frlg-live-check EXCLUDE_FROM_ALL
-    src/test/frlg_live_check.cpp
+add_executable(emulocke-boot-check EXCLUDE_FROM_ALL
+    src/test/boot_roms_check.cpp
     src/emu/GbaSession.cpp
+    src/emu/NdsSession.cpp
+    src/emu/NdsPlatformFiles.cpp
+    src/emu/NdsPlatformSync.cpp
+    src/emu/NdsPlatformStubs.cpp
+    src/emu/NdsPlatformDynlib.cpp
+    src/emu/NdsPlatformSave.cpp
     src/emu/FileBytes.cpp
-    src/emu/AudioOutput.cpp)
-target_include_directories(emulocke-frlg-live-check PRIVATE src)
-target_link_libraries(emulocke-frlg-live-check PRIVATE emulocke_adapter mgba SDL3::SDL3)
+    src/emu/AudioOutput.cpp
+    src/emu/Paths.cpp
+    src/run/Catalog.cpp
+    src/run/CatalogLookup.cpp
+    src/run/PatchApply.cpp)
+target_include_directories(emulocke-boot-check PRIVATE src)
+target_compile_definitions(emulocke-boot-check PRIVATE SDL_MAIN_HANDLED)
+target_link_libraries(emulocke-boot-check PRIVATE emulocke_adapter core mgba SDL3::SDL3)
 if(MGBA_COMPILE_DEFS)
-    target_compile_definitions(emulocke-frlg-live-check PRIVATE ${MGBA_COMPILE_DEFS})
+    target_compile_definitions(emulocke-boot-check PRIVATE ${MGBA_COMPILE_DEFS})
 endif()
 if(UNIX AND NOT APPLE)
-    target_link_libraries(emulocke-frlg-live-check PRIVATE dl pthread)
+    target_link_libraries(emulocke-boot-check PRIVATE dl pthread)
 endif()
 
 add_executable(emulocke-run-check

@@ -22,6 +22,7 @@ std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath, const s
     session->romPath_ = romPath;
     session->savePath_ = savePath;
     session->romName_ = std::filesystem::path(romPath).filename().string();
+    session->cart_ = cartridgeFromNdsRom(bytes);
     session->top_.assign(256 * 192, 0);
     session->bottom_.assign(256 * 192, 0);
     melonDS::NDSCart::NDSCartArgs cartArgs;
@@ -108,6 +109,24 @@ void NdsSession::drainAudio(AudioOutput& audio) {
 
 void NdsSession::writeSave(const uint8_t* data, uint32_t length) {
     writeWholeFile(savePath_, data, length);
+}
+
+bool NdsSession::read(uint32_t addr, std::span<uint8_t> out) const {
+    std::lock_guard lock(frameMutex_);
+    if (!nds_ || out.empty()) {
+        return false;
+    }
+    if (nds_->MainRAM && addr >= 0x02000000) {
+        const uint32_t off = addr & nds_->MainRAMMask;
+        if (off + out.size() <= nds_->MainRAMMask + 1) {
+            std::memcpy(out.data(), nds_->MainRAM + off, out.size());
+            return true;
+        }
+    }
+    for (std::size_t i = 0; i < out.size(); ++i) {
+        out[i] = nds_->ARM9Read8(addr + static_cast<uint32_t>(i));
+    }
+    return true;
 }
 
 }

@@ -1,5 +1,8 @@
 #include "adapter/gen3/BoxMon.hpp"
 
+#include "adapter/frlg/FrlgNames.hpp"
+
+#include <cstdio>
 #include <cstring>
 
 namespace emulocke {
@@ -43,8 +46,9 @@ Mon toSnapshotMon(const DecryptedMon& in) {
     mon.metLevel = in.metLevel;
     mon.metGame = in.metGame;
     mon.ball = in.ball;
-    std::memcpy(mon.nickname, in.nickname, sizeof(mon.nickname));
-    std::memcpy(mon.otName, in.otName, sizeof(mon.otName));
+    std::snprintf(mon.speciesName, sizeof(mon.speciesName), "%s", frlgSpeciesName(in.species));
+    std::snprintf(mon.nickname, sizeof(mon.nickname), "%s", in.nickname);
+    std::snprintf(mon.otName, sizeof(mon.otName), "%s", in.otName);
     return mon;
 }
 
