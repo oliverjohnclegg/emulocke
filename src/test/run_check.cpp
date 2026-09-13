@@ -8,6 +8,7 @@
 #include "run/RunStore.hpp"
 #include "run/TitlePlay.hpp"
 
+#include "test/BuildIdChecks.hpp"
 #include "test/PatchChecks.hpp"
 
 #include <mgba-util/crc32.h>
@@ -375,6 +376,7 @@ int main() {
     expect(legacyRun && legacyRun->playMs == 0, "legacy play 0");
 
     std::filesystem::remove_all(tmp);
+    fails += testBuildId();
     fails += testPatchFormats();
     fails += testLocalPatches();
     if (fails) {

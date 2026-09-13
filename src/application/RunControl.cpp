@@ -140,6 +140,7 @@ void Application::loadRun(const std::string& id) {
     } else {
         activeRunId_.clear();
     }
+    syncWindowTitle();
 }
 
 }

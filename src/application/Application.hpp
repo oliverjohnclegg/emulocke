@@ -93,6 +93,7 @@ private:
     void bootRun(const Run& run);
     void harvestPlayOrigin();
     void commitPlay();
+    void syncWindowTitle();
     enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
     Host host_;
     PendingHost pendingHost_{PendingHost::None};

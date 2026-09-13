@@ -136,14 +136,17 @@ void Application::closeRun() {
     stopEmuThread();
     harvestPlayOrigin();
     commitPlay();
-    std::lock_guard lock(sessionMutex_);
-    session_.reset();
-    adapter_ = nullptr;
-    snapshot_ = GameSnapshot{};
-    speedUpOn_ = false;
-    activeRunId_.clear();
-    lastPlayCommitNs_ = 0;
-    status_ = "No cart.";
+    {
+        std::lock_guard lock(sessionMutex_);
+        session_.reset();
+        adapter_ = nullptr;
+        snapshot_ = GameSnapshot{};
+        speedUpOn_ = false;
+        activeRunId_.clear();
+        lastPlayCommitNs_ = 0;
+        status_ = "No cart.";
+    }
+    syncWindowTitle();
 }
 
 bool Application::copySnapshot(GameSnapshot& out) const {

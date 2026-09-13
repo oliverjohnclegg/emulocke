@@ -17,6 +17,7 @@ public:
     bool fullscreen() const;
     void restoreDefaultSize();
     void captureWindowed(Prefs& prefs) const;
+    void setTitle(const char* title);
 
 private:
     SDL_Window* window_{};

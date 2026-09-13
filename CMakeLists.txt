@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
-project(emulocke LANGUAGES C CXX)
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" EMULOCKE_VERSION)
+string(STRIP "${EMULOCKE_VERSION}" EMULOCKE_VERSION)
+project(emulocke VERSION ${EMULOCKE_VERSION} LANGUAGES C CXX)
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/BuildStamp.cmake")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -124,6 +127,7 @@ target_include_directories(emulocke_adapter PUBLIC src)
 
 add_executable(emulocke
     src/main.cpp
+    src/application/BuildId.cpp
     src/application/Host.cpp
     src/application/Application.cpp
     src/application/ApplicationPlay.cpp
@@ -183,6 +187,7 @@ add_executable(emulocke
 target_include_directories(emulocke PRIVATE src)
 target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
 target_compile_definitions(emulocke PRIVATE SDL_MAIN_HANDLED)
+emulocke_stamp_target(emulocke)
 get_target_property(MGBA_COMPILE_DEFS mgba COMPILE_DEFINITIONS)
 if(MGBA_COMPILE_DEFS)
     target_compile_definitions(emulocke PRIVATE ${MGBA_COMPILE_DEFS})
@@ -304,6 +309,8 @@ endif()
 
 add_executable(emulocke-run-check
     src/test/run_check.cpp
+    src/test/BuildIdChecks.cpp
+    src/application/BuildId.cpp
     src/emu/FileBytes.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
@@ -324,6 +331,7 @@ add_executable(emulocke-run-check
     src/test/local_patch_check.cpp)
 target_include_directories(emulocke-run-check PRIVATE src)
 target_link_libraries(emulocke-run-check PRIVATE mgba xdelta3)
+emulocke_stamp_target(emulocke-run-check)
 if(MGBA_COMPILE_DEFS)
     target_compile_definitions(emulocke-run-check PRIVATE ${MGBA_COMPILE_DEFS})
 endif()
