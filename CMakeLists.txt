@@ -172,6 +172,7 @@ add_executable(emulocke
     src/ui/PresetPicker.cpp
     src/ui/GamePicker.cpp
     src/ui/GameStrip.cpp
+    src/ui/GameStripDraw.cpp
     src/ui/GameArtGpu.cpp
     src/ui/LoadingRunModal.cpp
     src/ui/RunList.cpp

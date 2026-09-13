@@ -33,6 +33,7 @@ struct CatalogTitle {
     const char* artSlug;
     const char* version;
     const char* details;
+    const char* creator;
 };
 
 inline constexpr const char* kFireRedUs10Uuid = "e8e92ba8-429b-55a0-b78d-2c269b6d2b56";
