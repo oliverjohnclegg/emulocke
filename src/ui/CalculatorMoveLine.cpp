@@ -37,10 +37,6 @@ int collectCalcMoves(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Po
         const DamageResult dmg = calculate(dmgGen, chart, atk, def, mv, field);
         CalcMoveLine& line = out[n++];
         line.name = mv.name;
-        line.pri[0] = 0;
-        if (mv.priority) {
-            std::snprintf(line.pri, sizeof line.pri, "%+d", mv.priority);
-        }
         line.blank = dmg.immune || mv.kind == MoveKind::Status || mv.bp == 0;
         line.use = pct ? pct[i] : -1;
         line.pmin = def.maxHp > 0 ? dmg.min * 100 / def.maxHp : 0;
@@ -83,16 +79,10 @@ void drawCalcMoveDmg(const CalcMoveLine& line, bool hugRight) {
 }
 
 void drawCalcMoveName(const CalcMoveLine& line, bool right) {
-    char label[40];
-    if (line.pri[0]) {
-        std::snprintf(label, sizeof label, "%s %s", line.name, line.pri);
-    } else {
-        std::snprintf(label, sizeof label, "%s", line.name);
-    }
     if (right) {
-        calcAlignRight(ImGui::CalcTextSize(label).x);
+        calcAlignRight(ImGui::CalcTextSize(line.name).x);
     }
-    drawInk(line, label);
+    drawInk(line, line.name);
 }
 
 }

@@ -7,7 +7,6 @@ namespace emulocke {
 
 struct CalcMoveLine {
     const char* name;
-    char pri[8];
     bool blank;
     bool ohko;
     int use;
