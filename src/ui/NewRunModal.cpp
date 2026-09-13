@@ -14,10 +14,13 @@ void drawPresetCombo(NuzlockeRules& rules) {
     ImGui::AlignTextToFramePadding();
     ImGui::TextUnformatted("Preset");
     ImGui::SameLine();
-    ImGui::SetNextItemWidth(128.f);
-    const ImVec2 pos = ImGui::GetCursorScreenPos();
-    ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y + ImGui::GetFrameHeight()));
-    if (!ImGui::BeginCombo("##preset", rulesPresetTitle(rules))) {
+    if (ImGui::Button(rulesPresetTitle(rules), ImVec2(128.f, 0.f))) {
+        ImGui::OpenPopup("##preset");
+    }
+    const ImVec2 min = ImGui::GetItemRectMin();
+    const ImVec2 max = ImGui::GetItemRectMax();
+    ImGui::SetNextWindowPos(ImVec2(min.x, max.y));
+    if (!ImGui::BeginPopup("##preset")) {
         return;
     }
     if (ImGui::Selectable("Regular", rules == regularRules())) {
@@ -26,7 +29,7 @@ void drawPresetCombo(NuzlockeRules& rules) {
     if (ImGui::Selectable("Hardcore", rules == hardcoreRules())) {
         rules = hardcoreRules();
     }
-    ImGui::EndCombo();
+    ImGui::EndPopup();
 }
 
 }  // namespace
