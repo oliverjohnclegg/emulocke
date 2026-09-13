@@ -1,11 +1,16 @@
 #include "emu/Paths.hpp"
 #include "poke/SpriteIndex.hpp"
 #include "poke/Sprites.hpp"
+#include "cart/GameArtPng.hpp"
+#include "cart/RgbaFit.hpp"
 
 #include <SDL3/SDL.h>
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
 #include <filesystem>
+#include <fstream>
+#include <iterator>
 #include <string>
 #include <vector>
 
@@ -92,6 +97,49 @@ int main(int argc, char** argv) {
     if (!std::filesystem::exists(again)) {
         return fail("cache hit");
     }
+
+    auto loadRgba = [](const std::filesystem::path& path) -> emulocke::RgbaImage {
+        std::ifstream in(path, std::ios::binary);
+        std::vector<uint8_t> bytes((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+        auto image = emulocke::decodePngRgba(bytes);
+        return image ? *image : emulocke::RgbaImage{};
+    };
+    auto contentMax = [](const emulocke::RgbaImage& src) {
+        int minX = src.width;
+        int minY = src.height;
+        int maxX = -1;
+        int maxY = -1;
+        for (int y = 0; y < src.height; ++y) {
+            for (int x = 0; x < src.width; ++x) {
+                if (src.pixels[static_cast<std::size_t>((y * src.width + x) * 4 + 3)] >= 12) {
+                    minX = std::min(minX, x);
+                    minY = std::min(minY, y);
+                    maxX = std::max(maxX, x);
+                    maxY = std::max(maxY, y);
+                }
+            }
+        }
+        if (maxX < 0) {
+            return 0;
+        }
+        return std::max(maxX - minX + 1, maxY - minY + 1);
+    };
+    const auto diglettPath = cache.get("diglett", emulocke::SpriteKind::Box);
+    const auto zapdosPath = cache.get("zapdos", emulocke::SpriteKind::Box);
+    const auto digRaw = loadRgba(diglettPath);
+    const auto zapRaw = loadRgba(zapdosPath);
+    if (contentMax(digRaw) >= contentMax(zapRaw)) {
+        return fail("diglett should be the smaller raw sprite");
+    }
+    const auto digFit = emulocke::fitRgbaCell(digRaw, 64, 48);
+    const auto zapFit = emulocke::fitRgbaCell(zapRaw, 64, 48);
+    if (digFit.width != 64 || digFit.height != 48 || zapFit.width != 64 || zapFit.height != 48) {
+        return fail("fit cell size");
+    }
+    if (contentMax(digFit) < 36 || contentMax(zapFit) < 36) {
+        return fail("fit should fill the cell");
+    }
+
     SDL_Quit();
     return 0;
 }

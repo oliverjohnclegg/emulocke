@@ -178,6 +178,7 @@ add_library(emulocke_sprites STATIC
     src/poke/SpriteCache.cpp
     src/cart/GameIndex.cpp
     src/cart/GameArtPng.cpp
+    src/cart/RgbaFit.cpp
     src/cart/GameArtCanvas.cpp
     src/cart/GameArtPlate.cpp
     src/cart/GameArtCache.cpp)

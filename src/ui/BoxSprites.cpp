@@ -1,6 +1,8 @@
 #include "ui/BoxSprites.hpp"
 
 #include "cart/GameArtPng.hpp"
+#include "cart/RgbaFit.hpp"
+#include "ui/Tracker.hpp"
 
 #include <fstream>
 #include <vector>
@@ -52,14 +54,15 @@ SDL_Texture* BoxSprites::loadPath(const std::filesystem::path& path) {
     if (!image || !renderer_) {
         return nullptr;
     }
+    const RgbaImage cell = fitRgbaCell(*image, kBoxSpriteW, kBoxSpriteH);
     SDL_Texture* tex = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC,
-                                           image->width, image->height);
+                                           cell.width, cell.height);
     if (!tex) {
         return nullptr;
     }
     SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
     SDL_SetTextureScaleMode(tex, SDL_SCALEMODE_NEAREST);
-    SDL_UpdateTexture(tex, nullptr, image->pixels.data(), image->width * 4);
+    SDL_UpdateTexture(tex, nullptr, cell.pixels.data(), cell.width * 4);
     return tex;
 }
 
