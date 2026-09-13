@@ -15,6 +15,8 @@ void drawPresetCombo(NuzlockeRules& rules) {
     ImGui::TextUnformatted("Preset");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(128.f);
+    const ImVec2 pos = ImGui::GetCursorScreenPos();
+    ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y + ImGui::GetFrameHeight()));
     if (!ImGui::BeginCombo("##preset", rulesPresetTitle(rules))) {
         return;
     }
