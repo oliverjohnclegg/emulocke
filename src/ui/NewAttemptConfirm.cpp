@@ -38,7 +38,7 @@ void drawNewAttemptConfirm(Application& app) {
     const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
     ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(14.f, 14.f));
-    ImGui::PushStyleColor(ImGuiCol_PopupBg, kChassis);
+    ImGui::PushStyleColor(ImGuiCol_PopupBg, kPanel);
     bool open = true;
     const ImGuiWindowFlags flags =
         ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar;
@@ -59,27 +59,20 @@ void drawNewAttemptConfirm(Application& app) {
     if (app.displayFont()) {
         ImGui::PopFont();
     }
-    ImGui::Dummy(ImVec2(0, 6));
     ImGui::Separator();
-    ImGui::Dummy(ImVec2(0, 10));
-    const char* warn = "This ends the current attempt and deletes its save. There is no undo.";
-    const float wellPad = 10.f;
-    const float wrapW = plateW - wellPad * 2.f;
-    const ImVec2 warnSize = ImGui::CalcTextSize(warn, nullptr, false, wrapW);
-    const float wellH = warnSize.y + wellPad * 2.f;
-    const ImVec2 well = ImGui::GetCursorScreenPos();
-    ImDrawList* dl = ImGui::GetWindowDrawList();
-    dl->AddRectFilled(well, ImVec2(well.x + plateW, well.y + wellH), ImGui::GetColorU32(kScreenWell));
-    dl->AddRect(well, ImVec2(well.x + plateW, well.y + wellH), ImGui::GetColorU32(kBorder));
-    dl->AddRectFilled(well, ImVec2(well.x + plateW, well.y + 2.f), kPaused);
-    ImGui::SetCursorScreenPos(ImVec2(well.x + wellPad, well.y + wellPad));
-    ImGui::PushTextWrapPos(well.x + plateW - wellPad);
-    ImGui::TextUnformatted(warn);
-    ImGui::PopTextWrapPos();
-    ImGui::SetCursorScreenPos(ImVec2(well.x, well.y + wellH + 14.f));
+    ImGui::Dummy(ImVec2(0, 8));
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, kScreenWell);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(12.f, 12.f));
+    ImGui::BeginChild("warn", ImVec2(plateW, 0),
+        ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeY | ImGuiChildFlags_AlwaysUseWindowPadding);
+    ImGui::TextUnformatted("This ends the current attempt and deletes its save.");
+    ImGui::TextUnformatted("There is no undo.");
+    ImGui::EndChild();
+    ImGui::PopStyleVar();
+    ImGui::PopStyleColor();
+    ImGui::Dummy(ImVec2(0, 12));
     const float gap = 5.f;
-    const float btnW = (plateW - gap) * 0.5f;
-    const ImVec2 btn(btnW, 28.f);
+    const ImVec2 btn((plateW - gap) * 0.5f, 28.f);
     if (namedPlate("end", "START NEW ATTEMPT", btn, true)) {
         app.confirmNewAttempt();
         ImGui::CloseCurrentPopup();
