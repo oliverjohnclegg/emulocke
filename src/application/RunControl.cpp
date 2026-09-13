@@ -70,6 +70,10 @@ void Application::drainPending() {
         pendingDumpPicker_ = false;
         showDumpPicker();
     }
+    if (pendingSavPicker_) {
+        pendingSavPicker_ = false;
+        showSavPicker();
+    }
     if (!pendingImport_.empty()) {
         const std::string path = std::move(pendingImport_);
         pendingImport_.clear();
@@ -107,6 +111,8 @@ void Application::drainPending() {
 }
 
 void Application::createRunFromDraft() {
+    const std::string sav = std::move(pendingImportSav_);
+    pendingImportSav_.clear();
     if (newRunDraft_.catalogUuid.empty()) {
         status_ = "Pick a game.";
         return;
@@ -119,6 +125,10 @@ void Application::createRunFromDraft() {
     auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules, newRunDraft_.patchOption);
     if (!created) {
         status_ = "Failed to create run.";
+        return;
+    }
+    if (!sav.empty() && !runStore_->importBattery(created->id, sav)) {
+        status_ = "Failed to import save.";
         return;
     }
     loadRun(created->id);

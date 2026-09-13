@@ -23,6 +23,7 @@ public:
     std::optional<Run> createAttempt(const Run& source);
     bool touch(const std::string& id);
     bool addPlayMs(const std::string& id, uint64_t ms);
+    bool importBattery(const std::string& id, const std::filesystem::path& source) const;
     std::filesystem::path batteryPath(const std::string& id) const;
     std::filesystem::path dir(const std::string& id) const;
     std::vector<const Run*> byCatalogUuid(std::string_view uuid) const;
