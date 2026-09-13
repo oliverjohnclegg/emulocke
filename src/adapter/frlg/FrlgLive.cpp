@@ -7,8 +7,6 @@
 
 #include <array>
 #include <cstdio>
-#include <cstring>
-#include <vector>
 
 namespace emulocke {
 namespace {
@@ -34,9 +32,8 @@ bool copy(const LiveMemory& mem, uint32_t addr, std::span<uint8_t> out) {
 void fillSnapshotFromFrlgLive(const LiveMemory& mem, GameSnapshot& snap) {
     const uint32_t sb2 = livePtr(mem, kFrlgSaveBlock2Ptr, kFrlgSaveBlock2, kFrlgSaveBlock2Size);
     const uint32_t sb1 = livePtr(mem, kFrlgSaveBlock1Ptr, kFrlgSaveBlock1, kFrlgSaveBlock1Size);
-    const uint32_t storage = livePtr(mem, kFrlgStoragePtr, kFrlgStorage, kFrlgStorageSize);
 
-    std::vector<uint8_t> block2(kFrlgSaveBlock2Size);
+    std::array<uint8_t, kFrlgSaveBlock2Size> block2{};
     if (copy(mem, sb2, block2)) {
         decodeGen3Text({block2.data(), 7}, snap.trainer.name, sizeof(snap.trainer.name));
         snap.trainer.gender = block2[8];
@@ -70,23 +67,6 @@ void fillSnapshotFromFrlgLive(const LiveMemory& mem, GameSnapshot& snap) {
         char scratch[32];
         std::snprintf(snap.overworld.mapName, sizeof(snap.overworld.mapName), "%s",
                       frlgMapName(loc[0], loc[1], scratch, sizeof(scratch)));
-    }
-
-    std::vector<uint8_t> store(kFrlgStorageSize);
-    if (copy(mem, storage, store)) {
-        snap.boxes.current = store[0];
-        for (int b = 0; b < 14; ++b) {
-            decodeGen3Text({store.data() + kFrlgBoxNameOff + b * 9, 8}, snap.boxes.boxes[b].name,
-                           sizeof(snap.boxes.boxes[b].name));
-            for (int s = 0; s < 30; ++s) {
-                DecryptedMon dec;
-                const uint8_t* raw = store.data() + kFrlgBoxStart + (b * 30 + s) * kBoxMonSize;
-                if (!decryptBoxMon({raw, kBoxMonSize}, dec)) {
-                    continue;
-                }
-                snap.boxes.boxes[b].mons[s] = toSnapshotMon(dec);
-            }
-        }
     }
     snap.ok = true;
 }

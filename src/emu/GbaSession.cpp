@@ -11,7 +11,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
-#include <vector>
 
 namespace emulocke {
 
@@ -32,9 +31,13 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const s
     }
     mCoreInitConfig(session->core_, "emulocke");
     mCoreConfigSetDefaultValue(&session->core_->config, "skipBios", "1");
+    mCoreConfigSetDefaultValue(&session->core_->config, "idleOptimization", "detect");
+    mCoreConfigSetDefaultIntValue(&session->core_->config, "frameskip", 0);
     session->core_->opts.skipBios = true;
+    session->core_->opts.frameskip = 0;
     session->core_->baseVideoSize(session->core_, &session->width_, &session->height_);
     session->pixels_.assign(session->width_ * session->height_, 0);
+    session->display_.assign(session->width_ * session->height_, 0);
     session->core_->setVideoBuffer(session->core_, session->pixels_.data(), session->width_);
     session->core_->setAudioBufferSize(session->core_, 4096);
     if (!session->core_->loadROM(session->core_, vf)) {
@@ -47,6 +50,9 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const s
     if (!save.empty()) {
         session->core_->savedataRestore(session->core_, save.data(), save.size(), true);
     }
+    session->core_->loadConfig(session->core_, &session->core_->config);
+    session->core_->opts.skipBios = true;
+    session->core_->opts.frameskip = 0;
     session->core_->reset(session->core_);
     mCoreCallbacks callbacks{};
     callbacks.context = session.get();
@@ -70,18 +76,20 @@ void GbaSession::copyScreen(int index, void* dest, int pitchBytes) const {
     }
     std::lock_guard lock(frameMutex_);
     auto* dst = static_cast<uint8_t*>(dest);
+    const size_t rowBytes = static_cast<size_t>(width_) * 4;
     for (unsigned y = 0; y < height_; ++y) {
-        const uint32_t* src = pixels_.data() + static_cast<size_t>(y) * width_;
-        auto* row = reinterpret_cast<uint32_t*>(dst + static_cast<size_t>(y) * pitchBytes);
-        for (unsigned x = 0; x < width_; ++x) {
-            row[x] = gbaNativeToRgba(src[x]);
-        }
+        std::memcpy(dst + static_cast<size_t>(y) * pitchBytes, display_.data() + static_cast<size_t>(y) * width_,
+                    rowBytes);
     }
 }
 
 void GbaSession::runFrame() {
-    std::lock_guard lock(frameMutex_);
     core_->runFrame(core_);
+    std::lock_guard lock(frameMutex_);
+    const size_t n = static_cast<size_t>(width_) * height_;
+    for (size_t i = 0; i < n; ++i) {
+        display_[i] = gbaNativeToRgba(pixels_[i]);
+    }
 }
 
 void GbaSession::reset() {
@@ -101,10 +109,10 @@ void GbaSession::drainAudio(AudioOutput& audio) {
     if (available <= 0) {
         return;
     }
-    std::vector<int16_t> samples(static_cast<size_t>(available) * 2);
-    const int got = static_cast<int>(mAudioBufferRead(buffer, samples.data(), static_cast<size_t>(available)));
+    audioScratch_.resize(static_cast<size_t>(available) * 2);
+    const int got = static_cast<int>(mAudioBufferRead(buffer, audioScratch_.data(), static_cast<size_t>(available)));
     const int hz = static_cast<int>(core_->audioSampleRate(core_));
-    audio.push(samples.data(), got, hz > 0 ? hz : 32768);
+    audio.push(audioScratch_.data(), got, hz > 0 ? hz : 32768);
 }
 
 bool GbaSession::read(uint32_t addr, std::span<uint8_t> out) const {
