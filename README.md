@@ -74,7 +74,7 @@ Vanguard:
 - `emulocke-vanguard-<commit>-win-x64.exe`
 - `emulocke-vanguard-<commit>-linux-x64`
 
-Window caption is `Emulocke vX.X.X` on Stable and `Emulocke VANGUARD [<commit>]` on Vanguard. A seated run appends ` - Pokemon <title>`.
+Window caption is `Emulocke vX.X.X` on Stable and `Emulocke VANGUARD [<commit>]` on Vanguard. A seated run appends ` - Pokémon <title>`.
 
 ## License
 

@@ -18,11 +18,13 @@ int testBuildId() {
     };
     expectEq(windowTitle(ReleaseChannel::Stable, "1.2.3", "deadbee", {}), "Emulocke v1.2.3", "stable idle");
     expectEq(windowTitle(ReleaseChannel::Stable, "1.2.3", "deadbee", "Pokemon Fire Red"),
-        "Emulocke v1.2.3 - Pokemon Fire Red", "stable run");
+        "Emulocke v1.2.3 - Pok\u00E9mon Fire Red", "stable run");
     expectEq(windowTitle(ReleaseChannel::Vanguard, "1.2.3", "abc1234", {}), "Emulocke VANGUARD [abc1234]",
         "vanguard idle");
     expectEq(windowTitle(ReleaseChannel::Vanguard, "1.2.3", "abc1234", "Pokemon Emerald"),
-        "Emulocke VANGUARD [abc1234] - Pokemon Emerald", "vanguard run");
+        "Emulocke VANGUARD [abc1234] - Pok\u00E9mon Emerald", "vanguard run");
+    expectEq(windowTitle(ReleaseChannel::Stable, "0.1.0", "deadbee", "Pokemon"),
+        "Emulocke v0.1.0 - Pok\u00E9mon", "stable pokemon only");
     expectEq(artifactFileName(ReleaseChannel::Stable, DistOs::WinX64, "1.2.3", "deadbee"),
         "emulocke-v1.2.3-win-x64.exe", "stable win");
     expectEq(artifactFileName(ReleaseChannel::Vanguard, DistOs::WinX64, "1.2.3", "abc1234"),

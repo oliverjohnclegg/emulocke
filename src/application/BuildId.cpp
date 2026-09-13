@@ -38,7 +38,13 @@ std::string windowTitle(ReleaseChannel channel, std::string_view version, std::s
     }
     if (!gameTitle.empty()) {
         title += " - ";
-        title += gameTitle;
+        constexpr std::string_view pokemon = "Pokemon";
+        if (gameTitle.size() >= pokemon.size() && gameTitle.substr(0, pokemon.size()) == pokemon) {
+            title += "Pok\u00E9mon";
+            title += gameTitle.substr(pokemon.size());
+        } else {
+            title += gameTitle;
+        }
     }
     return title;
 }

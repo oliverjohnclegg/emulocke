@@ -107,7 +107,7 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 
 Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree must produce a Windows instance on `windows-latest`. `main` is Stable; `dev` is Vanguard. GitHub Actions stamps and uploads both OS instances on push. Native compile on each OS, not cross-compile.
 
-Stable instance names: `emulocke-vX.X.X-win-x64.exe` and `emulocke-vX.X.X-linux-x64`. Vanguard: `emulocke-vanguard-<commit>-win-x64.exe` and `emulocke-vanguard-<commit>-linux-x64`. Window caption is `Emulocke vX.X.X` (Stable) or `Emulocke VANGUARD [<commit>]` (Vanguard); a seated run appends ` - Pokemon <title>`.
+Stable instance names: `emulocke-vX.X.X-win-x64.exe` and `emulocke-vX.X.X-linux-x64`. Vanguard: `emulocke-vanguard-<commit>-win-x64.exe` and `emulocke-vanguard-<commit>-linux-x64`. Window caption is `Emulocke vX.X.X` (Stable) or `Emulocke VANGUARD [<commit>]` (Vanguard); a seated run appends ` - Pokémon <title>`.
 
 ## Tech
 
