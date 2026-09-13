@@ -70,6 +70,15 @@ void drawMenuBar(Application& app) {
             if (ImGui::MenuItem("Reset", nullptr, false, has)) {
                 app.resetSession();
             }
+            int speed = app.prefs().speedUp;
+            ImGui::TextUnformatted("Speed-up");
+            ImGui::SetNextItemWidth(168.f);
+            if (ImGui::SliderInt("##speed-up", &speed, 2, 8, "%dx")) {
+                app.setSpeedUp(speed);
+            }
+            if (ImGui::MenuItem("Hold Tab", nullptr, app.prefs().speedUpHold)) {
+                app.setSpeedUpHold(!app.prefs().speedUpHold);
+            }
         });
         ImGui::EndMenu();
     }

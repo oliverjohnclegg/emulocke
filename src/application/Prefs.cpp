@@ -54,10 +54,15 @@ Prefs Prefs::load() {
             prefs.mute = parseFlag(value);
         } else if (key == "volume") {
             prefs.volume = parseInt(value);
+        } else if (key == "speed_up") {
+            prefs.speedUp = parseInt(value);
+        } else if (key == "speed_up_hold") {
+            prefs.speedUpHold = parseFlag(value);
         }
     }
     prefs.scale = std::clamp(prefs.scale, 0, 4);
     prefs.volume = std::clamp(prefs.volume, 0, 100);
+    prefs.speedUp = std::clamp(prefs.speedUp, 2, 8);
     return prefs;
 }
 
@@ -75,6 +80,8 @@ void Prefs::save() const {
     out << "scale=" << scale << '\n';
     out << "mute=" << (mute ? 1 : 0) << '\n';
     out << "volume=" << volume << '\n';
+    out << "speed_up=" << speedUp << '\n';
+    out << "speed_up_hold=" << (speedUpHold ? 1 : 0) << '\n';
 }
 
 }

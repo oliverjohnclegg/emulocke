@@ -14,7 +14,7 @@ This is the filter for every menu, setting, and tool decision.
 - The user imports a Pokemon dump. `.gba` and `.nds` pick a core. The UI does not split GBA vs DS: no dual file-type identity, no GBA slot, no LCD layout, no firmware or BIOS chores.
 - Cores (mGBA, melonDS) are implementation. They are not product surfaces.
 - Emulator lab tools stay out: save states, rewind, cheats, disassemblers, memory viewers, movie recording, Lua, scanline filters, HUD counters.
-- Cherry-pick later, only when named: speed-up and frame skip under Emulation. Do not stub empty items.
+- Cherry-pick later, only when named: frame skip under Emulation. Do not stub empty items.
 
 DeSmuME is an analog for host comfort (window size, sound), not a menu to clone.
 
@@ -54,7 +54,7 @@ A playable host. Suite is a Logs tab only.
 - Keyboard and SDL gamepad
 - Stylus on the bottom pane for two-screen games
 - Battery saves live in the run folder (`battery.sav`), never beside the ROM
-- Pause and reset
+- Pause, reset, and speed-up (Tab, default 3x, Hold Tab or toggle)
 - One run at a time; ROM extension picks the core
 - View: fullscreen, screen scale Fit / 1x / 2x / 3x / 4x, restore default window
 - Audio: mute and volume
@@ -66,7 +66,7 @@ A playable host. Suite is a Logs tab only.
 
 - Any nuzlocke suite UI (damage calc, tracker, QoL, nuzlocke.app-adjacent tools)
 - Emulator lab tools (save states, rewind, cheats, disassemblers, memory viewers, movies, Lua, filters, HUD)
-- Speed-up and frame skip (later cherry-pick)
+- Frame skip (later cherry-pick)
 - Input remapping
 - Treating GBA and DS as separate products in the UI
 - DSi NAND, WiFi
@@ -99,7 +99,6 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 
 ## Later host (not V1)
 
-- Speed-up
 - Frame skip
 
 ## Platforms
@@ -140,6 +139,7 @@ Bindings are fixed in V1. Help > Controls lists them. Remapping is later.
 | Start | Enter |
 | Select | Shift |
 | Stylus | Mouse on bottom screen |
+| Speed-up | Tab |
 
 Gamepad: standard SDL mapping.
 
@@ -170,7 +170,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 1. The tree builds on the Linux/WSL machine used for development.
 2. GitHub Actions builds Linux and Windows artifacts on push (`emulocke` and `emulocke.exe`).
 3. A verified Fire Red US 1.0 dump imports as its catalog UUID. Unknown files are refused.
-4. Video, audio, keyboard, gamepad, pause, reset, and run-folder `battery.sav` creation work.
+4. Video, audio, keyboard, gamepad, pause, reset, speed-up, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
 6. One-screen games use a single left pane; FRLG fills Logs from the adapter snapshot.
 7. View, Audio, and Help work. Prefs survive a relaunch.
@@ -190,3 +190,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.
 - 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.
 - 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
+- 2026-09-13: Speed-up cherry-pick. Tab holds 3x by default. Emulation sets 2x-8x and Hold Tab vs toggle.

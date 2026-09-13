@@ -38,20 +38,30 @@ void Application::stopEmuThread() {
 }
 
 void Application::emuLoop() {
+    bool wasFast = false;
     while (running_) {
         const Uint64 start = SDL_GetTicksNS();
+        const bool fast = speedUpOn_.load();
+        const int mul = speedUp_.load();
+        const int frames = (fast && mul > 1) ? mul : 1;
+        if (fast && !wasFast) {
+            audio_.clear();
+        }
+        wasFast = fast;
+        audio_.setDropping(frames > 1);
         int queuedAfter = 0;
-        {
+        for (int i = 0; i < frames && running_; ++i) {
             std::lock_guard lock(sessionMutex_);
-            if (session_ && !paused_) {
-                session_->setButtons(buttons_);
-                session_->setTouch(touchDown_, touchX_, touchY_);
-                session_->runFrame();
-                session_->drainAudio(audio_);
-                queuedAfter = audio_.queuedBytes();
-                if (adapter_ && session_->liveMemory()) {
-                    snapshot_ = adapter_->readLive(*session_->liveMemory());
-                }
+            if (!session_ || paused_) {
+                break;
+            }
+            session_->setButtons(buttons_);
+            session_->setTouch(touchDown_, touchX_, touchY_);
+            session_->runFrame();
+            session_->drainAudio(audio_);
+            queuedAfter = audio_.queuedBytes();
+            if (adapter_ && session_->liveMemory()) {
+                snapshot_ = adapter_->readLive(*session_->liveMemory());
             }
         }
         const Uint64 frameNs = 16742706;
@@ -89,6 +99,7 @@ void Application::bootRun(const Run& run) {
         adapter_ = nullptr;
         snapshot_ = GameSnapshot{};
         paused_ = false;
+        speedUpOn_ = false;
         if (session_ && session_->cartridge()) {
             adapter_ = adapterFor(*session_->cartridge());
         }
@@ -105,6 +116,7 @@ void Application::closeRun() {
     session_.reset();
     adapter_ = nullptr;
     snapshot_ = GameSnapshot{};
+    speedUpOn_ = false;
     activeRunId_.clear();
     status_ = "No cart.";
 }

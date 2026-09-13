@@ -13,7 +13,12 @@ void Application::run() {
     while (true) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
-            ImGui_ImplSDL3_ProcessEvent(&event);
+            const bool tabKey =
+                (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) &&
+                event.key.scancode == SDL_SCANCODE_TAB;
+            if (!(tabKey && session_ && !ImGui::GetIO().WantTextInput)) {
+                ImGui_ImplSDL3_ProcessEvent(&event);
+            }
             if (event.type == SDL_EVENT_QUIT) {
                 return;
             }
@@ -40,6 +45,7 @@ void Application::run() {
         if (!ImGui::GetIO().WantTextInput) {
             buttons_ = input_.poll(keys);
         }
+        pollSpeedUp(keys);
         {
             std::lock_guard lock(sessionMutex_);
             if (session_) {

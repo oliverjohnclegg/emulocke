@@ -47,6 +47,8 @@ public:
     void setScreenScale(int scale);
     void setMuted(bool mute);
     void setVolume(int volume);
+    void setSpeedUp(int speed);
+    void setSpeedUpHold(bool hold);
     void restoreDefaultWindow();
     bool paused() const { return paused_; }
     int screenScale() const { return prefs_.scale; }
@@ -71,6 +73,7 @@ private:
     void startEmuThread();
     void stopEmuThread();
     void emuLoop();
+    void pollSpeedUp(const bool* keys);
     void applyPendingHost();
     void drainPending();
     void importPath(const std::string& path);
@@ -94,6 +97,10 @@ private:
     std::thread emuThread_;
     std::atomic<bool> running_{false};
     std::atomic<bool> paused_{false};
+    std::atomic<int> speedUp_{3};
+    std::atomic<bool> speedUpHold_{true};
+    std::atomic<bool> speedUpOn_{false};
+    bool tabWasDown_{false};
     ImFont* displayFont_{};
     ImFont* bodyFont_{};
     std::string pendingImport_;
