@@ -29,7 +29,7 @@ void drawSuite(Application& app, ImVec2 size) {
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Calculator", nullptr,
-                app.previewCalc() ? ImGuiTabItemFlags_SetSelected : 0)) {
+                app.consumePreviewCalcSelect() ? ImGuiTabItemFlags_SetSelected : 0)) {
             ImGui::PushStyleColor(ImGuiCol_ChildBg, kPanel);
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10.f, 10.f));
             ImGui::BeginChild("calc", ImVec2(0, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_AlwaysUseWindowPadding);

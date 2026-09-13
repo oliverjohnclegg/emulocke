@@ -80,6 +80,7 @@ public:
     SavePeek& savePeek() { return *savePeek_; }
     CalcSession& calc() { return calc_; }
     bool previewCalc() const { return previewCalc_; }
+    bool consumePreviewCalcSelect();
     void seedPreviewCalc();
 
 private:
@@ -145,6 +146,7 @@ private:
     std::vector<uint8_t> uploadScratch_;
     CalcSession calc_{};
     bool previewCalc_{};
+    bool previewCalcSelect_{};
 };
 
 }

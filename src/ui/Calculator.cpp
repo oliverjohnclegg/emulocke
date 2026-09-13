@@ -7,6 +7,7 @@
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
+#include <string_view>
 
 namespace emulocke {
 namespace {
@@ -48,7 +49,7 @@ void drawCalculator(Application& app) {
         return;
     }
     drawCalcSearch(app, session);
-    if (session.trainer()) {
+    if (session.trainer() && !session.browsing()) {
         drawCalcStrips(app, session);
         drawCalcMatchup(app, session);
     }

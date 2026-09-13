@@ -47,6 +47,15 @@ void Application::seedPreviewCalc() {
         calc_.pickTrainer(calc_.trainerHits().front());
     }
     status_ = "Calculator preview";
+    previewCalcSelect_ = true;
+}
+
+bool Application::consumePreviewCalcSelect() {
+    if (!previewCalc_ || !previewCalcSelect_) {
+        return false;
+    }
+    previewCalcSelect_ = false;
+    return true;
 }
 
 }
