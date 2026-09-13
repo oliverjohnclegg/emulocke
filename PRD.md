@@ -31,7 +31,7 @@ Stock emulators play the game and nothing else. Existing nuzlocke tools live in 
 Left column is the game. Right column is the suite.
 
 - Two-screen games: stacked screens (256x192), top then bottom, 5px between them when the left pane allows. Mouse on the bottom pane is the stylus.
-- One-screen games: one screen well (240x160) in that same left pane. No empty bottom tile.
+- One-screen games: stacked wells (240x160) in that same left pane, game then party LCD, 5px between them. Party LCD is suite chrome (box sprites, HP), not a second framebuffer. Not a stylus target. View > Bottom Screen turns it off; the game well stays integer-scaled and sits vertically centered in the left pane.
 - 21px graphite around the left pane. Not between the two screens. Same 21px below and to the right of the suite.
 - Left pane stays the home column size when a cart seats. Screens integer-scale inside it. View > Screen Scale is the explicit size control. Default window fits 2x two-screen plus a 460px suite.
 - View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
@@ -58,7 +58,7 @@ A playable host. Suite is Tracker, Pokémon, then Logs.
 - Battery saves live in the run folder (`battery.sav`), never beside the ROM
 - Pause, reset, and speed-up (Tab, default 3x). Emulation > Speed-up holds the 2x-8x slider and Hold Tab vs toggle.
 - One run at a time; ROM extension picks the core
-- View: fullscreen, right pane (F8), screen scale Fit / 1x / 2x / 3x / 4x, restore default window
+- View: fullscreen, right pane (F8), screen scale Fit / 1x / 2x / 3x / 4x, bottom screen (party LCD, default on), restore default window
 - Audio: mute and volume
 - Help: controls (read-only) and about
 - Prefs persist in the SDL pref path as `prefs.ini`
@@ -164,7 +164,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 | SDL3 + Dear ImGui, themed | Low-latency host. Suite can grow in the right pane later. Qt is the stock emulator look. Tauri adds IPC latency. |
 | Native cores, not libretro | This project named the standalone melonDS and mGBA repos. Native APIs also expose RAM/save for a later suite. |
 | Software 3D (no melonDS GL renderer) | Avoid sharing a GL context with ImGui. Fine for V1 on PC. |
-| One-screen games use one left pane | A 2x2 grid leaves a dead bottom-left tile. |
+| One-screen games stack game + party LCD | A 2x2 grid leaves a dead bottom-left tile. Party LCD is chrome, not a second core screen. |
 | FreeBIOS / generated firmware | Play DS Pokemon without shipping or requiring dumps. |
 | One session at a time | No dual-core process. Extension selects the core. |
 | Baseline View/Audio prefs in V1 | Window, scale, mute, and volume are how you play, not lab tools. |
@@ -182,7 +182,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 3. A verified Fire Red US 1.0 dump imports as its catalog UUID. Unknown files are refused.
 4. Video, audio, keyboard, gamepad, pause, reset, speed-up, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
-6. One-screen games use a single left pane; FRLG fills Tracker and Logs from the adapter snapshot plus the FRLG atlas.
+6. One-screen games stack game + party LCD in the left pane; FRLG fills Tracker and Logs from the adapter snapshot plus the FRLG atlas.
 7. View, Audio, and Help work. Prefs survive a relaunch.
 
 ## Changelog
@@ -216,3 +216,5 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Game art fills 256x192. Official DS titles crop to the top screen. Catalog hacks ship original 256x192 stills.
 - 2026-09-13: New Run hack rows show a `by [creator]` stamp.
 - 2026-09-13: Pokémon suite tab. Live party wells with HP bars, boxed mons sorted by BST, Grave for tracker-dead greyscale sprites. Hover shows the Showdown fields. Click copies the set.
+- 2026-09-13: One-screen games stack a party LCD under the game. 2x3 box sockets, HP tracks, occasional hop.
+- 2026-09-13: View > Bottom Screen toggles the GBA party LCD. Off fills the left pane and centers the game well.

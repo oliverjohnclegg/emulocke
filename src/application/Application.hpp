@@ -61,6 +61,7 @@ public:
     void setVolume(int volume);
     void setSpeedUp(int speed);
     void setSpeedUpHold(bool hold);
+    void setBottomScreen(bool on);
     void restoreDefaultWindow();
     bool paused() const { return paused_; }
     int screenScale() const { return prefs_.scale; }
