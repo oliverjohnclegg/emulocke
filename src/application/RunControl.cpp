@@ -2,12 +2,21 @@
 
 #include "run/Catalog.hpp"
 
+#include <string>
+
 namespace emulocke {
 
 void Application::requestNewRun() {
-    const auto titles = romLibrary_->playableTitles();
-    if (newRunDraft_.catalogUuid.empty() && !titles.empty()) {
-        newRunDraft_.catalogUuid = titles.front()->uuid;
+    if (newRunDraft_.catalogUuid.empty()) {
+        for (const CatalogTitle& title : catalogTitles()) {
+            if (romLibrary_->ready(title)) {
+                newRunDraft_.catalogUuid = title.uuid;
+                break;
+            }
+        }
+        if (newRunDraft_.catalogUuid.empty() && !catalogTitles().empty()) {
+            newRunDraft_.catalogUuid = catalogTitles().front().uuid;
+        }
     }
     newRunDraft_.rules = regularRules();
     pendingNewRun_ = true;
@@ -36,14 +45,27 @@ void Application::importPath(const std::string& path) {
     const ImportResult result = romLibrary_->importFile(path);
     status_ = result.message;
     if (result.ok && result.title) {
-        newRunDraft_.catalogUuid = result.title->uuid;
+        const CatalogTitle* keep = catalogByUuid(importKeepUuid_);
+        if (keep && keep->kind == TitleKind::Hack &&
+            std::string(keep->prerequisiteUuid) == result.title->uuid) {
+            newRunDraft_.catalogUuid = importKeepUuid_;
+        } else if (keep && keep->kind == TitleKind::Hack) {
+            newRunDraft_.catalogUuid = importKeepUuid_;
+        } else {
+            newRunDraft_.catalogUuid = result.title->uuid;
+        }
     }
+    importKeepUuid_.clear();
 }
 
 void Application::drainPending() {
     if (pendingNewRun_) {
         pendingNewRun_ = false;
         showNewRun_ = true;
+    }
+    if (pendingDumpPicker_) {
+        pendingDumpPicker_ = false;
+        showDumpPicker();
     }
     if (!pendingImport_.empty()) {
         const std::string path = std::move(pendingImport_);

@@ -10,6 +10,7 @@
 #include "run/Run.hpp"
 #include "run/RunStore.hpp"
 #include "run/TitlePlay.hpp"
+#include "ui/GameArtGpu.hpp"
 
 #include <atomic>
 #include <cstdint>
@@ -39,6 +40,7 @@ public:
     void dismissNewRun();
     void confirmNewRun();
     void requestImportGame();
+    void requestImportFor(std::string uuid);
     void queueImport(std::string path);
     void queueLoadRun(std::string id);
     void queueNewAttempt(std::string sourceId);
@@ -62,6 +64,7 @@ public:
     ScreenTexture& screen(int i) { return screens_[i]; }
     ImFont* displayFont() const { return displayFont_; }
     ImFont* bodyFont() const { return bodyFont_; }
+    GameArtGpu& gameArt() { return *gameArt_; }
     const std::string& status() const { return status_; }
     bool copySnapshot(GameSnapshot& out) const;
     bool showNewRun() const { return showNewRun_; }
@@ -83,6 +86,7 @@ private:
     void applyPendingHost();
     void drainPending();
     void importPath(const std::string& path);
+    void showDumpPicker();
     void createRunFromDraft();
     void startNewAttempt(const std::string& sourceId);
     void loadRun(const std::string& id);
@@ -99,6 +103,7 @@ private:
     std::unique_ptr<EmuSession> session_;
     std::unique_ptr<RomLibrary> romLibrary_;
     std::unique_ptr<RunStore> runStore_;
+    std::unique_ptr<GameArtGpu> gameArt_;
     std::unique_ptr<MediaFetch> media_;
     std::unique_ptr<PngCache> pngs_;
     std::unique_ptr<SavePeek> savePeek_;
@@ -116,6 +121,7 @@ private:
     ImFont* displayFont_{};
     ImFont* bodyFont_{};
     std::string pendingImport_;
+    std::string importKeepUuid_;
     std::string status_;
     std::string activeRunId_;
     std::string pendingLoadId_;
@@ -127,6 +133,7 @@ private:
     bool showNewRun_{false};
     bool pendingNewRun_{false};
     bool pendingCreate_{false};
+    bool pendingDumpPicker_{false};
     std::atomic<uint32_t> buttons_{0};
     std::atomic<bool> touchDown_{false};
     std::atomic<uint16_t> touchX_{0};
