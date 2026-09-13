@@ -23,6 +23,7 @@ bool writeRunMeta(const std::filesystem::path& dir, const Run& run) {
     out << "shinyClause=" << yn(run.rules.shinyClause) << "\n";
     out << "createdAt=" << run.createdAt << "\n";
     out << "lastPlayedAt=" << run.lastPlayedAt << "\n";
+    out << "playMs=" << run.playMs << "\n";
     return static_cast<bool>(out);
 }
 

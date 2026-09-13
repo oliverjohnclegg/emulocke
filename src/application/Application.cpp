@@ -42,6 +42,7 @@ bool Application::start(int argc, char** argv) {
     romLibrary_ = std::make_unique<RomLibrary>(romsRoot(), assetsDir());
     runStore_ = std::make_unique<RunStore>(runsRoot());
     runStore_->load();
+    titlePlay_ = std::make_unique<TitlePlay>(prefDir() / "playtime.ini");
     if (argc > 1) {
         importPath(argv[1]);
         if (newRunDraft_.catalogUuid.empty()) {
@@ -73,6 +74,9 @@ void Application::setTouch(bool down, uint16_t x, uint16_t y) {
 
 void Application::pauseToggle() {
     paused_ = !paused_;
+    if (paused_) {
+        commitPlay();
+    }
 }
 
 void Application::pollSpeedUp(const bool* keys) {

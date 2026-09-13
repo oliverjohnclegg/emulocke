@@ -50,10 +50,20 @@ void Application::emuLoop() {
         wasFast = fast;
         audio_.setDropping(frames > 1);
         int queuedAfter = 0;
+        bool played = false;
         for (int i = 0; i < frames && running_; ++i) {
             std::lock_guard lock(sessionMutex_);
             if (!session_ || paused_) {
+                playOriginNs_.store(0);
                 break;
+            }
+            if (!played) {
+                const Uint64 origin = playOriginNs_.load();
+                if (origin != 0) {
+                    pendingPlayNs_.fetch_add(start - origin);
+                }
+                playOriginNs_.store(start);
+                played = true;
             }
             session_->setButtons(buttons_);
             session_->setTouch(touchDown_, touchX_, touchY_);
@@ -76,6 +86,8 @@ void Application::emuLoop() {
 
 void Application::bootRun(const Run& run) {
     stopEmuThread();
+    harvestPlayOrigin();
+    commitPlay();
     auto rom = romLibrary_->ensurePlayable(run.catalogUuid);
     std::unique_ptr<EmuSession> next;
     if (rom) {
@@ -112,12 +124,15 @@ void Application::bootRun(const Run& run) {
 
 void Application::closeRun() {
     stopEmuThread();
+    harvestPlayOrigin();
+    commitPlay();
     std::lock_guard lock(sessionMutex_);
     session_.reset();
     adapter_ = nullptr;
     snapshot_ = GameSnapshot{};
     speedUpOn_ = false;
     activeRunId_.clear();
+    lastPlayCommitNs_ = 0;
     status_ = "No cart.";
 }
 
@@ -138,8 +153,10 @@ void Application::resetSession() {
 }
 
 void Application::shutdown() {
-    persistPrefs();
     stopEmuThread();
+    harvestPlayOrigin();
+    commitPlay();
+    persistPrefs();
     session_.reset();
     audio_.close();
     host_.destroy();

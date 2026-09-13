@@ -2,6 +2,7 @@
 
 #include "run/NuzlockeRules.hpp"
 
+#include <cstdint>
 #include <string>
 
 namespace emulocke {
@@ -14,6 +15,7 @@ struct Run {
     NuzlockeRules rules;
     std::string createdAt;
     std::string lastPlayedAt;
+    uint64_t playMs = 0;
 
     const std::string& lineageKey() const {
         return lineageId.empty() ? id : lineageId;

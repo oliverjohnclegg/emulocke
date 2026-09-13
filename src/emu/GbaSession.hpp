@@ -40,6 +40,8 @@ private:
     GbaSession() = default;
     mCore* core_{};
     std::vector<uint32_t> pixels_;
+    std::vector<uint32_t> display_;
+    std::vector<int16_t> audioScratch_;
     unsigned width_{};
     unsigned height_{};
     std::string romName_;

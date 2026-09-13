@@ -9,6 +9,7 @@
 #include "run/RomLibrary.hpp"
 #include "run/Run.hpp"
 #include "run/RunStore.hpp"
+#include "run/TitlePlay.hpp"
 
 #include <atomic>
 #include <cstdint>
@@ -81,6 +82,8 @@ private:
     void startNewAttempt(const std::string& sourceId);
     void loadRun(const std::string& id);
     void bootRun(const Run& run);
+    void harvestPlayOrigin();
+    void commitPlay();
     enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
     Host host_;
     PendingHost pendingHost_{PendingHost::None};
@@ -91,6 +94,7 @@ private:
     std::unique_ptr<EmuSession> session_;
     std::unique_ptr<RomLibrary> romLibrary_;
     std::unique_ptr<RunStore> runStore_;
+    std::unique_ptr<TitlePlay> titlePlay_;
     const GameAdapter* adapter_{};
     GameSnapshot snapshot_{};
     mutable std::mutex sessionMutex_;
@@ -109,6 +113,9 @@ private:
     std::string pendingLoadId_;
     std::string pendingAttemptId_;
     NewRunDraft newRunDraft_;
+    std::atomic<uint64_t> pendingPlayNs_{0};
+    std::atomic<uint64_t> playOriginNs_{0};
+    uint64_t lastPlayCommitNs_{0};
     bool showNewRun_{false};
     bool showLoadRun_{false};
     bool pendingNewRun_{false};

@@ -164,6 +164,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 | Other chats are out of scope | Greenfield. Only this document and this repo set requirements. |
 | Sprite cache downloads at runtime | PokeAPI/PokéSprite/bamq host the pixels. Pref cache, not git. Box: PokéSprite then bamq Gen 9 then PokeAPI gen8 icons. Front/back: PokeAPI BW-style. Credits: PokeAPI, msikma/pokesprite, National Dex Version Delta (bamq), Smogon for fan 2D past 649. |
 | Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, letterboxed. Hacks and misses get a black title plate. Pref cache, not git. |
+| Host playtime per title and per run | New Attempt deletes the old folder, so title totals cannot be summed from leftover runs. Unpaused seated wall clock. No suite UI. |
 
 ## V1 success
 
@@ -190,4 +191,5 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.
 - 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.
 - 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
+- 2026-09-13: Host playtime persisted per catalog title (`playtime.ini`) and per run (`playMs` in meta.ini). Counts unpaused seated time only. No suite UI.
 - 2026-09-13: Speed-up cherry-pick. Tab holds 3x by default. Emulation > Speed-up submenu holds 2x-8x and Hold Tab vs toggle.
