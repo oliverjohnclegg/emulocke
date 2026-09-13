@@ -9,6 +9,21 @@
 #include <cstdio>
 
 namespace emulocke {
+namespace {
+
+const ImVec4 kKo{196 / 255.f, 43 / 255.f, 43 / 255.f, 1.f};
+
+void drawInk(const CalcMoveLine& line, const char* s) {
+    if (line.blank) {
+        ImGui::TextDisabled("%s", s);
+    } else if (line.ohko) {
+        ImGui::TextColored(kKo, "%s", s);
+    } else {
+        ImGui::TextUnformatted(s);
+    }
+}
+
+}  // namespace
 
 int collectCalcMoves(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Pokemon& def,
     const uint16_t* moves, const Field& field, const int* pct, bool intoUs, CalcMoveLine* out) {
@@ -64,21 +79,7 @@ void drawCalcMoveDmg(const CalcMoveLine& line, bool hugRight) {
     if (hugRight) {
         calcAlignRight(ImGui::CalcTextSize(d).x);
     }
-    if (line.blank) {
-        ImGui::TextDisabled("%s", d);
-    } else if (line.ohko) {
-        ImGui::TextColored(ImVec4(196 / 255.f, 43 / 255.f, 43 / 255.f, 1.f), "%s", d);
-    } else {
-        ImGui::TextUnformatted(d);
-    }
-}
-
-void drawCalcMoveUseDmg(const CalcMoveLine& line) {
-    if (line.use >= 0) {
-        ImGui::TextDisabled("%d%%", line.use);
-        ImGui::SameLine(0, 8.f);
-    }
-    drawCalcMoveDmg(line, false);
+    drawInk(line, d);
 }
 
 void drawCalcMoveName(const CalcMoveLine& line, bool right) {
@@ -91,7 +92,7 @@ void drawCalcMoveName(const CalcMoveLine& line, bool right) {
     if (right) {
         calcAlignRight(ImGui::CalcTextSize(label).x);
     }
-    ImGui::TextUnformatted(label);
+    drawInk(line, label);
 }
 
 }
