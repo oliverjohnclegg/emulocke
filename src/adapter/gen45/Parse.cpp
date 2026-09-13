@@ -26,6 +26,7 @@ bool parsePk45(std::span<const uint8_t> raw, bool utf16Names, Mon& out) {
     out.species = species;
     out.heldItem = load16(buf.data() + 0x0A);
     out.otId = load32(buf.data() + 0x0C);
+    out.experience = static_cast<uint32_t>(buf[0x10] | (buf[0x11] << 8) | (buf[0x12] << 16));
     out.evHp = buf[0x18];
     out.evAtk = buf[0x19];
     out.evDef = buf[0x1A];

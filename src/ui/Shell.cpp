@@ -2,6 +2,7 @@
 
 #include "application/Application.hpp"
 #include "emu/EmuSession.hpp"
+#include "ui/GbaPartyScreen.hpp"
 #include "ui/Layout.hpp"
 #include "ui/Suite.hpp"
 #include "ui/Theme.hpp"
@@ -62,18 +63,23 @@ void drawRightSuite(Application& app, float insetX, float insetY) {
 
 void drawConsoleScreens(Application& app, EmuSession& session) {
     const bool nds = session.kind() == ConsoleKind::Nds;
+    const bool partyLcd = !nds && app.prefs().bottomScreen;
     const int nativeW = session.screenWidth(0);
     const int nativeH = session.screenHeight(0);
-    const int screens = nds ? 2 : 1;
+    const int screens = (nds || partyLcd) ? 2 : 1;
     const ImVec2 pane = ImGui::GetContentRegionAvail();
     const int scale = resolveScreenScale(app.screenScale(), nativeW, nativeH, screens, pane.x, pane.y);
     const ImVec2 screen(static_cast<float>(nativeW * scale), static_cast<float>(nativeH * scale));
-    const float gap = screenStackGap(nds, pane.y, screen.y * static_cast<float>(screens));
-    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (pane.x - screen.x) * 0.5f);
+    const float gap = screenStackGap(nds || partyLcd, pane.y, screen.y * static_cast<float>(screens));
+    const float x = (pane.x - screen.x) * 0.5f;
+    const float y = (nds || partyLcd) ? 0.f : std::max(0.f, (pane.y - screen.y) * 0.5f);
+    ImGui::SetCursorPos(ImVec2(x, y));
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(kScreenGap, gap));
     drawScreen("top", app.screen(0), screen, app.paused(), false, app);
     if (nds) {
         drawScreen("bottom", app.screen(1), screen, app.paused(), true, app);
+    } else if (partyLcd) {
+        drawGbaPartyLcd(app, screen);
     }
     ImGui::PopStyleVar();
 }

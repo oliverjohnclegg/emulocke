@@ -34,6 +34,7 @@ public:
     void setDefeated(std::string_view id, bool on);
     bool dirty() const { return dirty_; }
     void clearDirty() { dirty_ = false; }
+    bool markedDead(uint32_t personality) const;
 
 private:
     std::unordered_map<std::string, Caught> caught_;
