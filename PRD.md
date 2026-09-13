@@ -54,7 +54,7 @@ A playable host. Suite is a Logs tab only.
 - Keyboard and SDL gamepad
 - Stylus on the bottom pane for two-screen games
 - Battery saves live in the run folder (`battery.sav`), never beside the ROM
-- Pause, reset, and speed-up (Tab, default 3x, Hold Tab or toggle)
+- Pause, reset, and speed-up (Tab, default 3x). Emulation > Speed-up holds the 2x-8x slider and Hold Tab vs toggle.
 - One run at a time; ROM extension picks the core
 - View: fullscreen, screen scale Fit / 1x / 2x / 3x / 4x, restore default window
 - Audio: mute and volume
@@ -190,4 +190,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-12: On-demand sprite cache for box, 2D front, and 2D back. No suite picture yet. Missing back uses front.
 - 2026-09-12: On-demand game art cache. Slug-keyed 256x192 title PNG, black title plate on miss. No suite picture yet.
 - 2026-09-12: Import library in the SDL pref path. Runs store catalog UUIDs. Battery saves live under `runs/`. Radical Red and Unbound are patched from Fire Red 1.0 on first run create.
-- 2026-09-13: Speed-up cherry-pick. Tab holds 3x by default. Emulation sets 2x-8x and Hold Tab vs toggle.
+- 2026-09-13: Speed-up cherry-pick. Tab holds 3x by default. Emulation > Speed-up submenu holds 2x-8x and Hold Tab vs toggle.

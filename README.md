@@ -23,7 +23,7 @@ That imports a known dump and opens New Run. It does not silent-boot.
 ## Menus
 
 - File: import a dump, start a new run, load a run, start a new attempt, close the seated run
-- Emulation: pause, reset, speed-up (2x-8x, default 3x), Hold Tab or tap to toggle
+- Emulation: pause, reset, Speed-up submenu (2x-8x, default 3x, Hold Tab or tap to toggle)
 - View: fullscreen, screen scale (Fit / 1x / 2x / 3x / 4x), restore default window
 - Audio: mute and volume
 - Help: controls and about
