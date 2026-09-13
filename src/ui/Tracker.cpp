@@ -14,6 +14,18 @@ void drawTracker(Application& app) {
     if (app.bodyFont()) {
         ImGui::PushFont(app.bodyFont());
     }
+    GameSnapshot snap;
+    uint16_t starter = 0;
+    TrackerLog& log = app.trackerLog();
+    if (app.copySnapshot(snap)) {
+        app.syncTracker(snap);
+        starter = snap.progress.starterSpecies;
+    } else if (app.previewTracker()) {
+        starter = log.caught("starter").species;
+    }
+    if (starter == 0) {
+        starter = log.caught("starter").species;
+    }
     const TrackerAtlas* atlas = app.trackerAtlas();
     if (!atlas || atlas->stops.empty()) {
         ImGui::Dummy(ImVec2(0, 8));
@@ -40,15 +52,6 @@ void drawTracker(Application& app) {
         return;
     }
     sprites->beginFrame();
-    GameSnapshot snap;
-    uint16_t starter = 0;
-    TrackerLog& log = app.trackerLog();
-    if (app.copySnapshot(snap)) {
-        app.syncTracker(snap);
-        starter = snap.progress.starterSpecies;
-    } else if (app.previewTracker()) {
-        starter = log.caught("starter").species;
-    }
     ImGuiListClipper clipper;
     clipper.Begin(static_cast<int>(atlas->stops.size()), kTrackerRowH);
     while (clipper.Step()) {

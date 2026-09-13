@@ -1,5 +1,6 @@
 #include "adapter/rse/RseSave.hpp"
 
+#include "adapter/ProgressFill.hpp"
 #include "adapter/gen3/BoxMon.hpp"
 #include "adapter/gen3/Codec.hpp"
 #include "adapter/rse/RseLayout.hpp"
@@ -49,10 +50,33 @@ void readBoxes(const uint8_t* storage, Boxes& boxes) {
 
 }  // namespace
 
-void fillSnapshotFromRse(const RseSaveBlocks& blocks, GameSnapshot& snap) {
+void fillRseProgress(GameSnapshot& snap, const uint8_t* block1, bool emerald) {
+    const std::size_t flagsOff = emerald ? kRseFlagsOffEm : kRseFlagsOffRs;
+    fillFlagBank(snap, block1 + flagsOff, kFlagBankBytes);
+    const uint16_t badge1 = emerald ? kRseBadge1Em : kRseBadge1Rs;
+    uint8_t earned = 0;
+    for (uint8_t i = 0; i < 8; ++i) {
+        if (progressFlag(snap.progress, static_cast<uint16_t>(badge1 + i))) {
+            earned = static_cast<uint8_t>(earned | (1u << i));
+        }
+    }
+    fillGymsFromByte(snap, earned);
+    static constexpr uint16_t kNat[] = {252, 255, 258};
+    static constexpr uint16_t kInt[] = {277, 280, 283};
+    fillStarterSpecies(snap, kNat);
+    if (snap.progress.starterSpecies == 0) {
+        fillStarterSpecies(snap, kInt);
+        if (snap.progress.starterSpecies >= 277 && snap.progress.starterSpecies <= 411) {
+            snap.progress.starterSpecies = static_cast<uint16_t>(snap.progress.starterSpecies - 25);
+        }
+    }
+}
+
+void fillSnapshotFromRse(const RseSaveBlocks& blocks, GameSnapshot& snap, bool emerald) {
     readTrainer(blocks.block2.data(), snap.trainer);
     readParty(blocks.block1.data(), snap.party);
     readBoxes(blocks.storage.data(), snap.boxes);
+    fillRseProgress(snap, blocks.block1.data(), emerald);
     snap.ok = true;
 }
 

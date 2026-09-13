@@ -1,5 +1,6 @@
 #include "adapter/gen5/Save.hpp"
 
+#include "adapter/ProgressFill.hpp"
 #include "adapter/gen3/Codec.hpp"
 #include "adapter/gen45/Pk.hpp"
 
@@ -41,13 +42,19 @@ void readBoxes(const uint8_t* sav, Boxes& boxes) {
 
 }  // namespace
 
-bool readGen5Save(std::span<const uint8_t> sav, GameSnapshot& snap) {
+bool readGen5Save(std::span<const uint8_t> sav, GameSnapshot& snap, bool bw2) {
     if (sav.size() < kGen5Trainer + 0x30) {
         return false;
     }
     readTrainer(sav.data() + kGen5Trainer, snap.trainer);
     readParty(sav.data(), snap.party);
     readBoxes(sav.data(), snap.boxes);
+    const std::size_t badgeOff = bw2 ? kBw2BadgeOff : kBwBadgeOff;
+    if (sav.size() > badgeOff) {
+        fillGymsFromByte(snap, sav[badgeOff]);
+    }
+    static constexpr uint16_t kStarters[] = {495, 498, 501};
+    fillStarterSpecies(snap, kStarters);
     snap.ok = snap.trainer.name[0] != 0 || snap.party.count > 0;
     return snap.ok;
 }
@@ -69,6 +76,10 @@ bool fillGen5Live(const LiveMemory& mem, uint32_t partyAddr, GameSnapshot& snap)
         }
     }
     snap.ok = valid > 0;
+    if (snap.ok) {
+        static constexpr uint16_t kStarters[] = {495, 498, 501};
+        fillStarterSpecies(snap, kStarters);
+    }
     return snap.ok;
 }
 

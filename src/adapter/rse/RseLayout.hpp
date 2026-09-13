@@ -26,6 +26,12 @@ inline constexpr std::size_t kRseBoxStart = 0x0004;
 inline constexpr std::size_t kRseBoxNameOff = 0x8344;
 inline constexpr std::size_t kRseSaveSize = 0x20000;
 
+inline constexpr std::size_t kRseFlagsOffRs = 0x122C;
+inline constexpr std::size_t kRseFlagsOffEm = 0x1270;
+inline constexpr uint16_t kRseBadge1Rs = 0x807;
+inline constexpr uint16_t kRseBadge1Em = 0x867;
+inline constexpr uint8_t kRseBadgeCount = 8;
+
 inline constexpr uint8_t kVersionSapphire = 1;
 inline constexpr uint8_t kVersionRuby = 2;
 inline constexpr uint8_t kVersionEmerald = 3;

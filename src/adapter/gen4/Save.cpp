@@ -1,5 +1,6 @@
 #include "adapter/gen4/Save.hpp"
 
+#include "adapter/ProgressFill.hpp"
 #include "adapter/gen3/Codec.hpp"
 #include "adapter/gen45/Pk.hpp"
 
@@ -93,6 +94,17 @@ bool readGen4Save(std::span<const uint8_t> sav, const Gen4Layout& layout, GameSn
     readTrainer(sav.data() + base, layout.trainerOff, snap.trainer);
     readParty(sav.data() + base, layout.partyOff, snap.party);
     readBoxes(sav.data() + base + layout.storageStart, layout.paddedBoxes, snap.boxes);
+    const std::size_t badgeOff = base + layout.trainerOff + 0x1A;
+    if (badgeOff < sav.size()) {
+        fillGymsFromByte(snap, sav[badgeOff]);
+    }
+    if (layout.family == Gen4Family::HeartGoldSoulSilver) {
+        static constexpr uint16_t kHg[] = {152, 155, 158};
+        fillStarterSpecies(snap, kHg);
+    } else {
+        static constexpr uint16_t kDp[] = {387, 390, 393};
+        fillStarterSpecies(snap, kDp);
+    }
     snap.ok = true;
     return true;
 }
@@ -117,6 +129,10 @@ bool fillGen4Live(const LiveMemory& mem, uint32_t partyAddr, GameSnapshot& snap)
         }
     }
     snap.ok = valid > 0;
+    if (snap.ok) {
+        static constexpr uint16_t kStarters[] = {152, 155, 158, 387, 390, 393};
+        fillStarterSpecies(snap, kStarters);
+    }
     return snap.ok;
 }
 
