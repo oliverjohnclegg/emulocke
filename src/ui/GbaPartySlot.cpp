@@ -22,14 +22,14 @@ float hopY(int slot, float wellH, bool live) {
     if (!live) {
         return 0.f;
     }
-    const double cycle = 2.7 + slot * 0.43;
-    const double phase = std::fmod(ImGui::GetTime() + slot * 0.71, cycle);
+    const double cycle = 8.4 + slot * 1.55;
+    const double phase = std::fmod(ImGui::GetTime() + slot * 1.9, cycle);
     constexpr double dur = 0.16;
     if (phase >= dur) {
         return 0.f;
     }
     const double u = phase / dur;
-    return static_cast<float>(-wellH * 0.12 * 4.0 * u * (1.0 - u));
+    return static_cast<float>(-wellH * 0.09 * 4.0 * u * (1.0 - u));
 }
 
 void hpTrack(ImDrawList* dl, ImVec2 a, ImVec2 b, const Mon& mon) {
@@ -60,8 +60,8 @@ void boxSprite(Application& app, const Mon& mon, ImVec2 a, ImVec2 b, float hop) 
     if (!png.tex || png.cropW <= 0 || png.cropH <= 0) {
         return;
     }
-    const float maxW = b.x - a.x - 4.f;
-    const float maxH = b.y - a.y - 4.f;
+    const float maxW = (b.x - a.x - 4.f) * 0.8f;
+    const float maxH = (b.y - a.y - 4.f) * 0.8f;
     const float scale = std::min(maxW / static_cast<float>(png.cropW), maxH / static_cast<float>(png.cropH));
     const ImVec2 sz(static_cast<float>(png.cropW) * scale, static_cast<float>(png.cropH) * scale);
     const ImVec2 pos(a.x + (b.x - a.x - sz.x) * 0.5f, a.y + (b.y - a.y - sz.y) * 0.5f + hop);
