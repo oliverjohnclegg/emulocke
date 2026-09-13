@@ -203,6 +203,7 @@ add_executable(emulocke
     src/ui/CalculatorMatchup.cpp
     src/ui/CalculatorHead.cpp
     src/ui/CalculatorMoves.cpp
+    src/ui/CalculatorMoveLine.cpp
     src/ui/CalculatorField.cpp
     src/ui/CalculatorStamp.cpp
     src/ui/MenuBar.cpp

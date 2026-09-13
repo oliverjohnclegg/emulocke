@@ -1,56 +1,49 @@
 #include "ui/CalculatorDraw.hpp"
-
-#include "calc/Calculate.hpp"
-#include "calc/Dex.hpp"
+#include "ui/CalculatorMoveLine.hpp"
 
 #include <imgui.h>
-#include <cstdio>
 
 namespace emulocke {
 
 void drawCalcMoveCol(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Pokemon& def,
     const uint16_t* moves, const Field& field, const int* pct, bool right) {
-    for (int i = 0; i < 4; ++i) {
-        const MoveRow* row = moveById(moves[i]);
-        if (!row) {
-            continue;
+    CalcMoveLine lines[4];
+    const int n = collectCalcMoves(dmgGen, chart, atk, def, moves, field, pct, right, lines);
+    sortCalcMoves(lines, n, right);
+    if (!right) {
+        if (!ImGui::BeginTable("cml", 2, ImGuiTableFlags_NoPadInnerX)) {
+            return;
         }
-        const Move mv = moveFromRow(*row);
-        const DamageResult dmg = calculate(dmgGen, chart, atk, def, mv, field);
-        char pri[8]{};
-        if (mv.priority) {
-            std::snprintf(pri, sizeof pri, "%+d", mv.priority);
+        ImGui::TableSetupColumn("n", ImGuiTableColumnFlags_WidthStretch);
+        ImGui::TableSetupColumn("d", ImGuiTableColumnFlags_WidthFixed, 72.f);
+        for (int i = 0; i < n; ++i) {
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            drawCalcMoveName(lines[i], false);
+            ImGui::TableSetColumnIndex(1);
+            drawCalcMoveDmg(lines[i], true);
         }
-        const bool blank = dmg.immune || mv.kind == MoveKind::Status || mv.bp == 0;
-        char line[112];
-        if (blank && pct) {
-            std::snprintf(line, sizeof line, "%-11s  --  %d%%", mv.name, pct[i]);
-        } else if (blank) {
-            std::snprintf(line, sizeof line, "%-11s  --", mv.name);
-        } else if (pct) {
-            std::snprintf(line, sizeof line, "%-11s%s%s  %d-%d  %d%%", mv.name, pri[0] ? " " : "",
-                pri, dmg.min, dmg.max, pct[i]);
-        } else {
-            std::snprintf(line, sizeof line, "%-11s%s%s  %d-%d", mv.name, pri[0] ? " " : "", pri,
-                dmg.min, dmg.max);
-        }
-        char shown[120];
-        const char* text = line;
-        if (!blank && !dmg.ohko(def.hp) && dmg.twoHko(def.hp)) {
-            std::snprintf(shown, sizeof shown, "%s  2HKO", line);
-            text = shown;
-        }
-        if (right) {
-            calcAlignRight(ImGui::CalcTextSize(text).x);
-        }
-        if (blank) {
-            ImGui::TextDisabled("%s", text);
-        } else if (dmg.ohko(def.hp)) {
-            ImGui::TextColored(ImVec4(196 / 255.f, 43 / 255.f, 43 / 255.f, 1.f), "%s", text);
-        } else {
-            ImGui::TextUnformatted(text);
-        }
+        ImGui::EndTable();
+        return;
     }
+    if (!ImGui::BeginTable("cmr", 3, ImGuiTableFlags_NoPadInnerX)) {
+        return;
+    }
+    ImGui::TableSetupColumn("u", ImGuiTableColumnFlags_WidthFixed, 40.f);
+    ImGui::TableSetupColumn("d", ImGuiTableColumnFlags_WidthFixed, 72.f);
+    ImGui::TableSetupColumn("n", ImGuiTableColumnFlags_WidthStretch);
+    for (int i = 0; i < n; ++i) {
+        ImGui::TableNextRow();
+        ImGui::TableSetColumnIndex(0);
+        if (lines[i].use >= 0) {
+            ImGui::TextDisabled("%d%%", lines[i].use);
+        }
+        ImGui::TableSetColumnIndex(1);
+        drawCalcMoveDmg(lines[i], false);
+        ImGui::TableSetColumnIndex(2);
+        drawCalcMoveName(lines[i], true);
+    }
+    ImGui::EndTable();
 }
 
 }

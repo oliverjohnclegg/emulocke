@@ -58,31 +58,38 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
     const char* status = statusTag(mon.status);
     const int stamps = (status ? 1 : 0) + n;
     if (right) {
-        float w = ImGui::CalcTextSize(hp).x;
+        float row = 48.f;
         if (stamps) {
-            w += ImGui::GetStyle().ItemSpacing.x;
+            row += ImGui::GetStyle().ItemSpacing.x;
             if (status) {
-                w += ImGui::CalcTextSize(status).x + 16.f;
+                row += ImGui::CalcTextSize(status).x + 16.f;
             }
             for (int i = 0; i < n; ++i) {
-                w += ImGui::CalcTextSize(stages[i]).x + 16.f;
+                row += ImGui::CalcTextSize(stages[i]).x + 16.f;
             }
-            w -= 8.f;
+            row -= 8.f;
         }
-        calcAlignRight(w);
-    }
-    ImGui::TextUnformatted(hp);
-    if (stamps) {
-        ImGui::SameLine();
-    }
-    if (status) {
-        calcStamp(status);
-    }
-    for (int i = 0; i < n; ++i) {
-        calcStamp(stages[i]);
-    }
-    if (stamps) {
+        calcAlignRight(row);
+        if (status) {
+            calcStamp(status);
+        }
+        for (int i = 0; i < n; ++i) {
+            calcStamp(stages[i]);
+        }
+        calcPixelBar(mon.hp, mon.maxHp);
         ImGui::NewLine();
+    } else {
+        ImGui::TextUnformatted(hp);
+        if (stamps) {
+            ImGui::SameLine();
+            if (status) {
+                calcStamp(status);
+            }
+            for (int i = 0; i < n; ++i) {
+                calcStamp(stages[i]);
+            }
+            ImGui::NewLine();
+        }
     }
     if (const char* ab = abilityName(mon.ability)) {
         char line[40];

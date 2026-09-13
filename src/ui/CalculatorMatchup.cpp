@@ -5,6 +5,7 @@
 #include "calc/Ai.hpp"
 #include "calc/Build.hpp"
 #include "calc/Calculate.hpp"
+#include "ui/Theme.hpp"
 
 #include <imgui.h>
 
@@ -44,8 +45,11 @@ void drawCalcMatchup(Application&, CalcSession& session) {
     const int fSpe = finalSpeed(foe, field);
     const char* pName = raw.speciesName[0] ? raw.speciesName : player.name;
     const char* fName = frlgSpeciesName(foe.species);
+    const ImVec2 top = ImGui::GetCursorScreenPos();
     const float pane = ImGui::GetContentRegionAvail().x;
-    if (ImGui::BeginTable("calc-head", 3, ImGuiTableFlags_NoPadInnerX, ImVec2(pane, 0))) {
+    int pct[4]{};
+    moveUsePct(pack->dmgGen, pack->typeChart, t->aiFlags, foe, player, foeSet->moves, field, pct);
+    if (ImGui::BeginTable("calc-x", 3, ImGuiTableFlags_NoPadInnerX, ImVec2(pane, 0))) {
         ImGui::TableSetupColumn("a", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableSetupColumn("s", ImGuiTableColumnFlags_WidthFixed, 78.f);
         ImGui::TableSetupColumn("b", ImGuiTableColumnFlags_WidthStretch);
@@ -70,20 +74,19 @@ void drawCalcMatchup(Application&, CalcSession& session) {
         }
         ImGui::TableSetColumnIndex(2);
         drawCalcSideHead(fName, foe, true);
-        ImGui::EndTable();
-    }
-    ImGui::Dummy(ImVec2(0, 8));
-    int pct[4]{};
-    moveUsePct(pack->dmgGen, pack->typeChart, t->aiFlags, foe, player, foeSet->moves, field, pct);
-    if (ImGui::BeginTable("calc-mv", 2, ImGuiTableFlags_NoPadInnerX, ImVec2(pane, 0))) {
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
+        ImGui::Dummy(ImVec2(0, 8));
         drawCalcMoveCol(
             pack->dmgGen, pack->typeChart, player, foe, raw.moves, field, nullptr, false);
-        ImGui::TableSetColumnIndex(1);
+        ImGui::TableSetColumnIndex(2);
+        ImGui::Dummy(ImVec2(0, 8));
         drawCalcMoveCol(pack->dmgGen, pack->typeChart, foe, player, foeSet->moves, field, pct, true);
         ImGui::EndTable();
     }
+    const float bot = ImGui::GetCursorScreenPos().y;
+    ImGui::GetWindowDrawList()->AddLine(ImVec2(top.x + pane * 0.5f, top.y),
+        ImVec2(top.x + pane * 0.5f, bot), ImGui::GetColorU32(kBorder), 1.f);
 }
 
 }
