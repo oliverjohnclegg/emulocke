@@ -46,16 +46,31 @@ void drawRunBadges(const Gyms& gyms, ImVec2 p) {
     }
     ImDrawList* dl = ImGui::GetWindowDrawList();
     for (uint8_t i = 0; i < gyms.slots && i < 8; ++i) {
-        const ImVec2 a(p.x + i * 10.f, p.y);
-        const ImVec2 b(a.x + 8.f, a.y + 8.f);
+        const ImVec2 a(p.x + i * 12.f, p.y);
+        const ImVec2 b(a.x + 10.f, a.y + 10.f);
         const bool on = (gyms.earned & (1u << i)) != 0;
         dl->AddRectFilled(a, b, ImGui::GetColorU32(on ? kMetal : kScreenWell));
         dl->AddRect(a, b, ImGui::GetColorU32(kBorder));
-        const ImVec2 mouse = ImGui::GetMousePos();
-        if (ImGui::IsWindowHovered() && mouse.x >= a.x && mouse.x < b.x && mouse.y >= a.y && mouse.y < b.y) {
-            ImGui::SetTooltip("%s", kBadgeName[i]);
-        }
     }
+}
+
+void hitRunBadges(const Gyms& gyms, ImVec2 p) {
+    if (gyms.slots == 0) {
+        return;
+    }
+    ImGui::SetCursorScreenPos(p);
+    ImGui::InvisibleButton("gyms", ImVec2(gyms.slots * 12.f, 12.f));
+    if (!ImGui::IsItemHovered()) {
+        return;
+    }
+    int i = static_cast<int>((ImGui::GetMousePos().x - p.x) / 12.f);
+    if (i < 0) {
+        i = 0;
+    }
+    if (i >= gyms.slots) {
+        i = gyms.slots - 1;
+    }
+    ImGui::SetTooltip("%s", kBadgeName[i]);
 }
 
 void drawRunParty(Application& app, const Party& party, ImVec2 p) {

@@ -43,14 +43,20 @@ bool drawRunStrip(Application& app, const Run& run, const char* idPrefix, bool s
     ImGui::TextDisabled("%s", rulesLabel(run.rules));
     ImGui::SameLine(0.f, 10.f);
     ImGui::TextDisabled("ATTEMPT %d", run.attempt);
+    ImVec2 pipPos{};
+    bool pips = false;
     if (snap.ok) {
         char clock[12];
         std::snprintf(clock, sizeof clock, "%03u:%02u", snap.trainer.playHours, snap.trainer.playMinutes);
         ImGui::SameLine(0.f, 10.f);
         ImGui::TextDisabled("%s", clock);
-        ImGui::SameLine(0.f, 10.f);
-        const ImVec2 pip = ImGui::GetCursorScreenPos();
-        drawRunBadges(snap.gyms, ImVec2(pip.x, pip.y + 6.f));
+        if (snap.gyms.slots) {
+            ImGui::SameLine(0.f, 10.f);
+            pipPos = ImGui::GetCursorScreenPos();
+            pipPos.y += 6.f;
+            drawRunBadges(snap.gyms, pipPos);
+            pips = true;
+        }
     }
     drawRunParty(app, snap.party, ImVec2(origin.x + kRunPad * 2.f + kRunArtW, origin.y + kRunPad + 40.f));
     if (showNewAttempt) {
@@ -61,6 +67,9 @@ bool drawRunStrip(Application& app, const Run& run, const char* idPrefix, bool s
             load = false;
         }
         iconPlus(plus, ImVec2(kRunPlus, kRunPlus));
+    }
+    if (pips) {
+        hitRunBadges(snap.gyms, pipPos);
     }
     ImGui::SetCursorScreenPos(ImVec2(origin.x, origin.y + kRunStripH + 6.f));
     ImGui::Dummy(ImVec2(w, 0.f));
