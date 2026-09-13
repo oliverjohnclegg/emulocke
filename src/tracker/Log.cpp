@@ -1,90 +1,6 @@
 #include "tracker/Log.hpp"
 
-#include <fstream>
-#include <map>
-
 namespace emulocke {
-namespace {
-
-std::string trim(std::string s) {
-    while (!s.empty() && (s.back() == '\r' || s.back() == ' ')) {
-        s.pop_back();
-    }
-    return s;
-}
-
-}  // namespace
-
-bool TrackerLog::load(const std::filesystem::path& path) {
-    caught_.clear();
-    boss_.clear();
-    dirty_ = false;
-    std::ifstream in(path);
-    if (!in) {
-        return true;
-    }
-    std::string section;
-    std::string line;
-    while (std::getline(in, line)) {
-        line = trim(std::move(line));
-        if (line.empty()) {
-            continue;
-        }
-        if (line == "[caught]") {
-            section = "caught";
-            continue;
-        }
-        if (line == "[boss]") {
-            section = "boss";
-            continue;
-        }
-        const auto eq = line.find('=');
-        if (eq == std::string::npos || eq == 0) {
-            continue;
-        }
-        const std::string key = line.substr(0, eq);
-        const std::string val = line.substr(eq + 1);
-        if (section == "caught") {
-            Caught row;
-            const auto colon = val.find(':');
-            try {
-                row.species = static_cast<uint16_t>(std::stoi(val.substr(0, colon)));
-                if (colon != std::string::npos) {
-                    row.personality = static_cast<uint32_t>(std::stoul(val.substr(colon + 1)));
-                }
-            } catch (...) {
-                continue;
-            }
-            caught_[key] = row;
-        } else if (section == "boss") {
-            boss_[key] = val == "1" || val == "true";
-        }
-    }
-    return true;
-}
-
-bool TrackerLog::save(const std::filesystem::path& path) const {
-    std::ofstream out(path, std::ios::trunc);
-    if (!out) {
-        return false;
-    }
-    out << "[caught]\n";
-    std::map<std::string, Caught> caught(caught_.begin(), caught_.end());
-    for (const auto& [id, row] : caught) {
-        if (row.species == 0) {
-            continue;
-        }
-        out << id << '=' << row.species << ':' << row.personality << '\n';
-    }
-    out << "[boss]\n";
-    std::map<std::string, bool> boss(boss_.begin(), boss_.end());
-    for (const auto& [id, on] : boss) {
-        if (on) {
-            out << id << "=1\n";
-        }
-    }
-    return static_cast<bool>(out);
-}
 
 Caught TrackerLog::caught(std::string_view id) const {
     const auto it = caught_.find(std::string(id));
@@ -96,11 +12,23 @@ Caught TrackerLog::caught(std::string_view id) const {
 
 void TrackerLog::setCaught(std::string_view id, uint16_t species, uint32_t personality) {
     Caught& row = caught_[std::string(id)];
-    if (row.species == species && row.personality == personality) {
+    if (row.species != species || row.personality != personality) {
+        row.species = species;
+        row.personality = personality;
+        dirty_ = true;
+    }
+    if (species != 0 && row.status == EncounterStatus::Empty) {
+        row.status = EncounterStatus::Captured;
+        dirty_ = true;
+    }
+}
+
+void TrackerLog::setStatus(std::string_view id, EncounterStatus status) {
+    Caught& row = caught_[std::string(id)];
+    if (row.status == status) {
         return;
     }
-    row.species = species;
-    row.personality = personality;
+    row.status = status;
     dirty_ = true;
 }
 

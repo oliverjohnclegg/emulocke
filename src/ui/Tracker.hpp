@@ -1,6 +1,7 @@
 #pragma once
 
 #include "tracker/Atlas.hpp"
+#include "tracker/Log.hpp"
 
 struct ImVec2;
 
@@ -8,16 +9,18 @@ namespace emulocke {
 
 class Application;
 class BoxSprites;
-class TrackerLog;
 struct SpeciesRef;
 
 inline constexpr int kBoxSpriteW = 32;
 inline constexpr int kBoxSpriteH = 24;
 inline constexpr float kTrackerRowH = 28.f;
+inline constexpr float kTrackerKind = 10.f;
+inline constexpr float kTrackerStatus = 18.f;
 
 void drawTracker(Application& app);
-void drawEncounterRow(const TrackerStop& stop, const SpeciesRef& species, BoxSprites& sprites, bool editing,
-                       bool grabFocus, char* edit, int editCap, bool& commit, bool& startEdit);
-void drawBossRow(const TrackerStop& stop, uint16_t starter, bool defeated, BoxSprites& sprites, bool& toggle);
+void drawEncounterRow(const TrackerStop& stop, EncounterStatus status, const SpeciesRef& species,
+                      BoxSprites& sprites, bool& cycleStatus);
+void drawBossRow(const TrackerStop& stop, const char* const* slugs, const char* const* tips, int n, bool defeated,
+                 BoxSprites& sprites, bool& toggle);
 
 }

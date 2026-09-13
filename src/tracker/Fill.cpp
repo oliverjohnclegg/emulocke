@@ -73,6 +73,9 @@ void applyTrackerFill(TrackerLog& log, const TrackerAtlas& atlas, const GameSnap
             }
             continue;
         }
+        if (row.status != EncounterStatus::Empty && row.status != EncounterStatus::Captured) {
+            continue;
+        }
         if (row.species != 0) {
             continue;
         }

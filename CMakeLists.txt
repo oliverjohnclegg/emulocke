@@ -89,6 +89,7 @@ target_include_directories(emulocke_adapter PUBLIC src)
 add_library(emulocke_tracker STATIC
     src/tracker/Atlas.cpp
     src/tracker/Log.cpp
+    src/tracker/LogIo.cpp
     src/tracker/Fill.cpp
     src/tracker/frlg/Stops.cpp
     src/tracker/frlg/Teams.cpp)
@@ -116,6 +117,8 @@ add_executable(emulocke
     src/ui/Suite.cpp
     src/ui/Tracker.cpp
     src/ui/TrackerRow.cpp
+    src/ui/TrackerMarks.cpp
+    src/ui/TrackerStatus.cpp
     src/ui/BoxSprites.cpp
     src/ui/FieldLog.cpp
     src/ui/MenuBar.cpp
