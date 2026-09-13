@@ -11,29 +11,27 @@ void drawNewAttemptConfirm(Application& app) {
     if (!app.showNewAttemptConfirm()) {
         return;
     }
-    if (!ImGui::IsPopupOpen("Start New Attempt")) {
-        ImGui::OpenPopup("Start New Attempt");
+    if (!ImGui::IsPopupOpen("START NEW ATTEMPT")) {
+        ImGui::OpenPopup("START NEW ATTEMPT");
     }
     const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-    ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+    ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
     ImGui::SetNextWindowSize(ImVec2(420.f, 0.f), ImGuiCond_Appearing);
-    const ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar;
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(16.f, 14.f));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 1.f);
+    ImGui::PushStyleColor(ImGuiCol_PopupBg, kPanel);
+    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.45f));
     bool open = true;
-    if (!ImGui::BeginPopupModal("Start New Attempt", &open, flags)) {
+    const ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove;
+    if (!ImGui::BeginPopupModal("START NEW ATTEMPT", &open, flags)) {
+        ImGui::PopStyleColor(2);
+        ImGui::PopStyleVar(2);
         if (!open) {
             app.dismissNewAttempt();
         }
         return;
     }
-    if (app.displayFont()) {
-        ImGui::PushFont(app.displayFont());
-    }
-    ImGui::TextUnformatted("START NEW ATTEMPT");
-    if (app.displayFont()) {
-        ImGui::PopFont();
-    }
-    ImGui::Separator();
-    ImGui::Dummy(ImVec2(0, 8));
+    ImGui::Dummy(ImVec2(380.f, 0));
     ImGui::PushStyleColor(ImGuiCol_Text, ImGui::ColorConvertU32ToFloat4(kPaused));
     ImGui::TextWrapped("This ends the current attempt and deletes its save. There is no undo.");
     ImGui::PopStyleColor();
@@ -50,6 +48,8 @@ void drawNewAttemptConfirm(Application& app) {
         ImGui::CloseCurrentPopup();
     }
     ImGui::EndPopup();
+    ImGui::PopStyleColor(2);
+    ImGui::PopStyleVar(2);
     if (!open) {
         app.dismissNewAttempt();
     }
