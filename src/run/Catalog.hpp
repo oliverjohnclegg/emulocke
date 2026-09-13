@@ -36,6 +36,9 @@ struct CatalogTitle {
 };
 
 inline constexpr const char* kFireRedUs10Uuid = "e8e92ba8-429b-55a0-b78d-2c269b6d2b56";
+inline constexpr const char* kFireRedUs11Uuid = "7dba07d2-93e3-5b45-9030-3a579e46ab7b";
+inline constexpr const char* kLeafGreenUs10Uuid = "9f374685-6339-5285-a9e9-7953afa9802b";
+inline constexpr const char* kLeafGreenUs11Uuid = "ca04c1af-7d8a-55c7-9cda-3467c0acad8f";
 inline constexpr const char* kEmeraldUsUuid = "61144433-b5d4-5b54-8123-7121990daaad";
 inline constexpr const char* kHeartGoldUsUuid = "56ce30d3-ae67-576b-b1c7-884713a59bbb";
 inline constexpr const char* kPlatinumUs11Uuid = "5a6a6479-503a-5487-b60f-1a70f0c471a3";

@@ -120,10 +120,14 @@ void Application::bootRun(const Run& run) {
         session_ = std::move(next);
         adapter_ = nullptr;
         snapshot_ = GameSnapshot{};
+        uiSnap_ = {};
+        uiSnapOk_ = false;
+        uiAdapter_ = nullptr;
         paused_ = false;
         speedUpOn_ = false;
         if (session_ && session_->cartridge()) {
             adapter_ = adapterFor(*session_->cartridge());
+            uiAdapter_ = adapter_;
         }
     }
     if (session_) {
@@ -133,26 +137,48 @@ void Application::bootRun(const Run& run) {
 }
 
 void Application::closeRun() {
+    persistTracker();
     stopEmuThread();
     harvestPlayOrigin();
     commitPlay();
-    std::lock_guard lock(sessionMutex_);
-    session_.reset();
-    adapter_ = nullptr;
-    snapshot_ = GameSnapshot{};
-    speedUpOn_ = false;
-    activeRunId_.clear();
-    lastPlayCommitNs_ = 0;
-    status_ = "No cart.";
+    {
+        std::lock_guard lock(sessionMutex_);
+        session_.reset();
+        adapter_ = nullptr;
+        snapshot_ = GameSnapshot{};
+        uiSnap_ = {};
+        uiSnapOk_ = false;
+        uiAdapter_ = nullptr;
+        speedUpOn_ = false;
+        activeRunId_.clear();
+        trackerLog_ = {};
+        lastPlayCommitNs_ = 0;
+        status_ = "No cart.";
+        if (previewTracker_) {
+            seedPreviewTracker();
+        }
+    }
+    syncWindowTitle();
 }
 
 bool Application::copySnapshot(GameSnapshot& out) const {
-    std::lock_guard lock(sessionMutex_);
-    if (!snapshot_.ok) {
-        return false;
+    std::unique_lock lock(sessionMutex_, std::try_to_lock);
+    if (lock.owns_lock()) {
+        if (!snapshot_.ok) {
+            uiSnapOk_ = false;
+            return false;
+        }
+        uiSnap_ = snapshot_;
+        uiAdapter_ = adapter_;
+        uiSnapOk_ = true;
+        out = uiSnap_;
+        return true;
     }
-    out = snapshot_;
-    return true;
+    if (uiSnapOk_) {
+        out = uiSnap_;
+        return true;
+    }
+    return false;
 }
 
 void Application::resetSession() {
@@ -163,6 +189,7 @@ void Application::resetSession() {
 }
 
 void Application::shutdown() {
+    destroyTracker();
     stopEmuThread();
     harvestPlayOrigin();
     commitPlay();

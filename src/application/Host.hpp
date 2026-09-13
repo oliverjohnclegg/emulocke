@@ -16,7 +16,10 @@ public:
     void setFullscreen(bool on);
     bool fullscreen() const;
     void restoreDefaultSize();
+    void adjustWidth(int delta);
+    void setWindowSize(int w, int h);
     void captureWindowed(Prefs& prefs) const;
+    void setTitle(const char* title);
 
 private:
     SDL_Window* window_{};

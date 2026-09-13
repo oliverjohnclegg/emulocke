@@ -22,6 +22,10 @@ void Application::run() {
             if (event.type == SDL_EVENT_QUIT) {
                 return;
             }
+            if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat &&
+                event.key.scancode == SDL_SCANCODE_F8) {
+                setRightPane(!prefs_.rightPane);
+            }
             if (event.type == SDL_EVENT_WINDOW_RESIZED || event.type == SDL_EVENT_WINDOW_MOVED) {
                 persistPrefs();
             }
@@ -82,12 +86,16 @@ void Application::run() {
         drawMenuBar(*this);
         drawShell(*this);
         drawNewRunModal(*this);
+        drawLoadingRunModal(*this);
         ImGui::End();
         ImGui::Render();
         SDL_SetRenderDrawColor(host_.renderer(), 26, 26, 28, 255);
         SDL_RenderClear(host_.renderer());
         ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), host_.renderer());
         SDL_RenderPresent(host_.renderer());
+        if (showLoadingRun_) {
+            noteLoadingPainted();
+        }
         applyPendingHost();
     }
 }

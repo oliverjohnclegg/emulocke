@@ -1,6 +1,7 @@
 #pragma once
 
 #include "adapter/Snapshot.hpp"
+#include "adapter/Species.hpp"
 #include "application/Host.hpp"
 #include "emu/AudioOutput.hpp"
 #include "emu/EmuSession.hpp"
@@ -10,6 +11,7 @@
 #include "run/Run.hpp"
 #include "run/RunStore.hpp"
 #include "run/TitlePlay.hpp"
+#include "tracker/Log.hpp"
 #include "ui/GameArtGpu.hpp"
 
 #include <atomic>
@@ -24,10 +26,13 @@ struct ImFont;
 
 namespace emulocke {
 
+class BoxSprites;
 class GameAdapter;
 class MediaFetch;
 class PngCache;
 class SavePeek;
+class SpriteCache;
+struct TrackerAtlas;
 
 class Application {
 public:
@@ -50,6 +55,7 @@ public:
     void setTouch(bool down, uint16_t x, uint16_t y);
     void persistPrefs();
     void setFullscreen(bool on);
+    void setRightPane(bool on);
     void setScreenScale(int scale);
     void setMuted(bool mute);
     void setVolume(int volume);
@@ -74,6 +80,16 @@ public:
     RunStore& runStore() { return *runStore_; }
     const RunStore& runStore() const { return *runStore_; }
     const std::string& activeRunId() const { return activeRunId_; }
+    const GameAdapter* adapter() const;
+    SpeciesRef species(uint16_t id) const;
+    const TrackerAtlas* trackerAtlas() const;
+    TrackerLog& trackerLog() { return trackerLog_; }
+    BoxSprites* boxSprites() { return boxSprites_.get(); }
+    bool previewTracker() const { return previewTracker_; }
+    void syncTracker(const GameSnapshot& snap);
+    void persistTracker();
+    void noteLoadingPainted();
+    bool showLoadingRun() const { return showLoadingRun_; }
     MediaFetch& media() { return *media_; }
     PngCache& pngs() { return *pngs_; }
     SavePeek& savePeek() { return *savePeek_; }
@@ -93,6 +109,11 @@ private:
     void bootRun(const Run& run);
     void harvestPlayOrigin();
     void commitPlay();
+    void syncWindowTitle();
+    void initTracker();
+    void loadTrackerLog();
+    void destroyTracker();
+    void seedPreviewTracker();
     enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
     Host host_;
     PendingHost pendingHost_{PendingHost::None};
@@ -131,6 +152,12 @@ private:
     std::atomic<uint64_t> playOriginNs_{0};
     uint64_t lastPlayCommitNs_{0};
     bool showNewRun_{false};
+    bool showLoadingRun_{false};
+    bool loadingPainted_{false};
+    bool previewTracker_{false};
+    mutable GameSnapshot uiSnap_{};
+    mutable bool uiSnapOk_{false};
+    mutable const GameAdapter* uiAdapter_{};
     bool pendingNewRun_{false};
     bool pendingCreate_{false};
     bool pendingDumpPicker_{false};
@@ -139,6 +166,9 @@ private:
     std::atomic<uint16_t> touchX_{0};
     std::atomic<uint16_t> touchY_{0};
     std::vector<uint8_t> uploadScratch_;
+    std::unique_ptr<SpriteCache> spriteCache_;
+    std::unique_ptr<BoxSprites> boxSprites_;
+    TrackerLog trackerLog_;
 };
 
 }
