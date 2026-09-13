@@ -2,6 +2,7 @@
 
 #include "adapter/frlg/FrlgLayout.hpp"
 #include "adapter/frlg/FrlgLive.hpp"
+#include "adapter/frlg/FrlgNames.hpp"
 #include "adapter/frlg/FrlgSave.hpp"
 
 namespace emulocke {
@@ -55,6 +56,10 @@ GameSnapshot FrlgAdapter::readLive(const LiveMemory& mem) const {
     snap.origin = SnapshotOrigin::Live;
     fillSnapshotFromFrlgLive(mem, snap);
     return snap;
+}
+
+SpeciesRef FrlgAdapter::species(uint16_t internalId) const {
+    return frlgSpeciesRef(internalId);
 }
 
 }

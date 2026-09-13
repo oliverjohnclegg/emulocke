@@ -1,12 +1,15 @@
 #pragma once
 
 #include <array>
+#include <cstddef>
 #include <cstdint>
 #include <string_view>
 
 namespace emulocke {
 
 using AdapterId = std::string_view;
+
+inline constexpr std::size_t kFlagBankBytes = 288;
 
 enum class SnapshotOrigin { None, Save, Live };
 
@@ -91,6 +94,20 @@ struct Gyms {
     uint8_t slots{};
 };
 
+struct Progress {
+    uint16_t starterSpecies{};
+    uint8_t badges{};
+    std::array<uint8_t, kFlagBankBytes> flags{};
+};
+
+inline bool progressFlag(const Progress& progress, uint16_t id) {
+    const std::size_t byte = static_cast<std::size_t>(id) / 8;
+    if (byte >= kFlagBankBytes) {
+        return false;
+    }
+    return (progress.flags[byte] & static_cast<uint8_t>(1u << (id % 8))) != 0;
+}
+
 struct GameSnapshot {
     bool ok{};
     AdapterId adapterId{};
@@ -99,6 +116,7 @@ struct GameSnapshot {
     Party party{};
     Boxes boxes{};
     Overworld overworld{};
+    Progress progress{};
     Gyms gyms{};
 };
 
