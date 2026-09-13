@@ -22,6 +22,10 @@ void Application::run() {
             if (event.type == SDL_EVENT_QUIT) {
                 return;
             }
+            if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat &&
+                event.key.scancode == SDL_SCANCODE_F8) {
+                setRightPane(!prefs_.rightPane);
+            }
             if (event.type == SDL_EVENT_WINDOW_RESIZED || event.type == SDL_EVENT_WINDOW_MOVED) {
                 persistPrefs();
             }

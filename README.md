@@ -24,11 +24,11 @@ That imports a known dump and opens New Run. It does not silent-boot.
 
 - File: import a dump, start a new attempt, close the seated run. Start and load from home.
 - Emulation: pause, reset, Speed-up submenu (2x-8x, default 3x, Hold Tab or tap to toggle)
-- View: fullscreen, screen scale (Fit / 1x / 2x / 3x / 4x), restore default window
+- View: fullscreen, right pane (F8), screen scale (Fit / 1x / 2x / 3x / 4x), restore default window
 - Audio: mute and volume
 - Help: controls and about
 
-Window size, scale, mute, volume, and speed-up persist across launches.
+Window size, scale, right pane, mute, volume, and speed-up persist across launches.
 
 ## Build
 
@@ -55,6 +55,7 @@ Windows (MSVC): `build/Release/emulocke.exe`
 | Select | Shift |
 | Stylus | Mouse on the bottom screen |
 | Speed-up | Tab |
+| Right pane | F8 |
 
 Gamepad uses the standard SDL map. Pause, reset, and speed-up are under Emulation. Hold Tab is the default; uncheck it to tap Tab on and off.
 
