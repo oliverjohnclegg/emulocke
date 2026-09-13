@@ -372,7 +372,8 @@ add_executable(emulocke-run-check
     src/run/RunStoreAttempts.cpp
     src/run/TitlePlay.cpp
     src/test/patch_format_check.cpp
-    src/test/local_patch_check.cpp)
+    src/test/local_patch_check.cpp
+    src/test/layout_check.cpp)
 target_include_directories(emulocke-run-check PRIVATE src)
 target_link_libraries(emulocke-run-check PRIVATE mgba xdelta3)
 emulocke_stamp_target(emulocke-run-check)

@@ -84,6 +84,8 @@ std::vector<uint8_t> makeUps(const std::vector<uint8_t>& src, const std::vector<
 
 }  // namespace
 
+int testLayout();
+
 int main() {
     expect(static_cast<int>(emulocke::kRightPaneSpan) == 481, "right pane span");
     expect(emulocke::widthAfterRightPaneToggle(emulocke::kDefaultWindowW, false) == 554, "hide shrinks");
@@ -385,6 +387,7 @@ int main() {
     fails += testBuildId();
     fails += testPatchFormats();
     fails += testLocalPatches();
+    fails += testLayout();
     if (fails) {
         std::fprintf(stderr, "%d failed\n", fails);
         return 1;
