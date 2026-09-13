@@ -81,6 +81,8 @@ std::vector<uint8_t> makeUps(const std::vector<uint8_t>& src, const std::vector<
 
 }  // namespace
 
+int testLayout();
+
 int main() {
     expect(emulocke::catalogBySha1("41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc") ==
             emulocke::catalogBySlug("firered-us-1.0"),
@@ -368,6 +370,7 @@ int main() {
     std::filesystem::remove_all(tmp);
     fails += testPatchFormats();
     fails += testLocalPatches();
+    fails += testLayout();
     if (fails) {
         std::fprintf(stderr, "%d failed\n", fails);
         return 1;

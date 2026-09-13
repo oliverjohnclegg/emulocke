@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 namespace emulocke {
 
 constexpr float kScreenGap = 5.f;
@@ -9,5 +11,41 @@ constexpr int kNativeW = 256;
 constexpr int kNativeH = 192;
 constexpr int kDefaultWindowW = 1035;
 constexpr int kDefaultWindowH = 836;
+
+inline float consoleLeftWidth(float availX, float windowPadX) {
+    const float insetX = kConsolePad - windowPadX;
+    return availX - insetX - kSuiteWidth - kConsolePad - insetX;
+}
+
+inline float consoleLeftHeight(float availY, float windowPadY) {
+    const float insetY = kConsolePad - windowPadY;
+    return availY - insetY - insetY;
+}
+
+inline int fitScreenScale(int nativeW, int nativeH, int screens, float paneW, float paneH) {
+    const int fitW = std::max(1, static_cast<int>(paneW / static_cast<float>(nativeW)));
+    const int stack = nativeH * screens;
+    const int fitH = std::max(1, static_cast<int>(paneH / static_cast<float>(stack)));
+    if (fitW > fitH && static_cast<float>(stack * fitW) <= paneH + kConsolePad) {
+        return fitW;
+    }
+    return std::min(fitW, fitH);
+}
+
+inline int resolveScreenScale(int wanted, int nativeW, int nativeH, int screens, float paneW,
+    float paneH) {
+    const int fit = fitScreenScale(nativeW, nativeH, screens, paneW, paneH);
+    if (wanted <= 0) {
+        return fit;
+    }
+    return std::max(1, std::min(wanted, fit));
+}
+
+inline float screenStackGap(bool stacked, float paneH, float pixelH) {
+    if (!stacked) {
+        return 0.f;
+    }
+    return std::min(kScreenGap, std::max(0.f, paneH - pixelH));
+}
 
 }
