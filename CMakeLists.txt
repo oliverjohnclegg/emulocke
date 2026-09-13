@@ -104,6 +104,8 @@ add_library(emulocke_calc STATIC
     src/calc/Pack.cpp
     src/calc/Build.cpp
     src/calc/SwitchIn.cpp
+    src/calc/SwitchInPick.cpp
+    src/calc/SwitchInHits.cpp
     src/calc/Session.cpp
     src/calc/SessionSearch.cpp
     src/calc/Ai.cpp

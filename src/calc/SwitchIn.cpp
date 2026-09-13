@@ -1,40 +1,61 @@
 #include "calc/SwitchIn.hpp"
 
-#include "calc/Build.hpp"
-#include "calc/Dex.hpp"
-#include "calc/Type.hpp"
+#include "calc/SwitchInPick.hpp"
 
 namespace emulocke {
 
-int nextSwitchSlot(const CalcPack& pack, const PackTrainer& trainer, const bool fainted[6], uint8_t) {
-    int first = -1;
-    int best = -1;
-    int bestScore = -999;
+void switchOrder(const CalcPack& pack, const PackTrainer& trainer, const bool fainted[6],
+    const Pokemon& player, uint8_t, int order[6], int current) {
+    bool skip[6]{};
+    for (int i = 0; i < 6; ++i) {
+        order[i] = -1;
+        skip[i] = i >= trainer.count || fainted[i];
+    }
+    int n = 0;
+    int lead = -1;
+    if (current >= 0 && current < trainer.count && !fainted[current]) {
+        lead = current;
+    } else {
+        for (int i = 0; i < trainer.count; ++i) {
+            if (!fainted[i]) {
+                lead = i;
+                break;
+            }
+        }
+    }
+    if (lead >= 0) {
+        order[n++] = lead;
+        skip[lead] = true;
+    }
+    for (;;) {
+        const int pick = mostSuitableMon(pack, trainer, skip, player);
+        if (pick < 0) {
+            break;
+        }
+        order[n++] = pick;
+        skip[pick] = true;
+    }
+    for (int i = 0; i < trainer.count; ++i) {
+        if (!skip[i] && !fainted[i]) {
+            order[n++] = i;
+            skip[i] = true;
+        }
+    }
     for (int i = 0; i < trainer.count; ++i) {
         if (fainted[i]) {
-            continue;
-        }
-        if (first < 0) {
-            first = i;
-        }
-        const PackMon* mon = trainerMon(pack, trainer, i);
-        const SpeciesRow* row = mon ? speciesById(mon->species) : nullptr;
-        if (!row) {
-            continue;
-        }
-        int score = 0;
-        for (uint8_t t : {row->t1, row->t2}) {
-            score += typeMul(pack.typeChart, static_cast<Type>(t), Type::Normal);
-        }
-        if (score > bestScore) {
-            bestScore = score;
-            best = i;
+            order[n++] = i;
         }
     }
-    if (best >= 0) {
-        return best;
+}
+
+int nextSwitchSlot(const CalcPack& pack, const PackTrainer& trainer, const bool fainted[6],
+    const Pokemon& player, uint8_t switchIn, int current) {
+    int order[6];
+    switchOrder(pack, trainer, fainted, player, switchIn, order, current);
+    if (current >= 0 && order[1] >= 0) {
+        return order[1];
     }
-    return first < 0 ? 0 : first;
+    return order[0] >= 0 ? order[0] : 0;
 }
 
 }

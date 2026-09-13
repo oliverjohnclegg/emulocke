@@ -1,5 +1,6 @@
 #include "calc/Session.hpp"
 
+#include "calc/Build.hpp"
 #include "calc/SwitchIn.hpp"
 
 namespace emulocke {
@@ -53,15 +54,33 @@ bool CalcSession::fainted(int slot) const {
     return false;
 }
 
-int CalcSession::nextIn() const {
+void CalcSession::foeOrder(int slots[6]) const {
+    for (int i = 0; i < 6; ++i) {
+        slots[i] = -1;
+    }
     if (!pack_ || !trainer_) {
-        return 0;
+        return;
     }
     bool down[6]{};
     for (int i = 0; i < 6; ++i) {
         down[i] = fainted(i);
     }
-    return nextSwitchSlot(*pack_, *trainer_, down, pack_->switchIn);
+    Pokemon player{};
+    if (snap_.ok && partySlot_ >= 0 && partySlot_ < 6 &&
+        snap_.party.mons[static_cast<std::size_t>(partySlot_)].species) {
+        player = pokemonFromSnap(snap_.party.mons[static_cast<std::size_t>(partySlot_)]);
+    }
+    switchOrder(*pack_, *trainer_, down, player, pack_->switchIn, slots,
+        snap_.battle.inBattle ? snap_.battle.foe.partyIndex : -1);
+}
+
+int CalcSession::nextIn() const {
+    int slots[6];
+    foeOrder(slots);
+    if (snap_.battle.inBattle && slots[1] >= 0) {
+        return slots[1];
+    }
+    return slots[0] >= 0 ? slots[0] : 0;
 }
 
 void CalcSession::refreshFoe() {

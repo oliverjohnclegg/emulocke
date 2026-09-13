@@ -81,19 +81,22 @@ void drawCalcFoeRail(Application& app, CalcSession& session) {
         return;
     }
     const int next = session.nextIn();
+    int order[6];
+    session.foeOrder(order);
     const ImVec2 origin = ImGui::GetCursorScreenPos();
-    for (int i = 0; i < 6; ++i) {
-        const PackMon* mon = trainerMon(*pack, *t, i);
+    for (int vis = 0; vis < 6; ++vis) {
+        const int i = order[vis];
+        const PackMon* mon = i >= 0 ? trainerMon(*pack, *t, i) : nullptr;
         const SpeciesRow* row = mon ? speciesById(mon->species) : nullptr;
-        const ImVec2 a(origin.x, origin.y + i * (kWell + 4.f));
+        const ImVec2 a(origin.x, origin.y + vis * (kWell + 4.f));
         ImGui::SetCursorScreenPos(a);
-        ImGui::PushID(i + 40);
+        ImGui::PushID(i >= 0 ? i + 40 : vis + 40);
         if (mon && ImGui::InvisibleButton("f", ImVec2(kWell, kWell))) {
             session.lockFoe(i);
         }
         ImGui::PopID();
-        spriteWell(app, a, row ? row->slug : "", session.fainted(i), i == session.foeSlot(),
-            i == next, mon ? mon->level : 0);
+        spriteWell(app, a, row ? row->slug : "", i >= 0 && session.fainted(i),
+            i >= 0 && i == session.foeSlot(), i >= 0 && i == next, mon ? mon->level : 0);
     }
     ImGui::SetCursorScreenPos(ImVec2(origin.x, origin.y + 6 * (kWell + 4.f)));
     ImGui::Dummy(ImVec2(56.f, 1));

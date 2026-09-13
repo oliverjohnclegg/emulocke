@@ -28,6 +28,7 @@ public:
     bool browsing() const { return browsing_; }
     bool fainted(int slot) const;
     int nextIn() const;
+    void foeOrder(int slots[6]) const;
 
 private:
     void refreshFoe();

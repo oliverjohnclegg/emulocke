@@ -4,7 +4,9 @@
 #include "calc/HpBar.hpp"
 #include "calc/Pack.hpp"
 #include "calc/Stats.hpp"
+#include "calc/SwitchIn.hpp"
 #include "calc/Type.hpp"
+#include "run/Catalog.hpp"
 #include "test/Check.hpp"
 
 #include <cstdio>
@@ -114,6 +116,36 @@ void testHpBar() {
     }
 }
 
+void testSwitchIn() {
+    const emulocke::CalcPack* pack = emulocke::calcPack(emulocke::kFireRedUs10Uuid, {});
+    REQUIRE(pack);
+    const emulocke::PackTrainer* rival = emulocke::packTrainer(*pack, 332);
+    REQUIRE(rival && rival->count == 4);
+    REQUIRE(emulocke::trainerMon(*pack, *rival, 0)->species == 17);
+    REQUIRE(emulocke::trainerMon(*pack, *rival, 1)->species == 63);
+    REQUIRE(emulocke::trainerMon(*pack, *rival, 3)->species == 7);
+    bool down[6]{};
+    int order[6];
+    Pokemon grass;
+    grass.t1 = Type::Grass;
+    grass.t2 = Type::Poison;
+    grass.hp = 80;
+    grass.maxHp = 80;
+    emulocke::switchOrder(*pack, *rival, down, grass, 3, order);
+    REQUIRE(order[0] == 0 && order[1] == 1);
+    REQUIRE(order[2] >= 0 && order[3] >= 0 && order[4] < 0);
+    Pokemon fire;
+    fire.t1 = Type::Fire;
+    fire.t2 = Type::Flying;
+    fire.hp = 90;
+    fire.maxHp = 90;
+    emulocke::switchOrder(*pack, *rival, down, fire, 3, order);
+    REQUIRE(order[0] == 0 && order[1] == 3);
+    const emulocke::PackTrainer* brock = emulocke::packTrainer(*pack, 414);
+    emulocke::switchOrder(*pack, *brock, down, grass, 3, order);
+    REQUIRE(order[0] == 0 && order[1] == 1);
+}
+
 void testFairyCfru() {
     REQUIRE(emulocke::typeMul(6, Type::Fairy, Type::Dragon) == 20);
     REQUIRE(emulocke::typeMul(3, Type::Fairy, Type::Dragon) == 10);
@@ -144,6 +176,7 @@ int main() {
     testFixedAndImmune();
     testFairyCfru();
     testHpBar();
+    testSwitchIn();
     std::printf("calc check ok\n");
     return 0;
 }
