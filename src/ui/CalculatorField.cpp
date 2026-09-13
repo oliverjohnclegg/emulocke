@@ -56,11 +56,16 @@ void drawCalcField(Application&, CalcSession& session) {
     ImGui::Dummy(ImVec2(0, 6));
     weatherBar(session.fieldState());
     ImGui::Dummy(ImVec2(0, 6));
-    ImGui::Columns(2, "calc-field", true);
+    const float w = ImGui::GetContentRegionAvail().x;
+    const float gap = 8.f;
+    const float col = (w - gap) * 0.5f;
+    ImGui::BeginChild("calc-fo", ImVec2(col, 0), ImGuiChildFlags_AutoResizeY);
     sideCol("o", session.fieldState().ours);
-    ImGui::NextColumn();
+    ImGui::EndChild();
+    ImGui::SameLine(0, gap);
+    ImGui::BeginChild("calc-ft", ImVec2(col, 0), ImGuiChildFlags_AutoResizeY);
     sideCol("t", session.fieldState().theirs);
-    ImGui::Columns(1);
+    ImGui::EndChild();
 }
 
 }
