@@ -37,6 +37,18 @@ bool TrackerLog::defeated(std::string_view id) const {
     return it != boss_.end() && it->second;
 }
 
+bool TrackerLog::markedDead(uint32_t personality) const {
+    if (personality == 0) {
+        return false;
+    }
+    for (const auto& [_, row] : caught_) {
+        if (row.status == EncounterStatus::Dead && row.personality == personality) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void TrackerLog::setDefeated(std::string_view id, bool on) {
     bool& slot = boss_[std::string(id)];
     if (slot == on) {

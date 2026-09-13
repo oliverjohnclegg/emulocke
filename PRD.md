@@ -35,14 +35,14 @@ Left column is the game. Right column is the suite.
 - 21px graphite around the left pane. Not between the two screens. Same 21px below and to the right of the suite.
 - Left pane stays the home column size when a cart seats. Screens integer-scale inside it. View > Screen Scale is the explicit size control. Default window fits 2x two-screen plus a 460px suite.
 - View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
-- Right column is the suite. Tabs hold each function. Tracker is first. Logs is second. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Logs shows trainer, map, party, and badges for supported games.
+- Right column is the suite. Tabs hold each function. Tracker is first. Pokémon is second. Logs is third. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Pokémon lists the live party (with HP) and boxed mons as box sprites. Logs shows trainer, map, party, and badges for supported games.
 - With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, empty until a represented title is seated.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
 ## V1 (this pass)
 
-A playable host. Suite is Tracker then Logs.
+A playable host. Suite is Tracker, Pokémon, then Logs.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
 - File > Import Game / Start New Attempt / Close Run. No New Run or Load Run in the menu. No Open Game. No `roms/` drop folder.
@@ -64,10 +64,11 @@ A playable host. Suite is Tracker then Logs.
 - Prefs persist in the SDL pref path as `prefs.ini`
 - Rules are stored on the run. The cores do not enforce them.
 - Tracker is a compact location/boss list. FRLG is represented. Radical Red and Unbound are not. Difficulty is an atlas key persisted as `difficulty=` on `meta.ini`. Encounter state lives in `tracker.ini` on the run.
+- Pokémon is the living roster: party wells with HP bars, then boxed mons sorted by BST. Tracker-dead PIDs are omitted. Click copies a Showdown set. Hover shows the same fields. Vanilla national-dex names and BST.
 
 ## V1 non-goals
 
-- Any other nuzlocke suite UI (damage calc, QoL, nuzlocke.app-adjacent tools beyond Tracker)
+- Any other nuzlocke suite UI (damage calc, QoL, nuzlocke.app-adjacent tools beyond Tracker and Pokémon)
 - Emulator lab tools (save states, rewind, cheats, disassemblers, memory viewers, movies, Lua, filters, HUD)
 - Frame skip (later cherry-pick)
 - Input remapping
@@ -153,7 +154,7 @@ Gamepad: standard SDL mapping.
 
 ## Design
 
-Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Tracker is first, Logs second. Compact chrome: primary actions stay named; secondary actions in dense chrome are icons with the name on hover.
+Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Tracker is first, Pokémon second, Logs third. Compact chrome: primary actions stay named; secondary actions in dense chrome are icons with the name on hover.
 
 ## Decisions
 
@@ -212,3 +213,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: `main` is Stable, `dev` is Vanguard. Stamped instance names and window captions: version on Stable, commit hash on Vanguard.
 - 2026-09-13: Vanguard keeps the Stable mark and recasts the parchment metal as oxidized field-steel.
 - 2026-09-13: Left game pane keeps the home column size for DS and GBA. Screens integer-scale inside that pane.
+- 2026-09-13: Pokémon suite tab. Live party wells with HP bars, boxed mons sorted by BST, tracker-dead omitted. Hover shows the Showdown fields. Click copies the set.

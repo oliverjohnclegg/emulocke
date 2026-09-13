@@ -75,6 +75,10 @@ void testTrackerFill() {
     REQUIRE(deadLoaded.load(path));
     REQUIRE(deadLoaded.caught("route-1").status == emulocke::EncounterStatus::Dead);
     REQUIRE(deadLoaded.caught("route-1").species == 16);
+    REQUIRE(!deadLoaded.markedDead(0));
+    deadLoaded.setCaught("route-1", 16, 99);
+    REQUIRE(deadLoaded.markedDead(99));
+    REQUIRE(!deadLoaded.markedDead(1));
     {
         std::ofstream out(path, std::ios::trunc);
         out << "[caught]\nroute-2=25:9\n";
