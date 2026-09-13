@@ -325,6 +325,12 @@ int main() {
     auto b = store.create(emulocke::kFireRedUs10Uuid, emulocke::hardcoreRules());
     expect(a && b, "create runs");
     expect(a && a->playMs == 0, "new play 0");
+    const auto savIn = tmp / "incoming.sav";
+    const std::vector<uint8_t> savBytes{0x10, 0x20, 0x30, 0x40};
+    emulocke::writeWholeFile(savIn.string(), savBytes.data(), static_cast<uint32_t>(savBytes.size()));
+    expect(store.importBattery(a->id, savIn), "import sav");
+    expect(emulocke::readWholeFile(store.batteryPath(a->id).string()) == savBytes, "battery bytes");
+    expect(!store.importBattery("missing", savIn), "import missing run");
     expect(emulocke::runHeadline(*a) == "Pokemon Fire Red: Regular Nuzlocke  |  Attempt #1", "headline");
     expect(emulocke::formatPlayClock(0) == "00:00", "clock 0");
     expect(emulocke::formatPlayClock(59999) == "00:00", "clock under minute");

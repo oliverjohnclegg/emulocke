@@ -46,7 +46,9 @@ public:
     void confirmNewRun();
     void requestImportGame();
     void requestImportFor(std::string uuid);
+    void requestImportSav();
     void queueImport(std::string path);
+    void queueImportSav(std::string path);
     void queueLoadRun(std::string id);
     void queueNewAttempt(std::string sourceId);
     void closeRun();
@@ -103,6 +105,7 @@ private:
     void drainPending();
     void importPath(const std::string& path);
     void showDumpPicker();
+    void showSavPicker();
     void createRunFromDraft();
     void startNewAttempt(const std::string& sourceId);
     void loadRun(const std::string& id);
@@ -142,6 +145,7 @@ private:
     ImFont* displayFont_{};
     ImFont* bodyFont_{};
     std::string pendingImport_;
+    std::string pendingImportSav_;
     std::string importKeepUuid_;
     std::string status_;
     std::string activeRunId_;
@@ -161,6 +165,7 @@ private:
     bool pendingNewRun_{false};
     bool pendingCreate_{false};
     bool pendingDumpPicker_{false};
+    bool pendingSavPicker_{false};
     std::atomic<uint32_t> buttons_{0};
     std::atomic<bool> touchDown_{false};
     std::atomic<uint16_t> touchX_{0};
