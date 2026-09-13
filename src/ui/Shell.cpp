@@ -61,13 +61,12 @@ void drawRightSuite(Application& app, float insetX, float insetY) {
     drawSuite(app, ImVec2(suiteAvail.x - insetX, suiteAvail.y - insetY));
 }
 
-void drawConsoleScreens(Application& app, EmuSession& session) {
+void drawConsoleScreens(Application& app, EmuSession& session, ImVec2 pane) {
     const bool nds = session.kind() == ConsoleKind::Nds;
     const bool partyLcd = !nds && app.prefs().bottomScreen;
     const int nativeW = session.screenWidth(0);
     const int nativeH = session.screenHeight(0);
     const int screens = (nds || partyLcd) ? 2 : 1;
-    const ImVec2 pane = ImGui::GetWindowSize();
     const LcdLayout lcd = layoutLcds(app.screenScale(), nativeW, nativeH, screens, pane.x, pane.y);
     const ImVec2 screen(lcd.screenW, lcd.screenH);
     ImGui::SetCursorPos(ImVec2(lcd.x, lcd.y));
@@ -101,7 +100,7 @@ void drawShell(Application& app) {
     }
     ImGui::BeginChild("left", left, ImGuiChildFlags_None, ImGuiWindowFlags_NoScrollbar);
     if (session) {
-        drawConsoleScreens(app, *session);
+        drawConsoleScreens(app, *session, left);
     } else {
         drawHome(app);
     }
