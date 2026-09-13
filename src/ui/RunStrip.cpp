@@ -44,16 +44,16 @@ bool drawRunStrip(Application& app, const Run& run) {
     if (app.displayFont()) {
         ImGui::PopFont();
     }
-    char meta[80];
-    if (snap.ok) {
-        int n = std::snprintf(meta, sizeof meta, "%03u:%02u  Attempt %d", snap.trainer.playHours,
-            snap.trainer.playMinutes, run.attempt);
-        if (snap.gyms.slots && n > 0) {
-            std::snprintf(meta + n, sizeof meta - static_cast<std::size_t>(n), "  Badges: %u/%u",
-                std::popcount(snap.gyms.earned), snap.gyms.slots);
-        }
+    char meta[96];
+    if (snap.ok && snap.gyms.slots) {
+        std::snprintf(meta, sizeof meta, "%03u:%02u • Attempt #%d • Deaths: 0 • Badges: %u/%u",
+            snap.trainer.playHours, snap.trainer.playMinutes, run.attempt,
+            std::popcount(snap.gyms.earned), snap.gyms.slots);
+    } else if (snap.ok) {
+        std::snprintf(meta, sizeof meta, "%03u:%02u • Attempt #%d • Deaths: 0",
+            snap.trainer.playHours, snap.trainer.playMinutes, run.attempt);
     } else {
-        std::snprintf(meta, sizeof meta, "Attempt %d", run.attempt);
+        std::snprintf(meta, sizeof meta, "Attempt #%d • Deaths: 0", run.attempt);
     }
     ImGui::SetCursorScreenPos(ImVec2(text.x, origin.y + kRunPad + 22.f));
     ImGui::TextDisabled("%s", meta);

@@ -7,12 +7,11 @@
 namespace emulocke {
 namespace {
 
-ImFont* loadAssetFont(const char* file, float size) {
+ImFont* loadAssetFont(const char* file, float size, const ImWchar* ranges) {
     ImFontConfig cfg;
     cfg.PixelSnapH = true;
     const std::string path = assetPath(file);
-    return ImGui::GetIO().Fonts->AddFontFromFileTTF(
-        path.c_str(), size, &cfg, ImGui::GetIO().Fonts->GetGlyphRangesDefault());
+    return ImGui::GetIO().Fonts->AddFontFromFileTTF(path.c_str(), size, &cfg, ranges);
 }
 
 }  // namespace
@@ -77,11 +76,12 @@ void applyTheme() {
 }
 
 ImFont* loadDisplayFont() {
-    return loadAssetFont("fonts/MPLUSRounded1c-Medium.ttf", 20.f);
+    return loadAssetFont("fonts/MPLUSRounded1c-Medium.ttf", 20.f, ImGui::GetIO().Fonts->GetGlyphRangesDefault());
 }
 
 ImFont* loadBodyFont() {
-    return loadAssetFont("fonts/FiraSans-Regular.ttf", 15.f);
+    static const ImWchar ranges[] = {0x0020, 0x00FF, 0x2022, 0x2022, 0};
+    return loadAssetFont("fonts/FiraSans-Regular.ttf", 15.f, ranges);
 }
 
 }
