@@ -292,8 +292,17 @@ int main() {
     expect(a && b, "create runs");
     expect(a && a->playMs == 0, "new play 0");
     expect(emulocke::runHeadline(*a) == "Pokemon Fire Red: Regular Nuzlocke  |  Attempt #1", "headline");
+    expect(emulocke::formatPlayClock(0) == "00:00", "clock 0");
+    expect(emulocke::formatPlayClock(59999) == "00:00", "clock under minute");
+    expect(emulocke::formatPlayClock(60000) == "00:01", "clock 1 min");
+    expect(emulocke::formatPlayClock(9ull * 60000ull) == "00:09", "clock 9 min");
+    expect(emulocke::formatPlayClock(3599999) == "00:59", "clock 59 min");
+    expect(emulocke::formatPlayClock(3600000) == "01:00", "clock 1 hour");
+    expect(emulocke::formatPlayClock(3750000) == "01:02", "clock 1h2m");
+    expect(emulocke::formatPlayClock(100ull * 3600000ull) == "100:00", "clock 100h");
     expect(store.addPlayMs(a->id, 1500), "add play");
     expect(store.find(a->id) && store.find(a->id)->playMs == 1500, "play ms");
+    expect(emulocke::formatPlayClock(store.find(a->id)->playMs) == "00:00", "clock 1.5s");
     {
         emulocke::RunStore check(runs);
         check.load();
