@@ -27,6 +27,7 @@ struct TrackerStop {
     const BossMon* team{};
     uint8_t teamCount{};
     uint16_t defeatFlag{};
+    uint8_t defeatSpan{};
 };
 
 struct TrackerAtlas {

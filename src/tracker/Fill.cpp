@@ -58,8 +58,14 @@ void applyTrackerFill(TrackerLog& log, const TrackerAtlas& atlas, const GameSnap
     }
     for (const TrackerStop& stop : atlas.stops) {
         if (stop.kind == TrackerStopKind::Boss) {
-            if (stop.defeatFlag != 0 && progressFlag(snap.progress, stop.defeatFlag)) {
-                log.setDefeated(stop.id, true);
+            if (stop.defeatFlag != 0) {
+                const uint8_t n = stop.defeatSpan == 0 ? uint8_t{1} : stop.defeatSpan;
+                for (uint8_t i = 0; i < n; ++i) {
+                    if (progressFlag(snap.progress, static_cast<uint16_t>(stop.defeatFlag + i))) {
+                        log.setDefeated(stop.id, true);
+                        break;
+                    }
+                }
             }
             continue;
         }

@@ -47,4 +47,16 @@ void testTrackerAtlas() {
     REQUIRE(brock->teamCount == 2);
     REQUIRE(std::strcmp(brock->team[0].slug, "geodude") == 0);
     REQUIRE(std::strcmp(brock->team[1].slug, "onix") == 0);
+
+    const emulocke::TrackerStop* rival2 = nullptr;
+    for (const emulocke::TrackerStop& stop : atlas->stops) {
+        if (std::strcmp(stop.id, "rival-2") == 0) {
+            rival2 = &stop;
+            break;
+        }
+    }
+    REQUIRE(rival2 != nullptr);
+    REQUIRE(rival2->defeatFlag == emulocke::kFlagRivalRoute22);
+    REQUIRE(rival2->defeatSpan == emulocke::kRivalTrainerSpan);
+    REQUIRE(rival2->defeatFlag != 0x04F);
 }
