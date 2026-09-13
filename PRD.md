@@ -221,4 +221,5 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Home playtime is host wall clock as `HH:MM`, not the in-game save clock. Tab speed-up does not advance it.
 - 2026-09-13: Left game pane keeps the home column size for DS and GBA. Screens integer-scale inside that pane.
 - 2026-09-13: Calculator tab. Trainer/location search, FRLG trainer pack from pret, Smogon-faithful gen 3 damage, live FRLG battle overlay. Radical Red and Unbound have no pack. `--preview-calc` fixtures the tab.
+- 2026-09-13: Calculator board is party rail, exchange, foe rail. Foe moves show pret AI usage percents.
 

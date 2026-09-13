@@ -45,11 +45,25 @@ void CalcSession::search(const char* query) {
     }
 }
 
+void CalcSession::lockParty(int slot) {
+    partySlot_ = slot;
+    pinParty_ = true;
+}
+
+void CalcSession::lockFoe(int slot) {
+    foeSlot_ = slot;
+    pinFoe_ = true;
+}
+
 void CalcSession::pickTrainer(const PackTrainer* trainer) {
     trainer_ = trainer;
     foeSlot_ = 0;
+    pinFoe_ = false;
     browsing_ = false;
     refreshFoe();
+    if (!snap_.battle.inBattle) {
+        foeSlot_ = nextIn();
+    }
 }
 
 void CalcSession::pickLocation(const PackLocation* loc) {

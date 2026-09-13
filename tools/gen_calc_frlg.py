@@ -173,6 +173,40 @@ def parse_parties():
     return parties
 
 
+AI_FLAGS = {
+    "AI_SCRIPT_CHECK_BAD_MOVE": 1 << 0,
+    "AI_SCRIPT_CHECK_VIABILITY": 1 << 1,
+    "AI_SCRIPT_TRY_TO_FAINT": 1 << 2,
+    "AI_SCRIPT_SETUP_FIRST_TURN": 1 << 3,
+    "AI_SCRIPT_RISKY": 1 << 4,
+    "AI_SCRIPT_PREFER_STRONGEST_MOVE": 1 << 5,
+    "AI_SCRIPT_PREFER_BATON_PASS": 1 << 6,
+    "AI_SCRIPT_DOUBLE_BATTLE": 1 << 7,
+    "AI_SCRIPT_HP_AWARE": 1 << 8,
+    "AI_SCRIPT_UNKNOWN": 1 << 9,
+    "AI_SCRIPT_ROAMING": 1 << 29,
+    "AI_SCRIPT_SAFARI": 1 << 30,
+    "AI_SCRIPT_FIRST_BATTLE": 1 << 31,
+}
+
+
+def parse_ai_flags(body):
+    m = re.search(r"\.aiFlags\s*=\s*([^,\n]+)", body)
+    if not m:
+        return 0
+    val = 0
+    for part in m.group(1).split("|"):
+        tok = part.strip()
+        if tok in AI_FLAGS:
+            val |= AI_FLAGS[tok]
+        elif tok and tok != "0":
+            try:
+                val |= int(tok, 0)
+            except ValueError:
+                pass
+    return val
+
+
 def parse_trainers():
     trainers = {}
     for key, body in keyed_structs(read("src/data/trainers.h"), "TRAINER_").items():
@@ -185,6 +219,7 @@ def parse_trainers():
             "name": name.group(1) if name else "",
             "cls": cls.group(1) if cls else "TRAINER_CLASS_NONE",
             "party": party.group(1),
+            "ai": parse_ai_flags(body),
         }
     return trainers
 
@@ -336,7 +371,7 @@ def emit_pack(species, move_ids, items, trainer_ids, classes, parties, trainers,
         ) else 0
         trainer_rows.append(
             f'    {{{tid}, "{c_escape(tname)}", "{c_escape(cls)}", "{c_escape(label)}", '
-            f"{len(mons)}, {start}, {mandatory}}},"
+            f"{len(mons)}, {start}, {mandatory}, {meta['ai']}}},"
         )
 
     loc_rows = []

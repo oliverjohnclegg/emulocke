@@ -16,6 +16,7 @@ public:
     void pickTrainer(const PackTrainer* trainer);
     void pickLocation(const PackLocation* loc);
     void lockParty(int slot);
+    void lockFoe(int slot);
     const CalcPack* pack() const { return pack_; }
     const PackTrainer* trainer() const { return trainer_; }
     const GameSnapshot* snap() const { return snap_.ok ? &snap_ : nullptr; }
@@ -35,6 +36,10 @@ private:
     GameSnapshot snap_{};
     int partySlot_{};
     int foeSlot_{};
+    int liveParty_{-1};
+    int liveFoe_{-1};
+    bool pinParty_{};
+    bool pinFoe_{};
     char query_[48]{};
     bool browsing_{};
     std::vector<const PackTrainer*> trainers_;

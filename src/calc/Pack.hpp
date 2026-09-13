@@ -21,6 +21,7 @@ struct PackTrainer {
     uint8_t count;
     uint16_t monOff;
     uint8_t mandatory;
+    uint32_t aiFlags;
 };
 
 struct PackLocation {

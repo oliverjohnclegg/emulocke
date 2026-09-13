@@ -3,6 +3,19 @@
 #include "calc/SwitchIn.hpp"
 
 namespace emulocke {
+namespace {
+
+void followLive(int live, int& last, int& slot, bool& pin) {
+    if (live != last) {
+        last = live;
+        slot = live;
+        pin = false;
+    } else if (!pin) {
+        slot = live;
+    }
+}
+
+}  // namespace
 
 void CalcSession::setPack(const CalcPack* pack) {
     pack_ = pack;
@@ -10,6 +23,10 @@ void CalcSession::setPack(const CalcPack* pack) {
     trainers_.clear();
     locations_.clear();
     foeSlot_ = 0;
+    pinFoe_ = false;
+    pinParty_ = false;
+    liveFoe_ = -1;
+    liveParty_ = -1;
     browsing_ = false;
 }
 
@@ -24,10 +41,6 @@ void CalcSession::sync(std::string_view uuid, std::string_view variant, const Ga
         snap_ = {};
     }
     refreshFoe();
-}
-
-void CalcSession::lockParty(int slot) {
-    partySlot_ = slot;
 }
 
 bool CalcSession::fainted(int slot) const {
@@ -80,8 +93,8 @@ void CalcSession::refreshFoe() {
             }
         }
     }
-    foeSlot_ = snap_.battle.foe.partyIndex;
-    partySlot_ = snap_.battle.player.partyIndex;
+    followLive(snap_.battle.foe.partyIndex, liveFoe_, foeSlot_, pinFoe_);
+    followLive(snap_.battle.player.partyIndex, liveParty_, partySlot_, pinParty_);
 }
 
 }

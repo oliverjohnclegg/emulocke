@@ -42,7 +42,8 @@ void drawCalculator(Application& app) {
     if (!session.pack()) {
         ImGui::TextDisabled("Not represented.");
         ImGui::Spacing();
-        ImGui::TextWrapped("Need every trainer battle plus that game's stat, type, ability, and move tables.");
+        ImGui::TextWrapped(
+            "Need every trainer battle plus that game's stat, type, ability, and move tables.");
         if (app.bodyFont()) {
             ImGui::PopFont();
         }
@@ -50,8 +51,27 @@ void drawCalculator(Application& app) {
     }
     drawCalcSearch(app, session);
     if (session.trainer() && !session.browsing()) {
-        drawCalcStrips(app, session);
-        drawCalcMatchup(app, session);
+        const PackTrainer* t = session.trainer();
+        ImGui::Dummy(ImVec2(0, 6));
+        ImGui::TextUnformatted(t->name);
+        ImGui::SameLine();
+        ImGui::TextDisabled("%s  %s", t->cls, t->location);
+        ImGui::Dummy(ImVec2(0, 6));
+        if (ImGui::BeginTable("calc-board", 3, ImGuiTableFlags_NoPadInnerX)) {
+            ImGui::TableSetupColumn("p", ImGuiTableColumnFlags_WidthFixed, 40.f);
+            ImGui::TableSetupColumn("m", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn("f", ImGuiTableColumnFlags_WidthFixed, 40.f);
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            drawCalcPartyRail(app, session);
+            ImGui::TableSetColumnIndex(1);
+            drawCalcMatchup(app, session);
+            ImGui::TableSetColumnIndex(2);
+            drawCalcFoeRail(app, session);
+            ImGui::EndTable();
+        }
+        ImGui::Separator();
+        drawCalcField(app, session);
     }
     if (app.bodyFont()) {
         ImGui::PopFont();

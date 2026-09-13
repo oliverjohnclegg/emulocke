@@ -105,7 +105,9 @@ add_library(emulocke_calc STATIC
     src/calc/Build.cpp
     src/calc/SwitchIn.cpp
     src/calc/Session.cpp
-    src/calc/SessionSearch.cpp)
+    src/calc/SessionSearch.cpp
+    src/calc/Ai.cpp
+    src/calc/Labels.cpp)
 target_include_directories(emulocke_calc PUBLIC src)
 
 add_library(emulocke_adapter STATIC
@@ -199,6 +201,10 @@ add_executable(emulocke
     src/ui/CalculatorSearch.cpp
     src/ui/CalculatorStrip.cpp
     src/ui/CalculatorMatchup.cpp
+    src/ui/CalculatorHead.cpp
+    src/ui/CalculatorMoves.cpp
+    src/ui/CalculatorField.cpp
+    src/ui/CalculatorStamp.cpp
     src/ui/MenuBar.cpp
     src/ui/HelpPopups.cpp
     src/ui/RunStrip.cpp
