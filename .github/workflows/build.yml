@@ -252,20 +252,28 @@ jobs:
             (cd "$dir" && zip -r "$GITHUB_WORKSPACE/dist/${name}.zip" .)
           done
           echo "VERSION=$(tr -d ' \r\n' < VERSION)" >> "$GITHUB_ENV"
+          echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> "$GITHUB_ENV"
+
+      - name: Drop stale vanguard tag
+        if: github.ref == 'refs/heads/dev'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release delete vanguard --yes || true
 
       - name: Publish Vanguard
         if: github.ref == 'refs/heads/dev'
         uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
         with:
-          tag: vanguard
-          name: Vanguard
+          tag: vanguard-${{ env.SHORT_SHA }}
+          name: Vanguard ${{ env.SHORT_SHA }}
           commit: ${{ github.sha }}
           prerelease: true
           makeLatest: false
-          allowUpdates: true
-          replacesArtifacts: true
+          allowUpdates: false
+          skipIfReleaseExists: true
+          immutableCreate: true
           artifacts: dist/*.zip
-          body: Rolling tryout from `dev`. This release is replaced on every push to `dev`.
+          body: Snapshot of `dev` at `${{ github.sha }}`.
 
       - name: Publish Stable
         if: github.ref == 'refs/heads/main'
@@ -276,7 +284,8 @@ jobs:
           commit: ${{ github.sha }}
           prerelease: false
           makeLatest: true
-          allowUpdates: true
-          replacesArtifacts: true
+          allowUpdates: false
+          skipIfReleaseExists: true
+          immutableCreate: true
           artifacts: dist/*.zip
           body: Versioned cut from `main`.

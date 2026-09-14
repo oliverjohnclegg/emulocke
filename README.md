@@ -84,7 +84,7 @@ You import the baseline the hack depends on. Emulocke already ships the patch, s
 
 Linux and Windows. No macOS build.
 
-[Vanguard](https://github.com/oliverjohnclegg/emulocke/releases/tag/vanguard) is the public tryout. Every push to `dev` replaces those zips. [Stable](https://github.com/oliverjohnclegg/emulocke/releases) is a versioned zip from `main`; there isn't one yet.
+[Vanguard](https://github.com/oliverjohnclegg/emulocke/releases) is the public tryout. Every push to `dev` publishes a new prerelease tagged `vanguard-<commit>`. [Stable](https://github.com/oliverjohnclegg/emulocke/releases) is a versioned zip from `main`; there isn't one yet.
 
 Windows SmartScreen will warn on the `.exe`. The binary is unsigned, which is not the same as a virus. More info, then Run anyway. A bought Authenticode cert is how you make that warning go away; we don't have one.
 
@@ -151,9 +151,9 @@ Gamepad uses the standard SDL map. Pause, reset, and speed-up are under Emulatio
 
 ## Stable and Vanguard
 
-Vanguard is `dev`. That is the public build. Every push to `dev` replaces the [Vanguard](https://github.com/oliverjohnclegg/emulocke/releases/tag/vanguard) prerelease (`emulocke-vanguard-<commit>-linux-x64.zip` and the Windows zip). The window reads `Emulocke VANGUARD [<commit>]`. The suite is still moving; treat Vanguard as a tryout, then [open an issue](https://github.com/oliverjohnclegg/emulocke/issues) with that commit in the caption.
+Vanguard is `dev`. That is the public build. Every push to `dev` publishes a [Vanguard](https://github.com/oliverjohnclegg/emulocke/releases) prerelease tagged `vanguard-<commit>` (`emulocke-vanguard-<commit>-linux-x64.zip` and the Windows zip). The window reads `Emulocke VANGUARD [<commit>]`. The suite is still moving; treat Vanguard as a tryout, then [open an issue](https://github.com/oliverjohnclegg/emulocke/issues) with that commit in the caption.
 
-Stable is `main`. A push to `main` updates GitHub Release `vX.X.X` from `VERSION` (`emulocke-vX.X.X-linux-x64.zip` / Windows). Caption is `Emulocke vX.X.X`. That channel is for a numbered cut the maintainer will stand behind. No Stable release exists yet, so don't wait on one.
+Stable is `main`. A push to `main` publishes GitHub Release `vX.X.X` from `VERSION` (`emulocke-vX.X.X-linux-x64.zip` / Windows). Caption is `Emulocke vX.X.X`. That channel is for a numbered cut the maintainer will stand behind. No Stable release exists yet, so don't wait on one.
 
 A seated run appends ` - Pokémon <title>` on either build. Every push still compiles Ubuntu and Windows; Linux also runs the sprite and game-art checks, and both OSes run `ctest`. Linux then runs ASan+UBSan, clang-tidy, and 60s of libFuzzer. The GitHub Release job waits on all of those.
 
