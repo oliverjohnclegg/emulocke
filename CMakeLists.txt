@@ -69,7 +69,7 @@ add_subdirectory(third_party/mgba EXCLUDE_FROM_ALL)
 if(MINGW)
     find_package(ZLIB REQUIRED)
     target_compile_definitions(mgba PRIVATE HAVE_CRC32)
-    set_property(TARGET mgba APPEND PROPERTY INTERFACE_LINK_LIBRARIES ZLIB::ZLIB)
+    set_property(TARGET mgba APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${ZLIB_LIBRARIES})
 endif()
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Hardening.cmake")
 
