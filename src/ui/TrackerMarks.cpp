@@ -2,7 +2,9 @@
 
 #include "ui/Theme.hpp"
 #include "ui/Tracker.hpp"
+#include "ui/TrackerKindTip.hpp"
 
+#include <cstdio>
 #include <imgui.h>
 
 namespace emulocke {
@@ -14,18 +16,36 @@ void paintTrackerRow(float w) {
     dl->AddRect(origin, ImVec2(origin.x + w, origin.y + kTrackerRowH), ImGui::GetColorU32(kBorder));
 }
 
-void drawKindMark(TrackerStopKind kind) {
+void drawKindMark(const TrackerStop& stop) {
     const ImVec2 p = ImGui::GetCursorScreenPos();
-    ImGui::InvisibleButton("kind", ImVec2(kTrackerKind, kTrackerKind));
+    ImGui::InvisibleButton("kind", ImVec2(kTrackerKind, kTrackerKindH));
     ImDrawList* dl = ImGui::GetWindowDrawList();
-    const ImVec2 c(p.x + kTrackerKind * 0.5f, p.y + kTrackerKind * 0.5f);
-    if (kind == TrackerStopKind::Boss) {
-        dl->AddTriangleFilled(ImVec2(c.x, p.y + 1.f), ImVec2(p.x + kTrackerKind - 1.f, p.y + kTrackerKind - 1.f),
-                               ImVec2(p.x + 1.f, p.y + kTrackerKind - 1.f), kPaused);
-        ImGui::SetItemTooltip("Boss");
-    } else {
+    if (stop.kind != TrackerStopKind::Boss) {
+        const ImVec2 c(p.x + kTrackerKind * 0.5f, p.y + kTrackerKindH * 0.5f);
         dl->AddCircle(c, 3.6f, ImGui::GetColorU32(kMetal), 12, 1.2f);
         ImGui::SetItemTooltip("Encounter");
+        return;
+    }
+    const ImVec2 q(p.x + kTrackerKind, p.y + kTrackerKindH);
+    dl->AddRectFilled(p, q, ImGui::GetColorU32(kButton));
+    dl->AddRect(p, q, ImGui::GetColorU32(kBorder));
+    const int n = stop.fieldCount >= 1 ? stop.fieldCount : 1;
+    char lab[8];
+    std::snprintf(lab, sizeof(lab), "%dx", n);
+    const ImVec2 sz = ImGui::CalcTextSize(lab);
+    dl->AddText(ImVec2(p.x + (kTrackerKind - sz.x) * 0.5f, p.y + (kTrackerKindH - sz.y) * 0.5f - 1.f),
+                ImGui::GetColorU32(kMetal), lab);
+    if (stop.weather && stop.weather[0]) {
+        const float y = q.y - 3.f;
+        dl->AddLine(ImVec2(p.x + 3.f, y), ImVec2(q.x - 3.f, y), battleWeatherTint(stop.weather), 1.4f);
+    }
+    char tip[512];
+    fillBattleTip(stop, tip, sizeof(tip));
+    if (ImGui::BeginItemTooltip()) {
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 28.f);
+        ImGui::TextUnformatted(tip);
+        ImGui::PopTextWrapPos();
+        ImGui::EndTooltip();
     }
 }
 

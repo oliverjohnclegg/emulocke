@@ -1,15 +1,20 @@
 #include "adapter/Cartridge.hpp"
 #include "adapter/GameAdapter.hpp"
+#include "adapter/gen45/Names.hpp"
 #include "run/Catalog.hpp"
 #include "test/Check.hpp"
 #include "tracker/Atlas.hpp"
 #include "tracker/Log.hpp"
 #include "tracker/frlg/Keys.hpp"
 
+#include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <iterator>
+#include <span>
 #include <string>
+#include <vector>
 
 void testTrackerFill() {
     const emulocke::TrackerAtlas* atlas = emulocke::trackerAtlas(emulocke::kFireRedUs10Uuid, "");
@@ -48,6 +53,20 @@ void testTrackerFill() {
     emulocke::applyTrackerFill(starterLog, *atlas, pallet);
     REQUIRE(starterLog.caught("starter").species == 1);
     REQUIRE(starterLog.caught("pallet-town").species == 0);
+    pallet.party.mons[0].species = 2;
+    emulocke::applyTrackerFill(starterLog, *atlas, pallet);
+    REQUIRE(starterLog.caught("starter").species == 1);
+
+    const emulocke::TrackerAtlas* unbound = emulocke::trackerAtlas(emulocke::kUnboundUuid, "");
+    REQUIRE(unbound != nullptr);
+    emulocke::TrackerLog ubLog;
+    emulocke::GameSnapshot ubSnap;
+    ubSnap.ok = true;
+    ubSnap.party.count = 1;
+    ubSnap.party.mons[0].species = 398;
+    ubSnap.party.mons[0].personality = 11;
+    emulocke::applyTrackerFill(ubLog, *unbound, ubSnap);
+    REQUIRE(ubLog.caught("starter").species == 398);
 
     const uint16_t brockFlag = emulocke::kFlagDefeatedBrock;
     pallet.progress.flags[brockFlag / 8] =
@@ -108,4 +127,130 @@ void testTrackerFill() {
     REQUIRE(adapter != nullptr);
     REQUIRE(emulocke::matchSpeciesName(*adapter, "Pikachu") == 25);
     REQUIRE(emulocke::matchSpeciesName(*adapter, "Mr. Mime") == 122);
+
+    const emulocke::TrackerAtlas* rrAtlas = emulocke::trackerAtlas(emulocke::kRadicalRedUuid, "");
+    REQUIRE(rrAtlas != nullptr);
+    emulocke::TrackerLog rrLog;
+    emulocke::GameSnapshot rrSnap;
+    rrSnap.ok = true;
+    rrSnap.party.count = 1;
+    rrSnap.party.mons[0].species = 758;
+    rrSnap.party.mons[0].personality = 5;
+    emulocke::applyTrackerFill(rrLog, *rrAtlas, rrSnap);
+    REQUIRE(rrLog.caught("starter").species == 758);
+    REQUIRE(std::strcmp(emulocke::nationalSpeciesRef(650).slug, "chespin") == 0);
+
+    const emulocke::TrackerAtlas* blaze = emulocke::trackerAtlas(emulocke::kBlazeBlackUuid, "");
+    REQUIRE(blaze != nullptr);
+    emulocke::TrackerLog blazeLog;
+    emulocke::GameSnapshot blazeSnap;
+    blazeSnap.ok = true;
+    blazeSnap.party.count = 1;
+    blazeSnap.party.mons[0].species = 495;
+    blazeSnap.party.mons[0].personality = 9;
+    emulocke::applyTrackerFill(blazeLog, *blaze, blazeSnap);
+    REQUIRE(blazeLog.caught("starter").species == 495);
+    REQUIRE(blazeLog.defeated("b1"));
+    REQUIRE(blazeLog.defeated("c1"));
+    REQUIRE(!blazeLog.defeated("n1"));
+
+    emulocke::TrackerLog servineLog;
+    emulocke::GameSnapshot servineSnap;
+    servineSnap.ok = true;
+    servineSnap.party.count = 1;
+    servineSnap.party.mons[0].species = 496;
+    servineSnap.party.mons[0].personality = 13;
+    emulocke::applyTrackerFill(servineLog, *blaze, servineSnap);
+    REQUIRE(servineLog.caught("starter").species == 496);
+    REQUIRE(servineLog.defeated("b1"));
+    REQUIRE(servineLog.defeated("c1"));
+    REQUIRE(!servineLog.defeated("n1"));
+
+    const char* home = std::getenv("HOME");
+    if (home) {
+        const auto savPath = std::filesystem::path(home) / "test_roms" / "test_blaze_black.sav";
+        if (std::filesystem::exists(savPath)) {
+            std::ifstream in(savPath, std::ios::binary);
+            std::vector<uint8_t> sav(std::istreambuf_iterator<char>(in), {});
+            const emulocke::GameAdapter* bb = emulocke::adapterForSave(sav);
+            REQUIRE(bb != nullptr);
+            const emulocke::GameSnapshot real = bb->readSave(sav);
+            REQUIRE(real.ok);
+            REQUIRE(std::string(real.trainer.name) == "Gibbers");
+            REQUIRE(real.party.count == 4);
+            REQUIRE(real.progress.starterSpecies == 496);
+            REQUIRE((real.gyms.earned & 1) != 0);
+            REQUIRE((real.gyms.earned & 2) == 0);
+            emulocke::TrackerLog realLog;
+            emulocke::applyTrackerFill(realLog, *blaze, real);
+            REQUIRE(realLog.caught("starter").species == 496);
+            REQUIRE(realLog.defeated("gym-1"));
+            REQUIRE(!realLog.defeated("gym-2"));
+            REQUIRE(realLog.defeated("b1"));
+            REQUIRE(realLog.defeated("c1"));
+            REQUIRE(!realLog.defeated("n1"));
+            const auto stickyPath = std::filesystem::temp_directory_path() / "emulocke-bb-starter.ini";
+            {
+                std::ofstream out(stickyPath);
+                out << "[caught]\nstarter=0:0:c\n[boss]\n";
+            }
+            emulocke::TrackerLog sticky;
+            REQUIRE(sticky.load(stickyPath));
+            emulocke::applyTrackerFill(sticky, *blaze, real);
+            REQUIRE(sticky.caught("starter").species == 496);
+            std::filesystem::remove(stickyPath);
+        }
+    }
+
+    blazeLog.setDefeated("gym-1", true);
+    blazeSnap.gyms.slots = 8;
+    blazeSnap.gyms.earned = 0;
+    emulocke::applyTrackerFill(blazeLog, *blaze, blazeSnap);
+    REQUIRE(!blazeLog.defeated("gym-1"));
+    blazeSnap.gyms.earned = 1;
+    emulocke::applyTrackerFill(blazeLog, *blaze, blazeSnap);
+    REQUIRE(blazeLog.defeated("gym-1"));
+    REQUIRE(!blazeLog.defeated("gym-2"));
+
+    const emulocke::TrackerAtlas* em = emulocke::trackerAtlas(emulocke::kEmeraldUsUuid, "");
+    REQUIRE(em != nullptr);
+    emulocke::TrackerLog treecko;
+    emulocke::GameSnapshot hoenn;
+    hoenn.ok = true;
+    hoenn.party.count = 1;
+    hoenn.party.mons[0].species = 252;
+    hoenn.party.mons[0].personality = 3;
+    emulocke::applyTrackerFill(treecko, *em, hoenn);
+    REQUIRE(treecko.caught("starter").species == 252);
+
+    emulocke::TrackerLog internal;
+    hoenn.party.mons[0].species = 277;
+    emulocke::applyTrackerFill(internal, *em, hoenn);
+    REQUIRE(internal.caught("starter").species == 252);
+
+    hoenn.gyms.earned = 1;
+    emulocke::applyTrackerFill(internal, *em, hoenn);
+    REQUIRE(internal.defeated("gym-1"));
+
+    uint16_t wideMet[] = {400};
+    emulocke::TrackerStop far{"far", emulocke::TrackerStopKind::Encounter, "Far", "", emulocke::BossKind::None,
+                               emulocke::CatchKind::Met, wideMet, 1, nullptr, 0, 0, 0, 0};
+    const std::span<const emulocke::TrackerStop> farStops{&far, 1};
+    emulocke::TrackerAtlas wide{"t", farStops, {}};
+    emulocke::TrackerLog farLog;
+    emulocke::GameSnapshot distant;
+    distant.ok = true;
+    distant.party.count = 1;
+    distant.party.mons[0].species = 16;
+    distant.party.mons[0].personality = 4;
+    distant.party.mons[0].metLocation = 400;
+    emulocke::applyTrackerFill(farLog, wide, distant);
+    REQUIRE(farLog.caught("far").species == 16);
+
+    emulocke::Cartridge ruby;
+    std::memcpy(ruby.code, "AXVE", 4);
+    ruby.revision = 2;
+    const emulocke::GameAdapter* rse = emulocke::adapterFor(ruby);
+    REQUIRE(rse != nullptr);
+    REQUIRE(emulocke::matchSpeciesName(*rse, "Treecko") == 252);
 }

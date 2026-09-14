@@ -63,6 +63,14 @@ void testRseAdapter() {
     REQUIRE(snap.party.count == 1);
     REQUIRE(snap.party.mons[0].species == 277);
     REQUIRE(std::string(snap.party.mons[0].speciesName) == "TREECKO");
+    REQUIRE(snap.progress.starterSpecies == 252);
+
+    blocks.block1[emulocke::kRseFlagsOffRs + emulocke::kRseBadge1Rs / 8] =
+        static_cast<uint8_t>(blocks.block1[emulocke::kRseFlagsOffRs + emulocke::kRseBadge1Rs / 8] |
+                              (1u << (emulocke::kRseBadge1Rs % 8)));
+    emulocke::GameSnapshot badged;
+    emulocke::fillSnapshotFromRse(blocks, badged, false);
+    REQUIRE((badged.gyms.earned & 1u) != 0);
 
     std::vector<uint8_t> ewram(0x40000, 0);
     ewram[emulocke::kEmPartyCount - 0x02000000] = 1;

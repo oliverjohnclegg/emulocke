@@ -13,18 +13,26 @@
 namespace emulocke {
 namespace {
 
-void defaultWindowSize(int& w, int& h) {
-    float scale = SDL_GetDisplayContentScale(SDL_GetPrimaryDisplay());
+void scaledLogicalSize(SDL_Window* window, int logicalW, int logicalH, int& w, int& h) {
+    SDL_DisplayID display = window ? SDL_GetDisplayForWindow(window) : 0;
+    if (!display) {
+        display = SDL_GetPrimaryDisplay();
+    }
+    float scale = SDL_GetDisplayContentScale(display);
     if (scale <= 0.f) {
         scale = 1.f;
     }
-    w = static_cast<int>(kDefaultWindowW * scale);
-    h = static_cast<int>(kDefaultWindowH * scale);
+    w = static_cast<int>(logicalW * scale);
+    h = static_cast<int>(logicalH * scale);
     SDL_Rect bounds{};
-    if (SDL_GetDisplayUsableBounds(SDL_GetPrimaryDisplay(), &bounds) && bounds.w > 0 && bounds.h > 0) {
+    if (SDL_GetDisplayUsableBounds(display, &bounds) && bounds.w > 0 && bounds.h > 0) {
         w = std::min(w, bounds.w);
         h = std::min(h, bounds.h);
     }
+}
+
+void defaultWindowSize(int& w, int& h) {
+    scaledLogicalSize(nullptr, kDefaultWindowW, kDefaultWindowH, w, h);
 }
 
 }  // namespace
@@ -114,6 +122,20 @@ void Host::setWindowSize(int w, int h) {
         return;
     }
     SDL_SetWindowSize(window_, w, h);
+}
+
+void Host::contentWindowSize(int logicalW, int logicalH, int& w, int& h) const {
+    scaledLogicalSize(window_, logicalW, logicalH, w, h);
+}
+
+void Host::sizeToContent(int logicalW, int logicalH) {
+    if (!window_ || fullscreen()) {
+        return;
+    }
+    int w = 0;
+    int h = 0;
+    contentWindowSize(logicalW, logicalH, w, h);
+    setWindowSize(w, h);
 }
 
 void Host::captureWindowed(Prefs& prefs) const {

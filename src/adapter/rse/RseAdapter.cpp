@@ -52,7 +52,7 @@ GameSnapshot RseAdapter::readSave(std::span<const uint8_t> sav) const {
     if (!readRseSave(sav, blocks)) {
         return snap;
     }
-    fillSnapshotFromRse(blocks, snap);
+    fillSnapshotFromRse(blocks, snap, edition_ == RseEdition::Emerald);
     snap.adapterId = id();
     return snap;
 }

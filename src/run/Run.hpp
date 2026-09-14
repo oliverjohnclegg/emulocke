@@ -27,6 +27,7 @@ struct Run {
 struct NewRunDraft {
     std::string catalogUuid;
     std::string patchOption;
+    std::string difficulty;
     NuzlockeRules rules = regularRules();
 };
 

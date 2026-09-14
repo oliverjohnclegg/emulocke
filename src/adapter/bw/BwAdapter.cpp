@@ -44,7 +44,7 @@ GameSnapshot Bw2Adapter::readSave(std::span<const uint8_t> sav) const {
     GameSnapshot snap;
     snap.adapterId = id();
     snap.origin = SnapshotOrigin::Save;
-    readGen5Save(sav, snap);
+    readGen5Save(sav, snap, true);
     return snap;
 }
 

@@ -74,11 +74,13 @@ std::optional<Run> RunStore::persist(Run run) {
     return run;
 }
 
-std::optional<Run> RunStore::create(std::string catalogUuid, NuzlockeRules rules, std::string patchOption) {
+std::optional<Run> RunStore::create(std::string catalogUuid, NuzlockeRules rules, std::string patchOption,
+                                   std::string difficulty) {
     Run run;
     run.catalogUuid = std::move(catalogUuid);
     run.rules = rules;
     run.patchOption = std::move(patchOption);
+    run.difficulty = std::move(difficulty);
     run.attempt = 1;
     run.createdAt = isoTimestamp();
     run.lastPlayedAt = run.createdAt;

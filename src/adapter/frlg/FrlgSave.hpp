@@ -13,6 +13,9 @@ struct FrlgSaveBlocks {
     std::array<uint8_t, 0xF24> block2{};
     std::array<uint8_t, 0x3D68> block1{};
     std::array<uint8_t, 0x83D0> storage{};
+    std::array<uint8_t, 0x200> expandedFlags{};
+    std::array<uint8_t, 0x200> expandedVars{};
+    uint32_t fileSignature{};
 };
 
 bool readFrlgSave(std::span<const uint8_t> sav, FrlgSaveBlocks& out);

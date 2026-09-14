@@ -33,9 +33,9 @@ Left column is the game. Right column is the suite.
 - Two-screen games: stacked screens (256x192), top then bottom, 5px between them when the left pane allows. Mouse on the bottom pane is the stylus.
 - One-screen games: stacked wells (240x160) in that same left pane, game then party LCD, 5px between them. Party LCD is suite chrome (box sprites, HP), not a second framebuffer. Not a stylus target. View > Bottom Screen turns it off; the game well stays integer-scaled and sits vertically centered in the left pane.
 - 21px graphite around the left pane. Not between the two screens. Same 21px below and to the right of the suite.
-- Left pane stays the home column size when a cart seats. Screens integer-scale inside it. View > Screen Scale is the explicit size control. Default window fits 2x two-screen plus a 460px suite.
+- View > Screen Scale resizes the whole window so the screens fill the left pane at that integer size. The suite column scales with it (230px at 1x, 460px at 2x). Fit keeps the current window and integer-scales inside it. Default window fits 2x two-screen plus a 460px suite.
 - View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
-- Right column is the suite. Tabs hold each function. Tracker is first. Pokémon is second. Logs is third. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Pokémon lists the live party (with HP), boxed mons as box sprites, and a Grave of tracker-dead mons. Logs shows trainer, map, party, and badges for supported games.
+- Right column is the suite. Tabs hold each function. Tracker is first. Pokémon is second. Logs is third. Every catalog title is represented: Tracker fills from a static atlas plus adapter facts. Difficulty is derived from the cart when the hack has an in-game setting. Pokémon lists the live party (with HP), boxed mons as box sprites, and a Grave of tracker-dead mons. Logs shows trainer, map, party, and badges for supported games.
 - With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, empty until a represented title is seated.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
@@ -64,7 +64,7 @@ A playable host. Suite is Tracker, Pokémon, then Logs.
 - Help: about
 - Prefs persist in the SDL pref path as `prefs.ini`
 - Rules are stored on the run. The cores do not enforce them.
-- Tracker is a compact location/boss list. FRLG is represented. Radical Red and Unbound are not. Difficulty is an atlas key persisted as `difficulty=` on `meta.ini`. Encounter state lives in `tracker.ini` on the run.
+- Tracker is a compact location/boss list. Every catalog title is represented. Difficulty is derived from the seated cart and persisted as `difficulty=` on `meta.ini`. Encounter state lives in `tracker.ini` on the run.
 - Pokémon is party wells with HP bars, boxed mons sorted by BST, then Grave: the same grid, greyscale, tracker-dead only. Click copies a Showdown set. Hover shows the same fields. Vanilla national-dex names and BST.
 
 ## V1 non-goals
@@ -97,9 +97,9 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 - Latest revision we have is the live identity. When a newer dump ships, older revisions move to `src/adapter/archive/`.
 - Read-only for now. RAM writes (QoL cheats) are a separate interface later.
 - Nuzlocke rules, damage math, and encounter tracking are suite concerns, not adapter concerns.
-- Static route order, catch keys, and boss teams live in a suite `TrackerAtlas` keyed by catalog UUID and difficulty. The adapter never owns that list (hacks still identify as FireRed carts).
-- A title is represented only when that atlas exists. FRLG is represented. Radical Red and Unbound return null until they have their own atlas.
-- `GameAdapter::species(id)` returns national id, sprite slug, and display name. `GameSnapshot.progress` holds starter, badges, and flag bytes. A later hack adapter must supply species and flag layout for its atlas.
+- Static route order, catch keys, and boss teams live in a suite `TrackerAtlas` keyed by catalog UUID, derived difficulty, and patch option. The adapter never owns that list (hacks still identify as FireRed carts).
+- A title is represented only when that atlas exists. Every catalog UUID returns an atlas. Version twins share one. In-game difficulty picks a variant where teams diverge (Radical Red Hardcore, Unbound Expert).
+- `GameAdapter::species(id)` returns national id, sprite slug, and display name. When that is empty, Tracker resolves national ids through the sprite index. `GameSnapshot.progress` holds starter, badges, difficulty, and flag bytes.
 - Adding a pure virtual on `GameAdapter` is how a new suite data need flags every adapter in CI.
 - If the suite needs a cart fact, add it to `GameSnapshot` and fill it in the adapter. A missing field is work, not a reason to drop the surface. Unimplemented titles leave the new fields zero.
 
@@ -184,7 +184,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 3. A verified Fire Red US 1.0 dump imports as its catalog UUID. Unknown files are refused.
 4. Video, audio, keyboard, gamepad, pause, reset, speed-up, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
-6. One-screen games stack game + party LCD in the left pane; FRLG fills Tracker and Logs from the adapter snapshot plus the FRLG atlas.
+6. One-screen games stack game + party LCD in the left pane; represented titles fill Tracker from the adapter snapshot plus that title's atlas. FRLG still auto-fills from flags and badges.
 7. View, Audio, Config, and Help work. Prefs survive a relaunch.
 
 ## Changelog
@@ -214,8 +214,9 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Home playtime is host wall clock as `HH:MM`, not the in-game save clock. Tab speed-up does not advance it.
 - 2026-09-13: `main` is Stable, `dev` is Vanguard. Stamped instance names and window captions: version on Stable, commit hash on Vanguard.
 - 2026-09-13: Vanguard keeps the Stable mark and recasts the parchment metal as oxidized field-steel.
-- 2026-09-13: Left game pane keeps the home column size for DS and GBA. Screens integer-scale inside that pane.
+- 2026-09-14: View > Screen Scale snaps the window to the LCD cluster so the screens fill the left pane. The suite column scales with the same integer size. Fit keeps the current window.
 - 2026-09-13: Game art fills 256x192. Official DS titles crop to the top screen. Catalog hacks ship original 256x192 stills.
+- 2026-09-13: Tracker atlases for every catalog title. Difficulty is derived from the cart, not a New Run picker. FRLG is no longer the only atlas.
 - 2026-09-13: New Run hack rows show a `by [creator]` stamp.
 - 2026-09-13: New Run can seed `battery.sav` from an existing `.sav` via `Import from Existing .sav`.
 - 2026-09-13: Pokémon suite tab. Live party wells with HP bars, boxed mons sorted by BST, Grave for tracker-dead greyscale sprites. Hover shows the Showdown fields. Click copies the set.

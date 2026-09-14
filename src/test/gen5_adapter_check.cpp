@@ -1,5 +1,6 @@
 #include "adapter/Cartridge.hpp"
 #include "adapter/GameAdapter.hpp"
+#include "adapter/LiveMemory.hpp"
 #include "adapter/gen3/Codec.hpp"
 #include "adapter/gen45/Pk.hpp"
 #include "adapter/gen5/Save.hpp"
@@ -52,4 +53,26 @@ void testGen5Adapter() {
     REQUIRE(snap.party.mons[0].species == 133);
     REQUIRE(std::string(snap.party.mons[0].speciesName) == "EEVEE");
     REQUIRE(std::string(snap.boxes.boxes[0].name) == "BOX 1");
+    REQUIRE(snap.gyms.slots == 8);
+    REQUIRE(snap.gyms.earned == 0);
+
+    sav[emulocke::kBwBadgeOff] = 1;
+    const emulocke::GameSnapshot badged = fromSave->readSave(sav);
+    REQUIRE(badged.gyms.earned == 1);
+
+    std::vector<uint8_t> erased(0x80000, 0xFF);
+    const emulocke::GameSnapshot blank = fromSave->readSave(erased);
+    REQUIRE(!blank.ok);
+    REQUIRE(blank.gyms.earned == 0);
+    REQUIRE(blank.gyms.slots == 0);
+
+    std::vector<uint8_t> ram(0x200000, 0);
+    const uint32_t alt = 0x02100000;
+    ram[alt - 0x02000000 + 4] = 1;
+    std::memcpy(ram.data() + (alt - 0x02000000 + 8), pk.data(), pk.size());
+    emulocke::SpanMemory mem(0x02000000, ram);
+    emulocke::GameSnapshot live;
+    REQUIRE(emulocke::fillGen5Live(mem, emulocke::kBwPartyLive, live));
+    REQUIRE(live.party.count == 1);
+    REQUIRE(live.party.mons[0].species == 133);
 }

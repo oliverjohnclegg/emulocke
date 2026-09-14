@@ -11,6 +11,8 @@ namespace emulocke {
 inline constexpr std::size_t kGen5Party = 0x18E00;
 inline constexpr std::size_t kGen5Trainer = 0x19400;
 inline constexpr std::size_t kGen5Box = 0x400;
+inline constexpr std::size_t kBwBadgeOff = 0x21204;
+inline constexpr std::size_t kBw2BadgeOff = 0x21104;
 inline constexpr uint32_t kBwPartyLive = 0x022349B4;
 inline constexpr uint32_t kWhitePartyLive = 0x022349D4;
 inline constexpr uint32_t kBw2PartyLive = 0x0221E3EC;
@@ -20,7 +22,7 @@ inline constexpr uint8_t kVersionBlack = 21;
 inline constexpr uint8_t kVersionWhite2 = 22;
 inline constexpr uint8_t kVersionBlack2 = 23;
 
-bool readGen5Save(std::span<const uint8_t> sav, GameSnapshot& snap);
+bool readGen5Save(std::span<const uint8_t> sav, GameSnapshot& snap, bool bw2 = false);
 bool fillGen5Live(const LiveMemory& mem, uint32_t partyAddr, GameSnapshot& snap);
 
 }

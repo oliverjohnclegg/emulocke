@@ -6,57 +6,58 @@
 namespace emulocke {
 namespace {
 
-constexpr uint8_t kPallet[] = {kMapPallet};
-constexpr uint8_t kRoute1[] = {kMapRoute1};
-constexpr uint8_t kViridian[] = {kMapViridian};
-constexpr uint8_t kRoute22[] = {kMapRoute22};
-constexpr uint8_t kRoute2[] = {kMapRoute2};
-constexpr uint8_t kForest[] = {kMapViridianForest};
-constexpr uint8_t kRoute3[] = {kMapRoute3};
-constexpr uint8_t kRoute4[] = {kMapRoute4, kMapRoute4Center};
-constexpr uint8_t kMoon[] = {kMapMtMoon};
-constexpr uint8_t kCerulean[] = {kMapCerulean};
-constexpr uint8_t kRoute24[] = {kMapRoute24};
-constexpr uint8_t kRoute25[] = {kMapRoute25};
-constexpr uint8_t kRoute5[] = {kMapRoute5};
-constexpr uint8_t kRoute6[] = {kMapRoute6};
-constexpr uint8_t kVermilion[] = {kMapVermilion};
-constexpr uint8_t kRoute11[] = {kMapRoute11};
-constexpr uint8_t kDiglett[] = {kMapDiglettsCave};
-constexpr uint8_t kRoute9[] = {kMapRoute9};
-constexpr uint8_t kRoute10[] = {kMapRoute10, kMapRoute10Center};
-constexpr uint8_t kTunnel[] = {kMapRockTunnel};
-constexpr uint8_t kTower[] = {kMapTower};
-constexpr uint8_t kRoute12[] = {kMapRoute12};
-constexpr uint8_t kRoute8[] = {kMapRoute8};
-constexpr uint8_t kRoute7[] = {kMapRoute7};
-constexpr uint8_t kCeladon[] = {kMapCeladon};
-constexpr uint8_t kSaffron[] = {kMapSaffron, kMapSilph};
-constexpr uint8_t kRoute16[] = {kMapRoute16};
-constexpr uint8_t kRoute17[] = {kMapRoute17};
-constexpr uint8_t kRoute18[] = {kMapRoute18};
-constexpr uint8_t kFuchsia[] = {kMapFuchsia};
-constexpr uint8_t kSafari[] = {kMapSafari};
-constexpr uint8_t kRoute15[] = {kMapRoute15};
-constexpr uint8_t kRoute14[] = {kMapRoute14};
-constexpr uint8_t kRoute13[] = {kMapRoute13};
-constexpr uint8_t kPlant[] = {kMapPowerPlant};
-constexpr uint8_t kRoute19[] = {kMapRoute19};
-constexpr uint8_t kRoute20[] = {kMapRoute20};
-constexpr uint8_t kSeafoam[] = {kMapSeafoam};
-constexpr uint8_t kCinnabar[] = {kMapCinnabar};
-constexpr uint8_t kMansion[] = {kMapMansion};
-constexpr uint8_t kOne[] = {kMapOneIsland};
-constexpr uint8_t kTwo[] = {kMapTwoIsland};
-constexpr uint8_t kThree[] = {kMapThreeIsland};
-constexpr uint8_t kRoute21[] = {kMapRoute21};
-constexpr uint8_t kRoute23[] = {kMapRoute23};
-constexpr uint8_t kVictory[] = {kMapVictoryRoad};
-constexpr uint8_t kFour[] = {kMapFourIsland};
-constexpr uint8_t kFive[] = {kMapFiveIsland};
-constexpr uint8_t kSix[] = {kMapSixIsland};
-constexpr uint8_t kSeven[] = {kMapSevenIsland};
-constexpr uint8_t kCave[] = {kMapCeruleanCave};
+constexpr uint16_t kPallet[] = {kMapPallet};
+constexpr uint16_t kRoute1[] = {kMapRoute1};
+constexpr uint16_t kViridian[] = {kMapViridian};
+constexpr uint16_t kRoute22[] = {kMapRoute22};
+constexpr uint16_t kRoute2[] = {kMapRoute2};
+constexpr uint16_t kForest[] = {kMapViridianForest};
+constexpr uint16_t kRoute3[] = {kMapRoute3};
+constexpr uint16_t kRoute4[] = {kMapRoute4, kMapRoute4Center};
+constexpr uint16_t kMoon[] = {kMapMtMoon};
+constexpr uint16_t kCerulean[] = {kMapCerulean};
+constexpr uint16_t kRoute24[] = {kMapRoute24};
+constexpr uint16_t kRoute25[] = {kMapRoute25};
+constexpr uint16_t kRoute5[] = {kMapRoute5};
+constexpr uint16_t kRoute6[] = {kMapRoute6};
+constexpr uint16_t kVermilion[] = {kMapVermilion};
+constexpr uint16_t kRoute11[] = {kMapRoute11};
+constexpr uint16_t kDiglett[] = {kMapDiglettsCave};
+constexpr uint16_t kRoute9[] = {kMapRoute9};
+constexpr uint16_t kRoute10[] = {kMapRoute10, kMapRoute10Center};
+constexpr uint16_t kTunnel[] = {kMapRockTunnel};
+constexpr uint16_t kTower[] = {kMapTower};
+constexpr uint16_t kRoute12[] = {kMapRoute12};
+constexpr uint16_t kRoute8[] = {kMapRoute8};
+constexpr uint16_t kRoute7[] = {kMapRoute7};
+constexpr uint16_t kCeladon[] = {kMapCeladon};
+constexpr uint16_t kSaffron[] = {kMapSaffron, kMapSilph};
+constexpr uint16_t kRoute16[] = {kMapRoute16};
+constexpr uint16_t kRoute17[] = {kMapRoute17};
+constexpr uint16_t kRoute18[] = {kMapRoute18};
+constexpr uint16_t kFuchsia[] = {kMapFuchsia};
+constexpr uint16_t kSafari[] = {kMapSafari};
+constexpr uint16_t kRoute15[] = {kMapRoute15};
+constexpr uint16_t kRoute14[] = {kMapRoute14};
+constexpr uint16_t kRoute13[] = {kMapRoute13};
+constexpr uint16_t kPlant[] = {kMapPowerPlant};
+constexpr uint16_t kRoute19[] = {kMapRoute19};
+constexpr uint16_t kRoute20[] = {kMapRoute20};
+constexpr uint16_t kSeafoam[] = {kMapSeafoam};
+constexpr uint16_t kCinnabar[] = {kMapCinnabar};
+constexpr uint16_t kMansion[] = {kMapMansion};
+constexpr uint16_t kOne[] = {kMapOneIsland};
+constexpr uint16_t kTwo[] = {kMapTwoIsland};
+constexpr uint16_t kThree[] = {kMapThreeIsland};
+constexpr uint16_t kRoute21[] = {kMapRoute21};
+constexpr uint16_t kRoute23[] = {kMapRoute23};
+constexpr uint16_t kVictory[] = {kMapVictoryRoad};
+constexpr uint16_t kFour[] = {kMapFourIsland};
+constexpr uint16_t kFive[] = {kMapFiveIsland};
+constexpr uint16_t kSix[] = {kMapSixIsland};
+constexpr uint16_t kSeven[] = {kMapSevenIsland};
+constexpr uint16_t kCave[] = {kMapCeruleanCave};
+constexpr uint16_t kStarters[] = {1, 4, 7};
 
 const TrackerStop kStops[] = {
     {"starter", TrackerStopKind::Encounter, "Starter", "", BossKind::None, CatchKind::Starter, nullptr, 0,
@@ -78,7 +79,7 @@ const TrackerStop kStops[] = {
     {"viridian-forest", TrackerStopKind::Encounter, "Viridian Forest", "", BossKind::None, CatchKind::Met,
         kForest, 1, nullptr, 0, 0},
     {"brock", TrackerStopKind::Boss, "Brock", "Pewter City", BossKind::Gym, CatchKind::None, nullptr, 0,
-        kTeamBrock, kCountBrock, kFlagDefeatedBrock},
+        kTeamBrock, kCountBrock, kFlagDefeatedBrock, 0, 1},
     {"route-3", TrackerStopKind::Encounter, "Route 3", "", BossKind::None, CatchKind::Met, kRoute3, 1, nullptr,
         0, 0},
     {"route-4", TrackerStopKind::Encounter, "Route 4", "", BossKind::None, CatchKind::Met, kRoute4, 2, nullptr,
@@ -88,7 +89,7 @@ const TrackerStop kStops[] = {
     {"cerulean-city", TrackerStopKind::Encounter, "Cerulean City", "", BossKind::None, CatchKind::Met,
         kCerulean, 1, nullptr, 0, 0},
     {"misty", TrackerStopKind::Boss, "Misty", "Cerulean City", BossKind::Gym, CatchKind::None, nullptr, 0,
-        kTeamMisty, kCountMisty, kFlagDefeatedMisty},
+        kTeamMisty, kCountMisty, kFlagDefeatedMisty, 0, 2},
     {"route-24", TrackerStopKind::Encounter, "Route 24", "", BossKind::None, CatchKind::Met, kRoute24, 1,
         nullptr, 0, 0},
     {"rival-3", TrackerStopKind::Boss, "Blue", "Route 24", BossKind::Rival, CatchKind::None, nullptr, 0, kTeamR3,
@@ -104,7 +105,7 @@ const TrackerStop kStops[] = {
     {"rival-4", TrackerStopKind::Boss, "Blue", "S.S. Anne", BossKind::Rival, CatchKind::None, nullptr, 0,
         kTeamR4, kCountR4, kFlagRivalSsAnne, kRivalTrainerSpan},
     {"surge", TrackerStopKind::Boss, "Lt. Surge", "Vermilion City", BossKind::Gym, CatchKind::None, nullptr, 0,
-        kTeamSurge, kCountSurge, kFlagDefeatedSurge},
+        kTeamSurge, kCountSurge, kFlagDefeatedSurge, 0, 3},
     {"route-11", TrackerStopKind::Encounter, "Route 11", "", BossKind::None, CatchKind::Met, kRoute11, 1,
         nullptr, 0, 0},
     {"digletts-cave", TrackerStopKind::Encounter, "Diglett's Cave", "", BossKind::None, CatchKind::Met,
@@ -126,7 +127,7 @@ const TrackerStop kStops[] = {
     {"celadon-city", TrackerStopKind::Encounter, "Celadon City", "", BossKind::None, CatchKind::Met, kCeladon,
         1, nullptr, 0, 0},
     {"erika", TrackerStopKind::Boss, "Erika", "Celadon City", BossKind::Gym, CatchKind::None, nullptr, 0,
-        kTeamErika, kCountErika, kFlagDefeatedErika},
+        kTeamErika, kCountErika, kFlagDefeatedErika, 0, 4},
     {"giovanni-hideout", TrackerStopKind::Boss, "Giovanni", "Rocket Hideout", BossKind::EvilTeam,
         CatchKind::None, nullptr, 0, kTeamHideout, kCountHideout, kFlagHideHideoutGiovanni},
     {"rival-5", TrackerStopKind::Boss, "Blue", "Pokemon Tower", BossKind::Rival, CatchKind::None, nullptr, 0,
@@ -138,7 +139,7 @@ const TrackerStop kStops[] = {
     {"giovanni-silph", TrackerStopKind::Boss, "Giovanni", "Silph Co.", BossKind::EvilTeam, CatchKind::None,
         nullptr, 0, kTeamSilph, kCountSilph, kFlagHideSilphRockets},
     {"sabrina", TrackerStopKind::Boss, "Sabrina", "Saffron City", BossKind::Gym, CatchKind::None, nullptr, 0,
-        kTeamSabrina, kCountSabrina, kFlagDefeatedSabrina},
+        kTeamSabrina, kCountSabrina, kFlagDefeatedSabrina, 0, 6},
     {"route-16", TrackerStopKind::Encounter, "Route 16", "", BossKind::None, CatchKind::Met, kRoute16, 1,
         nullptr, 0, 0},
     {"route-17", TrackerStopKind::Encounter, "Route 17", "", BossKind::None, CatchKind::Met, kRoute17, 1,
@@ -148,7 +149,7 @@ const TrackerStop kStops[] = {
     {"fuchsia-city", TrackerStopKind::Encounter, "Fuchsia City", "", BossKind::None, CatchKind::Met, kFuchsia,
         1, nullptr, 0, 0},
     {"koga", TrackerStopKind::Boss, "Koga", "Fuchsia City", BossKind::Gym, CatchKind::None, nullptr, 0,
-        kTeamKoga, kCountKoga, kFlagDefeatedKoga},
+        kTeamKoga, kCountKoga, kFlagDefeatedKoga, 0, 5},
     {"safari-zone", TrackerStopKind::Encounter, "Safari Zone", "", BossKind::None, CatchKind::Met, kSafari, 1,
         nullptr, 0, 0},
     {"route-15", TrackerStopKind::Encounter, "Route 15", "", BossKind::None, CatchKind::Met, kRoute15, 1,
@@ -170,7 +171,7 @@ const TrackerStop kStops[] = {
     {"pokemon-mansion", TrackerStopKind::Encounter, "Pokemon Mansion", "", BossKind::None, CatchKind::Met,
         kMansion, 1, nullptr, 0, 0},
     {"blaine", TrackerStopKind::Boss, "Blaine", "Cinnabar Island", BossKind::Gym, CatchKind::None, nullptr, 0,
-        kTeamBlaine, kCountBlaine, kFlagDefeatedBlaine},
+        kTeamBlaine, kCountBlaine, kFlagDefeatedBlaine, 0, 7},
     {"one-island", TrackerStopKind::Encounter, "One Island", "", BossKind::None, CatchKind::Met, kOne, 1,
         nullptr, 0, 0},
     {"two-island", TrackerStopKind::Encounter, "Two Island", "", BossKind::None, CatchKind::Met, kTwo, 1,
@@ -180,7 +181,7 @@ const TrackerStop kStops[] = {
     {"route-21", TrackerStopKind::Encounter, "Route 21", "", BossKind::None, CatchKind::Met, kRoute21, 1,
         nullptr, 0, 0},
     {"giovanni-gym", TrackerStopKind::Boss, "Giovanni", "Viridian City", BossKind::Gym, CatchKind::None,
-        nullptr, 0, kTeamGiovanniGym, kCountGiovanniGym, kFlagDefeatedGiovanni},
+        nullptr, 0, kTeamGiovanniGym, kCountGiovanniGym, kFlagDefeatedGiovanni, 0, 8},
     {"route-23", TrackerStopKind::Encounter, "Route 23", "", BossKind::None, CatchKind::Met, kRoute23, 1,
         nullptr, 0, 0},
     {"victory-road", TrackerStopKind::Encounter, "Victory Road", "", BossKind::None, CatchKind::Met, kVictory,
@@ -212,7 +213,7 @@ const TrackerStop kStops[] = {
 }  // namespace
 
 const TrackerAtlas& frlgAtlas() {
-    static const TrackerAtlas atlas{"frlg", kStops};
+    static const TrackerAtlas atlas{"frlg", kStops, kStarters};
     return atlas;
 }
 

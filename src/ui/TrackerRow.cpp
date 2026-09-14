@@ -12,10 +12,10 @@ namespace {
 
 void drawRowLeft(const TrackerStop& stop, bool struck) {
     const ImVec2 origin = ImGui::GetCursorScreenPos();
-    const float kindY = origin.y + (kTrackerRowH - kTrackerKind) * 0.5f;
+    const float kindY = origin.y + (kTrackerRowH - kTrackerKindH) * 0.5f;
     const float textY = origin.y + (kTrackerRowH - ImGui::GetTextLineHeight()) * 0.5f;
     ImGui::SetCursorScreenPos(ImVec2(origin.x + 6.f, kindY));
-    drawKindMark(stop.kind);
+    drawKindMark(stop);
     ImGui::SetCursorScreenPos(ImVec2(origin.x + 6.f + kTrackerKind + 6.f, textY));
     drawStruckLabel(stop.name, struck);
     if (stop.locale && stop.locale[0]) {
