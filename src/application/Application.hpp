@@ -40,6 +40,8 @@ class Application {
 public:
     Application();
     ~Application();
+    Application(const Application&) = delete;
+    Application& operator=(const Application&) = delete;
     bool start(int argc, char** argv);
     void run();
     void shutdown();
