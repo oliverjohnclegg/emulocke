@@ -17,12 +17,14 @@ ROM dumps, `.sav` files, patches, PNGs from the network, `prefs.ini`, run metada
 
 ## Proof before done
 
-A change to any parser or lifecycle code ships an adversarial test in `src/test/` and, for byte parsers, a seed in `src/fuzz/corpus/`. Before declaring C++ work finished:
+A change to any parser or lifecycle code ships an adversarial test in `src/test/` and, for byte parsers, a seed in `src/fuzz/corpus/<harness>/` (regenerate with `emulocke-fuzz-seeds`, or drop in the reproducer a crash produced). Before declaring C++ work finished:
 
 ```
-cmake -B build-asan -DCMAKE_BUILD_TYPE=Debug -DEMULOCKE_SANITIZE=address
+cmake -B build-asan -G Ninja -DCMAKE_BUILD_TYPE=Debug -DEMULOCKE_SANITIZE=address
 cmake --build build-asan --parallel && ctest --test-dir build-asan --output-on-failure
-run-clang-tidy -p build -quiet <touched files>
+run-clang-tidy -p build-asan -quiet <touched files>
 ```
 
-A test that was never registered with `add_test` proves nothing. A sanitizer or tidy warning is a bug, not noise; do not suppress it in project code.
+Parser changes also run their harness: configure with `-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DEMULOCKE_SANITIZE=address -DEMULOCKE_FUZZ=ON`, build `fuzzers`, then `tools/fuzz/smoke.sh <build-dir> 60`. New byte parsers get a new `src/fuzz/fuzz_<name>.cpp` and corpus directory.
+
+A test that was never registered with `add_test` proves nothing. A sanitizer or tidy warning is a bug, not noise; do not suppress it in project code. `.clang-tidy` gates every check that is clean today; if a check you trip is in its exclusion list, fix the code anyway rather than growing the list.
