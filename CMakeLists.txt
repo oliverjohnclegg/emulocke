@@ -200,6 +200,7 @@ add_executable(emulocke
     src/application/SessionControl.cpp
     src/application/AppLoop.cpp
     src/application/Prefs.cpp
+    src/application/PrefsParse.cpp
     src/application/RunControl.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
@@ -446,6 +447,8 @@ add_executable(emulocke-run-check
     src/test/patch_format_check.cpp
     src/test/patch_bounds_check.cpp
     src/test/file_bytes_check.cpp
+    src/test/prefs_check.cpp
+    src/application/PrefsParse.cpp
     src/test/local_patch_check.cpp
     src/test/layout_check.cpp
     src/test/input_check.cpp

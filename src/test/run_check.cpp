@@ -87,6 +87,7 @@ std::vector<uint8_t> makeUps(const std::vector<uint8_t>& src, const std::vector<
 int testLayout();
 int testInput();
 int testFileBytes();
+int testPrefs();
 
 int main() {
     expect(static_cast<int>(emulocke::kRightPaneSpan) == 481, "right pane span");
@@ -428,6 +429,7 @@ int main() {
     fails += testLayout();
     fails += testInput();
     fails += testFileBytes();
+    fails += testPrefs();
     if (fails) {
         std::fprintf(stderr, "%d failed\n", fails);
         return 1;
