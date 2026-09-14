@@ -70,23 +70,23 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool* cr
         char line[40];
         std::snprintf(line, sizeof line, "AB  %s", ab);
         if (right) {
-            float row = ImGui::CalcTextSize(line).x;
-            if (crit) {
-                row += ImGui::GetStyle().ItemSpacing.x + 28.f;
-            }
-            calcAlignRight(row);
-            if (crit) {
-                if (calcChip("CR", *crit, 28.f)) {
+            calcAlignRight(ImGui::CalcTextSize(line).x);
+        }
+        ImGui::TextDisabled("%s", line);
+        if (crit) {
+            if (right) {
+                const ImVec2 ab = ImGui::GetItemRectMin();
+                const ImVec2 next = ImGui::GetCursorScreenPos();
+                const ImVec2 cr = ImGui::CalcTextSize("CR");
+                ImGui::SetCursorScreenPos(
+                    ImVec2(ab.x - ImGui::GetStyle().ItemSpacing.x - cr.x, ab.y));
+                if (calcCritMark(*crit)) {
                     *crit = !*crit;
                 }
+                ImGui::SetCursorScreenPos(next);
+            } else {
                 ImGui::SameLine();
-            }
-            ImGui::TextDisabled("%s", line);
-        } else {
-            ImGui::TextDisabled("%s", line);
-            if (crit) {
-                ImGui::SameLine();
-                if (calcChip("CR", *crit, 28.f)) {
+                if (calcCritMark(*crit)) {
                     *crit = !*crit;
                 }
             }

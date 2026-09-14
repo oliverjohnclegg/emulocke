@@ -31,9 +31,7 @@ void drawCalcKo(CalcSession& session, uint8_t dmgGen, uint8_t chart, const Pokem
     }
     ImGui::Dummy(ImVec2(0, 12));
     const bool ko = dmg.ohko(def.hp);
-    if (foeAtk) {
-        calcAlignRight(ImGui::CalcTextSize(line).x);
-    }
+    calcAlignCenter(ImGui::CalcTextSize(line).x);
     if (ko) {
         ImGui::TextColored(ImVec4(196 / 255.f, 43 / 255.f, 43 / 255.f, 1.f), "%s", line);
     } else {

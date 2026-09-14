@@ -10,7 +10,10 @@ class Application;
 
 void calcStamp(const char* label);
 bool calcChip(const char* label, bool on, float width = 0.f);
+float calcChipWidth(const char* label);
+bool calcCritMark(bool on);
 void calcAlignRight(float width);
+void calcAlignCenter(float width);
 void calcPixelBar(int hp, int maxHp);
 float calcFoeHpWidth(int hp, int maxHp);
 void calcFoeHp(int hp, int maxHp);

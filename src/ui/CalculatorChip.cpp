@@ -21,4 +21,21 @@ bool calcChip(const char* label, bool on, float width) {
     return hit;
 }
 
+float calcChipWidth(const char* label) {
+    return ImGui::CalcTextSize(label).x + 14.f;
+}
+
+bool calcCritMark(bool on) {
+    const ImVec2 ts = ImGui::CalcTextSize("CR");
+    const ImVec2 p = ImGui::GetCursorScreenPos();
+    const bool hit = ImGui::InvisibleButton("CR", ts);
+    const ImU32 col = ImGui::GetColorU32(on ? kMetal : kDisabled);
+    ImGui::GetWindowDrawList()->AddText(p, col, "CR");
+    if (on) {
+        ImGui::GetWindowDrawList()->AddLine(
+            ImVec2(p.x, p.y + ts.y - 1.f), ImVec2(p.x + ts.x, p.y + ts.y - 1.f), col, 1.f);
+    }
+    return hit;
+}
+
 }

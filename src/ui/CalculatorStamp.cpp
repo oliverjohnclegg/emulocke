@@ -30,6 +30,13 @@ void calcAlignRight(float width) {
     }
 }
 
+void calcAlignCenter(float width) {
+    const float avail = ImGui::GetContentRegionAvail().x;
+    if (avail > width) {
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (avail - width) * 0.5f);
+    }
+}
+
 void calcPixelBar(int hp, int maxHp) {
     const float w = static_cast<float>(kHpBarPx);
     const float h = 8.f;
