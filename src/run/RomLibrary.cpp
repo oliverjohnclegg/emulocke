@@ -57,12 +57,12 @@ bool RomLibrary::writeBaseline(const CatalogTitle& title, const std::vector<uint
     std::error_code ec;
     std::filesystem::create_directories(baselinesDir(), ec);
     const auto dest = storedPath(title);
-    return writeWholeFile(dest.string(), bytes.data(), bytes.size());
+    return writeWholeFile(dest, bytes.data(), bytes.size());
 }
 
 ImportResult RomLibrary::importFile(const std::filesystem::path& path) {
     ImportResult result;
-    const auto bytes = readWholeFile(path.string(), kMaxRomFile);
+    const auto bytes = readWholeFile(path, kMaxRomFile);
     if (bytes.empty()) {
         result.message = "Couldn't read that file.";
         error_ = result.message;

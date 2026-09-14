@@ -242,6 +242,7 @@ add_executable(emulocke
     src/application/Host.cpp
     src/application/SdlRuntime.cpp
     src/application/Application.cpp
+    src/application/ApplicationDialogs.cpp
     src/application/ApplicationCalc.cpp
     src/application/ApplicationCheats.cpp
     src/application/ApplicationPlay.cpp
