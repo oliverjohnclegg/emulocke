@@ -88,7 +88,7 @@ Linux and Windows. No macOS build.
 
 Windows SmartScreen will warn on the `.exe`. The binary is unsigned, which is not the same as a virus. More info, then Run anyway. A bought Authenticode cert is how you make that warning go away; we don't have one.
 
-Keep `assets/` next to the binary after you unzip.
+The Windows zip is a standalone `.exe`. Unzip so `assets/` sits next to it.
 
 ## Scripts
 

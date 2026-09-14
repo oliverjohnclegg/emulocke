@@ -14,6 +14,11 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
 
+if(MINGW)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(CURL_USE_STATIC_LIBS ON)
+endif()
+
 include(FetchContent)
 
 find_package(SDL3 QUIET CONFIG)
@@ -83,6 +88,9 @@ else()
     target_compile_definitions(xdelta3 PUBLIC SIZEOF_UNSIGNED_LONG=8)
 endif()
 target_link_libraries(xdelta3 PUBLIC LibLZMA::LibLZMA)
+if(MINGW)
+    target_compile_definitions(xdelta3 PUBLIC LZMA_API_STATIC)
+endif()
 if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(xdelta3 PRIVATE -w -include assert.h)
 endif()
@@ -193,6 +201,10 @@ add_library(emulocke_dex STATIC
 target_include_directories(emulocke_dex PUBLIC src)
 
 find_package(CURL REQUIRED)
+if(MINGW AND NOT TARGET CURL::libcurl_static)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(PC_CURL REQUIRED STATIC IMPORTED_TARGET libcurl)
+endif()
 add_library(emulocke_sprites STATIC
     src/poke/SpriteIndex.cpp
     src/poke/SlugLabel.cpp
@@ -207,7 +219,16 @@ add_library(emulocke_sprites STATIC
     src/cart/GameArtPlate.cpp
     src/cart/GameArtCache.cpp)
 target_include_directories(emulocke_sprites PUBLIC src PRIVATE ${CMAKE_SOURCE_DIR}/third_party/stb)
-target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
+if(MINGW AND TARGET CURL::libcurl_static)
+    target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl_static)
+elseif(MINGW)
+    target_link_libraries(emulocke_sprites PUBLIC PkgConfig::PC_CURL)
+else()
+    target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
+endif()
+if(MINGW)
+    target_compile_definitions(emulocke_sprites PUBLIC CURL_STATICLIB)
+endif()
 
 add_executable(emulocke
     src/main.cpp
