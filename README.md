@@ -32,11 +32,46 @@ Nobody commits onto `main` or `dev`, including the maintainer. Work lives on a f
 
 ## Supported titles
 
-US baselines: Ruby, Sapphire, Emerald, Fire Red, Leaf Green (1.0 and 1.1), Diamond, Pearl, Platinum (and 1.1), HeartGold, SoulSilver, Black, White, Black 2, White 2.
+US dumps. Unknown SHA-1 files are refused. Tracker atlases cover every catalog row. The Calculator pack is Fire Red / Leaf Green only; Radical Red and Unbound stay without a pack until version-matched tables exist.
 
-Catalog hacks, patched from those baselines: Blaze Black 3.1 and Volt White 3.1 (Drayano; Full or Clean), Volt White 2 Redux (AphexCubed), Fire Red Omega, Sacred Gold, Renegade Platinum (Drayano), Platinum Kaizo and Emerald Kaizo (SinisterHoodedFigure), Radical Red 4.1 (Soupacell), Unbound 2.1.1.1 (Skeli), Run and Bun 1.07 (dekzeh), Inclement Emerald 1.13 (BuffelSaft).
+### Baseline games
 
-Tracker atlases cover every catalog row. The Calculator pack is Fire Red / Leaf Green only. Radical Red and Unbound stay without a pack until version-matched tables exist. Unknown SHA-1 dumps are refused. Hacks are never imported as raw files; you import the baseline and the host applies the bundled patch.
+- Pokémon Ruby (Rev 2)
+- Pokémon Ruby 1.1
+- Pokémon Sapphire (Rev 2)
+- Pokémon Emerald
+- Pokémon Fire Red 1.0
+- Pokémon Fire Red 1.1
+- Pokémon Leaf Green 1.0
+- Pokémon Leaf Green 1.1
+- Pokémon Diamond
+- Pokémon Pearl
+- Pokémon Platinum
+- Pokémon Platinum 1.1
+- Pokémon HeartGold
+- Pokémon SoulSilver
+- Pokémon Black
+- Pokémon White
+- Pokémon Black 2
+- Pokémon White 2
+
+### ROM hacks
+
+You import the baseline the hack depends on. Emulocke already ships the patch, so you don't bring a patched ROM.
+
+- Pokémon Blaze Black 3.1 (Drayano; Full or Clean, from Black)
+- Pokémon Volt White 3.1 (Drayano; Full or Clean, from White)
+- Pokémon Volt White 2 Redux (AphexCubed, from White 2)
+- Pokémon Fire Red Omega (Drayano, from Fire Red 1.0)
+- Pokémon Sacred Gold (Drayano, from HeartGold)
+- Pokémon Platinum Kaizo (SinisterHoodedFigure, from Platinum 1.1)
+- Pokémon Renegade Platinum (Drayano, from Platinum 1.1)
+- Pokémon Radical Red 4.1 (Soupacell, from Fire Red 1.0)
+- Pokémon Unbound 2.1.1.1 (Skeli, from Fire Red 1.0)
+- Pokémon Run and Bun 1.07 (dekzeh, from Emerald)
+- Pokémon Inclement Emerald 1.13 (BuffelSaft, from Emerald)
+- Pokémon Emerald Kaizo (SinisterHoodedFigure, from Emerald)
+
 
 ## Scripts
 
