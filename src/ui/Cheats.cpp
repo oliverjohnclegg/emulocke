@@ -65,26 +65,24 @@ void drawCheats(Application& app) {
     if (app.bodyFont()) {
         ImGui::PushFont(app.bodyFont());
     }
+    const float gap = 6.f;
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(ImGui::GetStyle().ItemSpacing.x, gap));
     ImGui::PushStyleColor(ImGuiCol_ChildBg, kScreenWell);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8.f, 8.f));
-    ImGui::BeginChild("cheats-well", ImVec2(0, 0),
+    ImGui::BeginChild("cheats-well", ImVec2(0, -(kCheatAddH + gap)),
         ImGuiChildFlags_Borders | ImGuiChildFlags_AlwaysUseWindowPadding);
-    ImGui::BeginChild("cheat-rows", ImVec2(0, -kCheatAddH - 6.f));
     std::string doomed;
     for (const Cheat& row : app.cheats().items()) {
         drawCheatRow(app, row, doomed);
     }
     ImGui::EndChild();
+    ImGui::PopStyleVar();
+    ImGui::PopStyleColor();
     if (!doomed.empty()) {
         app.removeCheat(doomed);
     }
-    bool add = false;
-    if (drawCheatAddStamp()) {
-        add = true;
-    }
-    ImGui::EndChild();
+    const bool add = drawCheatAddStamp();
     ImGui::PopStyleVar();
-    ImGui::PopStyleColor();
     if (add) {
         ImGui::OpenPopup("ADD");
     }
