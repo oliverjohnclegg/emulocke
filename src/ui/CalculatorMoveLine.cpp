@@ -20,7 +20,7 @@ int collectCalcMoves(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Po
         const DamageResult dmg = calculate(dmgGen, chart, atk, def, mv, field);
         CalcMoveLine& line = out[n++];
         line.name = mv.name;
-        line.blank = dmg.immune || mv.kind == MoveKind::Status || mv.bp == 0;
+        line.blank = dmg.immune || dmg.max <= 0 || mv.kind == MoveKind::Status || mv.bp == 0;
         line.ohko = dmg.ohko(def.hp);
         line.slot = i;
         line.use = pct ? pct[i] : -1;
