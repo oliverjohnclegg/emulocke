@@ -8,5 +8,6 @@ bool iconAction(const char* id, const char* tip, ImVec2 size);
 void iconPlus(ImVec2 p, ImVec2 size);
 void iconRetry(ImVec2 p, ImVec2 size);
 void iconTrash(ImVec2 p, ImVec2 size);
+void iconX(ImVec2 p, ImVec2 size);
 
 }

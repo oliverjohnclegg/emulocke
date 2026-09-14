@@ -49,6 +49,7 @@ jobs:
             mingw-w64-ucrt-x86_64-cmake
             mingw-w64-ucrt-x86_64-gcc
             mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-pkgconf
             mingw-w64-ucrt-x86_64-curl
             mingw-w64-ucrt-x86_64-xz
             git
@@ -87,6 +88,22 @@ jobs:
         if: runner.os == 'Windows'
         shell: msys2 {0}
         run: ctest --test-dir build --output-on-failure
+
+      - name: Windows PE must be static
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: |
+          set -euo pipefail
+          bin=build/emulocke.exe
+          if [ ! -f "$bin" ]; then
+            echo "missing $bin" >&2
+            exit 1
+          fi
+          objdump -p "$bin" | grep -E 'DLL Name:' | tee /tmp/pe-dlls.txt
+          if grep -Ei 'libcurl|liblzma|libssl|libcrypto|zlib|libzstd|libbrotli|libnghttp|libidn|libpsl|libssh|libiconv|libintl|libunistring|libwinpthread|libgcc|libstdc\+\+' /tmp/pe-dlls.txt; then
+            echo "emulocke.exe still depends on MSYS2 DLLs" >&2
+            exit 1
+          fi
 
       - name: Stage
         id: stage

@@ -14,6 +14,11 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
 
+if(MINGW)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(CURL_USE_STATIC_LIBS ON)
+endif()
+
 include(FetchContent)
 
 find_package(SDL3 QUIET CONFIG)
@@ -61,6 +66,11 @@ set(BUILD_SDL OFF CACHE BOOL "" FORCE)
 set(BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(BUILD_STATIC ON CACHE BOOL "" FORCE)
 add_subdirectory(third_party/mgba EXCLUDE_FROM_ALL)
+if(MINGW)
+    find_package(ZLIB REQUIRED)
+    target_compile_definitions(mgba PRIVATE HAVE_CRC32)
+    set_property(TARGET mgba APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${ZLIB_LIBRARIES})
+endif()
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Hardening.cmake")
 
 find_package(LibLZMA REQUIRED)
@@ -83,6 +93,9 @@ else()
     target_compile_definitions(xdelta3 PUBLIC SIZEOF_UNSIGNED_LONG=8)
 endif()
 target_link_libraries(xdelta3 PUBLIC LibLZMA::LibLZMA)
+if(MINGW)
+    target_compile_definitions(xdelta3 PUBLIC LZMA_API_STATIC)
+endif()
 if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(xdelta3 PRIVATE -w -include assert.h)
 endif()
@@ -193,6 +206,11 @@ add_library(emulocke_dex STATIC
 target_include_directories(emulocke_dex PUBLIC src)
 
 find_package(CURL REQUIRED)
+if(MINGW AND NOT TARGET CURL::libcurl_static)
+    find_package(PkgConfig REQUIRED)
+    set(PKG_CONFIG_ARGN "--static")
+    pkg_check_modules(PC_CURL REQUIRED IMPORTED_TARGET libcurl)
+endif()
 add_library(emulocke_sprites STATIC
     src/poke/SpriteIndex.cpp
     src/poke/SlugLabel.cpp
@@ -207,7 +225,16 @@ add_library(emulocke_sprites STATIC
     src/cart/GameArtPlate.cpp
     src/cart/GameArtCache.cpp)
 target_include_directories(emulocke_sprites PUBLIC src PRIVATE ${CMAKE_SOURCE_DIR}/third_party/stb)
-target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
+if(MINGW AND TARGET CURL::libcurl_static)
+    target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl_static)
+elseif(MINGW)
+    target_link_libraries(emulocke_sprites PUBLIC PkgConfig::PC_CURL)
+else()
+    target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
+endif()
+if(MINGW)
+    target_compile_definitions(emulocke_sprites PUBLIC CURL_STATICLIB)
+endif()
 
 add_executable(emulocke
     src/main.cpp
@@ -216,6 +243,7 @@ add_executable(emulocke
     src/application/SdlRuntime.cpp
     src/application/Application.cpp
     src/application/ApplicationCalc.cpp
+    src/application/ApplicationCheats.cpp
     src/application/ApplicationPlay.cpp
     src/application/ApplicationPrefs.cpp
     src/application/ApplicationTracker.cpp
@@ -262,6 +290,9 @@ add_executable(emulocke
     src/ui/CalculatorField.cpp
     src/ui/CalculatorStamp.cpp
     src/ui/CalculatorChip.cpp
+    src/ui/Cheats.cpp
+    src/ui/CheatsAdd.cpp
+    src/ui/CheatsDraft.cpp
     src/ui/Pokemon.cpp
     src/ui/PokemonGather.cpp
     src/ui/PokemonParty.cpp
@@ -283,7 +314,9 @@ add_executable(emulocke
     src/emu/AudioOutput.cpp
     src/emu/ScreenTexture.cpp
     src/emu/GbaSession.cpp
+    src/emu/GbaCheats.cpp
     src/emu/NdsSession.cpp
+    src/emu/NdsCheats.cpp
     src/emu/NdsPlatformFiles.cpp
     src/emu/NdsPlatformLocal.cpp
     src/emu/NdsPlatformSync.cpp
@@ -307,7 +340,12 @@ add_executable(emulocke
     src/run/RunStore.cpp
     src/run/RunStoreAttempts.cpp
     src/run/SavePeek.cpp
-    src/run/TitlePlay.cpp)
+    src/run/TitlePlay.cpp
+    src/cheats/Lines.cpp
+    src/cheats/Uuid.cpp
+    src/cheats/Book.cpp
+    src/cheats/BookIo.cpp
+    src/cheats/BookEnabled.cpp)
 
 add_custom_target(emulocke-assets
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -397,8 +435,10 @@ endif()
 add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
     src/emu/GbaSession.cpp
+    src/emu/GbaCheats.cpp
     src/emu/FileBytes.cpp
-    src/emu/AudioOutput.cpp)
+    src/emu/AudioOutput.cpp
+    src/cheats/Lines.cpp)
 target_include_directories(emulocke-gba-check PRIVATE src)
 target_link_libraries(emulocke-gba-check PRIVATE mgba SDL3::SDL3)
 if(MGBA_COMPILE_DEFS)
@@ -447,8 +487,10 @@ target_link_libraries(emulocke-poke-check PRIVATE emulocke_dex)
 add_executable(emulocke-frlg-live-check EXCLUDE_FROM_ALL
     src/test/frlg_live_check.cpp
     src/emu/GbaSession.cpp
+    src/emu/GbaCheats.cpp
     src/emu/FileBytes.cpp
-    src/emu/AudioOutput.cpp)
+    src/emu/AudioOutput.cpp
+    src/cheats/Lines.cpp)
 target_include_directories(emulocke-frlg-live-check PRIVATE src)
 target_link_libraries(emulocke-frlg-live-check PRIVATE emulocke_adapter mgba SDL3::SDL3)
 if(MGBA_COMPILE_DEFS)
@@ -461,7 +503,10 @@ endif()
 add_executable(emulocke-boot-check EXCLUDE_FROM_ALL
     src/test/boot_roms_check.cpp
     src/emu/GbaSession.cpp
+    src/emu/GbaCheats.cpp
     src/emu/NdsSession.cpp
+    src/emu/NdsCheats.cpp
+    src/cheats/Lines.cpp
     src/emu/NdsPlatformFiles.cpp
     src/emu/NdsPlatformLocal.cpp
     src/emu/NdsPlatformSync.cpp
@@ -512,7 +557,14 @@ add_executable(emulocke-run-check
     src/test/patch_bounds_check.cpp
     src/test/file_bytes_check.cpp
     src/test/prefs_check.cpp
+    src/test/cheats_check.cpp
     src/application/PrefsParse.cpp
+    src/cheats/Lines.cpp
+    src/cheats/Uuid.cpp
+    src/cheats/Book.cpp
+    src/cheats/BookIo.cpp
+    src/cheats/BookEnabled.cpp
+    src/emu/Paths.cpp
     src/test/local_patch_check.cpp
     src/test/layout_check.cpp
     src/test/input_check.cpp

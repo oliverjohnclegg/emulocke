@@ -28,7 +28,7 @@ void drawHelpPopups(Application& app) {
         ImGui::TextWrapped(
             "One field kit for the game and the expedition tools. GBA and DS carts are just games here.");
         ImGui::Spacing();
-        ImGui::TextWrapped("No save states, disassemblers, or memory tools. Frame skip comes later.");
+        ImGui::TextWrapped("No save states, disassemblers, or memory viewers. Frame skip comes later.");
         ImGui::Dummy(ImVec2(0, 12));
         if (ImGui::Button("Close", ImVec2(140, 0))) {
             ImGui::CloseCurrentPopup();

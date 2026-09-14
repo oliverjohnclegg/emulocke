@@ -36,6 +36,8 @@ public:
     const LiveMemory* liveMemory() const override { return this; }
     std::optional<Cartridge> cartridge() const override { return cart_; }
     bool read(uint32_t addr, std::span<uint8_t> out) const override;
+    bool cheatsOk(std::string_view code) override;
+    void installCheats(std::span<const CheatSpec> cheats) override;
     void writeSave(const uint8_t* data, uint32_t length);
 
 private:

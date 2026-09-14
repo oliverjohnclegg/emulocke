@@ -36,6 +36,8 @@ public:
     std::optional<Cartridge> cartridge() const override { return cart_; }
     bool read(uint32_t addr, std::span<uint8_t> out) const override;
     bool write(uint32_t addr, std::span<const uint8_t> in);
+    bool cheatsOk(std::string_view code) override;
+    void installCheats(std::span<const CheatSpec> cheats) override;
     void flushSave();
 
 private:
