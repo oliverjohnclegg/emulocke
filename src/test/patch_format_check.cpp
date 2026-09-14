@@ -83,6 +83,9 @@ int testPatchFormats() {
         expect(!emulocke::applyXdeltaPatch(dummy, patch), "blaze black dummy fails Adler32");
         const auto out = emulocke::applyRomPatch(dummy, patch);
         expect(out && out->size() == kNdsDump, "blaze black dummy still patches");
+        if (out && out->size() == kNdsDump) {
+            std::fprintf(stderr, "patched blaze-black dummy -> %zu bytes\n", out->size());
+        }
     }
     return fails;
 }
