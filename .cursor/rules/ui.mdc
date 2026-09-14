@@ -1,13 +1,12 @@
 ---
-description: Distinctive graphite-clamshell UI for Emulocke. Always apply when touching UI, theme, layout, or visual copy.
+description: Graphite clamshell UI lock. Always apply when touching UI, theme, layout, or visual copy.
 alwaysApply: true
 ---
 
-# Frontend design
+# UI
 
 Emulocke visual direction is **graphite clamshell**: matte graphite chassis, inset screen wells, parchment-metal hairlines (`#D7CDBD`), metal text on dark, scarce crimson for pause only. Type is M PLUS Rounded 1c for display and Fira Sans for body. Blocky DS geometry. Not cream command boxes. Not stock ImGui gray. Not purple gradients. Not Inter/Roboto/Arial/system UI fonts.
 
 Screens sit in bezels. The left column stays the home pane size; screens integer-scale inside it. 5px DS hinge when the pane allows. 21px graphite around the column. Suite is a tab bar on a recessed rail; the selected tab is a raised plate, not the same fill as the pane. Tracker is first, Pokémon second, Logs third. Integer-scale nearest-neighbor for emulator pixels. No scanlines. Tracker rows are graphite inset plates with box sprites, not nuzlocke.app purple. Red is pause and destructive, not hover.
 
 Compact chrome: primary click targets stay named. Secondary actions in dense chrome are icons; the full name lives on hover. Do not spend a label column on an action that is not the primary hit. Menus stay labeled text.
-

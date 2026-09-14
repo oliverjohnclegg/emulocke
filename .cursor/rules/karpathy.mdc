@@ -1,9 +1,0 @@
----
-description: Karpathy guidelines. Always apply when writing or changing code.
-alwaysApply: true
----
-
-# Karpathy guidelines
-
-Minimum code that solves the asked problem. No speculative suite features, no unused abstractions, no extra emulator options beyond the playable shell. For a larger change, also follow `.cursor/skills/karpathy-guidelines/SKILL.md`.
-
