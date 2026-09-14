@@ -51,9 +51,17 @@ bool decryptPk45(std::span<const uint8_t> raw, std::span<uint8_t> out) {
     }
     std::memcpy(out.data(), raw.data(), raw.size());
     const uint32_t pid = load32(out.data());
+    const uint16_t expect = load16(out.data() + 6);
     const uint32_t sv = (pid >> 13) & 31;
-    cryptRange(out.data(), load16(out.data() + 6), 8, kPkStoredSize);
+    cryptRange(out.data(), expect, 8, kPkStoredSize);
     unshuffle(out.data(), sv);
+    uint16_t sum = 0;
+    for (std::size_t i = 8; i < kPkStoredSize; i += 2) {
+        sum += load16(out.data() + i);
+    }
+    if (sum != expect) {
+        return false;
+    }
     if (raw.size() > kPkStoredSize) {
         cryptRange(out.data(), pid, kPkStoredSize, raw.size());
     }

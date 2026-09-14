@@ -5,6 +5,7 @@
 int main() {
     testGen3Codec();
     testFrlgAdapter();
+    testFrlgDifficulty();
     testRseAdapter();
     testGen4Adapter();
     testGen5Adapter();

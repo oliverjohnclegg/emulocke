@@ -16,7 +16,8 @@ std::vector<uint8_t> readFile(const std::filesystem::path& path) {
     return {std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>()};
 }
 
-void checkSav(const std::filesystem::path& path, const char* expectOt, int expectParty) {
+void checkSav(const std::filesystem::path& path, const char* expectOt, int expectParty,
+              const char* expectDifficulty = nullptr) {
     if (!std::filesystem::exists(path)) {
         return;
     }
@@ -34,8 +35,12 @@ void checkSav(const std::filesystem::path& path, const char* expectOt, int expec
     if (expectOt) {
         REQUIRE(std::string(snap.trainer.name) == expectOt);
     }
-    std::fprintf(stderr, "%s cart=%s ot=%s party=%u first=%s\n", path.filename().c_str(), snap.adapterId.data(),
-                 snap.trainer.name, snap.party.count, snap.party.mons[0].speciesName);
+    if (expectDifficulty) {
+        REQUIRE(std::string(snap.progress.difficulty) == expectDifficulty);
+    }
+    std::fprintf(stderr, "%s cart=%s ot=%s party=%u first=%s difficulty=%s\n", path.filename().c_str(),
+                 snap.adapterId.data(), snap.trainer.name, snap.party.count, snap.party.mons[0].speciesName,
+                 snap.progress.difficulty);
 }
 
 }  // namespace
@@ -52,8 +57,9 @@ void testLocalSaves() {
     checkSav(dir / "platinum-U.sav", "Anthony", 6);
     checkSav(dir / "heartgold-U.sav", "Ethan", 6);
     checkSav(dir / "black-U.sav", "Raval", 6);
+    checkSav(dir / "test_blaze_black.sav", "Gibbers", 4);
     checkSav(dir / "black2-U.sav", "Jason", 6);
-    checkSav(dir / "rom_hack_patches" / "Pokemon Unbound.sav", nullptr, 6);
+    checkSav(dir / "rom_hack_patches" / "Pokemon Unbound.sav", nullptr, 6, "0");
     checkSav(std::filesystem::path(home) / ".local/share/emulocke/emulocke/runs/6af31828902eec1e/battery.sav",
         "A", 1);
 }

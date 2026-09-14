@@ -1,0 +1,1839 @@
+{
+  "id": "hgss",
+  "starters": [
+    155,
+    152,
+    158
+  ],
+  "stops": [
+    {
+      "id": "starter",
+      "kind": "encounter",
+      "name": "Starter",
+      "catch": "starter"
+    },
+    {
+      "id": "new-bark-town",
+      "kind": "encounter",
+      "name": "New Bark Town",
+      "catch": "met",
+      "mets": [
+        126
+      ]
+    },
+    {
+      "id": "route-29",
+      "kind": "encounter",
+      "name": "Route 29",
+      "catch": "met",
+      "mets": [
+        177
+      ]
+    },
+    {
+      "id": "route-46",
+      "kind": "encounter",
+      "name": "Route 46",
+      "catch": "met",
+      "mets": [
+        194
+      ]
+    },
+    {
+      "id": "cherrygrove-city",
+      "kind": "encounter",
+      "name": "Cherrygrove City",
+      "catch": "met",
+      "mets": [
+        127
+      ]
+    },
+    {
+      "id": "r1",
+      "kind": "boss",
+      "name": "Silver",
+      "locale": "Cherrygrove City",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "cyndaquil",
+          "lock": 152
+        },
+        {
+          "slug": "totodile",
+          "lock": 155
+        },
+        {
+          "slug": "chikorita",
+          "lock": 158
+        }
+      ]
+    },
+    {
+      "id": "route-30",
+      "kind": "encounter",
+      "name": "Route 30",
+      "catch": "met",
+      "mets": [
+        178
+      ]
+    },
+    {
+      "id": "route-31",
+      "kind": "encounter",
+      "name": "Route 31",
+      "catch": "met",
+      "mets": [
+        179
+      ]
+    },
+    {
+      "id": "dark-cave",
+      "kind": "encounter",
+      "name": "Dark Cave",
+      "catch": "met",
+      "mets": [
+        220
+      ]
+    },
+    {
+      "id": "violet-city",
+      "kind": "encounter",
+      "name": "Violet City",
+      "catch": "met",
+      "mets": [
+        128
+      ]
+    },
+    {
+      "id": "sprout-tower",
+      "kind": "encounter",
+      "name": "Sprout Tower",
+      "catch": "met",
+      "mets": [
+        204
+      ]
+    },
+    {
+      "id": "li",
+      "kind": "boss",
+      "name": "Elder Li",
+      "locale": "Sprout Tower",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "bellsprout",
+          "lock": 0
+        },
+        {
+          "slug": "bellsprout",
+          "lock": 0
+        },
+        {
+          "slug": "hoothoot",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "gym-1",
+      "kind": "boss",
+      "name": "Falkner",
+      "locale": "Violet City Gym",
+      "boss": "gym",
+      "gym": 1,
+      "team": [
+        {
+          "slug": "pidgey",
+          "lock": 0
+        },
+        {
+          "slug": "pidgeotto",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-32",
+      "kind": "encounter",
+      "name": "Route 32",
+      "catch": "met",
+      "mets": [
+        180
+      ]
+    },
+    {
+      "id": "ruins-of-alph",
+      "kind": "encounter",
+      "name": "Ruins of Alph",
+      "catch": "met",
+      "mets": [
+        209
+      ]
+    },
+    {
+      "id": "union-cave",
+      "kind": "encounter",
+      "name": "Union Cave",
+      "catch": "met",
+      "mets": [
+        210
+      ]
+    },
+    {
+      "id": "route-33",
+      "kind": "encounter",
+      "name": "Route 33",
+      "catch": "met",
+      "mets": [
+        181
+      ]
+    },
+    {
+      "id": "azalea-town",
+      "kind": "encounter",
+      "name": "Azalea Town",
+      "catch": "met",
+      "mets": [
+        129
+      ]
+    },
+    {
+      "id": "slowpoke-well",
+      "kind": "encounter",
+      "name": "Slowpoke Well",
+      "catch": "met",
+      "mets": [
+        211
+      ]
+    },
+    {
+      "id": "proton1",
+      "kind": "boss",
+      "name": "Executive Proton",
+      "locale": "Slowpoke Well",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "zubat",
+          "lock": 0
+        },
+        {
+          "slug": "koffing",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "gym-2",
+      "kind": "boss",
+      "name": "Bugsy",
+      "locale": "Azalea Town Gym",
+      "boss": "gym",
+      "gym": 2,
+      "team": [
+        {
+          "slug": "scyther",
+          "lock": 0
+        },
+        {
+          "slug": "kakuna",
+          "lock": 0
+        },
+        {
+          "slug": "metapod",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "r2",
+      "kind": "boss",
+      "name": "Silver",
+      "locale": "Exit to Ilex Forest",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "gastly",
+          "lock": 0
+        },
+        {
+          "slug": "zubat",
+          "lock": 0
+        },
+        {
+          "slug": "quilava",
+          "lock": 152
+        },
+        {
+          "slug": "croconaw",
+          "lock": 155
+        },
+        {
+          "slug": "bayleef",
+          "lock": 158
+        }
+      ]
+    },
+    {
+      "id": "ilex-forest",
+      "kind": "encounter",
+      "name": "Ilex Forest",
+      "catch": "met",
+      "mets": [
+        214
+      ]
+    },
+    {
+      "id": "route-34",
+      "kind": "encounter",
+      "name": "Route 34",
+      "catch": "met",
+      "mets": [
+        182
+      ]
+    },
+    {
+      "id": "goldenrod-city",
+      "kind": "encounter",
+      "name": "Goldenrod City",
+      "catch": "met",
+      "mets": [
+        131
+      ]
+    },
+    {
+      "id": "gym-3",
+      "kind": "boss",
+      "name": "Whitney",
+      "locale": "Goldenrod City Gym",
+      "boss": "gym",
+      "gym": 3,
+      "team": [
+        {
+          "slug": "clefairy",
+          "lock": 0
+        },
+        {
+          "slug": "miltank",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-35",
+      "kind": "encounter",
+      "name": "Route 35",
+      "catch": "met",
+      "mets": [
+        183
+      ]
+    },
+    {
+      "id": "national-park",
+      "kind": "encounter",
+      "name": "National Park",
+      "catch": "met",
+      "mets": [
+        207
+      ]
+    },
+    {
+      "id": "route-36",
+      "kind": "encounter",
+      "name": "Route 36",
+      "catch": "met",
+      "mets": [
+        184
+      ]
+    },
+    {
+      "id": "route-37",
+      "kind": "encounter",
+      "name": "Route 37",
+      "catch": "met",
+      "mets": [
+        185
+      ]
+    },
+    {
+      "id": "ecruteak-city",
+      "kind": "encounter",
+      "name": "Ecruteak City",
+      "catch": "met",
+      "mets": [
+        133
+      ]
+    },
+    {
+      "id": "burned-tower",
+      "kind": "encounter",
+      "name": "Burned Tower",
+      "catch": "met",
+      "mets": [
+        206
+      ]
+    },
+    {
+      "id": "r3",
+      "kind": "boss",
+      "name": "Silver",
+      "locale": "Burned Tower",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "gastly",
+          "lock": 0
+        },
+        {
+          "slug": "zubat",
+          "lock": 0
+        },
+        {
+          "slug": "magnemite",
+          "lock": 0
+        },
+        {
+          "slug": "quilava",
+          "lock": 152
+        },
+        {
+          "slug": "croconaw",
+          "lock": 155
+        },
+        {
+          "slug": "bayleef",
+          "lock": 158
+        }
+      ]
+    },
+    {
+      "id": "bell-tower",
+      "kind": "encounter",
+      "name": "Bell Tower",
+      "catch": "met",
+      "mets": [
+        205
+      ]
+    },
+    {
+      "id": "gym-4",
+      "kind": "boss",
+      "name": "Morty",
+      "locale": "Ecruteak City Gym",
+      "boss": "gym",
+      "gym": 4,
+      "team": [
+        {
+          "slug": "gastly",
+          "lock": 0
+        },
+        {
+          "slug": "haunter",
+          "lock": 0
+        },
+        {
+          "slug": "gengar",
+          "lock": 0
+        },
+        {
+          "slug": "haunter",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-38",
+      "kind": "encounter",
+      "name": "Route 38",
+      "catch": "met",
+      "mets": [
+        186
+      ]
+    },
+    {
+      "id": "route-39",
+      "kind": "encounter",
+      "name": "Route 39",
+      "catch": "met",
+      "mets": [
+        187
+      ]
+    },
+    {
+      "id": "olivine-city",
+      "kind": "encounter",
+      "name": "Olivine City",
+      "catch": "met",
+      "mets": [
+        132
+      ]
+    },
+    {
+      "id": "route-40",
+      "kind": "encounter",
+      "name": "Route 40",
+      "catch": "met",
+      "mets": [
+        188
+      ]
+    },
+    {
+      "id": "route-41",
+      "kind": "encounter",
+      "name": "Route 41",
+      "catch": "met",
+      "mets": [
+        189
+      ]
+    },
+    {
+      "id": "whirl-islands",
+      "kind": "encounter",
+      "name": "Whirl Islands",
+      "catch": "met",
+      "mets": [
+        218
+      ]
+    },
+    {
+      "id": "cianwood-city",
+      "kind": "encounter",
+      "name": "Cianwood City",
+      "catch": "met",
+      "mets": [
+        130
+      ]
+    },
+    {
+      "id": "eusine",
+      "kind": "boss",
+      "name": "Eusine",
+      "locale": "Suicune Encounter",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "drowzee",
+          "lock": 0
+        },
+        {
+          "slug": "haunter",
+          "lock": 0
+        },
+        {
+          "slug": "electrode",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "gym-5",
+      "kind": "boss",
+      "name": "Chuck",
+      "locale": "Cianwood City Gym",
+      "boss": "gym",
+      "gym": 5,
+      "team": [
+        {
+          "slug": "primeape",
+          "lock": 0
+        },
+        {
+          "slug": "poliwrath",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "gym-6",
+      "kind": "boss",
+      "name": "Jasmine",
+      "locale": "Olivine City Gym",
+      "boss": "gym",
+      "gym": 6,
+      "team": [
+        {
+          "slug": "magnemite",
+          "lock": 0
+        },
+        {
+          "slug": "magnemite",
+          "lock": 0
+        },
+        {
+          "slug": "steelix",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "cliff-edge-gate",
+      "kind": "encounter",
+      "name": "Cliff Edge Gate",
+      "catch": "met",
+      "mets": [
+        234
+      ]
+    },
+    {
+      "id": "route-47",
+      "kind": "encounter",
+      "name": "Route 47",
+      "catch": "met",
+      "mets": [
+        195
+      ]
+    },
+    {
+      "id": "cliff-cave",
+      "kind": "encounter",
+      "name": "Cliff Cave",
+      "catch": "met",
+      "mets": [
+        228
+      ]
+    },
+    {
+      "id": "route-48",
+      "kind": "encounter",
+      "name": "Route 48",
+      "catch": "met",
+      "mets": [
+        196
+      ]
+    },
+    {
+      "id": "safari-zone-gate",
+      "kind": "encounter",
+      "name": "Safari Zone Gate",
+      "catch": "met",
+      "mets": [
+        227
+      ]
+    },
+    {
+      "id": "safari-zone",
+      "kind": "encounter",
+      "name": "Safari Zone",
+      "catch": "met",
+      "mets": [
+        202
+      ]
+    },
+    {
+      "id": "route-42",
+      "kind": "encounter",
+      "name": "Route 42",
+      "catch": "met",
+      "mets": [
+        190
+      ]
+    },
+    {
+      "id": "mt-mortar",
+      "kind": "encounter",
+      "name": "Mt. Mortar",
+      "catch": "met",
+      "mets": [
+        216
+      ]
+    },
+    {
+      "id": "rocket-hideout",
+      "kind": "encounter",
+      "name": "Rocket Hideout",
+      "catch": "met"
+    },
+    {
+      "id": "lake-of-rage",
+      "kind": "encounter",
+      "name": "Lake of Rage",
+      "catch": "met",
+      "mets": [
+        135
+      ]
+    },
+    {
+      "id": "petrel1",
+      "kind": "boss",
+      "name": "Executive Petrel",
+      "locale": "Rocket Hideout",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "zubat",
+          "lock": 0
+        },
+        {
+          "slug": "koffing",
+          "lock": 0
+        },
+        {
+          "slug": "raticate",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "ariana1",
+      "kind": "boss",
+      "name": "Executive Ariana & Grunt",
+      "locale": "Rocket Hideout",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "arbok",
+          "lock": 0
+        },
+        {
+          "slug": "gloom",
+          "lock": 0
+        },
+        {
+          "slug": "murkrow",
+          "lock": 0
+        },
+        {
+          "slug": "drowzee",
+          "lock": 0
+        },
+        {
+          "slug": "grimer",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-43",
+      "kind": "encounter",
+      "name": "Route 43",
+      "catch": "met",
+      "mets": [
+        191
+      ]
+    },
+    {
+      "id": "gym-7",
+      "kind": "boss",
+      "name": "Pryce",
+      "locale": "Mahogany Town Gym",
+      "boss": "gym",
+      "gym": 7,
+      "team": [
+        {
+          "slug": "seel",
+          "lock": 0
+        },
+        {
+          "slug": "dewgong",
+          "lock": 0
+        },
+        {
+          "slug": "piloswine",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "r4",
+      "kind": "boss",
+      "name": "Silver",
+      "locale": "Goldenrod tunnel",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "golbat",
+          "lock": 0
+        },
+        {
+          "slug": "magnemite",
+          "lock": 0
+        },
+        {
+          "slug": "haunter",
+          "lock": 0
+        },
+        {
+          "slug": "sneasel",
+          "lock": 0
+        },
+        {
+          "slug": "quilava",
+          "lock": 152
+        },
+        {
+          "slug": "feraligatr",
+          "lock": 155
+        },
+        {
+          "slug": "meganium",
+          "lock": 158
+        }
+      ]
+    },
+    {
+      "id": "petrel2",
+      "kind": "boss",
+      "name": "Executive Petrel",
+      "locale": "Goldenrod Radio Tower",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "koffing",
+          "lock": 0
+        },
+        {
+          "slug": "koffing",
+          "lock": 0
+        },
+        {
+          "slug": "koffing",
+          "lock": 0
+        },
+        {
+          "slug": "koffing",
+          "lock": 0
+        },
+        {
+          "slug": "koffing",
+          "lock": 0
+        },
+        {
+          "slug": "weezing",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "proton2",
+      "kind": "boss",
+      "name": "Executive Proton",
+      "locale": "Goldenrod Radio Tower",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "golbat",
+          "lock": 0
+        },
+        {
+          "slug": "weezing",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "ariana2",
+      "kind": "boss",
+      "name": "Executive Ariana",
+      "locale": "Goldenrod Radio Tower",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "arbok",
+          "lock": 0
+        },
+        {
+          "slug": "vileplume",
+          "lock": 0
+        },
+        {
+          "slug": "murkrow",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "archer",
+      "kind": "boss",
+      "name": "Executive Archer",
+      "locale": "Goldenrod Radio Tower",
+      "boss": "evilteam",
+      "team": [
+        {
+          "slug": "houndour",
+          "lock": 0
+        },
+        {
+          "slug": "koffing",
+          "lock": 0
+        },
+        {
+          "slug": "houndoom",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-44",
+      "kind": "encounter",
+      "name": "Route 44",
+      "catch": "met",
+      "mets": [
+        192
+      ]
+    },
+    {
+      "id": "ice-path",
+      "kind": "encounter",
+      "name": "Ice Path",
+      "catch": "met",
+      "mets": [
+        217
+      ]
+    },
+    {
+      "id": "blackthorn-city",
+      "kind": "encounter",
+      "name": "Blackthorn City",
+      "catch": "met",
+      "mets": [
+        136
+      ]
+    },
+    {
+      "id": "dragons-den",
+      "kind": "encounter",
+      "name": "Dragon's Den",
+      "catch": "met",
+      "mets": [
+        222
+      ]
+    },
+    {
+      "id": "gym-8",
+      "kind": "boss",
+      "name": "Clair",
+      "locale": "Blackthorn City Gym",
+      "boss": "gym",
+      "gym": 8,
+      "team": [
+        {
+          "slug": "gyarados",
+          "lock": 0
+        },
+        {
+          "slug": "dragonair",
+          "lock": 0
+        },
+        {
+          "slug": "dragonair",
+          "lock": 0
+        },
+        {
+          "slug": "kingdra",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-45",
+      "kind": "encounter",
+      "name": "Route 45",
+      "catch": "met",
+      "mets": [
+        193
+      ]
+    },
+    {
+      "id": "route-27",
+      "kind": "encounter",
+      "name": "Route 27",
+      "catch": "met",
+      "mets": [
+        175
+      ]
+    },
+    {
+      "id": "tohjo-falls",
+      "kind": "encounter",
+      "name": "Tohjo Falls",
+      "catch": "met",
+      "mets": [
+        223
+      ]
+    },
+    {
+      "id": "route-26",
+      "kind": "encounter",
+      "name": "Route 26",
+      "catch": "met",
+      "mets": [
+        174
+      ]
+    },
+    {
+      "id": "kimono",
+      "kind": "boss",
+      "name": "Kimono Girls",
+      "locale": "Ecruteak City Dance Hall",
+      "boss": "miniboss",
+      "team": [
+        {
+          "slug": "umbreon",
+          "lock": 0
+        },
+        {
+          "slug": "espeon",
+          "lock": 0
+        },
+        {
+          "slug": "flareon",
+          "lock": 0
+        },
+        {
+          "slug": "jolteon",
+          "lock": 0
+        },
+        {
+          "slug": "vaporeon",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "victory-road",
+      "kind": "encounter",
+      "name": "Victory Road",
+      "catch": "met"
+    },
+    {
+      "id": "r5",
+      "kind": "boss",
+      "name": "Silver",
+      "locale": "Victory Road",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "sneasel",
+          "lock": 0
+        },
+        {
+          "slug": "golbat",
+          "lock": 0
+        },
+        {
+          "slug": "magneton",
+          "lock": 0
+        },
+        {
+          "slug": "kadabra",
+          "lock": 0
+        },
+        {
+          "slug": "haunter",
+          "lock": 0
+        },
+        {
+          "slug": "typhlosion",
+          "lock": 152
+        },
+        {
+          "slug": "feraligatr",
+          "lock": 155
+        },
+        {
+          "slug": "meganium",
+          "lock": 158
+        }
+      ]
+    },
+    {
+      "id": "indigo-plateau",
+      "kind": "encounter",
+      "name": "Indigo Plateau",
+      "catch": "met",
+      "mets": [
+        147
+      ]
+    },
+    {
+      "id": "e1",
+      "kind": "boss",
+      "name": "Will",
+      "locale": "Elite Four",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "xatu",
+          "lock": 0
+        },
+        {
+          "slug": "jynx",
+          "lock": 0
+        },
+        {
+          "slug": "exeggutor",
+          "lock": 0
+        },
+        {
+          "slug": "slowbro",
+          "lock": 0
+        },
+        {
+          "slug": "xatu",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e2",
+      "kind": "boss",
+      "name": "Koga",
+      "locale": "Elite Four",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "ariados",
+          "lock": 0
+        },
+        {
+          "slug": "venomoth",
+          "lock": 0
+        },
+        {
+          "slug": "forretress",
+          "lock": 0
+        },
+        {
+          "slug": "muk",
+          "lock": 0
+        },
+        {
+          "slug": "crobat",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e3",
+      "kind": "boss",
+      "name": "Bruno",
+      "locale": "Elite Four",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "hitmontop",
+          "lock": 0
+        },
+        {
+          "slug": "hitmonlee",
+          "lock": 0
+        },
+        {
+          "slug": "hitmonchan",
+          "lock": 0
+        },
+        {
+          "slug": "onix",
+          "lock": 0
+        },
+        {
+          "slug": "machamp",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "e4",
+      "kind": "boss",
+      "name": "Karen",
+      "locale": "Elite Four",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "umbreon",
+          "lock": 0
+        },
+        {
+          "slug": "vileplume",
+          "lock": 0
+        },
+        {
+          "slug": "gengar",
+          "lock": 0
+        },
+        {
+          "slug": "murkrow",
+          "lock": 0
+        },
+        {
+          "slug": "houndoom",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "c",
+      "kind": "boss",
+      "name": "Lance",
+      "locale": "Champion Fight",
+      "boss": "elitefour",
+      "team": [
+        {
+          "slug": "gyarados",
+          "lock": 0
+        },
+        {
+          "slug": "dragonite",
+          "lock": 0
+        },
+        {
+          "slug": "dragonite",
+          "lock": 0
+        },
+        {
+          "slug": "aerodactyl",
+          "lock": 0
+        },
+        {
+          "slug": "charizard",
+          "lock": 0
+        },
+        {
+          "slug": "dragonite",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "vermillion-city",
+      "kind": "encounter",
+      "name": "Vermillion City",
+      "catch": "met"
+    },
+    {
+      "id": "k1",
+      "kind": "boss",
+      "name": "Lt. Surge",
+      "locale": "Vermillion City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "raichu",
+          "lock": 0
+        },
+        {
+          "slug": "electrode",
+          "lock": 0
+        },
+        {
+          "slug": "electrode",
+          "lock": 0
+        },
+        {
+          "slug": "magneton",
+          "lock": 0
+        },
+        {
+          "slug": "electabuzz",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-6",
+      "kind": "encounter",
+      "name": "Route 6",
+      "catch": "met",
+      "mets": [
+        154
+      ]
+    },
+    {
+      "id": "saffron-city",
+      "kind": "encounter",
+      "name": "Saffron City",
+      "catch": "met",
+      "mets": [
+        148
+      ]
+    },
+    {
+      "id": "k2",
+      "kind": "boss",
+      "name": "Sabrina",
+      "locale": "Saffron City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "espeon",
+          "lock": 0
+        },
+        {
+          "slug": "mr-mime",
+          "lock": 0
+        },
+        {
+          "slug": "alakazam",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-7",
+      "kind": "encounter",
+      "name": "Route 7",
+      "catch": "met",
+      "mets": [
+        155
+      ]
+    },
+    {
+      "id": "celadon-city",
+      "kind": "encounter",
+      "name": "Celadon City",
+      "catch": "met",
+      "mets": [
+        144
+      ]
+    },
+    {
+      "id": "k3",
+      "kind": "boss",
+      "name": "Erika",
+      "locale": "Celadon City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "jumpluff",
+          "lock": 0
+        },
+        {
+          "slug": "tangela",
+          "lock": 0
+        },
+        {
+          "slug": "victreebel",
+          "lock": 0
+        },
+        {
+          "slug": "bellossom",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-16",
+      "kind": "encounter",
+      "name": "Route 16",
+      "catch": "met",
+      "mets": [
+        164
+      ]
+    },
+    {
+      "id": "route-17",
+      "kind": "encounter",
+      "name": "Route 17",
+      "catch": "met",
+      "mets": [
+        165
+      ]
+    },
+    {
+      "id": "route-18",
+      "kind": "encounter",
+      "name": "Route 18",
+      "catch": "met",
+      "mets": [
+        166
+      ]
+    },
+    {
+      "id": "fuschia-city",
+      "kind": "encounter",
+      "name": "Fuschia City",
+      "catch": "met"
+    },
+    {
+      "id": "k4",
+      "kind": "boss",
+      "name": "Janine",
+      "locale": "Fuschia City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "crobat",
+          "lock": 0
+        },
+        {
+          "slug": "weezing",
+          "lock": 0
+        },
+        {
+          "slug": "ariados",
+          "lock": 0
+        },
+        {
+          "slug": "ariados",
+          "lock": 0
+        },
+        {
+          "slug": "venomoth",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-15",
+      "kind": "encounter",
+      "name": "Route 15",
+      "catch": "met",
+      "mets": [
+        163
+      ]
+    },
+    {
+      "id": "route-14",
+      "kind": "encounter",
+      "name": "Route 14",
+      "catch": "met",
+      "mets": [
+        162
+      ]
+    },
+    {
+      "id": "route-13",
+      "kind": "encounter",
+      "name": "Route 13",
+      "catch": "met",
+      "mets": [
+        161
+      ]
+    },
+    {
+      "id": "route-12",
+      "kind": "encounter",
+      "name": "Route 12",
+      "catch": "met",
+      "mets": [
+        160
+      ]
+    },
+    {
+      "id": "route-8",
+      "kind": "encounter",
+      "name": "Route 8",
+      "catch": "met",
+      "mets": [
+        156
+      ]
+    },
+    {
+      "id": "route-5",
+      "kind": "encounter",
+      "name": "Route 5",
+      "catch": "met",
+      "mets": [
+        153
+      ]
+    },
+    {
+      "id": "route-9",
+      "kind": "encounter",
+      "name": "Route 9",
+      "catch": "met",
+      "mets": [
+        157
+      ]
+    },
+    {
+      "id": "route-10",
+      "kind": "encounter",
+      "name": "Route 10",
+      "catch": "met",
+      "mets": [
+        158
+      ]
+    },
+    {
+      "id": "power-plant",
+      "kind": "encounter",
+      "name": "Power Plant",
+      "catch": "met",
+      "mets": [
+        201
+      ]
+    },
+    {
+      "id": "route-24",
+      "kind": "encounter",
+      "name": "Route 24",
+      "catch": "met",
+      "mets": [
+        172
+      ]
+    },
+    {
+      "id": "route-25",
+      "kind": "encounter",
+      "name": "Route 25",
+      "catch": "met",
+      "mets": [
+        173
+      ]
+    },
+    {
+      "id": "cerulean-city",
+      "kind": "encounter",
+      "name": "Cerulean City",
+      "catch": "met",
+      "mets": [
+        141
+      ]
+    },
+    {
+      "id": "k5",
+      "kind": "boss",
+      "name": "Misty",
+      "locale": "Cerulean City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "golduck",
+          "lock": 0
+        },
+        {
+          "slug": "quagsire",
+          "lock": 0
+        },
+        {
+          "slug": "lapras",
+          "lock": 0
+        },
+        {
+          "slug": "starmie",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "rock-tunnel",
+      "kind": "encounter",
+      "name": "Rock Tunnel",
+      "catch": "met",
+      "mets": [
+        200
+      ]
+    },
+    {
+      "id": "route-4",
+      "kind": "encounter",
+      "name": "Route 4",
+      "catch": "met",
+      "mets": [
+        152
+      ]
+    },
+    {
+      "id": "route-11",
+      "kind": "encounter",
+      "name": "Route 11",
+      "catch": "met",
+      "mets": [
+        159
+      ]
+    },
+    {
+      "id": "digletts-cave",
+      "kind": "encounter",
+      "name": "Diglett's Cave",
+      "catch": "met",
+      "mets": [
+        197
+      ]
+    },
+    {
+      "id": "pewter-city",
+      "kind": "encounter",
+      "name": "Pewter City",
+      "catch": "met",
+      "mets": [
+        140
+      ]
+    },
+    {
+      "id": "k6",
+      "kind": "boss",
+      "name": "Brock",
+      "locale": "Pewter City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "graveler",
+          "lock": 0
+        },
+        {
+          "slug": "rhyhorn",
+          "lock": 0
+        },
+        {
+          "slug": "omastar",
+          "lock": 0
+        },
+        {
+          "slug": "onix",
+          "lock": 0
+        },
+        {
+          "slug": "kabutops",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-3",
+      "kind": "encounter",
+      "name": "Route 3",
+      "catch": "met",
+      "mets": [
+        151
+      ]
+    },
+    {
+      "id": "mt-moon",
+      "kind": "encounter",
+      "name": "Mt. Moon",
+      "catch": "met",
+      "mets": [
+        198
+      ]
+    },
+    {
+      "id": "r6",
+      "kind": "boss",
+      "name": "Silver",
+      "locale": "Mt. Moon Rival",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "sneasel",
+          "lock": 0
+        },
+        {
+          "slug": "golbat",
+          "lock": 0
+        },
+        {
+          "slug": "magneton",
+          "lock": 0
+        },
+        {
+          "slug": "alakazam",
+          "lock": 0
+        },
+        {
+          "slug": "gengar",
+          "lock": 0
+        },
+        {
+          "slug": "typhlosion",
+          "lock": 152
+        },
+        {
+          "slug": "feraligatr",
+          "lock": 155
+        },
+        {
+          "slug": "meganium",
+          "lock": 158
+        }
+      ]
+    },
+    {
+      "id": "viridian-forest",
+      "kind": "encounter",
+      "name": "Viridian Forest",
+      "catch": "met",
+      "mets": [
+        224
+      ]
+    },
+    {
+      "id": "route-2",
+      "kind": "encounter",
+      "name": "Route 2",
+      "catch": "met",
+      "mets": [
+        150
+      ]
+    },
+    {
+      "id": "viridian-city",
+      "kind": "encounter",
+      "name": "Viridian City",
+      "catch": "met",
+      "mets": [
+        139
+      ]
+    },
+    {
+      "id": "route-1",
+      "kind": "encounter",
+      "name": "Route 1",
+      "catch": "met",
+      "mets": [
+        149
+      ]
+    },
+    {
+      "id": "pallet-town",
+      "kind": "encounter",
+      "name": "Pallet Town",
+      "catch": "met",
+      "mets": [
+        138
+      ]
+    },
+    {
+      "id": "route-21",
+      "kind": "encounter",
+      "name": "Route 21",
+      "catch": "met",
+      "mets": [
+        169
+      ]
+    },
+    {
+      "id": "cinnabar-island",
+      "kind": "encounter",
+      "name": "Cinnabar Island",
+      "catch": "met",
+      "mets": [
+        146
+      ]
+    },
+    {
+      "id": "route-20",
+      "kind": "encounter",
+      "name": "Route 20",
+      "catch": "met",
+      "mets": [
+        168
+      ]
+    },
+    {
+      "id": "k7",
+      "kind": "boss",
+      "name": "Blaine",
+      "locale": "Cinnabar Island Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "magcargo",
+          "lock": 0
+        },
+        {
+          "slug": "magmar",
+          "lock": 0
+        },
+        {
+          "slug": "rapidash",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "k8",
+      "kind": "boss",
+      "name": "Blue",
+      "locale": "Virdian City Gym",
+      "boss": "gym",
+      "team": [
+        {
+          "slug": "exeggutor",
+          "lock": 0
+        },
+        {
+          "slug": "arcanine",
+          "lock": 0
+        },
+        {
+          "slug": "rhydon",
+          "lock": 0
+        },
+        {
+          "slug": "gyarados",
+          "lock": 0
+        },
+        {
+          "slug": "machamp",
+          "lock": 0
+        },
+        {
+          "slug": "pidgeot",
+          "lock": 0
+        }
+      ]
+    },
+    {
+      "id": "route-19",
+      "kind": "encounter",
+      "name": "Route 19",
+      "catch": "met",
+      "mets": [
+        167
+      ]
+    },
+    {
+      "id": "route-22",
+      "kind": "encounter",
+      "name": "Route 22",
+      "catch": "met",
+      "mets": [
+        170
+      ]
+    },
+    {
+      "id": "route-28",
+      "kind": "encounter",
+      "name": "Route 28",
+      "catch": "met",
+      "mets": [
+        176
+      ]
+    },
+    {
+      "id": "mt-silver",
+      "kind": "encounter",
+      "name": "Mt. Silver",
+      "catch": "met",
+      "mets": [
+        137
+      ]
+    },
+    {
+      "id": "red",
+      "kind": "boss",
+      "name": "Red",
+      "locale": "Champion",
+      "boss": "rival",
+      "team": [
+        {
+          "slug": "pikachu",
+          "lock": 0
+        },
+        {
+          "slug": "lapras",
+          "lock": 0
+        },
+        {
+          "slug": "snorlax",
+          "lock": 0
+        },
+        {
+          "slug": "venusaur",
+          "lock": 0
+        },
+        {
+          "slug": "charizard",
+          "lock": 0
+        },
+        {
+          "slug": "blastoise",
+          "lock": 0
+        }
+      ]
+    }
+  ]
+}

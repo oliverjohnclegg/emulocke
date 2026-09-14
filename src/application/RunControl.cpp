@@ -1,6 +1,7 @@
 #include "application/Application.hpp"
 
 #include "run/Catalog.hpp"
+#include "tracker/Difficulty.hpp"
 
 #include <string>
 
@@ -20,6 +21,7 @@ void Application::requestNewRun() {
     }
     if (const CatalogTitle* title = catalogByUuid(newRunDraft_.catalogUuid)) {
         newRunDraft_.patchOption = std::string(catalogOptionId(*title, newRunDraft_.patchOption));
+        bindTitleDifficulty(newRunDraft_.difficulty, title->slug);
     }
     newRunDraft_.rules = regularRules();
     pendingNewRun_ = true;
@@ -131,7 +133,8 @@ void Application::createRunFromDraft() {
         status_ = romLibrary_->lastError();
         return;
     }
-    auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules, newRunDraft_.patchOption);
+    auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules, newRunDraft_.patchOption,
+                                      newRunDraft_.difficulty);
     if (!created) {
         status_ = "Failed to create run.";
         return;

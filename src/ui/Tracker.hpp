@@ -14,7 +14,8 @@ struct SpeciesRef;
 inline constexpr int kBoxSpriteW = 32;
 inline constexpr int kBoxSpriteH = 24;
 inline constexpr float kTrackerRowH = 28.f;
-inline constexpr float kTrackerKind = 10.f;
+inline constexpr float kTrackerKind = 22.f;
+inline constexpr float kTrackerKindH = 18.f;
 inline constexpr float kTrackerStatus = 18.f;
 
 void drawTracker(Application& app);

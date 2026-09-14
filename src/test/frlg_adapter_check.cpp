@@ -6,6 +6,7 @@
 #include "adapter/gen3/BoxCrypt.hpp"
 #include "adapter/gen3/BoxMon.hpp"
 #include "adapter/gen3/Codec.hpp"
+#include "adapter/gen45/Names.hpp"
 #include "test/Check.hpp"
 
 #include <array>
@@ -117,6 +118,7 @@ void testFrlgAdapter() {
     REQUIRE(snap.progress.starterSpecies == 1);
     REQUIRE(snap.gyms.slots == 8);
     REQUIRE(snap.gyms.earned == 1);
+    REQUIRE(snap.progress.difficulty[0] == 0);
 
     const emulocke::SpeciesRef pika = fr->species(25);
     REQUIRE(pika.national == 25);
@@ -125,6 +127,14 @@ void testFrlgAdapter() {
     const emulocke::SpeciesRef mime = fr->species(122);
     REQUIRE(std::string(mime.slug) == "mr-mime");
     REQUIRE(std::string(mime.name) == "Mr. Mime");
+    const emulocke::SpeciesRef huntail = fr->species(374);
+    REQUIRE(std::string(huntail.name) == "Huntail");
+    const emulocke::SpeciesRef floette = fr->species(778);
+    REQUIRE(std::string(floette.name) == "Floette");
+    REQUIRE(std::string(floette.slug) == "floette");
+    REQUIRE(std::string(emulocke::nationalSpeciesRef(374).name) == "Beldum");
+    REQUIRE(std::string(emulocke::nationalSpeciesRef(294).name) == "Loudred");
+    REQUIRE(std::string(emulocke::nationalSpeciesRef(359).name) == "Absol");
 
     const uint16_t badge1 = emulocke::kFrlgFlagBadge1;
     blocks.block1[emulocke::kFrlgFlagsOff + badge1 / 8] =
@@ -151,6 +161,12 @@ void testFrlgAdapter() {
     REQUIRE(live.progress.starterSpecies == 1);
     REQUIRE(live.gyms.slots == 8);
     REQUIRE(live.gyms.earned == 1);
+
+    std::memset(ewram.data() + (emulocke::kFrlgParty - 0x02000000), 0, emulocke::kPartyMonSize * 6);
+    ewram[emulocke::kFrlgPartyCount - 0x02000000] = 0;
+    const emulocke::GameSnapshot liveBlock = fr->readLive(mem);
+    REQUIRE(liveBlock.party.mons[0].species == 1);
+    REQUIRE(liveBlock.party.count == 1);
 
     std::array<uint8_t, emulocke::kPartyMonSize> plainParty = party;
     storePlainParty(plainParty);

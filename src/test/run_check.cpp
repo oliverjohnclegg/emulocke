@@ -304,11 +304,15 @@ int main() {
     emulocke::RunStore optionStore(tmp / "option_runs");
     auto optRun = optionStore.create(emulocke::kBlazeBlackUuid, emulocke::regularRules(), "clean");
     expect(optRun && optRun->patchOption == "clean", "store option");
+    auto rrRun = optionStore.create(emulocke::kRadicalRedUuid, emulocke::regularRules(), "", "hardcore");
+    expect(rrRun && rrRun->difficulty == "hardcore", "store difficulty");
     {
         emulocke::RunStore reloadOpts(tmp / "option_runs");
         reloadOpts.load();
         expect(reloadOpts.find(optRun->id) && reloadOpts.find(optRun->id)->patchOption == "clean",
             "reload option");
+        expect(reloadOpts.find(rrRun->id) && reloadOpts.find(rrRun->id)->difficulty == "hardcore",
+            "reload difficulty");
     }
 
     const auto playable = lib.playableTitles();

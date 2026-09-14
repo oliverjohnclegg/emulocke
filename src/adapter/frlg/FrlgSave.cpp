@@ -1,5 +1,6 @@
 #include "adapter/frlg/FrlgSave.hpp"
 
+#include "adapter/frlg/CfruExpanded.hpp"
 #include "adapter/frlg/FrlgLayout.hpp"
 #include "adapter/gen3/Codec.hpp"
 
@@ -109,6 +110,7 @@ bool readFrlgSave(std::span<const uint8_t> sav, FrlgSaveBlocks& out) {
         uint16_t size = 0;
         chunkDest(out, id, dest, size);
         std::memcpy(dest, sec, size);
+        copyCfruParasite(sec, id, out);
     }
     return true;
 }

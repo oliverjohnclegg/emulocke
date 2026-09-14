@@ -98,6 +98,7 @@ struct Gyms {
 struct Progress {
     uint16_t starterSpecies{};
     uint8_t badges{};
+    char difficulty[16]{};
     std::array<uint8_t, kFlagBankBytes> flags{};
 };
 

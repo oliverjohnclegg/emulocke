@@ -17,6 +17,7 @@ struct RseSaveBlocks {
 
 bool readRseSave(std::span<const uint8_t> sav, RseSaveBlocks& out);
 std::vector<uint8_t> writeRseSave(const RseSaveBlocks& blocks);
-void fillSnapshotFromRse(const RseSaveBlocks& blocks, GameSnapshot& snap);
+void fillRseProgress(GameSnapshot& snap, const uint8_t* block1, bool emerald);
+void fillSnapshotFromRse(const RseSaveBlocks& blocks, GameSnapshot& snap, bool emerald);
 
 }
