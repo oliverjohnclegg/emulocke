@@ -12,6 +12,14 @@ Don't add Nintendo dumps, BIOS, firmware, or secrets. `.gitignore` already block
 
 Product scope lives in [PRD.md](PRD.md). This is a nuzlocke host. General emulator extras that don't directly contribute to that experience aren't a priority.
 
+## Code
+
+These are review rules, not a CI gate. AI PRs and human PRs get the same pass. Names carry the meaning; don't add comments. If a block needs a comment, the names failed: rename or split. License headers stay. Don't comment-bomb or reformat `third_party/`.
+
+Prefer files under 100 lines. Split when the new file has a real name. Generated tables, catalog rows, and vendored cores are exempt.
+
+If the same logic appears three times, it wants one function. Match the tree that's already here. A PR that fights this gets requested changes, not a lecture.
+
 ## Tests and CI
 
 Merge gate: `linux-x64` and `win-x64` green, including `ctest`. No coverage number.
