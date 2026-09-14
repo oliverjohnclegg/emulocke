@@ -100,6 +100,7 @@ add_library(emulocke_calc STATIC
     src/calc/Gen3Atk.cpp
     src/calc/Gen3Mods.cpp
     src/calc/Calculate.cpp
+    src/calc/KoChance.cpp
     src/calc/Dex.cpp
     src/calc/Pack.cpp
     src/calc/Build.cpp
@@ -206,6 +207,8 @@ add_executable(emulocke
     src/ui/CalculatorHead.cpp
     src/ui/CalculatorMoves.cpp
     src/ui/CalculatorMoveLine.cpp
+    src/ui/CalculatorMoveRow.cpp
+    src/ui/CalculatorKo.cpp
     src/ui/CalculatorField.cpp
     src/ui/CalculatorStamp.cpp
     src/ui/CalculatorChip.cpp

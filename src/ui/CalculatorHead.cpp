@@ -8,7 +8,7 @@
 
 namespace emulocke {
 
-void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
+void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool* crit) {
     if (right) {
         calcAlignRight(ImGui::CalcTextSize(name).x);
     }
@@ -69,9 +69,27 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
         char line[40];
         std::snprintf(line, sizeof line, "AB  %s", ab);
         if (right) {
-            calcAlignRight(ImGui::CalcTextSize(line).x);
+            float row = ImGui::CalcTextSize(line).x;
+            if (crit) {
+                row += ImGui::GetStyle().ItemSpacing.x + 28.f;
+            }
+            calcAlignRight(row);
+            if (crit) {
+                if (calcChip("CR", *crit, 28.f)) {
+                    *crit = !*crit;
+                }
+                ImGui::SameLine();
+            }
+            ImGui::TextDisabled("%s", line);
+        } else {
+            ImGui::TextDisabled("%s", line);
+            if (crit) {
+                ImGui::SameLine();
+                if (calcChip("CR", *crit, 28.f)) {
+                    *crit = !*crit;
+                }
+            }
         }
-        ImGui::TextDisabled("%s", line);
     }
 }
 

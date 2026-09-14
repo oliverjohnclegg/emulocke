@@ -54,7 +54,7 @@ void drawCalcMatchup(Application&, CalcSession& session) {
         ImGui::TableSetupColumn("b", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        drawCalcSideHead(pName, player, false);
+        drawCalcSideHead(pName, player, false, &session.sideCrit(false));
         ImGui::TableSetColumnIndex(1);
         ImGui::Dummy(ImVec2(0, 8));
         ImGui::Text("%d", pSpe);
@@ -72,7 +72,7 @@ void drawCalcMatchup(Application&, CalcSession& session) {
             ImGui::TextDisabled("tie");
         }
         ImGui::TableSetColumnIndex(2);
-        drawCalcSideHead(fName, foe, true);
+        drawCalcSideHead(fName, foe, true, &session.sideCrit(true));
         ImGui::EndTable();
     }
     ImGui::Dummy(ImVec2(0, 8));
@@ -85,15 +85,17 @@ void drawCalcMatchup(Application&, CalcSession& session) {
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
         drawCalcMoveCol(pack->dmgGen, pack->typeChart, player, foe, raw.moves, intoFoe, nullptr,
-            session.moveCrits(false), false);
+            session.sideCrit(false), false, session);
         ImGui::TableSetColumnIndex(1);
         drawCalcMoveCol(pack->dmgGen, pack->typeChart, foe, player, foeSet->moves, intoUs, pct,
-            session.moveCrits(true), true);
+            session.sideCrit(true), true, session);
         ImGui::EndTable();
     }
     const float bot = ImGui::GetCursorScreenPos().y;
     ImGui::GetWindowDrawList()->AddLine(ImVec2(top.x + pane * 0.5f, top.y),
         ImVec2(top.x + pane * 0.5f, bot), ImGui::GetColorU32(kBorder), 1.f);
+    drawCalcKo(session, pack->dmgGen, pack->typeChart, player, foe, raw.moves, foeSet->moves,
+        intoFoe, intoUs);
 }
 
 }

@@ -17,10 +17,14 @@ void calcFoeHp(int hp, int maxHp);
 void drawCalcSearch(Application& app, CalcSession& session);
 void drawCalcPartyRail(Application& app, CalcSession& session);
 void drawCalcFoeRail(Application& app, CalcSession& session);
-void drawCalcSideHead(const char* name, const Pokemon& mon, bool right);
+void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool* crit = nullptr);
 void drawCalcMatchup(Application& app, CalcSession& session);
 void drawCalcField(Application& app, CalcSession& session);
 void drawCalcMoveCol(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Pokemon& def,
-    const uint16_t* moves, const Field& field, const int* pct, bool* crits, bool right);
+    const uint16_t* moves, const Field& field, const int* pct, bool crit, bool right,
+    CalcSession& session);
+void drawCalcKo(CalcSession& session, uint8_t dmgGen, uint8_t chart, const Pokemon& player,
+    const Pokemon& foe, const uint16_t* ours, const uint16_t* theirs, const Field& intoFoe,
+    const Field& intoUs);
 
 }

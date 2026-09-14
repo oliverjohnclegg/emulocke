@@ -1,33 +1,14 @@
 #include "ui/CalculatorMoveLine.hpp"
 
-#include "ui/CalculatorDraw.hpp"
 #include "calc/Calculate.hpp"
 #include "calc/Dex.hpp"
 
-#include <imgui.h>
 #include <algorithm>
-#include <cstdio>
 
 namespace emulocke {
-namespace {
-
-const ImVec4 kKo{196 / 255.f, 43 / 255.f, 43 / 255.f, 1.f};
-
-void drawInk(const CalcMoveLine& line, const char* s) {
-    if (line.blank) {
-        ImGui::TextDisabled("%s", s);
-    } else if (line.ohko) {
-        ImGui::TextColored(kKo, "%s", s);
-    } else {
-        ImGui::TextUnformatted(s);
-    }
-}
-
-}  // namespace
 
 int collectCalcMoves(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Pokemon& def,
-    const uint16_t* moves, const Field& field, const int* pct, const bool* crits, bool intoUs,
-    CalcMoveLine* out) {
+    const uint16_t* moves, const Field& field, const int* pct, bool crit, CalcMoveLine* out) {
     int n = 0;
     for (int i = 0; i < 4; ++i) {
         const MoveRow* row = moveById(moves[i]);
@@ -35,18 +16,12 @@ int collectCalcMoves(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Po
             continue;
         }
         Move mv = moveFromRow(*row);
-        if (crits) {
-            mv.crit = crits[i];
-        }
+        mv.crit = crit;
         const DamageResult dmg = calculate(dmgGen, chart, atk, def, mv, field);
         CalcMoveLine& line = out[n++];
         line.name = mv.name;
         line.blank = dmg.immune || mv.kind == MoveKind::Status || mv.bp == 0;
-        line.ohko = dmg.ohko(intoUs ? def.hp : def.maxHp);
-        line.crit = mv.crit;
-        line.canCrit = !line.blank && mv.kind != MoveKind::Level && mv.kind != MoveKind::DragonRage &&
-            mv.kind != MoveKind::SonicBoom && mv.kind != MoveKind::SuperFang &&
-            mv.kind != MoveKind::Ohko;
+        line.ohko = dmg.ohko(def.hp);
         line.slot = i;
         line.use = pct ? pct[i] : -1;
         line.pmin = def.maxHp > 0 ? dmg.min * 100 / def.maxHp : 0;
@@ -68,30 +43,6 @@ void sortCalcMoves(CalcMoveLine* lines, int n, bool byUse) {
         }
         return a.pmax != b.pmax ? a.pmax > b.pmax : a.pmin > b.pmin;
     });
-}
-
-void drawCalcMoveDmg(const CalcMoveLine& line, bool hugRight) {
-    char d[20];
-    if (line.blank) {
-        std::snprintf(d, sizeof d, "--");
-    } else if (line.ohko) {
-        std::snprintf(d, sizeof d, "100%%+");
-    } else if (line.pmin == line.pmax) {
-        std::snprintf(d, sizeof d, "%d%%", line.pmin);
-    } else {
-        std::snprintf(d, sizeof d, "%d-%d%%", line.pmin, line.pmax);
-    }
-    if (hugRight) {
-        calcAlignRight(ImGui::CalcTextSize(d).x);
-    }
-    drawInk(line, d);
-}
-
-void drawCalcMoveName(const CalcMoveLine& line, bool right) {
-    if (right) {
-        calcAlignRight(ImGui::CalcTextSize(line.name).x);
-    }
-    drawInk(line, line.name);
 }
 
 }

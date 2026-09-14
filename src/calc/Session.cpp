@@ -31,10 +31,10 @@ void CalcSession::setPack(const CalcPack* pack) {
     browsing_ = false;
     field_ = {};
     liveWeather_ = Weather::None;
-    for (int i = 0; i < 4; ++i) {
-        critOurs_[i] = false;
-        critTheirs_[i] = false;
-    }
+    critOurs_ = false;
+    critTheirs_ = false;
+    pickFoe_ = false;
+    pickSlot_ = 0;
 }
 
 void CalcSession::seedWeather(Weather w) {

@@ -1,3 +1,4 @@
+#include "calc/KoChance.hpp"
 #include "calc/Build.hpp"
 #include "calc/Calculate.hpp"
 #include "calc/Dex.hpp"
@@ -10,6 +11,7 @@
 #include "test/Check.hpp"
 
 #include <cstdio>
+#include <cstring>
 
 using emulocke::DamageResult;
 using emulocke::Field;
@@ -241,6 +243,37 @@ void testField() {
     REQUIRE(!intoUs.reflect && !intoUs.helpingHand);
 }
 
+void testKoChance() {
+    emulocke::DamageResult d;
+    for (int i = 0; i < 16; ++i) {
+        d.rolls[i] = 50 + i;
+    }
+    d.min = 50;
+    d.max = 65;
+    char buf[72];
+    emulocke::koChance(buf, sizeof buf, d, 40);
+    REQUIRE(std::strstr(buf, "guaranteed OHKO"));
+    emulocke::koChance(buf, sizeof buf, d, 58);
+    REQUIRE(std::strstr(buf, "chance to OHKO"));
+    emulocke::koChance(buf, sizeof buf, d, 200);
+    REQUIRE(std::strstr(buf, "guaranteed 4HKO"));
+    for (int i = 0; i < 16; ++i) {
+        d.rolls[i] = i < 8 ? 100 : 40;
+    }
+    d.min = 40;
+    d.max = 100;
+    emulocke::koChance(buf, sizeof buf, d, 80);
+    REQUIRE(std::strstr(buf, "50% chance to OHKO"));
+    d.immune = true;
+    emulocke::koChance(buf, sizeof buf, d, 40);
+    REQUIRE(std::strstr(buf, "no damage"));
+    d.immune = false;
+    d.min = 0;
+    d.max = 0;
+    emulocke::koChance(buf, sizeof buf, d, 40);
+    REQUIRE(std::strstr(buf, "no damage"));
+}
+
 }  // namespace
 
 int main() {
@@ -250,6 +283,7 @@ int main() {
     testHpBar();
     testSwitchIn();
     testField();
+    testKoChance();
     std::printf("calc check ok\n");
     return 0;
 }

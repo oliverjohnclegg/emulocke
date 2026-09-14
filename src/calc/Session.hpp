@@ -32,7 +32,14 @@ public:
     void foeOrder(int slots[6]) const;
     FieldState& fieldState() { return field_; }
     const FieldState& fieldState() const { return field_; }
-    bool* moveCrits(bool foe) { return foe ? critTheirs_ : critOurs_; }
+    bool& sideCrit(bool foe) { return foe ? critTheirs_ : critOurs_; }
+    bool sideCrit(bool foe) const { return foe ? critTheirs_ : critOurs_; }
+    void pickMove(bool foe, int slot) {
+        pickFoe_ = foe;
+        pickSlot_ = slot;
+    }
+    bool pickFoe() const { return pickFoe_; }
+    int pickSlot() const { return pickSlot_; }
     void seedWeather(Weather w);
 
 private:
@@ -52,8 +59,10 @@ private:
     std::vector<const PackLocation*> locations_;
     FieldState field_{};
     Weather liveWeather_{Weather::None};
-    bool critOurs_[4]{};
-    bool critTheirs_[4]{};
+    bool critOurs_{};
+    bool critTheirs_{};
+    bool pickFoe_{};
+    int pickSlot_{};
 };
 
 }

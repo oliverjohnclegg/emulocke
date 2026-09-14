@@ -46,6 +46,10 @@ void CalcSession::search(const char* query) {
 }
 
 void CalcSession::lockParty(int slot) {
+    if (slot != partySlot_) {
+        pickFoe_ = false;
+        pickSlot_ = 0;
+    }
     partySlot_ = slot;
     pinParty_ = true;
     if (!pinFoe_ && !snap_.battle.inBattle) {
