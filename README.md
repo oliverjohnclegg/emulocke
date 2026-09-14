@@ -57,15 +57,15 @@ US dumps. Unknown SHA-1 files are refused. Tracker atlases cover every catalog r
 
 ### ROM hacks
 
-You import the baseline the hack depends on. Emulocke already ships the patch, so you don't bring a patched ROM.
+You import the baseline the hack depends on. Emulocke already ships the patch, so you don't bring a patched ROM. Sacred Gold, Renegade Platinum, and Volt White 2 Redux ship the pChal Discord QoL patches (Kalaay): less grinding, plus a few pChal-directed balance changes for the Drayano gauntlet.
 
 - Pokémon Blaze Black 3.1 (Drayano; Full or Clean, from Black)
 - Pokémon Volt White 3.1 (Drayano; Full or Clean, from White)
-- Pokémon Volt White 2 Redux (AphexCubed, from White 2)
+- Pokémon Volt White 2 Redux (AphexCubed + pChal QoL, from White 2)
 - Pokémon Fire Red Omega (Drayano, from Fire Red 1.0)
-- Pokémon Sacred Gold (Drayano, from HeartGold)
+- Pokémon Sacred Gold (Drayano + pChal QoL, from HeartGold)
 - Pokémon Platinum Kaizo (SinisterHoodedFigure, from Platinum 1.1)
-- Pokémon Renegade Platinum (Drayano, from Platinum 1.1)
+- Pokémon Renegade Platinum (Drayano + pChal QoL, from Platinum 1.1)
 - Pokémon Radical Red 4.1 (Soupacell, from Fire Red 1.0)
 - Pokémon Unbound 2.1.1.1 (Skeli, from Fire Red 1.0)
 - Pokémon Run and Bun 1.07 (dekzeh, from Emerald)
