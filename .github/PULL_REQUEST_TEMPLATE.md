@@ -1,6 +1,6 @@
 ## Base
 
-This PR targets `dev`, from a feature or bugfix branch. Do not commit onto `main` or `dev`. PRs against `main` are closed unless the author is the maintainer.
+This PR targets `dev`, from a feature or bugfix branch. Do not commit onto `main` or `dev`. PRs against `main` are closed unless the author is the maintainer. Leave this PR as a draft until `linux-x64`, `win-x64`, `linux-asan-ubsan`, `clang-tidy`, and `libfuzzer-smoke` are green. Ready for review is converted back to draft otherwise.
 
 ## Change
 

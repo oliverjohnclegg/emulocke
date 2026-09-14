@@ -1,0 +1,75 @@
+name: Ready review guard
+
+on:
+  pull_request_target:
+    types: [opened, reopened, ready_for_review, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: read
+
+jobs:
+  reject-ungated-ready:
+    if: ${{ !github.event.pull_request.draft && (github.event.pull_request.base.ref != 'main' || github.event.pull_request.user.login == 'oliverjohnclegg') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Convert to draft unless merge gates are green
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        with:
+          script: |
+            const gates = [
+              'linux-x64',
+              'win-x64',
+              'linux-asan-ubsan',
+              'clang-tidy',
+              'libfuzzer-smoke',
+            ];
+            const pr = context.payload.pull_request;
+            const waiting = [];
+            for (const name of gates) {
+              const { data } = await github.rest.checks.listForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: pr.head.sha,
+                check_name: name,
+                filter: 'all',
+                per_page: 100,
+              });
+              const run = data.check_runs.sort((a, b) => b.id - a.id)[0];
+              if (!run || run.status !== 'completed' || run.conclusion !== 'success') {
+                waiting.push(name);
+              }
+            }
+            if (waiting.length === 0) {
+              return;
+            }
+            const { data: live } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+            });
+            if (live.draft) {
+              return;
+            }
+            await github.graphql(
+              `mutation($id: ID!) {
+                convertPullRequestToDraft(input: { pullRequestId: $id }) {
+                  clientMutationId
+                }
+              }`,
+              { id: pr.node_id },
+            );
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body: [
+                'Ready for review is rejected until every merge gate is green.',
+                '',
+                'Not green: ' + waiting.join(', ') + '.',
+                '',
+                'Converted back to draft. Click Ready again after they pass.',
+              ].join('\n'),
+            });

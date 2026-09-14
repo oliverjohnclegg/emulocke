@@ -26,7 +26,7 @@ If the same logic appears three times, it wants one function.
 
 ## Tests and CI
 
-Merge gate: `linux-x64`, `win-x64`, `linux-asan-ubsan`, `clang-tidy`, and `libfuzzer-smoke`. No coverage number.
+Merge gate: `linux-x64`, `win-x64`, `linux-asan-ubsan`, `clang-tidy`, and `libfuzzer-smoke`. No coverage number. Marking a PR ready for review is converted back to draft until those five are green on the head commit. New commits on a ready PR do the same. Leave it as a draft until they pass.
 
 Changes to adapters, catalog SHA or patch apply, calc math, the run library, the snapshot contract, or any byte parser need a check that would fail without the change. Extend an existing `emulocke-*-check`. Byte parsers also add a seed under `src/fuzz/corpus/<harness>/`. Don't add a second test framework.
 
@@ -36,4 +36,4 @@ UI chrome, copy, layout, and default keybinds don't need a new test.
 
 Public CI doesn't hold ROMs. `emulocke-boot-check` and `emulocke-frlg-live-check` are local only.
 
-Untrusted input is user dumps, saves, patch bytes, network PNGs, prefs, and emulator RAM. Workflows stay `contents: read` except the main-PR guard, which must not check out PR code. Actions are pinned to commit SHAs.
+Untrusted input is user dumps, saves, patch bytes, network PNGs, prefs, and emulator RAM. Workflows stay `contents: read` except the main-PR guard and the ready-review guard, which must not check out PR code. Actions are pinned to commit SHAs.
