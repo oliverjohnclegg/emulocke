@@ -23,7 +23,7 @@ void Application::run() {
                 return;
             }
             if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat &&
-                event.key.scancode == SDL_SCANCODE_F8) {
+                event.key.scancode == SDL_SCANCODE_F8 && !ImGui::IsPopupOpen("Controls")) {
                 setRightPane(!prefs_.rightPane);
             }
             if (event.type == SDL_EVENT_WINDOW_RESIZED || event.type == SDL_EVENT_WINDOW_MOVED) {
@@ -54,11 +54,6 @@ void Application::run() {
                 lastPlayCommitNs_ = now;
             }
         }
-        const bool* keys = SDL_GetKeyboardState(nullptr);
-        if (!ImGui::GetIO().WantTextInput) {
-            buttons_ = input_.poll(keys);
-        }
-        pollSpeedUp(keys);
         {
             std::lock_guard lock(sessionMutex_);
             if (session_) {
@@ -89,6 +84,18 @@ void Application::run() {
         drawLoadingRunModal(*this);
         drawNewAttemptConfirm(*this);
         ImGui::End();
+        const bool* keys = SDL_GetKeyboardState(nullptr);
+        const bool controlsOpen = ImGui::IsPopupOpen("Controls");
+        if (!ImGui::GetIO().WantTextInput && !controlsOpen) {
+            buttons_ = input_.poll(keys, prefs_.keys);
+        } else {
+            buttons_ = 0;
+        }
+        if (controlsOpen) {
+            speedUpOn_ = false;
+        } else {
+            pollSpeedUp(keys);
+        }
         ImGui::Render();
         SDL_SetRenderDrawColor(host_.renderer(), 26, 26, 28, 255);
         SDL_RenderClear(host_.renderer());

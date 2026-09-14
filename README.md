@@ -26,9 +26,10 @@ That imports a known dump and opens New Run. It does not silent-boot.
 - Emulation: pause, reset, Speed-up submenu (2x-8x, default 3x, Hold Tab or tap to toggle)
 - View: fullscreen, right pane (F8), screen scale (Fit / 1x / 2x / 3x / 4x), bottom screen, restore default window
 - Audio: mute and volume
-- Help: controls and about
+- Config: controls
+- Help: about
 
-Window size, scale, right pane, bottom screen, mute, volume, and speed-up persist across launches.
+Window size, scale, right pane, bottom screen, mute, volume, speed-up, and keyboard bindings persist across launches.
 
 ## Build
 
@@ -46,13 +47,19 @@ Windows (MSVC): `build/Release/emulocke.exe`
 
 ## Controls
 
+Config > Controls remaps the keyboard. Defaults:
+
 | Action | Keyboard |
 | --- | --- |
-| D-pad | Arrows |
-| A / B | X / Z |
-| L / R | A / S |
+| D-pad | Arrow keys |
+| B | Z |
+| A | X |
+| Y | A |
+| X | S |
+| L | Q |
+| R | W |
 | Start | Enter |
-| Select | Shift |
+| Select | RShift |
 | Stylus | Mouse on the bottom screen |
 | Speed-up | Tab |
 | Right pane | F8 |

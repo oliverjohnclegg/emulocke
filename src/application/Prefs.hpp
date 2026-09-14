@@ -1,5 +1,7 @@
 #pragma once
 
+#include "emu/KeyMap.hpp"
+
 namespace emulocke {
 
 struct Prefs {
@@ -16,6 +18,7 @@ struct Prefs {
     int speedUp = 3;
     bool speedUpHold = true;
     bool bottomScreen = true;
+    KeyMap keys{};
 
     static Prefs load();
     void save() const;

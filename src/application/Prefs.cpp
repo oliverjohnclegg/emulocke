@@ -2,6 +2,7 @@
 
 #include "emu/Paths.hpp"
 
+#include <SDL3/SDL_scancode.h>
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
@@ -62,6 +63,12 @@ Prefs Prefs::load() {
             prefs.speedUpHold = parseFlag(value);
         } else if (key == "bottom_screen") {
             prefs.bottomScreen = parseFlag(value);
+        } else if (key.rfind("key_", 0) == 0) {
+            const int slot = keySlotFromId(key.substr(4));
+            const SDL_Scancode code = parseScancode(value);
+            if (slot >= 0 && code != SDL_SCANCODE_UNKNOWN) {
+                prefs.keys.codes[slot] = code;
+            }
         }
     }
     prefs.scale = std::clamp(prefs.scale, 0, 4);
@@ -88,6 +95,9 @@ void Prefs::save() const {
     out << "speed_up=" << speedUp << '\n';
     out << "speed_up_hold=" << (speedUpHold ? 1 : 0) << '\n';
     out << "bottom_screen=" << (bottomScreen ? 1 : 0) << '\n';
+    for (int i = 0; i < kKeySlotCount; ++i) {
+        out << "key_" << keySlotId(i) << '=' << scancodeLabel(keys.codes[i]) << '\n';
+    }
 }
 
 }

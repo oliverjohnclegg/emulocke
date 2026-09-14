@@ -227,6 +227,7 @@ add_executable(emulocke
     src/ui/PokemonHover.cpp
     src/ui/MenuBar.cpp
     src/ui/HelpPopups.cpp
+    src/ui/ControlsModal.cpp
     src/ui/RunStrip.cpp
     src/ui/RunStripDraw.cpp
     src/ui/IconAction.cpp
@@ -235,6 +236,7 @@ add_executable(emulocke
     src/emu/Paths.cpp
     src/emu/FileBytes.cpp
     src/emu/Input.cpp
+    src/emu/KeyMap.cpp
     src/emu/AudioOutput.cpp
     src/emu/ScreenTexture.cpp
     src/emu/GbaSession.cpp
@@ -431,9 +433,12 @@ add_executable(emulocke-run-check
     src/run/TitlePlay.cpp
     src/test/patch_format_check.cpp
     src/test/local_patch_check.cpp
-    src/test/layout_check.cpp)
+    src/test/layout_check.cpp
+    src/test/input_check.cpp
+    src/emu/KeyMap.cpp)
 target_include_directories(emulocke-run-check PRIVATE src)
-target_link_libraries(emulocke-run-check PRIVATE mgba xdelta3)
+target_compile_definitions(emulocke-run-check PRIVATE SDL_MAIN_HANDLED)
+target_link_libraries(emulocke-run-check PRIVATE mgba xdelta3 SDL3::SDL3)
 emulocke_stamp_target(emulocke-run-check)
 if(MGBA_COMPILE_DEFS)
     target_compile_definitions(emulocke-run-check PRIVATE ${MGBA_COMPILE_DEFS})

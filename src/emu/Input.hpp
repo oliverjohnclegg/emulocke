@@ -1,5 +1,7 @@
 #pragma once
 
+#include "emu/KeyMap.hpp"
+
 #include <cstdint>
 
 struct SDL_Gamepad;
@@ -13,7 +15,7 @@ public:
     Input(const Input&) = delete;
     Input& operator=(const Input&) = delete;
     void attach();
-    uint32_t poll(const bool* keyboard) const;
+    uint32_t poll(const bool* keyboard, const KeyMap& keys) const;
     void handleAdded(int joystickIndex);
     void handleRemoved(int instanceId);
 

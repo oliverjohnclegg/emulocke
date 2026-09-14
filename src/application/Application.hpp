@@ -67,6 +67,7 @@ public:
     void setSpeedUp(int speed);
     void setSpeedUpHold(bool hold);
     void setBottomScreen(bool on);
+    void setKeys(const KeyMap& keys);
     void restoreDefaultWindow();
     bool paused() const { return paused_; }
     int screenScale() const { return prefs_.scale; }
