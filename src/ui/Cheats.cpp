@@ -21,15 +21,19 @@ void drawCheatRow(Application& app, const Cheat& row, std::string& doomed) {
     ImDrawList* dl = ImGui::GetWindowDrawList();
     dl->AddRectFilled(origin, ImVec2(origin.x + w, origin.y + kCheatRowH), ImGui::GetColorU32(kFrame));
     dl->AddRect(origin, ImVec2(origin.x + w, origin.y + kCheatRowH), ImGui::GetColorU32(kBorder));
-    ImGui::SetCursorScreenPos(ImVec2(origin.x + 6.f, origin.y + (kCheatRowH - 18.f) * 0.5f));
+    const float hit = 18.f;
+    const float hitY = origin.y + (kCheatRowH - hit) * 0.5f;
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2.f, (hit - ImGui::GetFontSize()) * 0.5f));
+    ImGui::SetCursorScreenPos(ImVec2(origin.x + 6.f, hitY));
     bool on = row.enabled;
     if (ImGui::Checkbox("##on", &on) && on != row.enabled) {
         app.setCheatEnabled(row.id, on);
     }
+    ImGui::PopStyleVar();
     const float textY = origin.y + (kCheatRowH - ImGui::GetTextLineHeight()) * 0.5f;
     ImGui::SetCursorScreenPos(ImVec2(origin.x + 30.f, textY));
     ImGui::TextUnformatted(row.name.c_str());
-    const ImVec2 del(origin.x + w - 24.f, origin.y + (kCheatRowH - 18.f) * 0.5f);
+    const ImVec2 del(origin.x + w - 24.f, hitY);
     ImGui::SetCursorScreenPos(del);
     if (iconAction("del", "Delete", ImVec2(18.f, 18.f))) {
         doomed = row.id;
