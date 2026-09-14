@@ -71,6 +71,11 @@ void Application::setBottomScreen(bool on) {
     prefs_.save();
 }
 
+void Application::setKeys(const KeyMap& keys) {
+    prefs_.keys = keys;
+    prefs_.save();
+}
+
 void Application::restoreDefaultWindow() {
     prefs_.fullscreen = false;
     prefs_.rightPane = true;

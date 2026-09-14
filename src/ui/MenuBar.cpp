@@ -119,12 +119,17 @@ void drawMenuBar(Application& app) {
         ImGui::EndMenu();
     }
     bool openControls = false;
-    bool openAbout = false;
-    if (ImGui::BeginMenu("Help")) {
+    if (ImGui::BeginMenu("Config")) {
         withBody(app, [&] {
             if (ImGui::MenuItem("Controls")) {
                 openControls = true;
             }
+        });
+        ImGui::EndMenu();
+    }
+    bool openAbout = false;
+    if (ImGui::BeginMenu("Help")) {
+        withBody(app, [&] {
             if (ImGui::MenuItem("About Emulocke")) {
                 openAbout = true;
             }
@@ -141,6 +146,7 @@ void drawMenuBar(Application& app) {
     if (openAbout) {
         ImGui::OpenPopup("About");
     }
+    drawControlsModal(app);
     drawHelpPopups(app);
 }
 

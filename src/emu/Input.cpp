@@ -39,22 +39,8 @@ void Input::handleRemoved(int instanceId) {
     }
 }
 
-uint32_t Input::poll(const bool* keyboard) const {
-    uint32_t pressed = 0;
-    if (keyboard) {
-        if (keyboard[SDL_SCANCODE_X]) pressed |= static_cast<uint32_t>(Button::A);
-        if (keyboard[SDL_SCANCODE_Z]) pressed |= static_cast<uint32_t>(Button::B);
-        if (keyboard[SDL_SCANCODE_RSHIFT] || keyboard[SDL_SCANCODE_LSHIFT]) {
-            pressed |= static_cast<uint32_t>(Button::Select);
-        }
-        if (keyboard[SDL_SCANCODE_RETURN]) pressed |= static_cast<uint32_t>(Button::Start);
-        if (keyboard[SDL_SCANCODE_RIGHT]) pressed |= static_cast<uint32_t>(Button::Right);
-        if (keyboard[SDL_SCANCODE_LEFT]) pressed |= static_cast<uint32_t>(Button::Left);
-        if (keyboard[SDL_SCANCODE_UP]) pressed |= static_cast<uint32_t>(Button::Up);
-        if (keyboard[SDL_SCANCODE_DOWN]) pressed |= static_cast<uint32_t>(Button::Down);
-        if (keyboard[SDL_SCANCODE_S]) pressed |= static_cast<uint32_t>(Button::R);
-        if (keyboard[SDL_SCANCODE_A]) pressed |= static_cast<uint32_t>(Button::L);
-    }
+uint32_t Input::poll(const bool* keyboard, const KeyMap& keys) const {
+    uint32_t pressed = keyboardButtons(keyboard, keys);
     if (gamepad_) {
         if (SDL_GetGamepadButton(gamepad_, SDL_GAMEPAD_BUTTON_EAST)) pressed |= static_cast<uint32_t>(Button::A);
         if (SDL_GetGamepadButton(gamepad_, SDL_GAMEPAD_BUTTON_SOUTH)) pressed |= static_cast<uint32_t>(Button::B);

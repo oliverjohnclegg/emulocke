@@ -60,7 +60,8 @@ A playable host. Suite is Tracker, Pokémon, then Logs.
 - One run at a time; ROM extension picks the core
 - View: fullscreen, right pane (F8), screen scale Fit / 1x / 2x / 3x / 4x, bottom screen (party LCD, default on), restore default window
 - Audio: mute and volume
-- Help: controls (read-only) and about
+- Config: controls. Keyboard remaps persist in `prefs.ini`. Click a key plate, press a key. Restore Defaults puts the table below back.
+- Help: about
 - Prefs persist in the SDL pref path as `prefs.ini`
 - Rules are stored on the run. The cores do not enforce them.
 - Tracker is a compact location/boss list. FRLG is represented. Radical Red and Unbound are not. Difficulty is an atlas key persisted as `difficulty=` on `meta.ini`. Encounter state lives in `tracker.ini` on the run.
@@ -71,7 +72,6 @@ A playable host. Suite is Tracker, Pokémon, then Logs.
 - Any other nuzlocke suite UI (damage calc, QoL, nuzlocke.app-adjacent tools beyond Tracker and Pokémon)
 - Emulator lab tools (save states, rewind, cheats, disassemblers, memory viewers, movies, Lua, filters, HUD)
 - Frame skip (later cherry-pick)
-- Input remapping
 - Treating GBA and DS as separate products in the UI
 - DSi NAND, WiFi
 - GB/GBC
@@ -137,20 +137,22 @@ Stable instance names: `emulocke-vX.X.X-win-x64.exe` and `emulocke-vX.X.X-linux-
 
 ## Default input
 
-Bindings are fixed in V1. Help > Controls lists them. Remapping is later.
+Config > Controls remaps the keyboard. Gamepad stays the standard SDL map.
 
 | Control | Keyboard |
 | --- | --- |
 | D-pad | Arrow keys |
-| A / B | X / Z |
-| L / R | A / S |
+| B | Z |
+| A | X |
+| Y | A |
+| X | S |
+| L | Q |
+| R | W |
 | Start | Enter |
-| Select | Shift |
+| Select | RShift |
 | Stylus | Mouse on bottom screen |
 | Speed-up | Tab |
 | Right pane | F8 |
-
-Gamepad: standard SDL mapping.
 
 ## Design
 
@@ -183,7 +185,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 4. Video, audio, keyboard, gamepad, pause, reset, speed-up, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
 6. One-screen games stack game + party LCD in the left pane; FRLG fills Tracker and Logs from the adapter snapshot plus the FRLG atlas.
-7. View, Audio, and Help work. Prefs survive a relaunch.
+7. View, Audio, Config, and Help work. Prefs survive a relaunch.
 
 ## Changelog
 
@@ -219,3 +221,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Pokémon suite tab. Live party wells with HP bars, boxed mons sorted by BST, Grave for tracker-dead greyscale sprites. Hover shows the Showdown fields. Click copies the set.
 - 2026-09-13: One-screen games stack a party LCD under the game. 2x3 box sockets, HP tracks, occasional hop.
 - 2026-09-13: View > Bottom Screen toggles the GBA party LCD. Off fills the left pane and centers the game well.
+- 2026-09-14: Config > Controls remaps the keyboard. Defaults: D-pad arrows, B/A/Y/X = Z/X/A/S, L/R = Q/W, Start Enter, Select RShift.
