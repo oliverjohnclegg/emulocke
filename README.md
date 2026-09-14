@@ -16,7 +16,7 @@
 
 Emulocke is a native desktop host for Pokémon nuzlockes on GBA and DS dumps. You import a verified baseline and start a run. The game stays in the same window as the suite, so you aren't alt-tabbing to a browser tracker.
 
-Features that help a nuzlocke will keep showing up in the right pane. The design intent is that integrated run, not a general emulator with lab controls. No save states, rewind, cheats, memory viewers, movie recording, or Lua. Pause, reset, speed-up, window scale, and remappable keys stay because you need them to play.
+Features that help a nuzlocke will keep showing up in the right pane. General emulator extras that don't directly contribute to that experience aren't a priority.
 
 ## Credits
 

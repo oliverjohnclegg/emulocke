@@ -1,6 +1,6 @@
 # Contributing
 
-Nobody commits onto `main` or `dev`. Not outsiders, not Oliver. Put the work on a `feature/` or `bugfix/` branch, then open a pull request.
+Nobody commits onto `main` or `dev`, not outsiders and not Oliver: put the work on a `feature/` or `bugfix/` branch, then open a pull request.
 
 Branch off `dev`. Open the pull request against `dev`. `main` is Stable and maintainer-only; a PR that targets `main` from anyone except [oliverjohnclegg](https://github.com/oliverjohnclegg) is closed.
 
@@ -10,7 +10,7 @@ AI-authored commits and PRs are allowed. They don't merge until Oliver has read 
 
 Don't add Nintendo dumps, BIOS, firmware, or secrets. `.gitignore` already blocks `*.gba`, `*.nds`, `*.bin`, and the BIOS names. Live boot checks stay on your machine.
 
-Product scope lives in [PRD.md](PRD.md). This is a nuzlocke host, not a general emulator. Don't send save states, rewind, cheats, memory viewers, or Lua.
+Product scope lives in [PRD.md](PRD.md). This is a nuzlocke host. General emulator extras that don't directly contribute to that experience aren't a priority.
 
 ## Tests and CI
 
