@@ -327,6 +327,12 @@ if(UNIX AND NOT APPLE)
 endif()
 add_dependencies(emulocke-game-art-check emulocke-assets)
 
+add_executable(emulocke-media-check
+    src/test/media_check.cpp
+    src/emu/FileBytes.cpp)
+target_include_directories(emulocke-media-check PRIVATE src)
+target_link_libraries(emulocke-media-check PRIVATE emulocke_sprites)
+
 add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
     src/emu/GbaSession.cpp
@@ -459,6 +465,7 @@ enable_testing()
 add_test(NAME adapter COMMAND emulocke-adapter-check)
 add_test(NAME tracker COMMAND emulocke-tracker-check)
 add_test(NAME poke COMMAND emulocke-poke-check)
+add_test(NAME media COMMAND emulocke-media-check)
 add_test(NAME gba-host COMMAND emulocke-gba-check)
 add_test(NAME run COMMAND emulocke-run-check)
 if(EMULOCKE_SANITIZE)
