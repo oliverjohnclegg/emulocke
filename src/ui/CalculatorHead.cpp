@@ -65,6 +65,7 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool* cr
             ImGui::NewLine();
         }
     }
+    ImGui::PushID(right ? "fh" : "oh");
     if (const char* ab = abilityName(mon.ability)) {
         char line[40];
         std::snprintf(line, sizeof line, "AB  %s", ab);
@@ -91,6 +92,7 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool* cr
             }
         }
     }
+    ImGui::PopID();
 }
 
 }
