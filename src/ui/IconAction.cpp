@@ -32,4 +32,14 @@ void iconPlus(ImVec2 p, ImVec2 size) {
     dl->AddRectFilled(ImVec2(cx - t, cy - arm), ImVec2(cx + t, cy + arm), metal);
 }
 
+void iconX(ImVec2 p, ImVec2 size) {
+    const float cx = p.x + size.x * 0.5f;
+    const float cy = p.y + size.y * 0.5f;
+    const float arm = size.x * 0.22f;
+    ImDrawList* dl = ImGui::GetWindowDrawList();
+    const ImU32 metal = ImGui::GetColorU32(kMetal);
+    dl->AddLine(ImVec2(cx - arm, cy - arm), ImVec2(cx + arm, cy + arm), metal, 1.5f);
+    dl->AddLine(ImVec2(cx + arm, cy - arm), ImVec2(cx - arm, cy + arm), metal, 1.5f);
+}
+
 }

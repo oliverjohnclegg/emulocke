@@ -5,6 +5,7 @@
 #include "application/Host.hpp"
 #include "application/SdlRuntime.hpp"
 #include "calc/Session.hpp"
+#include "cheats/Book.hpp"
 #include "emu/AudioOutput.hpp"
 #include "emu/EmuSession.hpp"
 #include "emu/Input.hpp"
@@ -22,6 +23,7 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <string_view>
 #include <thread>
 #include <vector>
 
@@ -110,6 +112,12 @@ public:
     bool previewCalc() const { return previewCalc_; }
     bool consumePreviewCalcSelect();
     void seedPreviewCalc();
+    CheatBook& cheats() { return cheats_; }
+    const CheatBook& cheats() const { return cheats_; }
+    bool addCheat(std::string name, std::string code);
+    void removeCheat(std::string_view id);
+    void setCheatEnabled(std::string_view id, bool on);
+    const std::string& cheatError() const { return cheatError_; }
 
 private:
     void startEmuThread();
@@ -133,6 +141,10 @@ private:
     void loadTrackerLog();
     void destroyTracker();
     void seedPreviewTracker();
+    void persistCheats();
+    void persistGameCheats();
+    void loadCheats();
+    void installLiveCheats();
     enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
     SdlRuntime sdl_;
     Host host_;
@@ -194,6 +206,8 @@ private:
     std::unique_ptr<SpriteCache> spriteCache_;
     std::unique_ptr<BoxSprites> boxSprites_;
     TrackerLog trackerLog_;
+    CheatBook cheats_{};
+    std::string cheatError_;
     CalcSession calc_{};
     bool previewCalc_{};
     bool previewCalcSelect_{};

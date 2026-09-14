@@ -216,6 +216,7 @@ add_executable(emulocke
     src/application/SdlRuntime.cpp
     src/application/Application.cpp
     src/application/ApplicationCalc.cpp
+    src/application/ApplicationCheats.cpp
     src/application/ApplicationPlay.cpp
     src/application/ApplicationPrefs.cpp
     src/application/ApplicationTracker.cpp
@@ -261,6 +262,8 @@ add_executable(emulocke
     src/ui/CalculatorField.cpp
     src/ui/CalculatorStamp.cpp
     src/ui/CalculatorChip.cpp
+    src/ui/Cheats.cpp
+    src/ui/CheatsAdd.cpp
     src/ui/Pokemon.cpp
     src/ui/PokemonGather.cpp
     src/ui/PokemonParty.cpp
@@ -282,7 +285,9 @@ add_executable(emulocke
     src/emu/AudioOutput.cpp
     src/emu/ScreenTexture.cpp
     src/emu/GbaSession.cpp
+    src/emu/GbaCheats.cpp
     src/emu/NdsSession.cpp
+    src/emu/NdsCheats.cpp
     src/emu/NdsPlatformFiles.cpp
     src/emu/NdsPlatformLocal.cpp
     src/emu/NdsPlatformSync.cpp
@@ -306,7 +311,12 @@ add_executable(emulocke
     src/run/RunStore.cpp
     src/run/RunStoreAttempts.cpp
     src/run/SavePeek.cpp
-    src/run/TitlePlay.cpp)
+    src/run/TitlePlay.cpp
+    src/cheats/Lines.cpp
+    src/cheats/Uuid.cpp
+    src/cheats/Book.cpp
+    src/cheats/BookIo.cpp
+    src/cheats/BookEnabled.cpp)
 
 add_custom_target(emulocke-assets
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -396,8 +406,10 @@ endif()
 add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
     src/emu/GbaSession.cpp
+    src/emu/GbaCheats.cpp
     src/emu/FileBytes.cpp
-    src/emu/AudioOutput.cpp)
+    src/emu/AudioOutput.cpp
+    src/cheats/Lines.cpp)
 target_include_directories(emulocke-gba-check PRIVATE src)
 target_link_libraries(emulocke-gba-check PRIVATE mgba SDL3::SDL3)
 if(MGBA_COMPILE_DEFS)
@@ -446,8 +458,10 @@ target_link_libraries(emulocke-poke-check PRIVATE emulocke_dex)
 add_executable(emulocke-frlg-live-check EXCLUDE_FROM_ALL
     src/test/frlg_live_check.cpp
     src/emu/GbaSession.cpp
+    src/emu/GbaCheats.cpp
     src/emu/FileBytes.cpp
-    src/emu/AudioOutput.cpp)
+    src/emu/AudioOutput.cpp
+    src/cheats/Lines.cpp)
 target_include_directories(emulocke-frlg-live-check PRIVATE src)
 target_link_libraries(emulocke-frlg-live-check PRIVATE emulocke_adapter mgba SDL3::SDL3)
 if(MGBA_COMPILE_DEFS)
@@ -460,7 +474,10 @@ endif()
 add_executable(emulocke-boot-check EXCLUDE_FROM_ALL
     src/test/boot_roms_check.cpp
     src/emu/GbaSession.cpp
+    src/emu/GbaCheats.cpp
     src/emu/NdsSession.cpp
+    src/emu/NdsCheats.cpp
+    src/cheats/Lines.cpp
     src/emu/NdsPlatformFiles.cpp
     src/emu/NdsPlatformLocal.cpp
     src/emu/NdsPlatformSync.cpp
@@ -511,7 +528,14 @@ add_executable(emulocke-run-check
     src/test/patch_bounds_check.cpp
     src/test/file_bytes_check.cpp
     src/test/prefs_check.cpp
+    src/test/cheats_check.cpp
     src/application/PrefsParse.cpp
+    src/cheats/Lines.cpp
+    src/cheats/Uuid.cpp
+    src/cheats/Book.cpp
+    src/cheats/BookIo.cpp
+    src/cheats/BookEnabled.cpp
+    src/emu/Paths.cpp
     src/test/local_patch_check.cpp
     src/test/layout_check.cpp
     src/test/input_check.cpp

@@ -88,6 +88,7 @@ int testLayout();
 int testInput();
 int testFileBytes();
 int testPrefs();
+int testCheats();
 
 int main() {
     expect(static_cast<int>(emulocke::kRightPaneSpan) == 481, "right pane span");
@@ -430,6 +431,7 @@ int main() {
     fails += testInput();
     fails += testFileBytes();
     fails += testPrefs();
+    fails += testCheats();
     if (fails) {
         std::fprintf(stderr, "%d failed\n", fails);
         return 1;

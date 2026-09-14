@@ -1,6 +1,7 @@
 #include "emu/GbaPixels.hpp"
 #include "emu/GbaSession.hpp"
 #include "emu/FileBytes.hpp"
+#include "cheats/Cheat.hpp"
 
 #include <cmath>
 #include <cstdint>
@@ -8,6 +9,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
+#include <span>
 #include <vector>
 
 namespace {
@@ -211,6 +213,24 @@ int main(int argc, char** argv) {
     const auto after = emulocke::readWholeFile(persistSav.string(), emulocke::kMaxSaveFile);
     if (after.size() < 0x11 || after[0x10] != 0x3C) {
         std::fprintf(stderr, "gba save was wiped on boot\n");
+        return 1;
+    }
+
+    uint8_t seed[1] = {0x11};
+    if (!session->write(0x02000000, seed)) {
+        std::fprintf(stderr, "seed EWRAM failed\n");
+        return 1;
+    }
+    const emulocke::CheatSpec poke{"ewram", "02000000:A5"};
+    session->installCheats(std::span<const emulocke::CheatSpec>(&poke, 1));
+    session->runFrame();
+    uint8_t ram[1]{};
+    if (!session->read(0x02000000, ram) || ram[0] != 0xA5) {
+        std::fprintf(stderr, "cheat did not write EWRAM (got %02X)\n", ram[0]);
+        return 1;
+    }
+    if (!session->cheatsOk("02000000:A5") || session->cheatsOk("not a code")) {
+        std::fprintf(stderr, "gba cheat parse gate failed\n");
         return 1;
     }
 

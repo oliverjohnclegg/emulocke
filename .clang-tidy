@@ -71,7 +71,7 @@ WarningsAsErrors: >
   -readability-simplify-boolean-expr,
   -readability-simplify-subscript-expr,
   -readability-use-anyofallof
-HeaderFilterRegex: '(^|/)src/(adapter|application|cart|emu|fuzz|poke|run|test|tracker|ui)/'
+HeaderFilterRegex: '(^|/)src/(adapter|application|cart|cheats|emu|fuzz|poke|run|test|tracker|ui)/'
 FormatStyle: none
 CheckOptions:
   cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor: true
