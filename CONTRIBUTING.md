@@ -10,6 +10,8 @@ AI-authored commits and PRs are allowed. They don't merge until Oliver has read 
 
 Don't add Nintendo dumps, BIOS, firmware, or secrets. `.gitignore` already blocks `*.gba`, `*.nds`, `*.bin`, and the BIOS names. Live boot checks stay on your machine.
 
+Play bugs and feature requests: [GitHub Issues](https://github.com/oliverjohnclegg/emulocke/issues). Include OS, the window caption, and the catalog title. A vulnerability in dump import, patch apply, save parse, PNG fetch, prefs, or CI: [SECURITY.md](SECURITY.md), not a public issue.
+
 Product scope lives in [PRD.md](PRD.md). This is a nuzlocke host. General emulator extras that don't directly contribute to that experience aren't a priority.
 
 ## Code

@@ -1,8 +1,12 @@
 # Security
 
-Report host bugs privately. Don't open a public issue for a vulnerability in dump import, patch apply, save handling, PNG fetch, prefs, or CI.
+This page is only for vulnerabilities: a crafted dump, save, patch, PNG, or prefs file that crashes the host, corrupts memory, or bypasses the catalog.
 
 Email: olliejaclegg@gmail.com
+
+Don't file those as public GitHub issues. Don't send Nintendo dumps with the report.
+
+Crashes in normal play, wrong tracker facts, a title that won't import, and feature requests go in [GitHub Issues](https://github.com/oliverjohnclegg/emulocke/issues).
 
 ## Scope
 

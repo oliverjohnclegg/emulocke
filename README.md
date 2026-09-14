@@ -34,7 +34,9 @@ Nobody commits onto `main` or `dev`, including the maintainer. Work lives on a f
 
 Dumps, saves, patches, network PNGs, prefs, and emulator RAM are untrusted. Unknown SHA-1 files are refused. Parsers are size-capped and bounds-checked. Checksums fail closed.
 
-Every PR runs Ubuntu and Windows Release plus `ctest`, then ASan+UBSan, clang-tidy, and 60s of libFuzzer on the patch and save parsers. A Vanguard or Stable zip is not published unless those jobs pass. The 14 September 2026 write-up, including the 21 closed findings, is [docs/security/audit-2026-09-14.md](docs/security/audit-2026-09-14.md). Private reports go to [SECURITY.md](SECURITY.md).
+Every PR runs Ubuntu and Windows Release plus `ctest`, then ASan+UBSan, clang-tidy, and 60s of libFuzzer on the patch and save parsers. A Vanguard or Stable zip is not published unless those jobs pass. The 14 September 2026 write-up, including the 21 closed findings, is [docs/security/audit-2026-09-14.md](docs/security/audit-2026-09-14.md).
+
+A crafted dump, save, patch, PNG, or prefs file that crashes the host or corrupts memory is a vulnerability: email, not a public issue. See [SECURITY.md](SECURITY.md). Crashes in normal play, wrong tracker facts, and "this title won't import" go in [GitHub Issues](https://github.com/oliverjohnclegg/emulocke/issues). Include OS, the window caption (Vanguard commit or Stable version), and the catalog title. Don't attach ROMs or saves.
 
 ## Supported titles
 
@@ -149,7 +151,7 @@ Gamepad uses the standard SDL map. Pause, reset, and speed-up are under Emulatio
 
 ## Stable and Vanguard
 
-Vanguard is `dev`. That is the public build. Every push to `dev` replaces the [Vanguard](https://github.com/oliverjohnclegg/emulocke/releases/tag/vanguard) prerelease (`emulocke-vanguard-<commit>-linux-x64.zip` and the Windows zip). The window reads `Emulocke VANGUARD [<commit>]`. The suite is still moving; treat Vanguard as a tryout, then file what breaks against `dev`.
+Vanguard is `dev`. That is the public build. Every push to `dev` replaces the [Vanguard](https://github.com/oliverjohnclegg/emulocke/releases/tag/vanguard) prerelease (`emulocke-vanguard-<commit>-linux-x64.zip` and the Windows zip). The window reads `Emulocke VANGUARD [<commit>]`. The suite is still moving; treat Vanguard as a tryout, then [open an issue](https://github.com/oliverjohnclegg/emulocke/issues) with that commit in the caption.
 
 Stable is `main`. A push to `main` updates GitHub Release `vX.X.X` from `VERSION` (`emulocke-vX.X.X-linux-x64.zip` / Windows). Caption is `Emulocke vX.X.X`. That channel is for a numbered cut the maintainer will stand behind. No Stable release exists yet, so don't wait on one.
 
@@ -230,7 +232,7 @@ flowchart LR
 | --- | --- |
 | [PRD.md](PRD.md) | Product decisions and V1 scope |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Branch targets, AI PRs, test/CI bar |
-| [SECURITY.md](SECURITY.md) | How to report a host bug privately |
+| [SECURITY.md](SECURITY.md) | Vulnerabilities only. Play bugs go in [Issues](https://github.com/oliverjohnclegg/emulocke/issues) |
 | [docs/security/audit-2026-09-14.md](docs/security/audit-2026-09-14.md) | 14 September 2026 host audit (21 findings, all closed) |
 | [LICENSE](LICENSE) | GPL-3.0-or-later |
 | [NOTICE](NOTICE) | mGBA MPL carve-out and other third-party licenses |
