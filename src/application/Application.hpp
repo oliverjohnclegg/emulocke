@@ -61,6 +61,9 @@ public:
     void requestNewAttempt(std::string sourceId);
     void dismissNewAttempt();
     void confirmNewAttempt();
+    void requestDeleteRun(std::string id);
+    void dismissDeleteRun();
+    void confirmDeleteRun();
     void closeRun();
     void pauseToggle();
     void resetSession();
@@ -89,6 +92,7 @@ public:
     bool copySnapshot(GameSnapshot& out) const;
     bool showNewRun() const { return showNewRun_; }
     bool showNewAttemptConfirm() const { return !confirmAttemptId_.empty(); }
+    bool showDeleteRunConfirm() const { return !confirmDeleteId_.empty(); }
     NewRunDraft& newRunDraft() { return newRunDraft_; }
     RomLibrary& romLibrary() { return *romLibrary_; }
     const RomLibrary& romLibrary() const { return *romLibrary_; }
@@ -132,6 +136,7 @@ private:
     void showSavPicker();
     void createRunFromDraft();
     void startNewAttempt(const std::string& sourceId);
+    void deleteRun(const std::string& id);
     void loadRun(const std::string& id);
     void bootRun(const Run& run);
     void harvestPlayOrigin();
@@ -181,7 +186,9 @@ private:
     std::string activeRunId_;
     std::string pendingLoadId_;
     std::string pendingAttemptId_;
+    std::string pendingDeleteId_;
     std::string confirmAttemptId_;
+    std::string confirmDeleteId_;
     NewRunDraft newRunDraft_;
     std::atomic<uint64_t> pendingPlayNs_{0};
     std::atomic<uint64_t> playOriginNs_{0};

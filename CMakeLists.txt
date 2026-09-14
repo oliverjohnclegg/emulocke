@@ -268,6 +268,7 @@ add_executable(emulocke
     src/ui/GameArtGpu.cpp
     src/ui/LoadingRunModal.cpp
     src/ui/NewAttemptConfirm.cpp
+    src/ui/DeleteRunConfirm.cpp
     src/ui/RunList.cpp
     src/ui/Suite.cpp
     src/ui/Tracker.cpp
