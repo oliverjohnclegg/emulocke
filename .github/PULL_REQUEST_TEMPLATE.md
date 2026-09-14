@@ -9,6 +9,6 @@ This PR targets `dev`, from a feature or bugfix branch. Do not commit onto `main
 ## Checks
 
 - [ ] No ROMs, BIOS, firmware, or secrets
-- [ ] `linux-x64` and `win-x64` should pass (build + `ctest`)
-- [ ] Adapter / catalog / calc / run / snapshot changes extend an `emulocke-*-check`
+- [ ] `linux-x64`, `win-x64`, `linux-asan-ubsan`, `clang-tidy`, `libfuzzer-smoke`
+- [ ] Adapter / catalog / calc / run / snapshot / parser changes extend an `emulocke-*-check`; byte parsers add a fuzz seed
 - [ ] AI authored some or all of this: yes / no

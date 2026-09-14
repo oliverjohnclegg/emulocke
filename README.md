@@ -30,6 +30,12 @@ A lot of the tree is written by AI agents, and that is a choice: if you won't ru
 
 Nobody commits onto `main` or `dev`, including the maintainer. Work lives on a feature or bugfix branch, then a pull request. Outsiders open those against `dev` (Vanguard). `main` is Stable and maintainer-only; a PR aimed at `main` from anyone else is closed.
 
+## Trust
+
+Dumps, saves, patches, network PNGs, prefs, and emulator RAM are untrusted. Unknown SHA-1 files are refused. Parsers are size-capped and bounds-checked. Checksums fail closed.
+
+Every PR runs Ubuntu and Windows Release plus `ctest`, then ASan+UBSan, clang-tidy, and 60s of libFuzzer on the patch and save parsers. A Vanguard or Stable zip is not published unless those jobs pass. The 14 September 2026 write-up, including the 21 closed findings, is [docs/security/audit-2026-09-14.md](docs/security/audit-2026-09-14.md). Private reports go to [SECURITY.md](SECURITY.md).
+
 ## Supported titles
 
 US dumps. Unknown SHA-1 files are refused. Tracker atlases cover every catalog row. The Calculator pack is Fire Red / Leaf Green only; Radical Red and Unbound stay without a pack until version-matched tables exist.
@@ -147,7 +153,7 @@ Vanguard is `dev`. That is the public build. Every push to `dev` replaces the [V
 
 Stable is `main`. A push to `main` updates GitHub Release `vX.X.X` from `VERSION` (`emulocke-vX.X.X-linux-x64.zip` / Windows). Caption is `Emulocke vX.X.X`. That channel is for a numbered cut the maintainer will stand behind. No Stable release exists yet, so don't wait on one.
 
-A seated run appends ` - Pokémon <title>` on either build. Every push still compiles Ubuntu and Windows; Linux also runs the sprite and game-art checks, and both OSes run `ctest`.
+A seated run appends ` - Pokémon <title>` on either build. Every push still compiles Ubuntu and Windows; Linux also runs the sprite and game-art checks, and both OSes run `ctest`. Linux then runs ASan+UBSan, clang-tidy, and 60s of libFuzzer. The GitHub Release job waits on all of those.
 
 ## Tech Stack
 
@@ -173,12 +179,15 @@ emulocke/
 │   ├── patches/
 │   └── sprites/
 ├── cmake/
+├── docs/
+│   └── security/
 ├── src/
 │   ├── adapter/
 │   ├── application/
 │   ├── calc/
 │   ├── cart/
 │   ├── emu/
+│   ├── fuzz/
 │   ├── poke/
 │   ├── run/
 │   ├── test/
@@ -192,6 +201,9 @@ emulocke/
 │   ├── stb/
 │   └── xdelta3/
 ├── tools/
+│   ├── fuzz/
+│   └── sanitizers/
+├── .clang-tidy
 ├── CMakeLists.txt
 ├── CONTRIBUTING.md
 ├── LICENSE
@@ -219,6 +231,7 @@ flowchart LR
 | [PRD.md](PRD.md) | Product decisions and V1 scope |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Branch targets, AI PRs, test/CI bar |
 | [SECURITY.md](SECURITY.md) | How to report a host bug privately |
+| [docs/security/audit-2026-09-14.md](docs/security/audit-2026-09-14.md) | 14 September 2026 host audit (21 findings, all closed) |
 | [LICENSE](LICENSE) | GPL-3.0-or-later |
 | [NOTICE](NOTICE) | mGBA MPL carve-out and other third-party licenses |
 
