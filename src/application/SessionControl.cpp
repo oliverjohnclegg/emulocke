@@ -71,7 +71,7 @@ void Application::emuLoop() {
             if (adapter_ && session_->liveMemory()) {
                 snapshot_ = adapter_->readLive(*session_->liveMemory());
                 if (!activeRunId_.empty()) {
-                    const auto sav = readWholeFile(runStore_->batteryPath(activeRunId_).string());
+                    const auto sav = readWholeFile(runStore_->batteryPath(activeRunId_).string(), kMaxSaveFile);
                     if (!sav.empty()) {
                         GameSnapshot fromSave = adapter_->readSave(sav);
                         if (fromSave.ok) {

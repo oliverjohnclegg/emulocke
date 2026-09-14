@@ -15,7 +15,7 @@
 namespace emulocke {
 
 std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const std::string& savePath) {
-    auto bytes = readWholeFile(romPath);
+    auto bytes = readWholeFile(romPath, kMaxRomFile);
     if (bytes.empty()) {
         return nullptr;
     }
@@ -49,7 +49,7 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const s
     session->core_->opts.skipBios = true;
     session->core_->opts.frameskip = 0;
     session->core_->reset(session->core_);
-    auto save = readWholeFile(session->savePath_);
+    auto save = readWholeFile(session->savePath_, kMaxSaveFile);
     if (!save.empty()) {
         session->core_->savedataRestore(session->core_, save.data(), save.size(), true);
     }
@@ -158,7 +158,7 @@ void GbaSession::flushSave() {
     void* sram = nullptr;
     const size_t n = core_->savedataClone(core_, &sram);
     if (n && sram) {
-        writeWholeFile(savePath_, static_cast<const uint8_t*>(sram), static_cast<uint32_t>(n));
+        writeWholeFile(savePath_, static_cast<const uint8_t*>(sram), n);
         std::free(sram);
     }
 }

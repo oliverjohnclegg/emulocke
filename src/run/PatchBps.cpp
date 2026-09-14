@@ -33,7 +33,7 @@ std::optional<std::vector<uint8_t>> applyBpsPatch(
     uint64_t targetSize = 0;
     uint64_t meta = 0;
     if (!reader.readVli(sourceSize) || sourceSize != rom.size() || !reader.readVli(targetSize) ||
-        targetSize == 0 || targetSize > kMaxPatchedRom || !reader.readVli(meta) || !reader.skip(meta)) {
+        targetSize == 0 || targetSize > kMaxRomFile || !reader.readVli(meta) || !reader.skip(meta)) {
         return std::nullopt;
     }
     BpsState state{rom, std::vector<uint8_t>(static_cast<std::size_t>(targetSize))};

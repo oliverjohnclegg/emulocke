@@ -34,7 +34,7 @@ void checkHeaderBounds(const std::vector<uint8_t>& src) {
     sealBps(tenByteVli, src, 0);
     expectRejected(src, tenByteVli, "vli longer than ten bytes");
 
-    expectRejected(src, commands(src, emulocke::kMaxPatchedRom + 1, {}), "target above cap");
+    expectRejected(src, commands(src, emulocke::kMaxRomFile + 1, {}), "target above cap");
     expectRejected(src, commands(src, uint64_t{1} << 62, {}), "target beyond addressable memory");
     expectRejected(src, commands(src, 0, {}), "empty target");
 

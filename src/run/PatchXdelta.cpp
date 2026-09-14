@@ -19,12 +19,12 @@ bool hasVcdiffMagic(std::span<const uint8_t> patch) {
 
 std::optional<std::vector<uint8_t>> applyXdeltaPatch(
     std::span<const uint8_t> rom, std::span<const uint8_t> patch) {
-    if (rom.empty() || rom.size() > kMaxPatchedRom || !hasVcdiffMagic(patch)) {
+    if (rom.empty() || rom.size() > kMaxRomFile || !hasVcdiffMagic(patch)) {
         return std::nullopt;
     }
     std::size_t avail = std::max(rom.size(), kXdeltaFirstBuffer);
     while (true) {
-        avail = std::min(avail, kMaxPatchedRom);
+        avail = std::min(avail, kMaxRomFile);
         std::vector<uint8_t> out(avail);
         usize_t wrote = 0;
         const int rc = xd3_decode_memory(patch.data(), static_cast<usize_t>(patch.size()), rom.data(),
@@ -33,7 +33,7 @@ std::optional<std::vector<uint8_t>> applyXdeltaPatch(
             out.resize(wrote);
             return out;
         }
-        if (rc != ENOSPC || avail == kMaxPatchedRom) {
+        if (rc != ENOSPC || avail == kMaxRomFile) {
             return std::nullopt;
         }
         avail *= 2;

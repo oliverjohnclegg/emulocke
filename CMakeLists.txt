@@ -439,6 +439,7 @@ add_executable(emulocke-run-check
     src/run/TitlePlay.cpp
     src/test/patch_format_check.cpp
     src/test/patch_bounds_check.cpp
+    src/test/file_bytes_check.cpp
     src/test/local_patch_check.cpp
     src/test/layout_check.cpp
     src/test/input_check.cpp

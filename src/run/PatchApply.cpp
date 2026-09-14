@@ -25,7 +25,7 @@ std::optional<std::vector<uint8_t>> applyMgbaPatch(
         return std::nullopt;
     }
     const size_t outSize = applied.outputSize(&applied, rom.size());
-    if (outSize == 0 || outSize > kMaxPatchedRom) {
+    if (outSize == 0 || outSize > kMaxRomFile) {
         return std::nullopt;
     }
     std::vector<uint8_t> out(outSize);

@@ -14,7 +14,7 @@
 namespace emulocke {
 
 std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath, const std::string& savePath) {
-    auto bytes = readWholeFile(romPath);
+    auto bytes = readWholeFile(romPath, kMaxRomFile);
     if (bytes.empty()) {
         return nullptr;
     }
@@ -26,7 +26,7 @@ std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath, const s
     session->top_.assign(256 * 192, 0);
     session->bottom_.assign(256 * 192, 0);
     melonDS::NDSCart::NDSCartArgs cartArgs;
-    auto save = readWholeFile(session->savePath_);
+    auto save = readWholeFile(session->savePath_, kMaxSaveFile);
     if (!save.empty()) {
         cartArgs.SRAM = std::make_unique<melonDS::u8[]>(save.size());
         std::memcpy(cartArgs.SRAM.get(), save.data(), save.size());

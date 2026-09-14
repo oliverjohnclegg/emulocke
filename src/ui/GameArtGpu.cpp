@@ -49,7 +49,7 @@ void GameArtGpu::requestPrefetch() {
 }
 
 SDL_Texture* GameArtGpu::load(SDL_Renderer* renderer, const std::filesystem::path& path) {
-    const auto bytes = readWholeFile(path.string());
+    const auto bytes = readWholeFile(path.string(), kMaxImageFile);
     const auto image = decodePngRgba(bytes);
     if (!image || !renderer) {
         return nullptr;
