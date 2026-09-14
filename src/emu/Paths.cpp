@@ -39,9 +39,9 @@ std::filesystem::path prefDir() {
 
 std::filesystem::path pathFromUtf8(std::string_view utf8) {
 #ifdef _WIN32
-    return std::filesystem::path(std::u8string(utf8.begin(), utf8.end()));
+    return {std::u8string(utf8.begin(), utf8.end())};
 #else
-    return std::filesystem::path(utf8);
+    return {utf8};
 #endif
 }
 

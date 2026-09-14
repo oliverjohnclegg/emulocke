@@ -7,7 +7,6 @@
 #include <chrono>
 #include <cstdint>
 #include <cstdio>
-#include <random>
 
 namespace emulocke {
 namespace {
@@ -16,11 +15,6 @@ std::string makeRunId() {
     static std::atomic<uint64_t> seq{1};
     uint64_t mix = static_cast<uint64_t>(std::chrono::steady_clock::now().time_since_epoch().count());
     mix ^= seq++ * 0x9e3779b97f4a7c15ull;
-    try {
-        std::random_device rd;
-        mix ^= (static_cast<uint64_t>(rd()) << 32) ^ rd();
-    } catch (...) {
-    }
     char buf[17];
     std::snprintf(buf, sizeof buf, "%016llx", static_cast<unsigned long long>(mix));
     return buf;
