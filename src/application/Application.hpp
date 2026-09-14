@@ -114,7 +114,7 @@ public:
     void seedPreviewCalc();
     CheatBook& cheats() { return cheats_; }
     const CheatBook& cheats() const { return cheats_; }
-    bool addCheat(std::string name, std::string code);
+    bool addCheat(std::string_view name, std::string_view code);
     void removeCheat(std::string_view id);
     void setCheatEnabled(std::string_view id, bool on);
     const std::string& cheatError() const { return cheatError_; }

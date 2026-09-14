@@ -14,7 +14,7 @@ void CheatBook::clear() {
     items_.clear();
 }
 
-bool CheatBook::add(std::string name, std::string code) {
+bool CheatBook::add(std::string_view name, std::string_view code) {
     Cheat row;
     row.id = nextId();
     row.name = std::string(trimCheat(name));

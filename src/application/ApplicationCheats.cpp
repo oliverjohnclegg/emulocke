@@ -3,7 +3,6 @@
 #include "cheats/Uuid.hpp"
 
 #include <mutex>
-#include <utility>
 
 namespace emulocke {
 
@@ -54,7 +53,7 @@ void Application::loadCheats() {
     installLiveCheats();
 }
 
-bool Application::addCheat(std::string name, std::string code) {
+bool Application::addCheat(std::string_view name, std::string_view code) {
     cheatError_.clear();
     if (activeRunId_.empty() || !session_) {
         cheatError_ = "No cart seated.";
@@ -67,7 +66,7 @@ bool Application::addCheat(std::string name, std::string code) {
             return false;
         }
     }
-    if (!cheats_.add(std::move(name), std::move(code))) {
+    if (!cheats_.add(name, code)) {
         cheatError_ = "Could not save that cheat.";
         return false;
     }

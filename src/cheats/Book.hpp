@@ -16,7 +16,7 @@ public:
     bool saveGame(const std::filesystem::path& path) const;
     bool loadEnabled(const std::filesystem::path& path);
     bool saveEnabled(const std::filesystem::path& path) const;
-    bool add(std::string name, std::string code);
+    bool add(std::string_view name, std::string_view code);
     bool remove(std::string_view id);
     bool setEnabled(std::string_view id, bool on);
     const std::vector<Cheat>& items() const { return items_; }
