@@ -22,13 +22,13 @@ int main(int argc, char** argv) {
     }
     const std::string rom = argv[1];
     const std::string sav = argc > 2 ? argv[2] : rom + ".sav";
-    const auto bytes = emulocke::readWholeFile(rom);
-    const auto battery = emulocke::readWholeFile(sav);
+    const auto bytes = emulocke::readWholeFile(rom, emulocke::kMaxRomFile);
+    const auto battery = emulocke::readWholeFile(sav, emulocke::kMaxSaveFile);
     const emulocke::CatalogTitle* title = emulocke::catalogBySha1(emulocke::sha1Hex(bytes));
     const auto tmpSav = std::filesystem::temp_directory_path() /
                         (std::filesystem::path(rom).filename().string() + ".boot.sav");
     if (!battery.empty()) {
-        emulocke::writeWholeFile(tmpSav.string(), battery.data(), static_cast<uint32_t>(battery.size()));
+        emulocke::writeWholeFile(tmpSav.string(), battery.data(), battery.size());
     }
     std::unique_ptr<emulocke::EmuSession> session;
     const std::string ext = std::filesystem::path(rom).extension().string();

@@ -6,7 +6,8 @@ cd "$repo_root"
 
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends \
-  cmake ninja-build pkg-config g++ \
+  cmake ninja-build pkg-config g++ clang clang-tidy libclang-rt-dev libstdc++-14-dev \
+  libcurl4-openssl-dev liblzma-dev \
   libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
   libxi-dev libxfixes-dev libxrender-dev libxkbcommon-dev \
   xvfb x11-utils

@@ -59,7 +59,7 @@ CachedPng PngCache::get(const std::filesystem::path& path) {
         return it->second;
     }
     CachedPng png;
-    const auto bytes = readWholeFile(key);
+    const auto bytes = readWholeFile(key, kMaxImageFile);
     const auto image = decodePngRgba(bytes);
     if (!image || !renderer_) {
         tex_[key] = png;

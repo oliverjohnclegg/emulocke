@@ -3,11 +3,13 @@
 #include "adapter/Snapshot.hpp"
 #include "adapter/Species.hpp"
 #include "application/Host.hpp"
+#include "application/SdlRuntime.hpp"
 #include "calc/Session.hpp"
 #include "emu/AudioOutput.hpp"
 #include "emu/EmuSession.hpp"
 #include "emu/Input.hpp"
 #include "emu/ScreenTexture.hpp"
+#include "run/BatteryWatch.hpp"
 #include "run/RomLibrary.hpp"
 #include "run/Run.hpp"
 #include "run/RunStore.hpp"
@@ -39,6 +41,8 @@ class Application {
 public:
     Application();
     ~Application();
+    Application(const Application&) = delete;
+    Application& operator=(const Application&) = delete;
     bool start(int argc, char** argv);
     void run();
     void shutdown();
@@ -130,6 +134,7 @@ private:
     void destroyTracker();
     void seedPreviewTracker();
     enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
+    SdlRuntime sdl_;
     Host host_;
     PendingHost pendingHost_{PendingHost::None};
     Input input_;
@@ -146,6 +151,7 @@ private:
     std::unique_ptr<TitlePlay> titlePlay_;
     const GameAdapter* adapter_{};
     GameSnapshot snapshot_{};
+    BatteryWatch battery_;
     mutable std::mutex sessionMutex_;
     std::thread emuThread_;
     std::atomic<bool> running_{false};

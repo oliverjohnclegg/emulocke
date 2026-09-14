@@ -56,21 +56,19 @@ void readParty(const uint8_t* general, std::size_t partyOff, Party& party) {
 }
 
 void readBoxes(const uint8_t* storage, bool padded, Boxes& boxes) {
-    constexpr int kBoxCount = 18;
-    constexpr std::size_t kPacked = 30 * kPkStoredSize;
-    const std::size_t stride = padded ? 0x1000 : kPacked;
+    const std::size_t stride = padded ? kGen4PaddedBox : kGen4PackedBox;
     if (padded) {
-        boxes.current = storage[kBoxCount * stride];
+        boxes.current = storage[kGen4BoxCount * stride];
     } else {
         boxes.current = storage[0];
     }
     const std::size_t data0 = padded ? 0 : 4;
-    const std::size_t name0 = padded ? (kBoxCount * stride + 8) : (4 + kBoxCount * kPacked);
-    for (int b = 0; b < kBoxCount; ++b) {
-        decodeGen4Text({storage + name0 + static_cast<std::size_t>(b) * 40, 16}, boxes.boxes[b].name,
+    const std::size_t name0 = padded ? (kGen4BoxCount * stride + 8) : (4 + kGen4BoxCount * kGen4PackedBox);
+    for (std::size_t b = 0; b < kGen4BoxCount; ++b) {
+        decodeGen4Text({storage + name0 + b * kGen4BoxNameBytes, 16}, boxes.boxes[b].name,
                        sizeof(boxes.boxes[b].name));
-        for (int s = 0; s < 30; ++s) {
-            const uint8_t* raw = storage + data0 + static_cast<std::size_t>(b) * stride + s * kPkStoredSize;
+        for (std::size_t s = 0; s < kGen4BoxSlots; ++s) {
+            const uint8_t* raw = storage + data0 + b * stride + s * kPkStoredSize;
             parsePk45({raw, kPkStoredSize}, false, boxes.boxes[b].mons[s]);
         }
     }
@@ -88,7 +86,7 @@ bool readGen4Save(std::span<const uint8_t> sav, const Gen4Layout& layout, GameSn
         return false;
     }
     const std::size_t base = static_cast<std::size_t>(slot) * kGen4Partition;
-    if (base + layout.storageStart + 0x1000 > sav.size()) {
+    if (base > sav.size() || sav.size() - base < gen4PartitionBytes(layout)) {
         return false;
     }
     readTrainer(sav.data() + base, layout.trainerOff, snap.trainer);

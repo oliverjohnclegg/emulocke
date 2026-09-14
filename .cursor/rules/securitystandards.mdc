@@ -1,0 +1,30 @@
+---
+description: Project security standards. Always apply when writing, reviewing, or refactoring any C or C++ in this repository.
+alwaysApply: true
+---
+
+# Security standards
+
+Read and follow `.cursor/skills/cpp-coding-standards/SKILL.md` before writing or reviewing C++. Prove the result with `.cursor/skills/cpp-sanitizers/SKILL.md`. Reach for `.cursor/skills/memory-safety-patterns/SKILL.md` when designing ownership or wrapping a C API.
+
+## Ownership (Core Guidelines R.*, C.20, C.21, I.11)
+
+Raw pointers and references are non-owning. Ownership lives in `std::unique_ptr` (custom deleter for C handles), `std::vector`, `std::array`, `std::string`. No naked `new`, `delete`, `malloc`, `free`. Every SDL, mGBA, melonDS, curl, or stb handle is wrapped in an RAII type; the destructor is the only place cleanup lives. Prefer the Rule of Zero; if you declare any of the five, declare all five. `const` by default. Members destroy in reverse declaration order, so declare the runtime that owns a subsystem (for example `SdlRuntime`) before anything that uses it.
+
+## Untrusted bytes
+
+ROM dumps, `.sav` files, patches, PNGs from the network, `prefs.ini`, run metadata, and emulator RAM are attacker-controlled. Every read is bounds-checked before it happens, using the subtraction form (`size - off >= len`) so the arithmetic cannot wrap. Every allocation sized from input is capped by a named constant. Variable-length integers have a byte-count ceiling and reject overflow. Checksums fail closed. Take input as `std::span<const uint8_t>`; never hand a span that lies about the size of its backing store.
+
+## Proof before done
+
+A change to any parser or lifecycle code ships an adversarial test in `src/test/` and, for byte parsers, a seed in `src/fuzz/corpus/<harness>/` (regenerate with `emulocke-fuzz-seeds`, or drop in the reproducer a crash produced). Before declaring C++ work finished:
+
+```
+cmake -B build-asan -G Ninja -DCMAKE_BUILD_TYPE=Debug -DEMULOCKE_SANITIZE=address
+cmake --build build-asan --parallel && ctest --test-dir build-asan --output-on-failure
+run-clang-tidy -p build-asan -quiet <touched files>
+```
+
+Parser changes also run their harness: configure with `-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DEMULOCKE_SANITIZE=address -DEMULOCKE_FUZZ=ON`, build `fuzzers`, then `tools/fuzz/smoke.sh <build-dir> 60`. New byte parsers get a new `src/fuzz/fuzz_<name>.cpp` and corpus directory.
+
+A test that was never registered with `add_test` proves nothing. A sanitizer or tidy warning is a bug, not noise; do not suppress it in project code. `.clang-tidy` gates every check that is clean today; if a check you trip is in its exclusion list, fix the code anyway rather than growing the list.

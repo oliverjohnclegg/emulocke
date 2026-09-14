@@ -7,6 +7,8 @@
 
 namespace emulocke {
 
+inline constexpr int kMaxImageSide = 4096;
+
 struct RgbaImage {
     int width = 0;
     int height = 0;

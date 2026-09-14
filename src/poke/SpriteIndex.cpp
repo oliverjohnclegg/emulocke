@@ -20,22 +20,30 @@ bool lessSlug(const Entry& entry, const std::string& slug) {
     return std::strcmp(entry.slug, slug.c_str()) < 0;
 }
 
+bool isSlugSeparator(char c) {
+    return c == ' ' || c == '_' || c == '-';
+}
+
+bool isSlugLetter(char c) {
+    return (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
+}
+
 }  // namespace
 
 std::string normalizeSlug(std::string_view raw) {
     std::string out;
     out.reserve(raw.size());
-    for (char c : raw) {
-        if (c == ' ' || c == '_') {
+    for (const char c : raw) {
+        if (isSlugSeparator(c)) {
             if (!out.empty() && out.back() != '-') {
                 out.push_back('-');
             }
             continue;
         }
-        if (c == '\'' || c == '.') {
-            continue;
+        const auto lower = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        if (isSlugLetter(lower)) {
+            out.push_back(lower);
         }
-        out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));
     }
     while (!out.empty() && out.back() == '-') {
         out.pop_back();

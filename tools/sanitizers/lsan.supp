@@ -1,0 +1,2 @@
+# LeakSanitizer suppressions for third-party initialisation statics.
+# Project code is never suppressed here; fix the leak instead.

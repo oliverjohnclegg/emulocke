@@ -1,0 +1,2 @@
+# UndefinedBehaviorSanitizer suppressions (check:pattern) for third-party code.
+# Project code is never suppressed here; fix the UB instead.

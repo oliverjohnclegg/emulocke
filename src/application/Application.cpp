@@ -35,10 +35,9 @@ void onSavPicked(void* userdata, const char* const* filelist, int) {
 }  // namespace
 
 bool Application::start(int argc, char** argv) {
-    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
+    if (!sdl_.ok()) {
         return false;
     }
-    SDL_InitSubSystem(SDL_INIT_AUDIO);
     prefs_ = Prefs::load();
     if (!host_.create(prefs_)) {
         return false;

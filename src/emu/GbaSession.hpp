@@ -19,6 +19,8 @@ class GbaSession final : public EmuSession, public LiveMemory {
 public:
     static std::unique_ptr<GbaSession> open(const std::string& romPath, const std::string& savePath);
     ~GbaSession() override;
+    GbaSession(const GbaSession&) = delete;
+    GbaSession& operator=(const GbaSession&) = delete;
     ConsoleKind kind() const override { return ConsoleKind::Gba; }
     int screenCount() const override { return 1; }
     int screenWidth(int) const override { return static_cast<int>(width_); }

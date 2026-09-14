@@ -86,6 +86,8 @@ std::vector<uint8_t> makeUps(const std::vector<uint8_t>& src, const std::vector<
 
 int testLayout();
 int testInput();
+int testFileBytes();
+int testPrefs();
 
 int main() {
     expect(static_cast<int>(emulocke::kRightPaneSpan) == 481, "right pane span");
@@ -237,7 +239,7 @@ int main() {
     std::filesystem::create_directories(assets / "patches");
     emulocke::RomLibrary lib(roms, assets);
     const auto junk = tmp / "junk.gba";
-    emulocke::writeWholeFile(junk.string(), src.data(), static_cast<uint32_t>(src.size()));
+    emulocke::writeWholeFile(junk.string(), src.data(), src.size());
     auto imported = lib.importFile(junk);
     expect(!imported.ok, "reject unknown");
 
@@ -273,12 +275,12 @@ int main() {
 
     const auto patchPath = assets / "patches" / (std::string(emulocke::kUnboundUuid) + ".ups");
     auto ups = makeUps(src, dst);
-    emulocke::writeWholeFile(patchPath.string(), ups.data(), static_cast<uint32_t>(ups.size()));
+    emulocke::writeWholeFile(patchPath.string(), ups.data(), ups.size());
     auto derived = lib.ensurePlayable(emulocke::kUnboundUuid);
     expect(derived.has_value(), "ensure unbound");
     auto again = lib.ensurePlayable(emulocke::kUnboundUuid);
     expect(again && *again == *derived, "reuse derived");
-    auto bytes = emulocke::readWholeFile(derived->string());
+    auto bytes = emulocke::readWholeFile(derived->string(), emulocke::kMaxRomFile);
     expect(bytes == dst, "derived bytes");
 
     const emulocke::CatalogTitle* black = emulocke::catalogByUuid(emulocke::kBlackUsUuid);
@@ -288,9 +290,9 @@ int main() {
     const char* cleanAsset = emulocke::catalogPatchAsset(*emulocke::catalogByUuid(emulocke::kBlazeBlackUuid), "clean");
     auto fullUps = makeUps(src, dst);
     auto cleanUps = makeUps(src, cleanDst);
-    emulocke::writeWholeFile((assets / fullAsset).string(), fullUps.data(), static_cast<uint32_t>(fullUps.size()));
+    emulocke::writeWholeFile((assets / fullAsset).string(), fullUps.data(), fullUps.size());
     emulocke::writeWholeFile(
-        (assets / cleanAsset).string(), cleanUps.data(), static_cast<uint32_t>(cleanUps.size()));
+        (assets / cleanAsset).string(), cleanUps.data(), cleanUps.size());
     auto fullRom = lib.ensurePlayable(emulocke::kBlazeBlackUuid, "full");
     auto cleanRom = lib.ensurePlayable(emulocke::kBlazeBlackUuid, "clean");
     expect(fullRom && cleanRom && *fullRom != *cleanRom, "bb options split");
@@ -332,9 +334,9 @@ int main() {
     expect(a && a->playMs == 0, "new play 0");
     const auto savIn = tmp / "incoming.sav";
     const std::vector<uint8_t> savBytes{0x10, 0x20, 0x30, 0x40};
-    emulocke::writeWholeFile(savIn.string(), savBytes.data(), static_cast<uint32_t>(savBytes.size()));
+    emulocke::writeWholeFile(savIn.string(), savBytes.data(), savBytes.size());
     expect(store.importBattery(a->id, savIn), "import sav");
-    expect(emulocke::readWholeFile(store.batteryPath(a->id).string()) == savBytes, "battery bytes");
+    expect(emulocke::readWholeFile(store.batteryPath(a->id).string(), emulocke::kMaxSaveFile) == savBytes, "battery bytes");
     expect(!store.importBattery("missing", savIn), "import missing run");
     expect(emulocke::runHeadline(*a) == "Pokemon Fire Red: Regular Nuzlocke  |  Attempt #1", "headline");
     expect(emulocke::formatPlayClock(0) == "00:00", "clock 0");
@@ -422,9 +424,12 @@ int main() {
     std::filesystem::remove_all(tmp);
     fails += testBuildId();
     fails += testPatchFormats();
+    fails += testPatchBounds();
     fails += testLocalPatches();
     fails += testLayout();
     fails += testInput();
+    fails += testFileBytes();
+    fails += testPrefs();
     if (fails) {
         std::fprintf(stderr, "%d failed\n", fails);
         return 1;

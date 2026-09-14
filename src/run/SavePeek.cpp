@@ -19,7 +19,7 @@ const GameSnapshot& SavePeek::get(const RunStore& store, const Run& run) {
     if (it != cache_.end() && it->second.mtime == mtime) {
         return it->second.snap;
     }
-    const auto bytes = readWholeFile(path.string());
+    const auto bytes = readWholeFile(path.string(), kMaxSaveFile);
     const GameAdapter* adapter = bytes.empty() ? nullptr : adapterForSave(bytes);
     Slot slot;
     slot.mtime = mtime;
