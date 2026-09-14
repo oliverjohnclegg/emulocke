@@ -3,6 +3,7 @@ file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" EMULOCKE_VERSION)
 string(STRIP "${EMULOCKE_VERSION}" EMULOCKE_VERSION)
 project(emulocke VERSION ${EMULOCKE_VERSION} LANGUAGES C CXX)
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/BuildStamp.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Sanitizers.cmake")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -19,7 +20,7 @@ if(NOT SDL3_FOUND)
     FetchContent_Declare(
         SDL3
         GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-        GIT_TAG release-3.2.22
+        GIT_TAG a96677bdf6b4acb84af4ec294e5f60a4e8cbbe03
         GIT_SHALLOW TRUE)
     set(SDL_SHARED OFF CACHE BOOL "" FORCE)
     set(SDL_STATIC ON CACHE BOOL "" FORCE)
@@ -42,7 +43,7 @@ if(WIN32 AND NOT MINGW)
     FetchContent_Declare(
         dirent
         GIT_REPOSITORY https://github.com/tronkko/dirent.git
-        GIT_TAG 1.26
+        GIT_TAG 31db6474b5231c180bd4618c8c90e43af50c86d0
         GIT_SHALLOW TRUE)
     set(DIRENT_EXAMPLES OFF CACHE STRING "" FORCE)
     set(DIRENT_TESTS OFF CACHE STRING "" FORCE)
@@ -59,6 +60,7 @@ set(BUILD_SDL OFF CACHE BOOL "" FORCE)
 set(BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(BUILD_STATIC ON CACHE BOOL "" FORCE)
 add_subdirectory(third_party/mgba EXCLUDE_FROM_ALL)
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Hardening.cmake")
 
 find_package(LibLZMA REQUIRED)
 add_library(xdelta3 STATIC third_party/xdelta3/xdelta3.c)
@@ -453,6 +455,9 @@ add_test(NAME tracker COMMAND emulocke-tracker-check)
 add_test(NAME poke COMMAND emulocke-poke-check)
 add_test(NAME gba-host COMMAND emulocke-gba-check)
 add_test(NAME run COMMAND emulocke-run-check)
+if(EMULOCKE_SANITIZE)
+    emulocke_apply_sanitizer_test_env()
+endif()
 
 add_custom_command(
     TARGET emulocke POST_BUILD

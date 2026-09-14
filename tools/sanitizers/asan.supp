@@ -1,0 +1,2 @@
+# AddressSanitizer suppressions (interceptor_via_fun:, interceptor_via_lib:).
+# Project code is never suppressed here; fix the bug instead.
