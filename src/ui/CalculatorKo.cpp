@@ -29,7 +29,7 @@ void drawCalcKo(CalcSession& session, uint8_t dmgGen, uint8_t chart, const Pokem
     if (!line[0]) {
         return;
     }
-    ImGui::Dummy(ImVec2(0, 6));
+    ImGui::Dummy(ImVec2(0, 10));
     const bool ko = dmg.ohko(def.hp);
     if (foeAtk) {
         calcAlignRight(ImGui::CalcTextSize(line).x);
