@@ -1,46 +1,74 @@
 #include "ui/Cheats.hpp"
 
 #include "application/Application.hpp"
-#include "cheats/Limits.hpp"
+#include "ui/Theme.hpp"
 
 #include <imgui.h>
-#include <string>
 
 namespace emulocke {
 namespace {
 
-char nameBuf[kMaxCheatName + 1];
-char codeBuf[kMaxCheatCode + 1];
-std::string seatedId;
-
-void resetDraft(const std::string& id) {
-    if (seatedId == id) {
-        return;
-    }
-    seatedId = id;
-    nameBuf[0] = 0;
-    codeBuf[0] = 0;
+bool plate(const char* id, const char* label, ImVec2 size) {
+    const ImVec2 p = ImGui::GetCursorScreenPos();
+    ImGui::InvisibleButton(id, size);
+    const bool hovered = ImGui::IsItemHovered();
+    const bool clicked = ImGui::IsItemClicked();
+    ImDrawList* dl = ImGui::GetWindowDrawList();
+    const ImVec2 q(p.x + size.x, p.y + size.y);
+    dl->AddRectFilled(p, q, ImGui::GetColorU32(hovered ? kHeaderHover : kButton));
+    dl->AddRect(p, q, ImGui::GetColorU32(kBorder));
+    const ImVec2 ts = ImGui::CalcTextSize(label);
+    dl->AddText(ImVec2(p.x + (size.x - ts.x) * 0.5f, p.y + (size.y - ts.y) * 0.5f),
+        ImGui::GetColorU32(kMetal), label);
+    return clicked;
 }
 
 }  // namespace
 
 void drawCheatsAdd(Application& app) {
-    resetDraft(app.activeRunId());
-    ImGui::TextUnformatted("NAME");
-    ImGui::SetNextItemWidth(-1.f);
-    ImGui::InputTextWithHint("##cheat-name", "Walk Through Walls", nameBuf, sizeof nameBuf);
-    ImGui::TextUnformatted("CODE");
-    ImGui::SetNextItemWidth(-1.f);
-    ImGui::InputTextMultiline("##cheat-code", codeBuf, sizeof codeBuf, ImVec2(-1.f, 72.f));
-    if (ImGui::Button("Add", ImVec2(-1.f, 0.f))) {
-        if (app.addCheat(nameBuf, codeBuf) && app.cheatError().empty()) {
-            nameBuf[0] = 0;
-            codeBuf[0] = 0;
-        }
+    const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(14.f, 14.f));
+    ImGui::PushStyleColor(ImGuiCol_PopupBg, kPanel);
+    const ImGuiWindowFlags flags =
+        ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar;
+    if (!ImGui::BeginPopupModal("ADD", nullptr, flags)) {
+        ImGui::PopStyleColor();
+        ImGui::PopStyleVar();
+        return;
     }
-    if (!app.cheatError().empty()) {
-        ImGui::TextDisabled("%s", app.cheatError().c_str());
+    const float plateW = 320.f;
+    ImGui::Dummy(ImVec2(plateW, 0));
+    if (app.displayFont()) {
+        ImGui::PushFont(app.displayFont());
     }
+    ImGui::TextUnformatted("ADD");
+    if (app.displayFont()) {
+        ImGui::PopFont();
+    }
+    ImGui::Separator();
+    ImGui::Dummy(ImVec2(0, 8));
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, kScreenWell);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(12.f, 12.f));
+    ImGui::BeginChild("cheat-draft", ImVec2(plateW, 0),
+        ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeY | ImGuiChildFlags_AlwaysUseWindowPadding);
+    drawCheatDraft(app);
+    ImGui::EndChild();
+    ImGui::PopStyleVar();
+    ImGui::PopStyleColor();
+    ImGui::Dummy(ImVec2(0, 12));
+    const float gap = 5.f;
+    const ImVec2 btn((plateW - gap) * 0.5f, 28.f);
+    if (plate("ok", "ADD", btn) && takeCheatDraft(app)) {
+        ImGui::CloseCurrentPopup();
+    }
+    ImGui::SameLine(0.f, gap);
+    if (plate("cancel", "CANCEL", btn)) {
+        ImGui::CloseCurrentPopup();
+    }
+    ImGui::EndPopup();
+    ImGui::PopStyleColor();
+    ImGui::PopStyleVar();
 }
 
 }

@@ -264,6 +264,7 @@ add_executable(emulocke
     src/ui/CalculatorChip.cpp
     src/ui/Cheats.cpp
     src/ui/CheatsAdd.cpp
+    src/ui/CheatsDraft.cpp
     src/ui/Pokemon.cpp
     src/ui/PokemonGather.cpp
     src/ui/PokemonParty.cpp
