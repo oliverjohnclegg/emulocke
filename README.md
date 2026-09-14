@@ -132,13 +132,13 @@ Config > Controls remaps the keyboard. Defaults:
 
 Gamepad uses the standard SDL map. Pause, reset, and speed-up are under Emulation. Hold Tab is the default; uncheck it to tap Tab on and off.
 
-## Instances
+## Stable and Vanguard
 
-`main` is Stable. `dev` is Vanguard. Every push runs `.github/workflows/build.yml` on Ubuntu and Windows. Linux also runs the sprite and game-art checks. Both OSes run `ctest`.
+Vanguard is `dev`. That is the public build. Every push stamps `emulocke-vanguard-<commit>-linux-x64` and `emulocke-vanguard-<commit>-win-x64.exe`. The window reads `Emulocke VANGUARD [<commit>]`. Grab the latest artifact from Actions on `dev` if you want to play it without compiling. The suite is still moving; treat Vanguard as a tryout, then file what breaks against `dev`.
 
-Stable: `emulocke-vX.X.X-win-x64.exe`, `emulocke-vX.X.X-linux-x64`. Vanguard: `emulocke-vanguard-<commit>-win-x64.exe`, `emulocke-vanguard-<commit>-linux-x64`.
+Stable is `main`. Versioned names: `emulocke-vX.X.X-linux-x64` and `emulocke-vX.X.X-win-x64.exe`, caption `Emulocke vX.X.X`. That channel is for a numbered cut the maintainer will stand behind. No Stable release exists yet. Don't wait on one.
 
-Window caption is `Emulocke vX.X.X` on Stable and `Emulocke VANGUARD [<commit>]` on Vanguard. A seated run appends ` - Pokémon <title>`.
+A seated run appends ` - Pokémon <title>` on either build. Every push still compiles Ubuntu and Windows; Linux also runs the sprite and game-art checks, and both OSes run `ctest`.
 
 ## Tech Stack
 
