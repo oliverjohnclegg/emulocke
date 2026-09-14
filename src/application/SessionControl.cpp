@@ -1,6 +1,8 @@
 #include "application/Application.hpp"
 
 #include "adapter/GameAdapter.hpp"
+#include "calc/Pack.hpp"
+#include "emu/FileBytes.hpp"
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
 #include "run/SavePeek.hpp"
@@ -72,6 +74,11 @@ void Application::emuLoop() {
                 if (!activeRunId_.empty()) {
                     battery_.refresh(runStore_->batteryPath(activeRunId_), *adapter_);
                     battery_.mergeInto(snapshot_);
+                }
+                if (const Run* run = runStore_->find(activeRunId_)) {
+                    if (!calcPack(run->catalogUuid, run->patchOption)) {
+                        snapshot_.battle = {};
+                    }
                 }
             }
         }

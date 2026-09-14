@@ -102,6 +102,26 @@ target_include_directories(imgui PUBLIC
     third_party/imgui/backends)
 target_link_libraries(imgui PUBLIC SDL3::SDL3)
 
+add_library(emulocke_calc STATIC
+    src/calc/Type.cpp
+    src/calc/Stats.cpp
+    src/calc/Gen3Bp.cpp
+    src/calc/Gen3Atk.cpp
+    src/calc/Gen3Mods.cpp
+    src/calc/Calculate.cpp
+    src/calc/KoChance.cpp
+    src/calc/Dex.cpp
+    src/calc/Pack.cpp
+    src/calc/Build.cpp
+    src/calc/SwitchIn.cpp
+    src/calc/SwitchInPick.cpp
+    src/calc/SwitchInHits.cpp
+    src/calc/Session.cpp
+    src/calc/SessionSearch.cpp
+    src/calc/Ai.cpp
+    src/calc/Labels.cpp)
+target_include_directories(emulocke_calc PUBLIC src)
+
 add_library(emulocke_adapter STATIC
     src/adapter/Registry.cpp
     src/adapter/gen3/Charset.cpp
@@ -114,6 +134,7 @@ add_library(emulocke_adapter STATIC
     src/adapter/frlg/CfruExpanded.cpp
     src/adapter/frlg/FrlgFill.cpp
     src/adapter/frlg/FrlgLive.cpp
+    src/adapter/frlg/FrlgBattle.cpp
     src/adapter/frlg/FrlgAdapter.cpp
     src/adapter/frlg/SpeciesNames.cpp
     src/adapter/frlg/SpeciesRef.cpp
@@ -194,6 +215,7 @@ add_executable(emulocke
     src/application/Host.cpp
     src/application/SdlRuntime.cpp
     src/application/Application.cpp
+    src/application/ApplicationCalc.cpp
     src/application/ApplicationPlay.cpp
     src/application/ApplicationPrefs.cpp
     src/application/ApplicationTracker.cpp
@@ -227,6 +249,18 @@ add_executable(emulocke
     src/ui/TrackerStatus.cpp
     src/ui/BoxSprites.cpp
     src/ui/FieldLog.cpp
+    src/ui/Calculator.cpp
+    src/ui/CalculatorSearch.cpp
+    src/ui/CalculatorStrip.cpp
+    src/ui/CalculatorMatchup.cpp
+    src/ui/CalculatorHead.cpp
+    src/ui/CalculatorMoves.cpp
+    src/ui/CalculatorMoveLine.cpp
+    src/ui/CalculatorMoveRow.cpp
+    src/ui/CalculatorKo.cpp
+    src/ui/CalculatorField.cpp
+    src/ui/CalculatorStamp.cpp
+    src/ui/CalculatorChip.cpp
     src/ui/Pokemon.cpp
     src/ui/PokemonGather.cpp
     src/ui/PokemonParty.cpp
@@ -280,7 +314,7 @@ add_custom_target(emulocke-assets
         $<TARGET_FILE_DIR:emulocke>/assets)
 
 target_include_directories(emulocke PRIVATE src)
-target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_tracker emulocke_dex emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
+target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_calc emulocke_tracker emulocke_dex emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
 target_compile_definitions(emulocke PRIVATE SDL_MAIN_HANDLED)
 emulocke_stamp_target(emulocke)
 get_target_property(MGBA_COMPILE_DEFS mgba COMPILE_DEFINITIONS)
@@ -522,6 +556,14 @@ if(EMULOCKE_FUZZ)
     endforeach()
 endif()
 
+add_executable(emulocke-calc-check src/test/calc_check.cpp)
+target_include_directories(emulocke-calc-check PRIVATE src)
+target_link_libraries(emulocke-calc-check PRIVATE emulocke_calc)
+
+add_executable(emulocke-calc-pack-check src/test/calc_pack_check.cpp)
+target_include_directories(emulocke-calc-pack-check PRIVATE src)
+target_link_libraries(emulocke-calc-pack-check PRIVATE emulocke_calc)
+
 enable_testing()
 add_test(NAME adapter COMMAND emulocke-adapter-check)
 add_test(NAME tracker COMMAND emulocke-tracker-check)
@@ -530,6 +572,8 @@ add_test(NAME media COMMAND emulocke-media-check)
 add_test(NAME lifetime COMMAND emulocke-lifetime-check)
 add_test(NAME gba-host COMMAND emulocke-gba-check)
 add_test(NAME run COMMAND emulocke-run-check)
+add_test(NAME calc COMMAND emulocke-calc-check)
+add_test(NAME calc-pack COMMAND emulocke-calc-pack-check)
 if(EMULOCKE_SANITIZE)
     emulocke_apply_sanitizer_test_env()
 endif()

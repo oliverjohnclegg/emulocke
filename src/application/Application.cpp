@@ -68,9 +68,15 @@ bool Application::start(int argc, char** argv) {
     for (int i = 1; i < argc; ++i) {
         if (std::strcmp(argv[i], "--preview-tracker") == 0) {
             previewTracker_ = true;
+        } else if (std::strcmp(argv[i], "--preview-calc") == 0) {
+            previewCalc_ = true;
         } else {
             import = argv[i];
         }
+    }
+    if (previewCalc_) {
+        seedPreviewCalc();
+        return true;
     }
     if (previewTracker_) {
         seedPreviewTracker();

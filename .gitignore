@@ -25,3 +25,5 @@ firmware.bin
 bios7.bin
 bios9.bin
 build-*/
+__pycache__/
+
