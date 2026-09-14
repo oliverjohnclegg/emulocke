@@ -107,6 +107,7 @@ private:
     void emuLoop();
     void pollSpeedUp(const bool* keys);
     void applyPendingHost();
+    void syncWindowToScale();
     void drainPending();
     void importPath(const std::string& path);
     void showDumpPicker();

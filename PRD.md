@@ -33,7 +33,7 @@ Left column is the game. Right column is the suite.
 - Two-screen games: stacked screens (256x192), top then bottom, 5px between them when the left pane allows. Mouse on the bottom pane is the stylus.
 - One-screen games: stacked wells (240x160) in that same left pane, game then party LCD, 5px between them. Party LCD is suite chrome (box sprites, HP), not a second framebuffer. Not a stylus target. View > Bottom Screen turns it off; the game well stays integer-scaled and sits vertically centered in the left pane.
 - 21px graphite around the left pane. Not between the two screens. Same 21px below and to the right of the suite.
-- Left pane stays the home column size when a cart seats. Screens integer-scale inside it. View > Screen Scale is the explicit size control. Default window fits 2x two-screen plus a 460px suite.
+- View > Screen Scale resizes the whole window so the screens fill the left pane at that integer size. The suite column scales with it (230px at 1x, 460px at 2x). Fit keeps the current window and integer-scales inside it. Default window fits 2x two-screen plus a 460px suite.
 - View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
 - Right column is the suite. Tabs hold each function. Tracker is first. Pokémon is second. Logs is third. Every catalog title is represented: Tracker fills from a static atlas plus adapter facts. Difficulty is derived from the cart when the hack has an in-game setting. Pokémon lists the live party (with HP), boxed mons as box sprites, and a Grave of tracker-dead mons. Logs shows trainer, map, party, and badges for supported games.
 - With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, empty until a represented title is seated.
@@ -212,7 +212,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Home playtime is host wall clock as `HH:MM`, not the in-game save clock. Tab speed-up does not advance it.
 - 2026-09-13: `main` is Stable, `dev` is Vanguard. Stamped instance names and window captions: version on Stable, commit hash on Vanguard.
 - 2026-09-13: Vanguard keeps the Stable mark and recasts the parchment metal as oxidized field-steel.
-- 2026-09-13: Left game pane keeps the home column size for DS and GBA. Screens integer-scale inside that pane.
+- 2026-09-14: View > Screen Scale snaps the window to the LCD cluster so the screens fill the left pane. The suite column scales with the same integer size. Fit keeps the current window.
 - 2026-09-13: Game art fills 256x192. Official DS titles crop to the top screen. Catalog hacks ship original 256x192 stills.
 - 2026-09-13: Tracker atlases for every catalog title. Difficulty is derived from the cart, not a New Run picker. FRLG is no longer the only atlas.
 - 2026-09-13: New Run hack rows show a `by [creator]` stamp.

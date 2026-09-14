@@ -6,6 +6,7 @@
 #include "ui/Layout.hpp"
 #include "ui/Suite.hpp"
 #include "ui/Theme.hpp"
+#include "ui/WindowFit.hpp"
 
 #include <imgui.h>
 #include <algorithm>
@@ -61,27 +62,26 @@ void drawRightSuite(Application& app, float insetX, float insetY) {
     drawSuite(app, ImVec2(suiteAvail.x - insetX, suiteAvail.y - insetY));
 }
 
-void drawConsoleScreens(Application& app, EmuSession& session) {
+void drawConsoleScreens(Application& app, EmuSession& session, ImVec2 pane) {
     const bool nds = session.kind() == ConsoleKind::Nds;
     const bool partyLcd = !nds && app.prefs().bottomScreen;
     const int nativeW = session.screenWidth(0);
     const int nativeH = session.screenHeight(0);
     const int screens = (nds || partyLcd) ? 2 : 1;
-    const ImVec2 pane = ImGui::GetContentRegionAvail();
-    const int scale = resolveScreenScale(app.screenScale(), nativeW, nativeH, screens, pane.x, pane.y);
-    const ImVec2 screen(static_cast<float>(nativeW * scale), static_cast<float>(nativeH * scale));
-    const float gap = screenStackGap(nds || partyLcd, pane.y, screen.y * static_cast<float>(screens));
-    const float x = (pane.x - screen.x) * 0.5f;
-    const float y = (nds || partyLcd) ? 0.f : std::max(0.f, (pane.y - screen.y) * 0.5f);
-    ImGui::SetCursorPos(ImVec2(x, y));
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(kScreenGap, gap));
+    const ImVec2 win = ImGui::GetWindowSize();
+    const LcdLayout lcd = layoutLcds(app.screenScale(), nativeW, nativeH, screens, std::max(pane.x, win.x),
+        std::max(pane.y, win.y));
+    const ImVec2 screen(lcd.screenW, lcd.screenH);
+    ImGui::SetCursorPos(ImVec2(lcd.x, lcd.y));
     drawScreen("top", app.screen(0), screen, app.paused(), false, app);
-    if (nds) {
-        drawScreen("bottom", app.screen(1), screen, app.paused(), true, app);
-    } else if (partyLcd) {
-        drawGbaPartyLcd(app, screen);
+    if (nds || partyLcd) {
+        ImGui::SetCursorPos(ImVec2(lcd.x, lcd.y + lcd.screenH + lcd.gap));
+        if (nds) {
+            drawScreen("bottom", app.screen(1), screen, app.paused(), true, app);
+        } else {
+            drawGbaPartyLcd(app, screen);
+        }
     }
-    ImGui::PopStyleVar();
 }
 
 }  // namespace
@@ -91,25 +91,32 @@ void drawShell(Application& app) {
     const float insetX = kConsolePad - ImGui::GetStyle().WindowPadding.x;
     const float insetY = kConsolePad - ImGui::GetStyle().WindowPadding.y;
     const bool showRight = app.prefs().rightPane;
-    const float rightSpan = showRight ? kRightPaneSpan : 0.f;
-    const ImVec2 left(consoleLeftWidth(avail.x, ImGui::GetStyle().WindowPadding.x, rightSpan),
+    EmuSession* session = app.session();
+    const int uiScale = (session && app.screenScale() > 0) ? app.screenScale() : 0;
+    const float rightSpan = showRight ? rightPaneSpanForScale(uiScale) : 0.f;
+    ImVec2 left(consoleLeftWidth(avail.x, ImGui::GetStyle().WindowPadding.x, rightSpan),
         consoleLeftHeight(avail.y, ImGui::GetStyle().WindowPadding.y));
+    if (session && app.screenScale() <= 0
+        && (session->kind() == ConsoleKind::Nds || app.prefs().bottomScreen)) {
+        left.y += kScreenGap;
+    }
     const ImVec2 cursor = ImGui::GetCursorPos();
     ImGui::SetCursorPos(ImVec2(cursor.x + insetX, cursor.y + insetY));
-    EmuSession* session = app.session();
     if (session) {
         ImGui::PushStyleColor(ImGuiCol_ChildBg, kChassis);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
     }
     ImGui::BeginChild("left", left, ImGuiChildFlags_None, ImGuiWindowFlags_NoScrollbar);
     if (session) {
-        ImGui::PopStyleVar();
-        ImGui::PopStyleColor();
-        drawConsoleScreens(app, *session);
+        drawConsoleScreens(app, *session, left);
     } else {
         drawHome(app);
     }
     ImGui::EndChild();
+    if (session) {
+        ImGui::PopStyleVar();
+        ImGui::PopStyleColor();
+    }
     if (showRight) {
         ImGui::SameLine(0.f, kConsolePad);
         drawRightSuite(app, insetX, insetY);
