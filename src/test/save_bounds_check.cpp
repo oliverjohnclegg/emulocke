@@ -48,6 +48,23 @@ void checkGen5() {
     REQUIRE(emulocke::readGen5Save(exact, snap, true));
 }
 
+void checkPk45() {
+    std::vector<uint8_t> plain(emulocke::kPk4PartySize, 0);
+    emulocke::store32(plain.data(), 0x12345678);
+    emulocke::store16(plain.data() + 8, 25);
+    plain[0x8C] = 7;
+    std::vector<uint8_t> oversized(emulocke::kPk4PartySize + 64, 0);
+    REQUIRE(emulocke::encryptPk45(plain, oversized));
+    const std::span<const uint8_t> encrypted(oversized);
+    emulocke::Mon mon{};
+    REQUIRE(!emulocke::parsePk45(encrypted, false, mon));
+    REQUIRE(emulocke::parsePk45(encrypted.first(emulocke::kPk4PartySize), false, mon));
+    REQUIRE(mon.level == 7);
+    REQUIRE(!emulocke::parsePk45(encrypted.first(emulocke::kPkStoredSize - 1), false, mon));
+    REQUIRE(emulocke::parsePk45(encrypted.first(emulocke::kPkStoredSize), false, mon));
+    REQUIRE(mon.level == 0);
+}
+
 }  // namespace
 
 void testSaveBounds() {
@@ -55,4 +72,5 @@ void testSaveBounds() {
     checkGen4(emulocke::ptLayout());
     checkGen4(emulocke::hgssLayout());
     checkGen5();
+    checkPk45();
 }
