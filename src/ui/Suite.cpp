@@ -3,6 +3,7 @@
 #include "application/Application.hpp"
 #include "ui/FieldLog.hpp"
 #include "ui/Calculator.hpp"
+#include "ui/Pokemon.hpp"
 #include "ui/Theme.hpp"
 #include "ui/Tracker.hpp"
 
@@ -34,6 +35,10 @@ void drawSuite(Application& app, ImVec2 size) {
     if (ImGui::BeginTabBar("suite-tabs", ImGuiTabBarFlags_DrawSelectedOverline | ImGuiTabBarFlags_NoTooltip)) {
         if (ImGui::BeginTabItem("Tracker")) {
             suitePane("tracker", drawTracker, app);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Pokémon")) {
+            suitePane("pokemon", drawPokemon, app);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Logs")) {

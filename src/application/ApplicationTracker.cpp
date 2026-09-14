@@ -2,15 +2,23 @@
 
 #include "adapter/GameAdapter.hpp"
 #include "adapter/frlg/FrlgNames.hpp"
+#include "adapter/gen45/Names.hpp"
+#include "application/PreviewSuite.hpp"
 #include "emu/Paths.hpp"
 #include "poke/Sprites.hpp"
+#include "run/Catalog.hpp"
+#include "run/RunMeta.hpp"
 #include "tracker/Atlas.hpp"
+#include "tracker/Difficulty.hpp"
 #include "tracker/frlg/Frlg.hpp"
 #include "tracker/Log.hpp"
 #include "ui/BoxSprites.hpp"
 #include "ui/MediaFetch.hpp"
 #include "ui/PngCache.hpp"
 #include "run/SavePeek.hpp"
+
+#include <cstring>
+#include <string_view>
 
 namespace emulocke {
 
@@ -34,19 +42,28 @@ const GameAdapter* Application::adapter() const {
 
 SpeciesRef Application::species(uint16_t id) const {
     if (const GameAdapter* live = adapter()) {
-        return live->species(id);
+        const SpeciesRef ref = live->species(id);
+        if (ref.slug && ref.slug[0] && std::strcmp(ref.slug, "???") != 0) {
+            return ref;
+        }
     }
     if (previewTracker_) {
         return frlgSpeciesRef(id);
     }
-    return {};
+    if (const TrackerAtlas* atlas = trackerAtlas()) {
+        const uint16_t mapped = trackerSpeciesId(atlas->id, id);
+        if (mapped != id) {
+            return nationalSpeciesRef(mapped);
+        }
+    }
+    return nationalSpeciesRef(id);
 }
 
 const TrackerAtlas* Application::trackerAtlas() const {
     if (!activeRunId_.empty() && runStore_) {
         const Run* run = runStore_->find(activeRunId_);
         if (run) {
-            return emulocke::trackerAtlas(run->catalogUuid, run->difficulty);
+            return emulocke::trackerAtlas(run->catalogUuid, run->difficulty, run->patchOption);
         }
     }
     if (previewTracker_) {
@@ -56,29 +73,29 @@ const TrackerAtlas* Application::trackerAtlas() const {
 }
 
 void Application::seedPreviewTracker() {
-    trackerLog_ = {};
-    trackerLog_.setCaught("starter", 1, 1);
-    trackerLog_.setCaught("route-1", 16, 1);
-    trackerLog_.setCaught("route-2", 25, 1);
-    trackerLog_.setCaught("viridian-forest", 10, 1);
-    trackerLog_.setStatus("viridian-forest", EncounterStatus::Dead);
-    trackerLog_.setCaught("route-3", 19, 1);
-    trackerLog_.setCaught("mt-moon", 41, 1);
-    trackerLog_.setCaught("route-4", 129, 1);
-    trackerLog_.setStatus("route-4", EncounterStatus::Missed);
-    trackerLog_.setCaught("digletts-cave", 50, 1);
-    trackerLog_.setCaught("celadon-city", 122, 1);
-    trackerLog_.setStatus("celadon-city", EncounterStatus::Traded);
-    trackerLog_.setCaught("power-plant", 145, 1);
-    trackerLog_.setDefeated("rival-1", true);
-    trackerLog_.setDefeated("brock", true);
-    trackerLog_.setDefeated("misty", true);
-    trackerLog_.clearDirty();
+    seedPreviewSuite(trackerLog_, snapshot_);
 }
 
 void Application::syncTracker(const GameSnapshot& snap) {
+    if (!snap.ok) {
+        return;
+    }
+    if (!activeRunId_.empty() && runStore_) {
+        Run* run = runStore_->find(activeRunId_);
+        if (run && snap.progress.difficulty[0] &&
+            (run->catalogUuid == kRadicalRedUuid || run->catalogUuid == kUnboundUuid)) {
+            const CatalogTitle* title = catalogByUuid(run->catalogUuid);
+            const std::string_view slug = title ? title->slug : "";
+            const std::string_view cart = snap.progress.difficulty;
+            if (run->difficulty.empty() ||
+                atlasDifficultyKey(slug, cart) != atlasDifficultyKey(slug, run->difficulty)) {
+                run->difficulty = cart;
+                writeRunMeta(runStore_->dir(activeRunId_), *run);
+            }
+        }
+    }
     const TrackerAtlas* atlas = trackerAtlas();
-    if (!atlas || !snap.ok) {
+    if (!atlas) {
         return;
     }
     applyTrackerFill(trackerLog_, *atlas, snap);

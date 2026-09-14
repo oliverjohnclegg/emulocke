@@ -44,6 +44,7 @@ struct Mon {
     uint8_t evSpd{};
     uint8_t nature{};
     uint8_t abilityNum{};
+    uint32_t experience{};
     MonGender gender{MonGender::Unknown};
     bool shiny{};
     bool egg{};
@@ -97,6 +98,7 @@ struct Gyms {
 struct Progress {
     uint16_t starterSpecies{};
     uint8_t badges{};
+    char difficulty[16]{};
     std::array<uint8_t, kFlagBankBytes> flags{};
 };
 

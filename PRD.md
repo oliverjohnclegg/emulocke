@@ -31,26 +31,25 @@ Stock emulators play the game and nothing else. Existing nuzlocke tools live in 
 Left column is the game. Right column is the suite.
 
 - Two-screen games: stacked screens (256x192), top then bottom, 5px between them when the left pane allows. Mouse on the bottom pane is the stylus.
-- One-screen games: one screen well (240x160) in that same left pane. No empty bottom tile.
+- One-screen games: stacked wells (240x160) in that same left pane, game then party LCD, 5px between them. Party LCD is suite chrome (box sprites, HP), not a second framebuffer. Not a stylus target. View > Bottom Screen turns it off; the game well stays integer-scaled and sits vertically centered in the left pane.
 - 21px graphite around the left pane. Not between the two screens. Same 21px below and to the right of the suite.
-- Left pane stays the home column size when a cart seats. Screens integer-scale inside it. View > Screen Scale is the explicit size control. Default window fits 2x two-screen plus a 460px suite.
+- View > Screen Scale resizes the whole window so the screens fill the left pane at that integer size. The suite column scales with it (230px at 1x, 460px at 2x). Fit keeps the current window and integer-scales inside it. Default window fits 2x two-screen plus a 460px suite.
 - View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
-- Right column is the suite. Tabs hold each function. Tracker is first. Logs is second. Calculator is third. Supported FRLG runs fill Tracker from a static atlas plus adapter facts. Unsupported or unrepresented titles show an empty plate. Logs shows trainer, map, party, and badges for supported games. Calculator searches trainers and locations, then reads damage into the current party. A title is represented only when we ship every trainer battle plus that game's stat/type/ability/move tables. Cartridge generation is not damage generation. CFRU titles do not inherit FireRed gen 3 math.
-- With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, Logs, and Calculator. Tracker is empty until a represented title is seated.
-
+- Right column is the suite. Tabs hold each function. Tracker is first. Pokémon is second. Logs is third. Calculator is fourth. Every catalog title is represented: Tracker fills from a static atlas plus adapter facts. Difficulty is derived from the cart when the hack has an in-game setting. Pokémon lists the live party (with HP), boxed mons as box sprites, and a Grave of tracker-dead mons. Logs shows trainer, map, party, and badges for supported games. Calculator searches trainers and locations, then reads damage into the current party. A title is represented only when we ship every trainer battle plus that game's stat/type/ability/move tables. Cartridge generation is not damage generation. CFRU titles do not inherit FireRed gen 3 math.
+- With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. The right column stays Tracker, Pokémon, Logs, and Calculator. Tracker is empty until a represented title is seated.
 
 Integer-scale nearest-neighbor. Letterbox outside the bezels, never inside them. Do not smear pixels.
 
 ## V1 (this pass)
 
-A playable host. Suite is Tracker, Logs, then Calculator.
+A playable host. Suite is Tracker, Pokémon, Logs, then Calculator.
 
 - File > Import Game copies a verified baseline dump into the SDL pref library as `roms/baselines/<uuid>.gba` (or `.nds`). SHA-1 must match a catalog row. Hacks are never imported.
 - File > Import Game / Start New Attempt / Close Run. No New Run or Load Run in the menu. No Open Game. No `roms/` drop folder.
-- Home START RUN opens New Run. New Run lists every catalog title as a strip (art, name with version in the title, region), including the 12 hacks as games. Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library.
+- Home START RUN opens New Run. New Run lists every catalog title as a strip (art, name with version in the title, region), including the 12 hacks as games. Missing baselines and hacks whose prerequisite is missing stay listed, greyed, with hover copy and click-to-import. `START RUN` stays disabled until the dump is in the library. The bottom-right `Import from Existing .sav` button copies a picked `.sav` into the new run as `battery.sav` and starts it. Same dump gate as `START RUN`.
 - Blaze Black and Volt White show Optional Patches (Full default, or Clean). The choice is stored on the run. Other hacks have a single bundled patch.
 - Starting a hack run applies the bundled IPS/UPS/BPS/xdelta onto the imported baseline if `roms/derived/<uuid>[-option].ext` is not already there.
-- One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage.
+- One game can have many runs; a run can have many attempts. NEW ATTEMPT clones settings, ticks the counter, and replaces the previous attempt of that lineage. File > Start New Attempt and the home plus ask first: this ends the current attempt and deletes its save.
 - CLI `emulocke /path/to/dump` imports a known baseline and opens New Run. It does not silent-boot.
 - 60fps video in the left column once a run is seated
 - Audio
@@ -59,17 +58,17 @@ A playable host. Suite is Tracker, Logs, then Calculator.
 - Battery saves live in the run folder (`battery.sav`), never beside the ROM
 - Pause, reset, and speed-up (Tab, default 3x). Emulation > Speed-up holds the 2x-8x slider and Hold Tab vs toggle.
 - One run at a time; ROM extension picks the core
-- View: fullscreen, right pane (F8), screen scale Fit / 1x / 2x / 3x / 4x, restore default window
+- View: fullscreen, right pane (F8), screen scale Fit / 1x / 2x / 3x / 4x, bottom screen (party LCD, default on), restore default window
 - Audio: mute and volume
 - Help: controls (read-only) and about
 - Prefs persist in the SDL pref path as `prefs.ini`
 - Rules are stored on the run. The cores do not enforce them.
-- Tracker is a compact location/boss list. FRLG is represented. Radical Red and Unbound are not. Difficulty is an atlas key persisted as `difficulty=` on `meta.ini`. Encounter state lives in `tracker.ini` on the run.
+- Tracker is a compact location/boss list. Every catalog title is represented. Difficulty is derived from the seated cart and persisted as `difficulty=` on `meta.ini`. Encounter state lives in `tracker.ini` on the run.
+- Pokémon is party wells with HP bars, boxed mons sorted by BST, then Grave: the same grid, greyscale, tracker-dead only. Click copies a Showdown set. Hover shows the same fields. Vanilla national-dex names and BST.
 
 ## V1 non-goals
 
 - QoL and other nuzlocke.app-adjacent tools not yet seated as tabs
-
 - Emulator lab tools (save states, rewind, cheats, disassemblers, memory viewers, movies, Lua, filters, HUD)
 - Frame skip (later cherry-pick)
 - Input remapping
@@ -87,8 +86,7 @@ Recorded so later work does not invent the product twice:
 - QoL tools
 - More as decided in this project
 - On-demand sprite cache (`SpriteCache`, `emulocke-sprite-check`): nuzlocke-style slugs, box + 2D front + 2D back. Missing box/front use a bundled `?`. Missing back uses that Pokemon's front. Tracker draws box sprites for caught species and boss teams. Home plates use box sprites.
-
-- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Missing uses a generated black plate. New Run shows this art at 64x48. Home plates use title art.
+- On-demand game art cache (`GameArtCache`, `emulocke-game-art-check`): slug-keyed 256x192 title PNG. Official titles cover-crop into that well (DS Named_Titles are stacked 256x384; the top screen is kept). Missing uses a generated black plate. New Run shows this art at 64x48. Home plates use title art.
 
 ## Calculator
 
@@ -108,9 +106,9 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 - Latest revision we have is the live identity. When a newer dump ships, older revisions move to `src/adapter/archive/`.
 - Read-only for now. RAM writes (QoL cheats) are a separate interface later.
 - Nuzlocke rules, damage math, and encounter tracking are suite concerns, not adapter concerns.
-- Static route order, catch keys, and boss teams live in a suite `TrackerAtlas` keyed by catalog UUID and difficulty. The adapter never owns that list (hacks still identify as FireRed carts).
-- A title is represented only when that atlas exists. FRLG is represented. Radical Red and Unbound return null until they have their own atlas.
-- `GameAdapter::species(id)` returns national id, sprite slug, and display name. `GameSnapshot.progress` holds starter, badges, and flag bytes. A later hack adapter must supply species and flag layout for its atlas.
+- Static route order, catch keys, and boss teams live in a suite `TrackerAtlas` keyed by catalog UUID, derived difficulty, and patch option. The adapter never owns that list (hacks still identify as FireRed carts).
+- A title is represented only when that atlas exists. Every catalog UUID returns an atlas. Version twins share one. In-game difficulty picks a variant where teams diverge (Radical Red Hardcore, Unbound Expert).
+- `GameAdapter::species(id)` returns national id, sprite slug, and display name. When that is empty, Tracker resolves national ids through the sprite index. `GameSnapshot.progress` holds starter, badges, difficulty, and flag bytes.
 - Adding a pure virtual on `GameAdapter` is how a new suite data need flags every adapter in CI.
 - If the suite needs a cart fact, add it to `GameSnapshot` and fill it in the adapter. A missing field is work, not a reason to drop the surface. Unimplemented titles leave the new fields zero.
 
@@ -120,7 +118,9 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 
 ## Platforms
 
-Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree must produce `emulocke.exe` on `windows-latest`. GitHub Actions uploads both binaries as artifacts on push. Native compile on each OS, not cross-compile.
+Linux/WSL is the development gate. Windows is a CI gate: the same CMake tree must produce a Windows instance on `windows-latest`. `main` is Stable; `dev` is Vanguard. GitHub Actions stamps and uploads both OS instances on push. Native compile on each OS, not cross-compile.
+
+Stable instance names: `emulocke-vX.X.X-win-x64.exe` and `emulocke-vX.X.X-linux-x64`. Vanguard: `emulocke-vanguard-<commit>-win-x64.exe` and `emulocke-vanguard-<commit>-linux-x64`. Window caption is `Emulocke vX.X.X` (Stable) or `Emulocke VANGUARD [<commit>]` (Vanguard); a seated run appends ` - Pokémon <title>`.
 
 ## Tech
 
@@ -163,7 +163,7 @@ Gamepad: standard SDL mapping.
 
 ## Design
 
-Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Tracker is first, Logs second. Compact chrome: primary actions stay named; secondary actions in dense chrome are icons with the name on hover.
+Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal hairlines, scarce crimson for pause. M PLUS Rounded 1c display, Fira Sans body. Suite tabs sit on a recessed rail; Tracker is first, Pokémon second, Logs third. Compact chrome: primary actions stay named; secondary actions in dense chrome are icons with the name on hover.
 
 ## Decisions
 
@@ -173,7 +173,7 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 | SDL3 + Dear ImGui, themed | Low-latency host. Suite can grow in the right pane later. Qt is the stock emulator look. Tauri adds IPC latency. |
 | Native cores, not libretro | This project named the standalone melonDS and mGBA repos. Native APIs also expose RAM/save for a later suite. |
 | Software 3D (no melonDS GL renderer) | Avoid sharing a GL context with ImGui. Fine for V1 on PC. |
-| One-screen games use one left pane | A 2x2 grid leaves a dead bottom-left tile. |
+| One-screen games stack game + party LCD | A 2x2 grid leaves a dead bottom-left tile. Party LCD is chrome, not a second core screen. |
 | FreeBIOS / generated firmware | Play DS Pokemon without shipping or requiring dumps. |
 | One session at a time | No dual-core process. Extension selects the core. |
 | Baseline View/Audio prefs in V1 | Window, scale, mute, and volume are how you play, not lab tools. |
@@ -181,17 +181,17 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 | Windows via MSVC in CI | Same CMake tree. Dynlib uses LoadLibrary. Pref path is SDL. JIT off on MSVC (no GNU `.S` assembler). |
 | Other chats are out of scope | Greenfield. Only this document and this repo set requirements. |
 | Sprite cache downloads at runtime | PokeAPI/PokéSprite/bamq host the pixels. Pref cache, not git. Box: PokéSprite then bamq Gen 9 then PokeAPI gen8 icons. Front/back: PokeAPI BW-style. Credits: PokeAPI, msikma/pokesprite, National Dex Version Delta (bamq), Smogon for fan 2D past 649. |
-| Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, letterboxed. Hacks use bundled stills if present, otherwise a black title plate. Pref cache, not git. |
+| Game art cache downloads at runtime | Slug in, 256x192 PNG out. Official titles from libretro Named_Titles, cover-cropped (DS stacked titles keep the top 256x192). Hacks use bundled stills if present, otherwise a black title plate. Pref cache, not git. |
 | Host playtime per title and per run | New Attempt deletes the old folder, so title totals cannot be summed from leftover runs. Unpaused seated wall clock. Home plates show `HH:MM`. Speed-up does not count. No suite UI. |
 
 ## V1 success
 
 1. The tree builds on the Linux/WSL machine used for development.
-2. GitHub Actions builds Linux and Windows artifacts on push (`emulocke` and `emulocke.exe`).
+2. GitHub Actions builds stamped Linux and Windows instances on push (Stable from `main`, Vanguard from `dev`).
 3. A verified Fire Red US 1.0 dump imports as its catalog UUID. Unknown files are refused.
 4. Video, audio, keyboard, gamepad, pause, reset, speed-up, and run-folder `battery.sav` creation work.
 5. Two-screen games show both screens; clicks on the bottom pane map to stylus.
-6. One-screen games use a single left pane; FRLG fills Tracker and Logs from the adapter snapshot plus the FRLG atlas.
+6. One-screen games stack game + party LCD in the left pane; represented titles fill Tracker from the adapter snapshot plus that title's atlas. FRLG still auto-fills from flags and badges.
 7. View, Audio, and Help work. Prefs survive a relaunch.
 
 ## Changelog
@@ -222,4 +222,13 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: Left game pane keeps the home column size for DS and GBA. Screens integer-scale inside that pane.
 - 2026-09-13: Calculator tab. Trainer/location search, FRLG trainer pack from pret, Smogon-faithful gen 3 damage, live FRLG battle overlay. Radical Red and Unbound have no pack. `--preview-calc` fixtures the tab.
 - 2026-09-13: Calculator board is party rail, exchange, foe rail. Foe moves show pret AI usage percents.
-
+- 2026-09-13: `main` is Stable, `dev` is Vanguard. Stamped instance names and window captions: version on Stable, commit hash on Vanguard.
+- 2026-09-13: Vanguard keeps the Stable mark and recasts the parchment metal as oxidized field-steel.
+- 2026-09-14: View > Screen Scale snaps the window to the LCD cluster so the screens fill the left pane. The suite column scales with the same integer size. Fit keeps the current window.
+- 2026-09-13: Game art fills 256x192. Official DS titles crop to the top screen. Catalog hacks ship original 256x192 stills.
+- 2026-09-13: Tracker atlases for every catalog title. Difficulty is derived from the cart, not a New Run picker. FRLG is no longer the only atlas.
+- 2026-09-13: New Run hack rows show a `by [creator]` stamp.
+- 2026-09-13: New Run can seed `battery.sav` from an existing `.sav` via `Import from Existing .sav`.
+- 2026-09-13: Pokémon suite tab. Live party wells with HP bars, boxed mons sorted by BST, Grave for tracker-dead greyscale sprites. Hover shows the Showdown fields. Click copies the set.
+- 2026-09-13: One-screen games stack a party LCD under the game. 2x3 box sockets, HP tracks, occasional hop.
+- 2026-09-13: View > Bottom Screen toggles the GBA party LCD. Off fills the left pane and centers the game well.

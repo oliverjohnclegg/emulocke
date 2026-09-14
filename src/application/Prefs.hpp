@@ -15,6 +15,7 @@ struct Prefs {
     int volume = 100;
     int speedUp = 3;
     bool speedUpHold = true;
+    bool bottomScreen = true;
 
     static Prefs load();
     void save() const;

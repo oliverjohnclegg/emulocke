@@ -25,7 +25,7 @@ std::filesystem::path bundledArt(std::string_view slug) {
 GameArtCache::GameArtCache(std::filesystem::path cacheDir) : cacheDir_(std::move(cacheDir)) {}
 
 std::filesystem::path GameArtCache::cacheFile(std::string_view slug) const {
-    return cacheDir_ / (normalizeSlug(slug) + ".png");
+    return cacheDir_ / "fit" / (normalizeSlug(slug) + ".png");
 }
 
 std::filesystem::path GameArtCache::plateFile(std::string_view slug) const {
@@ -81,6 +81,9 @@ std::filesystem::path GameArtCache::get(std::string_view slug) {
         if (isCachedArt(cached)) {
             return cached;
         }
+        if (isCachedArt(bundledArt(slug))) {
+            return bundledArt(slug);
+        }
         if (misses_.count(key)) {
             return ensurePlate(slug);
         }
@@ -95,7 +98,7 @@ std::filesystem::path GameArtCache::get(std::string_view slug) {
             }
             std::error_code ec;
             std::filesystem::create_directories(cached.parent_path(), ec);
-            if (writeLetterboxedPng(*bytes, cached) && isCachedArt(cached)) {
+            if (writeFittedPng(*bytes, cached) && isCachedArt(cached)) {
                 return cached;
             }
             misses_.insert(key);

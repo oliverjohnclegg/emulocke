@@ -1,5 +1,6 @@
 #include "adapter/frlg/FrlgLive.hpp"
 
+#include "adapter/frlg/CfruExpanded.hpp"
 #include "adapter/frlg/FrlgBattle.hpp"
 #include "adapter/frlg/FrlgLayout.hpp"
 #include "adapter/frlg/FrlgNames.hpp"
@@ -46,14 +47,11 @@ void fillSnapshotFromFrlgLive(const LiveMemory& mem, GameSnapshot& snap) {
         snap.trainer.playSeconds = block2[0x11];
     }
 
-    uint8_t count = 0;
-    mem.read(kFrlgPartyCount, {&count, 1});
-    if (count > 6) {
-        count = 6;
-    }
-    snap.party.count = count;
-    std::array<uint8_t, kPartyMonSize * 6> party{};
-    if (copy(mem, kFrlgParty, party)) {
+    auto pullParty = [&](uint32_t addr) {
+        std::array<uint8_t, kPartyMonSize * 6> party{};
+        if (!copy(mem, addr, party)) {
+            return;
+        }
         for (uint8_t i = 0; i < 6; ++i) {
             DecryptedMon dec;
             if (!decryptPartyMon({party.data() + i * kPartyMonSize, kPartyMonSize}, dec)) {
@@ -61,7 +59,29 @@ void fillSnapshotFromFrlgLive(const LiveMemory& mem, GameSnapshot& snap) {
             }
             snap.party.mons[i] = toSnapshotMon(dec);
         }
+    };
+    pullParty(kFrlgParty);
+    uint8_t count = 0;
+    mem.read(kFrlgPartyCount, {&count, 1});
+    if (count > 6) {
+        count = 6;
     }
+    if (snap.party.mons[0].species == 0) {
+        pullParty(sb1 + kFrlgPartyOff);
+        count = 0;
+        mem.read(sb1 + kFrlgPartyCountOff, {&count, 1});
+        if (count > 6) {
+            count = 6;
+        }
+    }
+    if (count == 0) {
+        for (uint8_t i = 0; i < 6; ++i) {
+            if (snap.party.mons[i].species != 0) {
+                count = static_cast<uint8_t>(i + 1);
+            }
+        }
+    }
+    snap.party.count = count;
 
     uint8_t loc[2]{};
     if (copy(mem, sb1 + kFrlgMapGroupOff, loc)) {
@@ -84,6 +104,7 @@ void fillSnapshotFromFrlgLive(const LiveMemory& mem, GameSnapshot& snap) {
         snap.gyms.earned = block1[kFrlgBadgeByteOff];
     }
     fillFrlgBattle(mem, snap);
+    fillCfruDifficultyLive(mem, snap);
     snap.ok = true;
 }
 

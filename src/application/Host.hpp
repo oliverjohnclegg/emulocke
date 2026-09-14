@@ -18,7 +18,10 @@ public:
     void restoreDefaultSize();
     void adjustWidth(int delta);
     void setWindowSize(int w, int h);
+    void sizeToContent(int logicalW, int logicalH);
+    void contentWindowSize(int logicalW, int logicalH, int& w, int& h) const;
     void captureWindowed(Prefs& prefs) const;
+    void setTitle(const char* title);
 
 private:
     SDL_Window* window_{};

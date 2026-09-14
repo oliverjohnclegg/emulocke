@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
-project(emulocke LANGUAGES C CXX)
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" EMULOCKE_VERSION)
+string(STRIP "${EMULOCKE_VERSION}" EMULOCKE_VERSION)
+project(emulocke VERSION ${EMULOCKE_VERSION} LANGUAGES C CXX)
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/BuildStamp.cmake")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -122,6 +125,7 @@ add_library(emulocke_adapter STATIC
     src/adapter/gen3/MonFacts.cpp
     src/adapter/gen3/BoxHeader.cpp
     src/adapter/frlg/FrlgSave.cpp
+    src/adapter/frlg/CfruExpanded.cpp
     src/adapter/frlg/FrlgFill.cpp
     src/adapter/frlg/FrlgLive.cpp
     src/adapter/frlg/FrlgBattle.cpp
@@ -134,6 +138,7 @@ add_library(emulocke_adapter STATIC
     src/adapter/rse/RseLive.cpp
     src/adapter/rse/RseAdapter.cpp
     src/adapter/gen45/Names.cpp
+    src/adapter/gen45/SpeciesRef.cpp
     src/adapter/gen45/Crypto.cpp
     src/adapter/gen45/Text.cpp
     src/adapter/gen45/Parse.cpp
@@ -144,19 +149,47 @@ add_library(emulocke_adapter STATIC
     src/adapter/bw/BwAdapter.cpp)
 target_include_directories(emulocke_adapter PUBLIC src)
 
+file(GLOB EMULOCKE_TRACKER_ATLASES CONFIGURE_DEPENDS
+    src/tracker/rse/*.cpp
+    src/tracker/dp/*.cpp
+    src/tracker/pt/*.cpp
+    src/tracker/hgss/*.cpp
+    src/tracker/bw/*.cpp
+    src/tracker/b2w2/*.cpp
+    src/tracker/blazevolt/*.cpp
+    src/tracker/vw2/*.cpp
+    src/tracker/sacredgold/*.cpp
+    src/tracker/renegade/*.cpp
+    src/tracker/emkaizo/*.cpp
+    src/tracker/runbun/*.cpp
+    src/tracker/incem/*.cpp
+    src/tracker/rr/*.cpp
+    src/tracker/unbound/*.cpp
+    src/tracker/fro/*.cpp
+    src/tracker/pkaizo/*.cpp)
 add_library(emulocke_tracker STATIC
     src/tracker/Atlas.cpp
+    src/tracker/Difficulty.cpp
+    src/tracker/DifficultyChoices.cpp
     src/tracker/Log.cpp
     src/tracker/LogIo.cpp
     src/tracker/Fill.cpp
     src/tracker/frlg/Stops.cpp
-    src/tracker/frlg/Teams.cpp)
+    src/tracker/frlg/Teams.cpp
+    ${EMULOCKE_TRACKER_ATLASES})
 target_include_directories(emulocke_tracker PUBLIC src)
 target_link_libraries(emulocke_tracker PUBLIC emulocke_adapter)
+
+add_library(emulocke_dex STATIC
+    src/poke/Dex.cpp
+    src/poke/Level.cpp
+    src/poke/Showdown.cpp)
+target_include_directories(emulocke_dex PUBLIC src)
 
 find_package(CURL REQUIRED)
 add_library(emulocke_sprites STATIC
     src/poke/SpriteIndex.cpp
+    src/poke/SlugLabel.cpp
     src/poke/SpriteUrls.cpp
     src/poke/HttpGet.cpp
     src/poke/SpriteCache.cpp
@@ -172,31 +205,39 @@ target_link_libraries(emulocke_sprites PUBLIC CURL::libcurl)
 
 add_executable(emulocke
     src/main.cpp
+    src/application/BuildId.cpp
     src/application/Host.cpp
     src/application/Application.cpp
     src/application/ApplicationCalc.cpp
     src/application/ApplicationPlay.cpp
     src/application/ApplicationPrefs.cpp
     src/application/ApplicationTracker.cpp
+    src/application/PreviewSuite.cpp
+    src/application/PreviewMons.cpp
     src/application/SessionControl.cpp
     src/application/AppLoop.cpp
     src/application/Prefs.cpp
     src/application/RunControl.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
+    src/ui/GbaPartyScreen.cpp
+    src/ui/GbaPartySlot.cpp
     src/ui/Home.cpp
     src/ui/NewRunModal.cpp
     src/ui/NewRunOptions.cpp
     src/ui/PresetPicker.cpp
     src/ui/GamePicker.cpp
     src/ui/GameStrip.cpp
+    src/ui/GameStripDraw.cpp
     src/ui/GameArtGpu.cpp
     src/ui/LoadingRunModal.cpp
+    src/ui/NewAttemptConfirm.cpp
     src/ui/RunList.cpp
     src/ui/Suite.cpp
     src/ui/Tracker.cpp
     src/ui/TrackerRow.cpp
     src/ui/TrackerMarks.cpp
+    src/ui/TrackerKindTip.cpp
     src/ui/TrackerStatus.cpp
     src/ui/BoxSprites.cpp
     src/ui/FieldLog.cpp
@@ -212,6 +253,12 @@ add_executable(emulocke
     src/ui/CalculatorField.cpp
     src/ui/CalculatorStamp.cpp
     src/ui/CalculatorChip.cpp
+    src/ui/Pokemon.cpp
+    src/ui/PokemonGather.cpp
+    src/ui/PokemonParty.cpp
+    src/ui/PokemonBox.cpp
+    src/ui/PokemonWell.cpp
+    src/ui/PokemonHover.cpp
     src/ui/MenuBar.cpp
     src/ui/HelpPopups.cpp
     src/ui/RunStrip.cpp
@@ -249,8 +296,9 @@ add_executable(emulocke
     src/run/TitlePlay.cpp)
 
 target_include_directories(emulocke PRIVATE src)
-target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_calc emulocke_tracker emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
+target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_calc emulocke_tracker emulocke_dex emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
 target_compile_definitions(emulocke PRIVATE SDL_MAIN_HANDLED)
+emulocke_stamp_target(emulocke)
 get_target_property(MGBA_COMPILE_DEFS mgba COMPILE_DEFINITIONS)
 if(MGBA_COMPILE_DEFS)
     target_compile_definitions(emulocke PRIVATE ${MGBA_COMPILE_DEFS})
@@ -268,8 +316,13 @@ if(MINGW)
 endif()
 if(WIN32)
     enable_language(RC)
-    target_sources(emulocke PRIVATE assets/icons/emulocke.rc)
-    set_source_files_properties(assets/icons/emulocke.rc PROPERTIES
+    if(EMULOCKE_CHANNEL STREQUAL "stable")
+        set(EMULOCKE_WIN_ICON assets/icons/emulocke.rc)
+    else()
+        set(EMULOCKE_WIN_ICON assets/icons/emulocke-vanguard.rc)
+    endif()
+    target_sources(emulocke PRIVATE ${EMULOCKE_WIN_ICON})
+    set_source_files_properties(${EMULOCKE_WIN_ICON} PROPERTIES
         INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/assets/icons")
 endif()
 
@@ -297,6 +350,11 @@ target_link_libraries(emulocke-game-art-check PRIVATE emulocke_sprites SDL3::SDL
 if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-game-art-check PRIVATE pthread)
 endif()
+add_custom_command(
+    TARGET emulocke-game-art-check POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:emulocke-game-art-check>/assets)
 
 add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
@@ -316,6 +374,7 @@ add_executable(emulocke-adapter-check
     src/test/adapter_check.cpp
     src/test/gen3_codec_check.cpp
     src/test/frlg_adapter_check.cpp
+    src/test/frlg_difficulty_check.cpp
     src/test/rse_adapter_check.cpp
     src/test/gen4_adapter_check.cpp
     src/test/gen5_adapter_check.cpp
@@ -330,9 +389,18 @@ add_executable(emulocke-tracker-check
     src/test/tracker_check.cpp
     src/test/tracker_atlas_check.cpp
     src/test/tracker_fill_check.cpp
-    src/test/tracker_rival_fill_check.cpp)
+    src/test/tracker_rival_fill_check.cpp
+    src/test/preview_suite_check.cpp
+    src/application/PreviewSuite.cpp
+    src/application/PreviewMons.cpp
+    src/run/Catalog.cpp)
 target_include_directories(emulocke-tracker-check PRIVATE src)
 target_link_libraries(emulocke-tracker-check PRIVATE emulocke_tracker emulocke_adapter)
+
+add_executable(emulocke-poke-check
+    src/test/poke_check.cpp)
+target_include_directories(emulocke-poke-check PRIVATE src)
+target_link_libraries(emulocke-poke-check PRIVATE emulocke_dex)
 
 add_executable(emulocke-frlg-live-check EXCLUDE_FROM_ALL
     src/test/frlg_live_check.cpp
@@ -377,6 +445,8 @@ endif()
 
 add_executable(emulocke-run-check
     src/test/run_check.cpp
+    src/test/BuildIdChecks.cpp
+    src/application/BuildId.cpp
     src/emu/FileBytes.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
@@ -398,6 +468,7 @@ add_executable(emulocke-run-check
     src/test/layout_check.cpp)
 target_include_directories(emulocke-run-check PRIVATE src)
 target_link_libraries(emulocke-run-check PRIVATE mgba xdelta3)
+emulocke_stamp_target(emulocke-run-check)
 if(MGBA_COMPILE_DEFS)
     target_compile_definitions(emulocke-run-check PRIVATE ${MGBA_COMPILE_DEFS})
 endif()
@@ -416,6 +487,7 @@ target_link_libraries(emulocke-calc-pack-check PRIVATE emulocke_calc)
 enable_testing()
 add_test(NAME adapter COMMAND emulocke-adapter-check)
 add_test(NAME tracker COMMAND emulocke-tracker-check)
+add_test(NAME poke COMMAND emulocke-poke-check)
 add_test(NAME gba-host COMMAND emulocke-gba-check)
 add_test(NAME run COMMAND emulocke-run-check)
 add_test(NAME calc COMMAND emulocke-calc-check)

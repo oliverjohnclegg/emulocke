@@ -10,6 +10,7 @@
 #include "run/RunStore.hpp"
 #include "run/TitlePlay.hpp"
 
+#include "test/BuildIdChecks.hpp"
 #include "test/PatchChecks.hpp"
 
 #include <mgba-util/crc32.h>
@@ -118,6 +119,31 @@ int main() {
         "run-and-bun-1.07", "inclement-emerald-1.13", "emerald-kaizo"};
     for (const char* slug : hackSlugs) {
         expect(emulocke::catalogBySlug(slug) != nullptr, slug);
+    }
+    const struct {
+        const char* slug;
+        const char* creator;
+    } hackCreators[] = {
+        {"blaze-black-3.1", "Drayano"},
+        {"volt-white-3.1", "Drayano"},
+        {"volt-white-2-redux", "AphexCubed"},
+        {"fire-red-omega", "Drayano"},
+        {"sacred-gold", "Drayano"},
+        {"platinum-kaizo", "SinisterHoodedFigure"},
+        {"renegade-platinum", "Drayano"},
+        {"radical-red-4.1", "Soupacell"},
+        {"unbound-2.1.1.1", "Skeli"},
+        {"run-and-bun-1.07", "dekzeh"},
+        {"inclement-emerald-1.13", "BuffelSaft"},
+        {"emerald-kaizo", "SinisterHoodedFigure"},
+    };
+    for (const auto& row : hackCreators) {
+        expect(std::string(emulocke::catalogBySlug(row.slug)->creator) == row.creator, row.slug);
+    }
+    for (const emulocke::CatalogTitle& title : emulocke::catalogTitles()) {
+        if (title.kind == emulocke::TitleKind::Baseline) {
+            expect(title.creator[0] == '\0', title.slug);
+        }
     }
     expect(emulocke::catalogOptionId(*emulocke::catalogByUuid(emulocke::kBlazeBlackUuid), {}) == "full",
         "bb default");
@@ -278,11 +304,15 @@ int main() {
     emulocke::RunStore optionStore(tmp / "option_runs");
     auto optRun = optionStore.create(emulocke::kBlazeBlackUuid, emulocke::regularRules(), "clean");
     expect(optRun && optRun->patchOption == "clean", "store option");
+    auto rrRun = optionStore.create(emulocke::kRadicalRedUuid, emulocke::regularRules(), "", "hardcore");
+    expect(rrRun && rrRun->difficulty == "hardcore", "store difficulty");
     {
         emulocke::RunStore reloadOpts(tmp / "option_runs");
         reloadOpts.load();
         expect(reloadOpts.find(optRun->id) && reloadOpts.find(optRun->id)->patchOption == "clean",
             "reload option");
+        expect(reloadOpts.find(rrRun->id) && reloadOpts.find(rrRun->id)->difficulty == "hardcore",
+            "reload difficulty");
     }
 
     const auto playable = lib.playableTitles();
@@ -299,6 +329,12 @@ int main() {
     auto b = store.create(emulocke::kFireRedUs10Uuid, emulocke::hardcoreRules());
     expect(a && b, "create runs");
     expect(a && a->playMs == 0, "new play 0");
+    const auto savIn = tmp / "incoming.sav";
+    const std::vector<uint8_t> savBytes{0x10, 0x20, 0x30, 0x40};
+    emulocke::writeWholeFile(savIn.string(), savBytes.data(), static_cast<uint32_t>(savBytes.size()));
+    expect(store.importBattery(a->id, savIn), "import sav");
+    expect(emulocke::readWholeFile(store.batteryPath(a->id).string()) == savBytes, "battery bytes");
+    expect(!store.importBattery("missing", savIn), "import missing run");
     expect(emulocke::runHeadline(*a) == "Pokemon Fire Red: Regular Nuzlocke  |  Attempt #1", "headline");
     expect(emulocke::formatPlayClock(0) == "00:00", "clock 0");
     expect(emulocke::formatPlayClock(59999) == "00:00", "clock under minute");
@@ -383,6 +419,7 @@ int main() {
     expect(legacyRun && legacyRun->playMs == 0, "legacy play 0");
 
     std::filesystem::remove_all(tmp);
+    fails += testBuildId();
     fails += testPatchFormats();
     fails += testLocalPatches();
     fails += testLayout();

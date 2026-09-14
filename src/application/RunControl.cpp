@@ -1,6 +1,7 @@
 #include "application/Application.hpp"
 
 #include "run/Catalog.hpp"
+#include "tracker/Difficulty.hpp"
 
 #include <string>
 
@@ -20,6 +21,7 @@ void Application::requestNewRun() {
     }
     if (const CatalogTitle* title = catalogByUuid(newRunDraft_.catalogUuid)) {
         newRunDraft_.patchOption = std::string(catalogOptionId(*title, newRunDraft_.patchOption));
+        bindTitleDifficulty(newRunDraft_.difficulty, title->slug);
     }
     newRunDraft_.rules = regularRules();
     pendingNewRun_ = true;
@@ -40,8 +42,17 @@ void Application::queueLoadRun(std::string id) {
     pendingLoadId_ = std::move(id);
 }
 
-void Application::queueNewAttempt(std::string sourceId) {
-    pendingAttemptId_ = std::move(sourceId);
+void Application::requestNewAttempt(std::string sourceId) {
+    confirmAttemptId_ = std::move(sourceId);
+}
+
+void Application::dismissNewAttempt() {
+    confirmAttemptId_.clear();
+}
+
+void Application::confirmNewAttempt() {
+    pendingAttemptId_ = std::move(confirmAttemptId_);
+    confirmAttemptId_.clear();
 }
 
 void Application::importPath(const std::string& path) {
@@ -69,6 +80,10 @@ void Application::drainPending() {
     if (pendingDumpPicker_) {
         pendingDumpPicker_ = false;
         showDumpPicker();
+    }
+    if (pendingSavPicker_) {
+        pendingSavPicker_ = false;
+        showSavPicker();
     }
     if (!pendingImport_.empty()) {
         const std::string path = std::move(pendingImport_);
@@ -107,6 +122,8 @@ void Application::drainPending() {
 }
 
 void Application::createRunFromDraft() {
+    const std::string sav = std::move(pendingImportSav_);
+    pendingImportSav_.clear();
     if (newRunDraft_.catalogUuid.empty()) {
         status_ = "Pick a game.";
         return;
@@ -116,9 +133,14 @@ void Application::createRunFromDraft() {
         status_ = romLibrary_->lastError();
         return;
     }
-    auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules, newRunDraft_.patchOption);
+    auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules, newRunDraft_.patchOption,
+                                      newRunDraft_.difficulty);
     if (!created) {
         status_ = "Failed to create run.";
+        return;
+    }
+    if (!sav.empty() && !runStore_->importBattery(created->id, sav)) {
+        status_ = "Failed to import save.";
         return;
     }
     loadRun(created->id);
@@ -158,6 +180,7 @@ void Application::loadRun(const std::string& id) {
         activeRunId_.clear();
         trackerLog_ = {};
     }
+    syncWindowTitle();
 }
 
 }

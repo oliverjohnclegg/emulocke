@@ -62,4 +62,14 @@ void testTrackerRivalFill() {
     setFlag(routeSnap.progress, emulocke::kFlagRivalRoute22 + 1);
     emulocke::applyTrackerFill(route22, *atlas, routeSnap);
     requireOnlyRival(route22, "rival-2");
+
+    const emulocke::TrackerAtlas* rr = emulocke::trackerAtlas(emulocke::kRadicalRedUuid, "");
+    REQUIRE(rr != nullptr);
+    emulocke::TrackerLog labRr;
+    emulocke::GameSnapshot rrSnap;
+    rrSnap.ok = true;
+    setFlag(rrSnap.progress, emulocke::kFlagBeatLabRival);
+    emulocke::applyTrackerFill(labRr, *rr, rrSnap);
+    REQUIRE(labRr.defeated("r1"));
+    REQUIRE(!labRr.defeated("r2"));
 }

@@ -74,11 +74,13 @@ std::optional<Run> RunStore::persist(Run run) {
     return run;
 }
 
-std::optional<Run> RunStore::create(std::string catalogUuid, NuzlockeRules rules, std::string patchOption) {
+std::optional<Run> RunStore::create(std::string catalogUuid, NuzlockeRules rules, std::string patchOption,
+                                   std::string difficulty) {
     Run run;
     run.catalogUuid = std::move(catalogUuid);
     run.rules = rules;
     run.patchOption = std::move(patchOption);
+    run.difficulty = std::move(difficulty);
     run.attempt = 1;
     run.createdAt = isoTimestamp();
     run.lastPlayedAt = run.createdAt;
@@ -112,6 +114,16 @@ bool RunStore::addPlayMs(const std::string& id, uint64_t ms) {
     }
     run->playMs += ms;
     return writeRunMeta(root_ / id, *run);
+}
+
+bool RunStore::importBattery(const std::string& id, const std::filesystem::path& source) const {
+    std::error_code exists;
+    if (!find(id) || !std::filesystem::is_regular_file(source, exists)) {
+        return false;
+    }
+    std::error_code ec;
+    std::filesystem::copy_file(source, batteryPath(id), std::filesystem::copy_options::overwrite_existing, ec);
+    return !ec;
 }
 
 std::filesystem::path RunStore::batteryPath(const std::string& id) const {

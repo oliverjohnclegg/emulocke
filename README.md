@@ -4,7 +4,7 @@
 
 # Emulocke
 
-A desktop Pokemon nuzlocking suite. One window runs the game on the left. Tracker, Logs, and Calculator live on the right.
+A desktop Pokemon nuzlocking suite. One window runs the game on the left. Tracker, Pokémon, Logs, and Calculator live on the right.
 
 Import a verified baseline dump (File > Import Game). Home START RUN scopes the expedition. Battery saves live in the app data `runs/` folder, never beside the ROM. DS boots with FreeBIOS. Do not put Nintendo BIOS, firmware, or ROMs in this repo.
 
@@ -23,18 +23,18 @@ Opens the Calculator tab on the Fire Red pack with a fixture party. No ROM requi
 ## Layout
 
 - Two-screen games: stacked screens. Mouse on the bottom pane is the stylus.
-- One-screen games: one left pane.
-- With no run seated, the left column lists expeditions. Right column: Tracker, Logs, then Calculator.
+- One-screen games: stacked screens. Bottom pane is the party LCD. View > Bottom Screen hides it and centers the game in the left pane.
+- With no run seated, the left column lists expeditions. Right column: Tracker, Pokémon, Logs, then Calculator.
 
 ## Menus
 
 - File: import a dump, start a new attempt, close the seated run. Start and load from home.
 - Emulation: pause, reset, Speed-up submenu (2x-8x, default 3x, Hold Tab or tap to toggle)
-- View: fullscreen, right pane (F8), screen scale (Fit / 1x / 2x / 3x / 4x), restore default window
+- View: fullscreen, right pane (F8), screen scale (Fit / 1x / 2x / 3x / 4x), bottom screen, restore default window
 - Audio: mute and volume
 - Help: controls and about
 
-Window size, scale, right pane, mute, volume, and speed-up persist across launches.
+Window size, scale, right pane, bottom screen, mute, volume, and speed-up persist across launches.
 
 ## Build
 
@@ -65,9 +65,23 @@ Windows (MSVC): `build/Release/emulocke.exe`
 
 Gamepad uses the standard SDL map. Pause, reset, and speed-up are under Emulation. Hold Tab is the default; uncheck it to tap Tab on and off.
 
-## CI artifacts
+## Instances
 
-Every push runs `.github/workflows/build.yml` on Ubuntu and Windows. Download `emulocke-linux-x64` or `emulocke-windows-x64` from the Actions run. Keep the `assets/` folder next to the binary.
+`main` is Stable. `dev` is Vanguard.
+
+Every push runs `.github/workflows/build.yml` on Ubuntu and Windows. Keep `assets/` next to the binary.
+
+Stable:
+
+- `emulocke-vX.X.X-win-x64.exe`
+- `emulocke-vX.X.X-linux-x64`
+
+Vanguard:
+
+- `emulocke-vanguard-<commit>-win-x64.exe`
+- `emulocke-vanguard-<commit>-linux-x64`
+
+Window caption is `Emulocke vX.X.X` on Stable and `Emulocke VANGUARD [<commit>]` on Vanguard. A seated run appends ` - Pokémon <title>`.
 
 ## License
 

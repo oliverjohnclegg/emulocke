@@ -6,6 +6,8 @@
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
 #include "run/SavePeek.hpp"
+#include "ui/Layout.hpp"
+#include "ui/WindowFit.hpp"
 #include "ui/MediaFetch.hpp"
 #include "ui/PngCache.hpp"
 
@@ -69,10 +71,19 @@ void Application::emuLoop() {
             queuedAfter = audio_.queuedBytes();
             if (adapter_ && session_->liveMemory()) {
                 snapshot_ = adapter_->readLive(*session_->liveMemory());
-                if ((!snapshot_.ok || snapshot_.party.count == 0) && !activeRunId_.empty()) {
+                if (!activeRunId_.empty()) {
                     const auto sav = readWholeFile(runStore_->batteryPath(activeRunId_).string());
                     if (!sav.empty()) {
-                        snapshot_ = adapter_->readSave(sav);
+                        GameSnapshot fromSave = adapter_->readSave(sav);
+                        if (fromSave.ok) {
+                            if (!snapshot_.ok || snapshot_.party.count == 0) {
+                                snapshot_ = fromSave;
+                            } else if (snapshot_.gyms.slots == 0 && fromSave.gyms.slots != 0) {
+                                snapshot_.gyms = fromSave.gyms;
+                                snapshot_.progress.badges = fromSave.progress.badges;
+                                snapshot_.progress.flags = fromSave.progress.flags;
+                            }
+                        }
                     }
                 }
                 if (const Run* run = runStore_->find(activeRunId_)) {
@@ -138,6 +149,7 @@ void Application::bootRun(const Run& run) {
     }
     if (session_) {
         startEmuThread();
+        syncWindowToScale();
     }
     std::fprintf(stderr, "%s\n", status_.c_str());
 }
@@ -147,20 +159,31 @@ void Application::closeRun() {
     stopEmuThread();
     harvestPlayOrigin();
     commitPlay();
-    std::lock_guard lock(sessionMutex_);
-    session_.reset();
-    adapter_ = nullptr;
-    snapshot_ = GameSnapshot{};
-    uiSnap_ = {};
-    uiSnapOk_ = false;
-    uiAdapter_ = nullptr;
-    speedUpOn_ = false;
-    activeRunId_.clear();
-    trackerLog_ = {};
-    lastPlayCommitNs_ = 0;
-    status_ = "No cart.";
-    if (previewTracker_) {
-        seedPreviewTracker();
+    {
+        std::lock_guard lock(sessionMutex_);
+        session_.reset();
+        adapter_ = nullptr;
+        snapshot_ = GameSnapshot{};
+        uiSnap_ = {};
+        uiSnapOk_ = false;
+        uiAdapter_ = nullptr;
+        speedUpOn_ = false;
+        activeRunId_.clear();
+        trackerLog_ = {};
+        lastPlayCommitNs_ = 0;
+        status_ = "No cart.";
+        if (previewTracker_) {
+            seedPreviewTracker();
+        }
+    }
+    syncWindowTitle();
+    if (prefs_.scale > 0 && !host_.fullscreen()) {
+        host_.restoreDefaultSize();
+        if (!prefs_.rightPane) {
+            host_.adjustWidth(-static_cast<int>(kRightPaneSpan));
+        }
+        host_.captureWindowed(prefs_);
+        prefs_.save();
     }
 }
 

@@ -2,6 +2,7 @@
 
 #include "adapter/gen3/BoxMon.hpp"
 #include "adapter/gen3/Codec.hpp"
+#include "adapter/rse/RseSave.hpp"
 
 #include <array>
 
@@ -24,6 +25,7 @@ uint32_t livePtr(const LiveMemory& mem, uint32_t ptrAddr, uint32_t fallback, std
 
 void fillSnapshotFromRseLive(const LiveMemory& mem, GameSnapshot& snap, bool emerald) {
     const uint32_t sb2 = emerald ? livePtr(mem, kEmSaveBlock2Ptr, kEmSaveBlock2, kRseSaveBlock2Size) : kRsSaveBlock2;
+    const uint32_t sb1 = emerald ? livePtr(mem, kEmSaveBlock1Ptr, kEmSaveBlock1, kRseSaveBlock1Size) : kRsSaveBlock1;
     const uint32_t partyAddr = emerald ? kEmParty : kRsParty;
     const uint32_t countAddr = emerald ? kEmPartyCount : kRsPartyCount;
 
@@ -52,6 +54,10 @@ void fillSnapshotFromRseLive(const LiveMemory& mem, GameSnapshot& snap, bool eme
             }
             snap.party.mons[i] = toSnapshotMon(dec);
         }
+    }
+    std::array<uint8_t, kRseSaveBlock1Size> block1{};
+    if (mem.read(sb1, block1)) {
+        fillRseProgress(snap, block1.data(), emerald);
     }
     snap.ok = snap.party.count > 0;
 }
