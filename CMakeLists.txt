@@ -87,7 +87,7 @@ if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(xdelta3 PRIVATE -w -include assert.h)
 endif()
 if(EMULOCKE_SANITIZE STREQUAL "address")
-    target_compile_options(xdelta3 PRIVATE -fno-sanitize=alignment,null,object-size,pointer-overflow)
+    target_compile_options(xdelta3 PRIVATE -fno-sanitize=alignment,null,object-size,pointer-overflow,nonnull-attribute)
 endif()
 
 add_library(imgui STATIC
