@@ -8,6 +8,7 @@
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_sdlrenderer3.h>
 #include <algorithm>
+#include <memory>
 #include <string>
 
 namespace emulocke {
@@ -35,7 +36,23 @@ void defaultWindowSize(int& w, int& h) {
     scaledLogicalSize(nullptr, kDefaultWindowW, kDefaultWindowH, w, h);
 }
 
+struct SdlSurfaceDeleter {
+    void operator()(SDL_Surface* surface) const { SDL_DestroySurface(surface); }
+};
+
 }  // namespace
+
+void SdlWindowDeleter::operator()(SDL_Window* window) const {
+    SDL_DestroyWindow(window);
+}
+
+void SdlRendererDeleter::operator()(SDL_Renderer* renderer) const {
+    SDL_DestroyRenderer(renderer);
+}
+
+Host::~Host() {
+    destroy();
+}
 
 bool Host::create(const Prefs& prefs) {
     int w = prefs.windowW;
@@ -44,56 +61,55 @@ bool Host::create(const Prefs& prefs) {
         defaultWindowSize(w, h);
     }
     const std::string title = windowTitle(buildChannel(), buildVersion(), buildHash(), {});
-    window_ = SDL_CreateWindow(title.c_str(), w, h, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    window_.reset(SDL_CreateWindow(title.c_str(), w, h, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY));
     if (!window_) {
         return false;
     }
     if (prefs.hasWindowPos) {
-        SDL_SetWindowPosition(window_, prefs.windowX, prefs.windowY);
+        SDL_SetWindowPosition(window_.get(), prefs.windowX, prefs.windowY);
     }
     if (prefs.fullscreen) {
-        SDL_SetWindowFullscreen(window_, true);
+        SDL_SetWindowFullscreen(window_.get(), true);
     }
-    if (SDL_Surface* icon = SDL_LoadBMP(assetPath(windowIconBmp(buildChannel())).c_str())) {
-        SDL_SetWindowIcon(window_, icon);
-        SDL_DestroySurface(icon);
+    const std::unique_ptr<SDL_Surface, SdlSurfaceDeleter> icon(
+        SDL_LoadBMP(assetPath(windowIconBmp(buildChannel())).c_str()));
+    if (icon) {
+        SDL_SetWindowIcon(window_.get(), icon.get());
     }
-    renderer_ = SDL_CreateRenderer(window_, nullptr);
+    renderer_.reset(SDL_CreateRenderer(window_.get(), nullptr));
     if (!renderer_) {
         return false;
     }
-    SDL_SetRenderVSync(renderer_, 1);
+    SDL_SetRenderVSync(renderer_.get(), 1);
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.IniFilename = nullptr;
-    ImGui_ImplSDL3_InitForSDLRenderer(window_, renderer_);
-    ImGui_ImplSDLRenderer3_Init(renderer_);
+    ImGui_ImplSDL3_InitForSDLRenderer(window_.get(), renderer_.get());
+    ImGui_ImplSDLRenderer3_Init(renderer_.get());
+    imguiReady_ = true;
     return true;
 }
 
 void Host::destroy() {
-    ImGui_ImplSDLRenderer3_Shutdown();
-    ImGui_ImplSDL3_Shutdown();
-    ImGui::DestroyContext();
-    if (renderer_) {
-        SDL_DestroyRenderer(renderer_);
-        renderer_ = nullptr;
+    if (imguiReady_) {
+        ImGui_ImplSDLRenderer3_Shutdown();
+        ImGui_ImplSDL3_Shutdown();
+        ImGui::DestroyContext();
+        imguiReady_ = false;
     }
-    if (window_) {
-        SDL_DestroyWindow(window_);
-        window_ = nullptr;
-    }
+    renderer_.reset();
+    window_.reset();
 }
 
 void Host::setFullscreen(bool on) {
     if (window_) {
-        SDL_SetWindowFullscreen(window_, on);
+        SDL_SetWindowFullscreen(window_.get(), on);
     }
 }
 
 bool Host::fullscreen() const {
-    return window_ && (SDL_GetWindowFlags(window_) & SDL_WINDOW_FULLSCREEN);
+    return window_ && (SDL_GetWindowFlags(window_.get()) & SDL_WINDOW_FULLSCREEN);
 }
 
 void Host::restoreDefaultSize() {
@@ -113,7 +129,7 @@ void Host::adjustWidth(int delta) {
     }
     int w = 0;
     int h = 0;
-    SDL_GetWindowSize(window_, &w, &h);
+    SDL_GetWindowSize(window_.get(), &w, &h);
     setWindowSize(std::max(1, w + delta), h);
 }
 
@@ -121,11 +137,11 @@ void Host::setWindowSize(int w, int h) {
     if (!window_ || w <= 0 || h <= 0) {
         return;
     }
-    SDL_SetWindowSize(window_, w, h);
+    SDL_SetWindowSize(window_.get(), w, h);
 }
 
 void Host::contentWindowSize(int logicalW, int logicalH, int& w, int& h) const {
-    scaledLogicalSize(window_, logicalW, logicalH, w, h);
+    scaledLogicalSize(window_.get(), logicalW, logicalH, w, h);
 }
 
 void Host::sizeToContent(int logicalW, int logicalH) {
@@ -142,14 +158,14 @@ void Host::captureWindowed(Prefs& prefs) const {
     if (!window_ || fullscreen()) {
         return;
     }
-    SDL_GetWindowPosition(window_, &prefs.windowX, &prefs.windowY);
-    SDL_GetWindowSize(window_, &prefs.windowW, &prefs.windowH);
+    SDL_GetWindowPosition(window_.get(), &prefs.windowX, &prefs.windowY);
+    SDL_GetWindowSize(window_.get(), &prefs.windowW, &prefs.windowH);
     prefs.hasWindowPos = true;
 }
 
 void Host::setTitle(const char* title) {
     if (window_ && title) {
-        SDL_SetWindowTitle(window_, title);
+        SDL_SetWindowTitle(window_.get(), title);
     }
 }
 

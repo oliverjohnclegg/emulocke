@@ -3,6 +3,7 @@
 #include "adapter/Snapshot.hpp"
 #include "adapter/Species.hpp"
 #include "application/Host.hpp"
+#include "application/SdlRuntime.hpp"
 #include "emu/AudioOutput.hpp"
 #include "emu/EmuSession.hpp"
 #include "emu/Input.hpp"
@@ -125,6 +126,7 @@ private:
     void destroyTracker();
     void seedPreviewTracker();
     enum class PendingHost { None, RestoreDefault, FullscreenOn, FullscreenOff };
+    SdlRuntime sdl_;
     Host host_;
     PendingHost pendingHost_{PendingHost::None};
     Input input_;

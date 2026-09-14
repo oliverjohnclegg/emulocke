@@ -191,6 +191,7 @@ add_executable(emulocke
     src/main.cpp
     src/application/BuildId.cpp
     src/application/Host.cpp
+    src/application/SdlRuntime.cpp
     src/application/Application.cpp
     src/application/ApplicationPlay.cpp
     src/application/ApplicationPrefs.cpp
@@ -334,6 +335,22 @@ add_executable(emulocke-media-check
 target_include_directories(emulocke-media-check PRIVATE src)
 target_link_libraries(emulocke-media-check PRIVATE emulocke_sprites)
 
+add_executable(emulocke-lifetime-check
+    src/test/lifetime_check.cpp
+    src/application/BuildId.cpp
+    src/application/Host.cpp
+    src/application/SdlRuntime.cpp
+    src/emu/AudioOutput.cpp
+    src/emu/Paths.cpp
+    src/emu/ScreenTexture.cpp)
+target_include_directories(emulocke-lifetime-check PRIVATE src)
+target_compile_definitions(emulocke-lifetime-check PRIVATE SDL_MAIN_HANDLED)
+target_link_libraries(emulocke-lifetime-check PRIVATE imgui SDL3::SDL3)
+emulocke_stamp_target(emulocke-lifetime-check)
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-lifetime-check PRIVATE dl pthread)
+endif()
+
 add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
     src/emu/GbaSession.cpp
@@ -469,6 +486,7 @@ add_test(NAME adapter COMMAND emulocke-adapter-check)
 add_test(NAME tracker COMMAND emulocke-tracker-check)
 add_test(NAME poke COMMAND emulocke-poke-check)
 add_test(NAME media COMMAND emulocke-media-check)
+add_test(NAME lifetime COMMAND emulocke-lifetime-check)
 add_test(NAME gba-host COMMAND emulocke-gba-check)
 add_test(NAME run COMMAND emulocke-run-check)
 if(EMULOCKE_SANITIZE)

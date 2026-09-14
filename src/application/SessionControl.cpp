@@ -222,9 +222,6 @@ void Application::shutdown() {
     pngs_.reset();
     media_.reset();
     savePeek_.reset();
-    audio_.close();
-    host_.destroy();
-    SDL_Quit();
 }
 
 }
