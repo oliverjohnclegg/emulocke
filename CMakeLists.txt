@@ -203,7 +203,8 @@ target_include_directories(emulocke_dex PUBLIC src)
 find_package(CURL REQUIRED)
 if(MINGW AND NOT TARGET CURL::libcurl_static)
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(PC_CURL REQUIRED STATIC IMPORTED_TARGET libcurl)
+    set(PKG_CONFIG_ARGN "--static")
+    pkg_check_modules(PC_CURL REQUIRED IMPORTED_TARGET libcurl)
 endif()
 add_library(emulocke_sprites STATIC
     src/poke/SpriteIndex.cpp
