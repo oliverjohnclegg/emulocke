@@ -1,9 +1,9 @@
 ---
-description: C++ memory safety and untrusted-input discipline. Always apply when writing, reviewing, or refactoring any C or C++ in this repository.
+description: Project security standards. Always apply when writing, reviewing, or refactoring any C or C++ in this repository.
 alwaysApply: true
 ---
 
-# C++ memory safety
+# Security standards
 
 Read and follow `.cursor/skills/cpp-coding-standards/SKILL.md` before writing or reviewing C++. Prove the result with `.cursor/skills/cpp-sanitizers/SKILL.md`. Reach for `.cursor/skills/memory-safety-patterns/SKILL.md` when designing ownership or wrapping a C API.
 
