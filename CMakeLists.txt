@@ -349,6 +349,7 @@ add_executable(emulocke-adapter-check
     src/test/rse_adapter_check.cpp
     src/test/gen4_adapter_check.cpp
     src/test/gen5_adapter_check.cpp
+    src/test/save_bounds_check.cpp
     src/test/SnapshotContract.cpp
     src/test/snapshot_fixtures.cpp
     src/test/snapshot_contract_check.cpp

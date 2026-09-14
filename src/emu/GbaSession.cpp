@@ -41,8 +41,7 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const s
     session->core_->setVideoBuffer(session->core_, session->pixels_.data(), session->width_);
     session->core_->setAudioBufferSize(session->core_, 4096);
     if (!session->core_->loadROM(session->core_, vf)) {
-        session->core_->deinit(session->core_);
-        session->core_ = nullptr;
+        vf->close(vf);
         return nullptr;
     }
     session->savePath_ = savePath;
@@ -65,7 +64,10 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const s
 
 GbaSession::~GbaSession() {
     if (core_) {
-        flushSave();
+        if (!savePath_.empty()) {
+            flushSave();
+        }
+        mCoreConfigDeinit(&core_->config);
         core_->deinit(core_);
     }
 }
