@@ -54,7 +54,8 @@ void drawCalcMatchup(Application&, CalcSession& session) {
         ImGui::TableSetupColumn("b", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        drawCalcSideHead(pName, player, false, &session.sideCrit(false));
+        drawCalcSideHead(pName, player, false);
+        const float abY = ImGui::GetItemRectMin().y;
         ImGui::TableSetColumnIndex(1);
         ImGui::Dummy(ImVec2(0, 8));
         ImGui::Text("%d", pSpe);
@@ -71,8 +72,9 @@ void drawCalcMatchup(Application&, CalcSession& session) {
             ImGui::SameLine();
             ImGui::TextDisabled("tie");
         }
+        drawCalcCrits(session.sideCrit(false), session.sideCrit(true), top.x + pane * 0.5f, abY);
         ImGui::TableSetColumnIndex(2);
-        drawCalcSideHead(fName, foe, true, &session.sideCrit(true));
+        drawCalcSideHead(fName, foe, true);
         ImGui::EndTable();
     }
     ImGui::Dummy(ImVec2(0, 8));

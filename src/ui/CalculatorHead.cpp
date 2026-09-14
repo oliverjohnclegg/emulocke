@@ -8,7 +8,7 @@
 
 namespace emulocke {
 
-void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool* crit) {
+void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
     if (right) {
         calcAlignRight(ImGui::CalcTextSize(name).x);
     }
@@ -65,7 +65,6 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool* cr
             ImGui::NewLine();
         }
     }
-    ImGui::PushID(right ? "fh" : "oh");
     if (const char* ab = abilityName(mon.ability)) {
         char line[40];
         std::snprintf(line, sizeof line, "AB  %s", ab);
@@ -73,19 +72,25 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool* cr
             calcAlignRight(ImGui::CalcTextSize(line).x);
         }
         ImGui::TextDisabled("%s", line);
-        if (crit) {
-            const ImVec2 next = ImGui::GetCursorScreenPos();
-            const float abY = ImGui::GetItemRectMin().y;
-            const float cr = ImGui::CalcTextSize("CR").x + 4.f;
-            const float x = right ? next.x : next.x + ImGui::GetContentRegionAvail().x - cr - 6.f;
-            ImGui::SetCursorScreenPos(ImVec2(x, abY));
-            if (calcCritMark(*crit)) {
-                *crit = !*crit;
-            }
-            ImGui::SetCursorScreenPos(next);
-        }
+    }
+}
+
+void drawCalcCrits(bool& ours, bool& theirs, float spineX, float abY) {
+    const float w = calcCritMarkWidth();
+    const ImVec2 next = ImGui::GetCursorScreenPos();
+    ImGui::PushID("oh");
+    ImGui::SetCursorScreenPos(ImVec2(spineX - w - 1.f, abY));
+    if (calcCritMark(ours)) {
+        ours = !ours;
     }
     ImGui::PopID();
+    ImGui::PushID("fh");
+    ImGui::SetCursorScreenPos(ImVec2(spineX + 1.f, abY));
+    if (calcCritMark(theirs)) {
+        theirs = !theirs;
+    }
+    ImGui::PopID();
+    ImGui::SetCursorScreenPos(next);
 }
 
 }
