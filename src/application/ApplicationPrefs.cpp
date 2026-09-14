@@ -28,7 +28,8 @@ void Application::syncWindowToScale() {
     const int nativeW = session_->screenWidth(0);
     const int nativeH = session_->screenHeight(0);
     const int screens = (session_->kind() == ConsoleKind::Nds || prefs_.bottomScreen) ? 2 : 1;
-    const int logicalW = windowWidthForLeft(lcdClusterW(nativeW, prefs_.scale), prefs_.rightPane);
+    const int logicalW =
+        windowWidthForLeft(lcdClusterW(nativeW, prefs_.scale), prefs_.rightPane, prefs_.scale);
     const int logicalH = windowHeightForLeft(lcdClusterH(nativeH, screens, prefs_.scale));
     if (host_.fullscreen() || pendingHost_ == PendingHost::FullscreenOn) {
         int w = logicalW;

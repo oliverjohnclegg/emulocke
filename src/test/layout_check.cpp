@@ -88,16 +88,23 @@ int testLayout() {
     expect(emulocke::lcdClusterH(160, 2, 2) == 645.f, "gba party 2x cluster h");
     expect(emulocke::lcdClusterH(160, 1, 2) == 320.f, "gba only 2x cluster h");
     expect(emulocke::windowWidthForLeft(512.f, true) == 1035, "home window w");
-    expect(emulocke::windowWidthForLeft(256.f, true) == 779, "ds 1x window w");
-    expect(emulocke::windowWidthForLeft(256.f, false) == 298, "ds 1x no suite");
+    expect(emulocke::windowWidthForLeft(256.f, true, 1) == 549, "ds 1x window w");
+    expect(emulocke::windowWidthForLeft(256.f, false, 1) == 298, "ds 1x no suite");
     expect(emulocke::windowHeightForLeft(768.f) == 836, "home window h");
     expect(emulocke::windowHeightForLeft(773.f) == 841, "ds 2x window h");
     expect(emulocke::windowHeightForLeft(389.f) == 457, "ds 1x window h");
+    expect(emulocke::suiteWidthForScale(0) == 460.f, "fit suite");
+    expect(emulocke::suiteWidthForScale(1) == 230.f, "1x suite");
+    expect(emulocke::suiteWidthForScale(2) == 460.f, "2x suite");
+    expect(emulocke::rightPaneSpanForScale(1) == 251.f, "1x right span");
 
     const float pad = 5.f;
-    const int ds1xW = emulocke::windowWidthForLeft(emulocke::lcdClusterW(256, 1), true);
+    const int ds1xW = emulocke::windowWidthForLeft(emulocke::lcdClusterW(256, 1), true, 1);
     const float ds1xAvail = static_cast<float>(ds1xW) - pad * 2.f;
-    expect(emulocke::consoleLeftWidth(ds1xAvail, pad) == 256.f, "1x window hugs ds width");
+    expect(emulocke::consoleLeftWidth(ds1xAvail, pad, emulocke::rightPaneSpanForScale(1)) == 256.f,
+        "1x window hugs ds width");
+    const float inset = emulocke::kConsolePad - pad;
+    expect(ds1xAvail - inset * 2.f - 256.f - emulocke::kConsolePad == 230.f, "1x suite leftover");
     const int ds1xWinH = emulocke::windowHeightForLeft(emulocke::lcdClusterH(192, 2, 1));
     expect(ds1xWinH - (emulocke::kDefaultWindowH - emulocke::kHomeLeftH) == 389, "1x window hugs ds height");
 

@@ -6,6 +6,7 @@
 #include "ui/Layout.hpp"
 #include "ui/Suite.hpp"
 #include "ui/Theme.hpp"
+#include "ui/WindowFit.hpp"
 
 #include <imgui.h>
 #include <algorithm>
@@ -90,10 +91,11 @@ void drawShell(Application& app) {
     const float insetX = kConsolePad - ImGui::GetStyle().WindowPadding.x;
     const float insetY = kConsolePad - ImGui::GetStyle().WindowPadding.y;
     const bool showRight = app.prefs().rightPane;
-    const float rightSpan = showRight ? kRightPaneSpan : 0.f;
+    EmuSession* session = app.session();
+    const int uiScale = (session && app.screenScale() > 0) ? app.screenScale() : 0;
+    const float rightSpan = showRight ? rightPaneSpanForScale(uiScale) : 0.f;
     ImVec2 left(consoleLeftWidth(avail.x, ImGui::GetStyle().WindowPadding.x, rightSpan),
         consoleLeftHeight(avail.y, ImGui::GetStyle().WindowPadding.y));
-    EmuSession* session = app.session();
     if (session && app.screenScale() <= 0
         && (session->kind() == ConsoleKind::Nds || app.prefs().bottomScreen)) {
         left.y += kScreenGap;
