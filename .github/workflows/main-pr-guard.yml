@@ -1,0 +1,36 @@
+name: Main PR guard
+
+on:
+  pull_request_target:
+    types: [opened, reopened, ready_for_review]
+    branches: [main]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  reject-non-maintainer:
+    if: github.event.pull_request.user.login != 'oliverjohnclegg'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close outsider PR to main
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = [
+              'PRs that target `main` are maintainer-only.',
+              '',
+              '`main` is Stable. Open the PR against `dev` instead.',
+            ].join('\n')
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            })
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              state: 'closed',
+            })
