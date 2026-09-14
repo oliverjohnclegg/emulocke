@@ -15,9 +15,8 @@ bool has(const char* hay, const char* needle) {
     const std::string_view h = hay;
     const std::string_view n = needle;
     auto fold = [](char c) { return static_cast<char>(std::tolower(static_cast<unsigned char>(c))); };
-    auto it = std::search(h.begin(), h.end(), n.begin(), n.end(),
-        [&](char a, char b) { return fold(a) == fold(b); });
-    return it != h.end();
+    return std::search(h.begin(), h.end(), n.begin(), n.end(),
+               [&](char a, char b) { return fold(a) == fold(b); }) != h.end();
 }
 
 }  // namespace
