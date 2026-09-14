@@ -77,15 +77,14 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool* cr
             if (right) {
                 const ImVec2 ab = ImGui::GetItemRectMin();
                 const ImVec2 next = ImGui::GetCursorScreenPos();
-                const ImVec2 cr = ImGui::CalcTextSize("CR");
-                ImGui::SetCursorScreenPos(
-                    ImVec2(ab.x - ImGui::GetStyle().ItemSpacing.x - cr.x, ab.y));
+                const float cr = ImGui::CalcTextSize("CR").x + 4.f;
+                ImGui::SetCursorScreenPos(ImVec2(ab.x - 4.f - cr, ab.y));
                 if (calcCritMark(*crit)) {
                     *crit = !*crit;
                 }
                 ImGui::SetCursorScreenPos(next);
             } else {
-                ImGui::SameLine();
+                ImGui::SameLine(0.f, 4.f);
                 if (calcCritMark(*crit)) {
                     *crit = !*crit;
                 }

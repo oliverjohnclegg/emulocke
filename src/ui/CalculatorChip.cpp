@@ -26,14 +26,21 @@ float calcChipWidth(const char* label) {
 }
 
 bool calcCritMark(bool on) {
-    const ImVec2 ts = ImGui::CalcTextSize("CR");
-    const ImVec2 p = ImGui::GetCursorScreenPos();
-    const bool hit = ImGui::InvisibleButton("CR", ts);
-    const ImU32 col = ImGui::GetColorU32(on ? kMetal : kDisabled);
-    ImGui::GetWindowDrawList()->AddText(p, col, "CR");
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.f, 0.f, 0.f, 0.f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.f, 0.f, 0.f, 0.f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.f, 0.f, 0.f, 0.f));
+    ImGui::PushStyleColor(ImGuiCol_Text, on ? kMetal : kDisabled);
+    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.f, 0.f, 0.f, 0.f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2.f, 0.f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.f);
+    const bool hit = ImGui::SmallButton("CR");
+    ImGui::PopStyleVar(2);
+    ImGui::PopStyleColor(5);
     if (on) {
+        const ImVec2 a = ImGui::GetItemRectMin();
+        const ImVec2 b = ImGui::GetItemRectMax();
         ImGui::GetWindowDrawList()->AddLine(
-            ImVec2(p.x, p.y + ts.y - 1.f), ImVec2(p.x + ts.x, p.y + ts.y - 1.f), col, 1.f);
+            ImVec2(a.x + 2.f, b.y - 1.f), ImVec2(b.x - 2.f, b.y - 1.f), ImGui::GetColorU32(kMetal), 1.f);
     }
     return hit;
 }
