@@ -1489,7 +1489,8 @@
           "slug": "shiftry",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "route-115",
@@ -2207,7 +2208,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2156
+      "defeat": 2156,
+      "field": 2
     },
     {
       "id": "route-121",
@@ -2347,7 +2349,8 @@
           "slug": "houndoom-mega",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "mtm",
@@ -2955,7 +2958,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2157
+      "defeat": 2157,
+      "field": 2
     },
     {
       "id": "mt2",
@@ -3021,7 +3025,8 @@
           "slug": "houndoom-mega",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "route-125",

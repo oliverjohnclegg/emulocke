@@ -801,17 +801,7 @@
       "kind": "boss",
       "name": "Colress",
       "locale": "Twist Mountain",
-      "boss": "evilteam",
-      "team": [
-        {
-          "slug": "f00",
-          "lock": 0
-        },
-        {
-          "slug": "mt",
-          "lock": 0
-        }
-      ]
+      "boss": "evilteam"
     },
     {
       "id": "o6-n",
@@ -1053,7 +1043,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "route-12",
@@ -1210,7 +1201,8 @@
           "slug": "drifblim",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "route-21",
@@ -1253,7 +1245,8 @@
           "slug": "solrock",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "gym-10",
@@ -1368,7 +1361,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "col3-n",

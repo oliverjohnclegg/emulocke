@@ -817,7 +817,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2061
+      "defeat": 2061,
+      "field": 2
     },
     {
       "id": "route-125",

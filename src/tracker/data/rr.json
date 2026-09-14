@@ -1347,7 +1347,9 @@
           "slug": "mawile-mega",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "tag": true
     },
     {
       "id": "evg2",
@@ -2306,7 +2308,8 @@
           "slug": "dracovish",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "e1b",
@@ -2339,7 +2342,8 @@
           "slug": "abomasnow",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "e2a",
@@ -2835,7 +2839,8 @@
           "slug": "veluza",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     }
   ]
 }

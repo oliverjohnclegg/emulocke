@@ -131,10 +131,6 @@ constexpr emulocke::BossMon kTeam_blazevolt2_41[] = {
     {"starmie", 495},
     {"emboar", 495}
 };
-constexpr emulocke::BossMon kTeam_blazevolt2_46[] = {
-    {"f00", 0},
-    {"mt", 0}
-};
 constexpr emulocke::BossMon kTeam_blazevolt2_47[] = {
     {"luvdisc", 0},
     {"whiscash", 0},

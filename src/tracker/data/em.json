@@ -908,7 +908,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2157
+      "defeat": 2157,
+      "field": 2
     },
     {
       "id": "mtmaxt",

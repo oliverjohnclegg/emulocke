@@ -232,7 +232,8 @@
           "slug": "pansage",
           "lock": 501
         }
-      ]
+      ],
+      "note": "Rotation Battle: This battle is a Rotation battle."
     },
     {
       "id": "dreamyard",
@@ -338,7 +339,8 @@
           "slug": "zorua",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "gym-2",
@@ -372,7 +374,8 @@
           "slug": "bouffalant",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "pinwheel-forest",
@@ -424,7 +427,8 @@
           "slug": "leavanny",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "b3",
@@ -465,7 +469,8 @@
           "slug": "pignite",
           "lock": 501
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "route-4",
@@ -519,7 +524,8 @@
           "slug": "servine",
           "lock": 501
         }
-      ]
+      ],
+      "note": "Rotation Battle: This battle is a Rotation battle."
     },
     {
       "id": "desert-resort",
@@ -570,7 +576,8 @@
           "slug": "sigilyph",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "gym-4",
@@ -879,7 +886,9 @@
           "slug": "swanna",
           "lock": 0
         }
-      ]
+      ],
+      "field": 3,
+      "note": "Triple Battle: This battle is a triple battle."
     },
     {
       "id": "route-17",
@@ -981,7 +990,8 @@
           "slug": "serperior",
           "lock": 501
         }
-      ]
+      ],
+      "note": "Rotation Battle: This battle is a Rotation battle."
     },
     {
       "id": "iccirus-city",
@@ -1021,7 +1031,8 @@
           "slug": "beartic",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "route-8",
@@ -1087,7 +1098,9 @@
           "slug": "emboar",
           "lock": 501
         }
-      ]
+      ],
+      "field": 3,
+      "note": "Triple Battle: This battle is a triple battle."
     },
     {
       "id": "moor-of-icirrus",
@@ -1147,7 +1160,8 @@
           "slug": "haxorus",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Rotation Battle: This battle is a Rotation battle."
     },
     {
       "id": "route-10",
@@ -1252,7 +1266,8 @@
           "slug": "chandelure",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "e2",
@@ -1285,7 +1300,8 @@
           "slug": "bisharp",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "e3",
@@ -1318,7 +1334,8 @@
           "slug": "reuniclus",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "e4",
@@ -1351,7 +1368,8 @@
           "slug": "conkeldurr",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "ns-castle",

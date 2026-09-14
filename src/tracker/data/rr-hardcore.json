@@ -459,7 +459,8 @@
           "slug": "varoom",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "sandstorm"
     },
     {
       "id": "pewter-city",
@@ -885,7 +886,8 @@
           "slug": "vikavolt",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "rain"
     },
     {
       "id": "cerulean-city",
@@ -928,7 +930,8 @@
           "slug": "toxicroak",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "rain"
     },
     {
       "id": "route-5",
@@ -986,7 +989,8 @@
           "slug": "ampharos-mega",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "electric-terrain"
     },
     {
       "id": "digletts-cave",
@@ -1202,7 +1206,8 @@
           "slug": "kartana",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "grassy-terrain"
     },
     {
       "id": "ev2-hard",
@@ -1578,7 +1583,9 @@
           "slug": "mawile-mega",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "tag": true
     },
     {
       "id": "ev4-hard",
@@ -1644,7 +1651,8 @@
           "slug": "gallade-mega",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Fighting Spirit Chuck's Pokemon will Endure a hit if above 75% of max HP"
     },
     {
       "id": "gym-5",
@@ -1678,7 +1686,9 @@
           "slug": "jellicent-male",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "note": "Trick Room There is a permanent Trick Room effect on the field"
     },
     {
       "id": "route-16",
@@ -1770,7 +1780,8 @@
           "slug": "toxtricity-mega",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Tailwind There is a permanent tailwind effect on Koga's side of the field"
     },
     {
       "id": "safari-zone",
@@ -1852,10 +1863,6 @@
       "boss": "miniboss",
       "team": [
         {
-          "slug": "effecthail",
-          "lock": 0
-        },
-        {
           "slug": "cloyster",
           "lock": 0
         },
@@ -1879,7 +1886,9 @@
           "slug": "glalie",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "hail",
+      "note": "Hard ice All Pryce's Pokemon have a +50% Defense boost"
     },
     {
       "id": "mb6b-hard",
@@ -1888,10 +1897,6 @@
       "locale": "Seafoam Islands",
       "boss": "miniboss",
       "team": [
-        {
-          "slug": "effecthail",
-          "lock": 0
-        },
         {
           "slug": "sandslash-alola",
           "lock": 0
@@ -1916,7 +1921,9 @@
           "slug": "glalie",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "hail",
+      "note": "Hard ice All Pryce's Pokemon have a +50% Defense boost"
     },
     {
       "id": "mb6c-hard",
@@ -1925,10 +1932,6 @@
       "locale": "Seafoam Islands",
       "boss": "miniboss",
       "team": [
-        {
-          "slug": "effecthail",
-          "lock": 0
-        },
         {
           "slug": "cloyster",
           "lock": 0
@@ -1953,7 +1956,9 @@
           "slug": "glalie",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "hail",
+      "note": "Hard ice All Pryce's Pokemon have a +50% Defense boost"
     },
     {
       "id": "cinnabar-island",
@@ -1995,7 +2000,8 @@
           "slug": "aggron-mega",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Tempered steel Jasmine's Pokemon are immune to Fire type attacks"
     },
     {
       "id": "m1-hard",
@@ -2071,7 +2077,8 @@
           "slug": "charizard-megax",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "sunlight"
     },
     {
       "id": "route-21",
@@ -2114,7 +2121,8 @@
           "slug": "archaludon",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Purist Unable to bring fairy types into the Fight Sticky terrain You can't remove hazards from the field"
     },
     {
       "id": "r5-hard",
@@ -2752,10 +2760,6 @@
       "boss": "elitefour",
       "team": [
         {
-          "slug": "doubletrue",
-          "lock": 0
-        },
-        {
           "slug": "ludicolo",
           "lock": 0
         },
@@ -2779,7 +2783,10 @@
           "slug": "swampert-mega",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "weather": "rain",
+      "note": "Heavy rain Lorelei's Pokemon are immune to Fire type attacks"
     },
     {
       "id": "e1b-hard",
@@ -2788,10 +2795,6 @@
       "locale": "Indigo Plateau",
       "boss": "elitefour",
       "team": [
-        {
-          "slug": "doubletrue",
-          "lock": 0
-        },
         {
           "slug": "glaceon",
           "lock": 0
@@ -2816,7 +2819,9 @@
           "slug": "abomasnow-mega",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "weather": "hail"
     },
     {
       "id": "e2a-hard",
@@ -2849,7 +2854,8 @@
           "slug": "lucario-mega",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "misty-terrain"
     },
     {
       "id": "e2b-hard",
@@ -2915,7 +2921,8 @@
           "slug": "calyrex-s",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "psychic-terrain"
     },
     {
       "id": "e4a-hard",
@@ -2948,7 +2955,8 @@
           "slug": "rayquaza-mega",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Sticky terrain You can't remove hazards from the field"
     },
     {
       "id": "e4b-hard",
@@ -2981,7 +2989,8 @@
           "slug": "rayquaza-mega",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Sticky terrain You can't remove hazards from the field"
     },
     {
       "id": "ec-hard",
@@ -3621,10 +3630,6 @@
       "boss": "gym",
       "team": [
         {
-          "slug": "effectsandstorm",
-          "lock": 0
-        },
-        {
           "slug": "terrakion",
           "lock": 0
         },
@@ -3648,7 +3653,9 @@
           "slug": "aerodactyl-mega",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "sandstorm",
+      "note": "Cushioning Super Effective moves deal 1/3 less damage to Brock's Pokemon"
     },
     {
       "id": "2r-hard",
@@ -3681,7 +3688,8 @@
           "slug": "gyarados-mega",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "rain"
     },
     {
       "id": "3r-hard",
@@ -3690,10 +3698,6 @@
       "locale": "Vermillion City Gym",
       "boss": "gym",
       "team": [
-        {
-          "slug": "effectelectric-terrain",
-          "lock": 0
-        },
         {
           "slug": "electivire",
           "lock": 0
@@ -3718,7 +3722,9 @@
           "slug": "manectric-mega",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "electric-terrain",
+      "note": "Magnet Rise Lt. Surge's Pokemon are immune to Ground type attacks"
     },
     {
       "id": "4r-hard",
@@ -3751,7 +3757,8 @@
           "slug": "ampharos-mega",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "grassy-terrain"
     },
     {
       "id": "cerulean-cave",
@@ -3847,7 +3854,8 @@
           "slug": "kangaskhan-mega",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     }
   ]
 }

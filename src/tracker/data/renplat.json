@@ -955,7 +955,8 @@
           "slug": "floatzel",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "rain"
     },
     {
       "id": "route-212",

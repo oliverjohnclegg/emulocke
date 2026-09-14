@@ -1,5 +1,6 @@
 #include "adapter/frlg/FrlgSave.hpp"
 
+#include "adapter/frlg/CfruExpanded.hpp"
 #include "adapter/frlg/FrlgLayout.hpp"
 #include "adapter/frlg/FrlgNames.hpp"
 #include "adapter/gen3/BoxMon.hpp"
@@ -99,6 +100,7 @@ void fillSnapshotFromFrlg(const FrlgSaveBlocks& blocks, GameSnapshot& snap) {
     const char* name = frlgMapName(snap.overworld.mapGroup, snap.overworld.mapNum, scratch, sizeof(scratch));
     std::snprintf(snap.overworld.mapName, sizeof(snap.overworld.mapName), "%s", name);
     fillFrlgProgress(blocks.block1.data(), snap);
+    fillCfruDifficulty(blocks, snap);
     snap.ok = true;
 }
 

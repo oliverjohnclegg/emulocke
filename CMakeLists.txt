@@ -105,6 +105,7 @@ add_library(emulocke_adapter STATIC
     src/adapter/gen3/MonFacts.cpp
     src/adapter/gen3/BoxHeader.cpp
     src/adapter/frlg/FrlgSave.cpp
+    src/adapter/frlg/CfruExpanded.cpp
     src/adapter/frlg/FrlgFill.cpp
     src/adapter/frlg/FrlgLive.cpp
     src/adapter/frlg/FrlgAdapter.cpp
@@ -148,6 +149,7 @@ file(GLOB EMULOCKE_TRACKER_ATLASES CONFIGURE_DEPENDS
 add_library(emulocke_tracker STATIC
     src/tracker/Atlas.cpp
     src/tracker/Difficulty.cpp
+    src/tracker/DifficultyChoices.cpp
     src/tracker/Log.cpp
     src/tracker/LogIo.cpp
     src/tracker/Fill.cpp
@@ -160,6 +162,7 @@ target_link_libraries(emulocke_tracker PUBLIC emulocke_adapter)
 find_package(CURL REQUIRED)
 add_library(emulocke_sprites STATIC
     src/poke/SpriteIndex.cpp
+    src/poke/SlugLabel.cpp
     src/poke/SpriteUrls.cpp
     src/poke/HttpGet.cpp
     src/poke/SpriteCache.cpp
@@ -200,6 +203,7 @@ add_executable(emulocke
     src/ui/Tracker.cpp
     src/ui/TrackerRow.cpp
     src/ui/TrackerMarks.cpp
+    src/ui/TrackerKindTip.cpp
     src/ui/TrackerStatus.cpp
     src/ui/BoxSprites.cpp
     src/ui/FieldLog.cpp
@@ -318,6 +322,7 @@ add_executable(emulocke-adapter-check
     src/test/adapter_check.cpp
     src/test/gen3_codec_check.cpp
     src/test/frlg_adapter_check.cpp
+    src/test/frlg_difficulty_check.cpp
     src/test/rse_adapter_check.cpp
     src/test/gen4_adapter_check.cpp
     src/test/gen5_adapter_check.cpp

@@ -364,7 +364,8 @@
           "slug": "leavanny",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "relic-passage",
@@ -455,7 +456,8 @@
           "slug": "unfezant",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "emin",
@@ -781,7 +783,8 @@
           "slug": "excadrill",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "sandstorm"
     },
     {
       "id": "r2",
@@ -869,25 +872,7 @@
       "kind": "boss",
       "name": "Colress",
       "locale": "Twist Mountain",
-      "boss": "evilteam",
-      "team": [
-        {
-          "slug": "mt",
-          "lock": 0
-        },
-        {
-          "slug": "ufo",
-          "lock": 0
-        },
-        {
-          "slug": "f00",
-          "lock": 0
-        },
-        {
-          "slug": "mt2",
-          "lock": 0
-        }
-      ]
+      "boss": "evilteam"
     },
     {
       "id": "o6-c",
@@ -896,10 +881,6 @@
       "locale": "Mistralton City",
       "boss": "miniboss",
       "team": [
-        {
-          "slug": "doubletrue",
-          "lock": 0
-        },
         {
           "slug": "swampert",
           "lock": 0
@@ -924,7 +905,9 @@
           "slug": "azumarill",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "weather": "rain"
     },
     {
       "id": "gym-8",
@@ -1000,7 +983,8 @@
           "slug": "emboar",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "strange-house",
@@ -1149,7 +1133,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "route-12",
@@ -1228,10 +1213,6 @@
       "boss": "miniboss",
       "team": [
         {
-          "slug": "effectrain",
-          "lock": 0
-        },
-        {
           "slug": "dragonite",
           "lock": 0
         },
@@ -1255,7 +1236,9 @@
           "slug": "drifblim",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "weather": "rain"
     },
     {
       "id": "gym-9",
@@ -1289,7 +1272,8 @@
           "slug": "sceptile",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "zinz2",
@@ -1318,7 +1302,8 @@
           "slug": "drifblim",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "route-21",
@@ -1377,7 +1362,8 @@
           "slug": "beheeyem",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "gym-10",
@@ -1387,10 +1373,6 @@
       "boss": "gym",
       "gym": 10,
       "team": [
-        {
-          "slug": "effectrain",
-          "lock": 0
-        },
         {
           "slug": "poliwrath",
           "lock": 0
@@ -1415,7 +1397,9 @@
           "slug": "kingdra",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "weather": "rain"
     },
     {
       "id": "route-22",
@@ -1871,7 +1855,8 @@
           "slug": "metagross",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "e4-c",
@@ -1904,7 +1889,8 @@
           "slug": "conkeldurr",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "champ-c",

@@ -1,16 +1,15 @@
 constexpr emulocke::BossMon kTeam_unbound_expert_1[] = {
-    {"larvitar", 0},
-    {"gible", 0},
-    {"beldum", 0}
+    {"larvitar", 443},
+    {"gible", 374},
+    {"beldum", 246}
 };
 constexpr emulocke::BossMon kTeam_unbound_expert_5[] = {
     {"swinub", 0},
-    {"larvitar", 0},
-    {"gible", 0},
-    {"beldum", 0}
+    {"larvitar", 443},
+    {"gible", 374},
+    {"beldum", 246}
 };
 constexpr emulocke::BossMon kTeam_unbound_expert_8[] = {
-    {"doubletrue", 0},
     {"floette", 0},
     {"gloom", 0},
     {"weedle", 0},
@@ -40,9 +39,9 @@ constexpr emulocke::BossMon kTeam_unbound_expert_20[] = {
 constexpr emulocke::BossMon kTeam_unbound_expert_25[] = {
     {"toucannon", 0},
     {"swinub", 0},
-    {"pupitar", 0},
-    {"gabite", 0},
-    {"metang", 0}
+    {"pupitar", 443},
+    {"gabite", 374},
+    {"metang", 246}
 };
 constexpr emulocke::BossMon kTeam_unbound_expert_28[] = {
     {"minior-red", 0},
@@ -83,15 +82,14 @@ constexpr emulocke::BossMon kTeam_unbound_expert_44[] = {
     {"mamoswine", 0},
     {"toucannon", 0},
     {"vaporeon", 0},
-    {"fraxure", 0},
-    {"aggron", 0},
-    {"fraxure", 0},
-    {"pupitar", 0},
-    {"gabite", 0},
-    {"metagross", 0}
+    {"fraxure", 443},
+    {"aggron", 374},
+    {"fraxure", 246},
+    {"pupitar", 443},
+    {"gabite", 374},
+    {"metagross", 246}
 };
 constexpr emulocke::BossMon kTeam_unbound_expert_46[] = {
-    {"doubletrue", 0},
     {"bronzong", 0},
     {"golem-alola", 0},
     {"lanturn", 0},
@@ -129,7 +127,6 @@ constexpr emulocke::BossMon kTeam_unbound_expert_63[] = {
     {"wailord", 0}
 };
 constexpr emulocke::BossMon kTeam_unbound_expert_68[] = {
-    {"infop", 0},
     {"toxapex", 0},
     {"armaldo", 0},
     {"kingdra", 0},
@@ -139,19 +136,19 @@ constexpr emulocke::BossMon kTeam_unbound_expert_68[] = {
 };
 constexpr emulocke::BossMon kTeam_unbound_expert_71[] = {
     {"mamoswine", 0},
-    {"rotom-fan", 0},
-    {"rotom-fan", 0},
-    {"rotom-mow", 0},
+    {"rotom-fan", 443},
+    {"rotom-fan", 374},
+    {"rotom-mow", 246},
     {"vaporeon", 0},
-    {"haxorus", 0},
-    {"aggron", 0},
-    {"haxorus", 0},
-    {"talonflame", 0},
-    {"chandelure", 0},
-    {"talonflame", 0},
-    {"tyranitar", 0},
-    {"garchomp", 0},
-    {"metagross", 0}
+    {"haxorus", 443},
+    {"aggron", 374},
+    {"haxorus", 246},
+    {"talonflame", 443},
+    {"chandelure", 374},
+    {"talonflame", 246},
+    {"tyranitar", 443},
+    {"garchomp", 374},
+    {"metagross", 246}
 };
 constexpr emulocke::BossMon kTeam_unbound_expert_73[] = {
     {"toxicroak", 0},
@@ -186,7 +183,6 @@ constexpr emulocke::BossMon kTeam_unbound_expert_78[] = {
     {"flygon", 0}
 };
 constexpr emulocke::BossMon kTeam_unbound_expert_81[] = {
-    {"effectsandstorm", 0},
     {"excadrill", 0},
     {"flygon", 0},
     {"sandslash", 0},
@@ -203,7 +199,6 @@ constexpr emulocke::BossMon kTeam_unbound_expert_82[] = {
     {"blacephalon", 0}
 };
 constexpr emulocke::BossMon kTeam_unbound_expert_83[] = {
-    {"effectmisty-terrain", 0},
     {"ribombee", 0},
     {"sylveon", 0},
     {"togekiss", 0},
@@ -212,7 +207,6 @@ constexpr emulocke::BossMon kTeam_unbound_expert_83[] = {
     {"tapu-fini", 0}
 };
 constexpr emulocke::BossMon kTeam_unbound_expert_84[] = {
-    {"doubletrue", 0},
     {"goodra", 0},
     {"tyrantrum", 0},
     {"kommo-o", 0},

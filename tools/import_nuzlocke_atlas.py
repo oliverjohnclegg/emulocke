@@ -100,6 +100,19 @@ def parse_sprite_ids():
     return ids
 
 
+def keep_slug(slug, sprite):
+    if slug in sprite:
+        return True
+    prefix = slug + "-"
+    if any(k.startswith(prefix) for k in sprite):
+        return True
+    if "-" in slug:
+        base = slug.split("-", 1)[0]
+        if base in sprite or any(k.startswith(base + "-") for k in sprite):
+            return True
+    return False
+
+
 def species_id(slug, table):
     key = slugify_id(slug.replace("_", "-"))
     if key in table:
@@ -209,10 +222,69 @@ def parse_routes(path):
     return starters, stops
 
 
+def strip_html(s):
+    s = re.sub(r"<[^>]+>", " ", s)
+    s = (
+        s.replace("⅛", "1/8")
+        .replace("⅓", "1/3")
+        .replace("Pokémon", "Pokemon")
+        .replace("é", "e")
+    )
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def parse_battle_meta(line):
+    body = line[2:].strip()
+    parts = re.split(r"[|,](?=\s*(?:double|tag|triple|effect|info)\s*[:=])", body, flags=re.I)
+    field = 1
+    weather = ""
+    tag = False
+    info = ""
+    yes = {"true", "1", "yes"}
+    for part in parts:
+        part = part.strip()
+        if not part:
+            continue
+        k, sep, v = part.partition(":")
+        if not sep:
+            k, sep, v = part.partition("=")
+        k = k.strip().lower()
+        v = v.strip()
+        low = v.lower()
+        if k == "double" and low in yes:
+            field = max(field, 2)
+        elif k == "triple" and low in yes:
+            field = max(field, 3)
+        elif k == "tag" and low in yes:
+            tag = True
+            field = max(field, 2)
+        elif k == "effect":
+            weather = "sunlight" if low == "sunglight" else low
+        elif k == "info":
+            info = strip_html(v)
+    if re.search(r"\btriple\s+battle", info, re.I):
+        field = max(field, 3)
+    return {"field": field, "weather": weather, "note": info, "tag": tag}
+
+
+def apply_battle_meta(stop, meta):
+    if not meta:
+        return
+    if int(meta.get("field") or 1) > 1:
+        stop["field"] = int(meta["field"])
+    if meta.get("tag"):
+        stop["tag"] = True
+    if meta.get("weather"):
+        stop["weather"] = meta["weather"]
+    if meta.get("note"):
+        stop["note"] = meta["note"]
+
+
 def parse_league(path):
     teams = {}
+    notes = {}
     if not Path(path).exists():
-        return teams
+        return teams, notes
     cur = None
     lock_map = {"grass": "grass", "fire": "fire", "water": "water"}
     for raw in Path(path).read_text().splitlines():
@@ -224,7 +296,18 @@ def parse_league(path):
             cur = bits[0].strip()
             teams[cur] = []
             continue
-        if line.startswith("==") or cur is None or "|" not in line:
+        if line.startswith("=="):
+            if cur:
+                prev = notes.get(cur, {})
+                nxt = parse_battle_meta(line)
+                if prev:
+                    nxt["field"] = max(int(prev.get("field") or 1), nxt["field"])
+                    nxt["tag"] = bool(prev.get("tag") or nxt["tag"])
+                    nxt["weather"] = nxt["weather"] or prev.get("weather") or ""
+                    nxt["note"] = ". ".join(x for x in (prev.get("note"), nxt["note"]) if x)
+                notes[cur] = nxt
+            continue
+        if cur is None or "|" not in line:
             continue
         parts = line.split("|")
         slug = slugify_id(re.split(r"[/>]", parts[0], 1)[0])
@@ -234,7 +317,7 @@ def parse_league(path):
             if token in lock_map:
                 lock = token
         teams[cur].append({"slug": slug, "lock": lock})
-    return teams
+    return teams, notes
 
 
 def apply_mets(stops, table):
@@ -260,18 +343,19 @@ def apply_mets(stops, table):
 
 
 STARTER_TYPES = {
-    "grass": {1, 152, 252, 387, 495, 650, 722, 810},
-    "fire": {4, 155, 255, 390, 498, 653, 725, 813},
-    "water": {7, 158, 258, 393, 501, 656, 728, 816},
+    "grass": {1, 152, 246, 252, 387, 495, 650, 722, 810},
+    "fire": {4, 155, 255, 390, 443, 498, 653, 725, 813},
+    "water": {7, 158, 258, 374, 393, 501, 656, 728, 816},
 }
 
 
-def attach_teams(stops, league, starters, sprite):
+def attach_teams(stops, league, notes, starters, sprite):
     for stop in stops:
         bid = stop.pop("battle", None)
         stop.pop("loc", None)
         if stop.get("kind") != "boss":
             continue
+        apply_battle_meta(stop, notes.get(bid) if bid else None)
         rows = league.get(bid) or []
         team = []
         for mon in rows:
@@ -286,8 +370,48 @@ def attach_teams(stops, league, starters, sprite):
                     team.append({"slug": mon["slug"], "lock": sid})
                 continue
             team.append({"slug": mon["slug"], "lock": lock})
+        team = [mon for mon in team if keep_slug(mon["slug"], sprite)]
         if team:
             stop["team"] = team
+
+
+def battle_suffix(atlas_id):
+    if "expert" in atlas_id:
+        return "_exp"
+    if "hardcore" in atlas_id:
+        return "_hard"
+    if "challenge" in atlas_id:
+        return "_c"
+    if atlas_id == "blazevolt2":
+        return "_n"
+    return ""
+
+
+def battle_note_keys(atlas_id, stop):
+    sid = stop["id"].replace("-", "_")
+    suffix = battle_suffix(atlas_id)
+    keys = [sid]
+    if stop.get("gym"):
+        keys.append(str(int(stop["gym"])))
+    ordered = []
+    if suffix:
+        for key in keys:
+            if not key.endswith(suffix):
+                ordered.append(key + suffix)
+    ordered.extend(keys)
+    return ordered
+
+
+def apply_league_notes(atlas_id, stops, notes):
+    for stop in stops:
+        if stop.get("kind") != "boss":
+            continue
+        for key in ("field", "tag", "weather", "note"):
+            stop.pop(key, None)
+        for key in battle_note_keys(atlas_id, stop):
+            if key in notes:
+                apply_battle_meta(stop, notes[key])
+                break
 
 
 def add_starter_stop(stops, starters):
@@ -392,7 +516,7 @@ def parse_rr_sheet(grid, sprite):
             if cell.startswith("(!)") or "BASE STAT" in cell or cell in {"HP", "ATK", "DEF"}:
                 continue
             slug = rr_slug(cell, sprite)
-            if slug:
+            if slug and keep_slug(slug, sprite):
                 mons.append({"slug": slug, "lock": lock})
         if mons:
             trainers.append({"name": name, "team": mons, "lock": lock})
@@ -463,7 +587,8 @@ def build_one(aid, route, league, mets, sprite, extra=None, emerald=False):
     starters, stops = parse_routes(route)
     add_starter_stop(stops, starters)
     apply_mets(stops, mets)
-    attach_teams(stops, parse_league(league) if league else {}, [species_id(s, sprite) for s in starters], sprite)
+    teams, notes = parse_league(league) if league else ({}, {})
+    attach_teams(stops, teams, notes, [species_id(s, sprite) for s in starters], sprite)
     if extra:
         extra(stops)
     if aid in {"rs", "em", "emkaizo", "emrunbun", "incem"}:

@@ -4,10 +4,8 @@
 #include "run/Catalog.hpp"
 #include "ui/GamePicker.hpp"
 #include "ui/NewRunOptions.hpp"
-#include "ui/PresetPicker.hpp"
 
 #include <imgui.h>
-#include <string>
 
 namespace emulocke {
 
@@ -26,22 +24,20 @@ void drawNewRunModal(Application& app) {
     drawGamePicker(app, draft.catalogUuid);
     const CatalogTitle* selected = catalogByUuid(draft.catalogUuid);
     if (selected) {
-        draft.patchOption = std::string(catalogOptionId(*selected, draft.patchOption));
-        drawOptionalPatches(draft, *selected);
+        bindNewRunTitle(draft, *selected);
     }
-    drawPresetCombo(draft.rules);
-    if (ImGui::BeginTable("rules", 2, ImGuiTableFlags_SizingStretchProp)) {
-        ImGui::TableNextColumn();
-        ImGui::Checkbox("First encounter", &draft.rules.firstEncounter);
-        ImGui::Checkbox("Nicknames", &draft.rules.nicknames);
-        ImGui::Checkbox("Faint is death", &draft.rules.faintIsDeath);
-        ImGui::Checkbox("Dupes clause", &draft.rules.dupesClause);
-        ImGui::TableNextColumn();
-        ImGui::Checkbox("Set mode", &draft.rules.setMode);
-        ImGui::Checkbox("No items in battle", &draft.rules.noItemsInBattle);
-        ImGui::Checkbox("Level cap", &draft.rules.levelCap);
-        ImGui::Checkbox("Shiny clause", &draft.rules.shinyClause);
-        ImGui::EndTable();
+    if (ImGui::BeginTabBar("new-run-tabs", ImGuiTabBarFlags_DrawSelectedOverline | ImGuiTabBarFlags_NoTooltip)) {
+        if (ImGui::BeginTabItem("Game Config")) {
+            if (selected) {
+                drawGameConfig(draft, *selected);
+            }
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Nuzlocke Settings")) {
+            drawNuzlockeSettings(draft.rules);
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
     }
     const bool canStart = selected && app.romLibrary().ready(*selected);
     if (!canStart) {

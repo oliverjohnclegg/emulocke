@@ -829,7 +829,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2155
+      "defeat": 2155,
+      "field": 2
     },
     {
       "id": "route-105",
@@ -1047,7 +1048,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2156
+      "defeat": 2156,
+      "field": 2
     },
     {
       "id": "scorched-slab",
@@ -1410,7 +1412,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2157
+      "defeat": 2157,
+      "field": 2
     },
     {
       "id": "mc2",
@@ -1476,7 +1479,9 @@
           "slug": "metagross",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "tag": true
     },
     {
       "id": "route-125",
@@ -1587,7 +1592,8 @@
           "slug": "kingdra",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "route-126",
@@ -1671,7 +1677,8 @@
           "slug": "vaporeon",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "cave-of-origins",

@@ -1,7 +1,6 @@
 #include "tracker/Difficulty.hpp"
 
 #include <cctype>
-#include <cstring>
 
 namespace emulocke {
 namespace {

@@ -1,12 +1,15 @@
 #include "ui/Tracker.hpp"
 
 #include "adapter/Species.hpp"
+#include "adapter/gen45/Names.hpp"
 #include "application/Application.hpp"
+#include "poke/SlugLabel.hpp"
 #include "poke/SpriteIndex.hpp"
 #include "tracker/Log.hpp"
 #include "ui/BoxSprites.hpp"
 
 #include <imgui.h>
+#include <string>
 
 namespace emulocke {
 
@@ -19,7 +22,10 @@ void drawTracker(Application& app) {
     TrackerLog& log = app.trackerLog();
     if (app.copySnapshot(snap)) {
         app.syncTracker(snap);
-        starter = snap.progress.starterSpecies;
+        starter = log.caught("starter").species;
+        if (starter == 0) {
+            starter = snap.progress.starterSpecies;
+        }
     } else if (app.previewTracker()) {
         starter = log.caught("starter").species;
     }
@@ -72,15 +78,28 @@ void drawTracker(Application& app) {
             } else {
                 const char* slugs[6]{};
                 const char* tips[6]{};
-                const int n = bossTeamSlugs(stop, starter, slugs, 6);
-                for (int s = 0; s < n; ++s) {
-                    tips[s] = slugs[s] ? slugs[s] : "";
-                    if (const auto id = pokemonId(slugs[s] ? slugs[s] : "")) {
-                        const SpeciesRef named = app.species(*id);
-                        if (named.name && named.name[0]) {
-                            tips[s] = named.name;
+                std::string names[6];
+                const int raw = bossTeamSlugs(stop, starter, slugs, 6);
+                int n = 0;
+                for (int s = 0; s < raw; ++s) {
+                    const char* slug = slugs[s] ? slugs[s] : "";
+                    if (!knownPokemonSlug(slug)) {
+                        continue;
+                    }
+                    slugs[n] = slugs[s];
+                    tips[n] = slug;
+                    if (const auto id = pokemonId(slug)) {
+                        const SpeciesRef named = nationalSpeciesRef(*id);
+                        if (named.name && named.name[0] && named.slug &&
+                            normalizeSlug(slug) == named.slug) {
+                            tips[n] = named.name;
+                            ++n;
+                            continue;
                         }
                     }
+                    names[n] = slugDisplayName(slug);
+                    tips[n] = names[n].c_str();
+                    ++n;
                 }
                 bool toggle = false;
                 drawBossRow(stop, slugs, tips, n, log.defeated(stop.id), *sprites, toggle);

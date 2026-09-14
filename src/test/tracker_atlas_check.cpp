@@ -1,6 +1,7 @@
 #include "run/Catalog.hpp"
 #include "test/Check.hpp"
 #include "tracker/Atlas.hpp"
+#include "tracker/Difficulty.hpp"
 #include "tracker/frlg/Keys.hpp"
 
 #include <cstring>
@@ -78,6 +79,16 @@ void testTrackerAtlas() {
     REQUIRE(rr != rrh);
     REQUIRE(emulocke::trackerAtlas(emulocke::kRadicalRedUuid, "2") == rrh);
     REQUIRE(emulocke::trackerAtlas(emulocke::kRadicalRedUuid, "easy") == rr);
+    REQUIRE(emulocke::trackerAtlas(emulocke::kRadicalRedUuid, "normal") == rr);
+    REQUIRE(emulocke::trackerAtlas(emulocke::kRadicalRedUuid, "restricted") == rrh);
+    REQUIRE(emulocke::titleDifficultyChoices("radical-red-4.1").size() == 4);
+    REQUIRE(std::string(emulocke::titleDefaultDifficulty("radical-red-4.1")) == "normal");
+    std::string bound;
+    emulocke::bindTitleDifficulty(bound, "radical-red-4.1");
+    REQUIRE(bound == "normal");
+    bound = "hardcore";
+    emulocke::bindTitleDifficulty(bound, "radical-red-4.1");
+    REQUIRE(bound == "hardcore");
     const emulocke::TrackerStop* brock = findStop(*rr, "gym-1");
     REQUIRE(brock != nullptr);
     REQUIRE(brock->teamCount == 4);
@@ -91,6 +102,56 @@ void testTrackerAtlas() {
             emulocke::trackerAtlas(emulocke::kUnboundUuid, "expert"));
     REQUIRE(emulocke::trackerAtlas(emulocke::kUnboundUuid, "easy") ==
             emulocke::trackerAtlas(emulocke::kUnboundUuid, ""));
+    REQUIRE(emulocke::trackerAtlas(emulocke::kUnboundUuid, "difficult") ==
+            emulocke::trackerAtlas(emulocke::kUnboundUuid, ""));
+    REQUIRE(emulocke::trackerAtlas(emulocke::kUnboundUuid, "vanilla") ==
+            emulocke::trackerAtlas(emulocke::kUnboundUuid, "easy"));
+    REQUIRE(std::string(emulocke::titleDefaultDifficulty("unbound-2.1.1.1")) == "difficult");
+    const emulocke::TrackerAtlas* unbound = emulocke::trackerAtlas(emulocke::kUnboundUuid, "");
+    const emulocke::TrackerStop* mirskle = findStop(*unbound, "gym-1");
+    REQUIRE(mirskle != nullptr);
+    REQUIRE(mirskle->teamCount == 3);
+    REQUIRE(std::strcmp(mirskle->team[0].slug, "floette") == 0);
+    REQUIRE(std::strcmp(mirskle->team[1].slug, "gloom") == 0);
+    REQUIRE(std::strcmp(mirskle->team[2].slug, "weedle") == 0);
+    REQUIRE(mirskle->fieldCount == 2);
+    REQUIRE(std::strcmp(mirskle->weather, "fog") == 0);
+    const emulocke::TrackerStop* moleman = findStop(*unbound, "e1");
+    REQUIRE(moleman != nullptr);
+    REQUIRE(moleman->fieldCount == 2);
+    REQUIRE(std::strcmp(moleman->weather, "sandstorm") == 0);
+    REQUIRE(std::strstr(moleman->note, "double:") == nullptr);
+    const emulocke::TrackerStop* ivory = findStop(*unbound, "sh4");
+    REQUIRE(ivory != nullptr);
+    REQUIRE(ivory->fieldCount == 2);
+    REQUIRE(ivory->tag);
+    const emulocke::TrackerStop* tessy = findStop(*unbound, "gym-7");
+    REQUIRE(tessy != nullptr);
+    REQUIRE(std::strcmp(tessy->weather, "rain") == 0);
+    const emulocke::TrackerStop* jax = findStop(*unbound, "c");
+    REQUIRE(jax != nullptr);
+    REQUIRE(jax->fieldCount == 2);
+    const emulocke::TrackerStop* brockHard = findStop(*rrh, "gym-1");
+    REQUIRE(brockHard != nullptr);
+    REQUIRE(std::strcmp(brockHard->weather, "sandstorm") == 0);
+    const emulocke::TrackerStop* r1 = findStop(*unbound, "r1");
+    REQUIRE(r1 != nullptr);
+    const char* slugs[6]{};
+    REQUIRE(emulocke::bossTeamSlugs(*r1, 0, slugs, 6) == 3);
+    REQUIRE(emulocke::bossTeamSlugs(*r1, 246, slugs, 6) == 1);
+    REQUIRE(std::strcmp(slugs[0], "beldum") == 0);
+    REQUIRE(emulocke::bossTeamSlugs(*r1, 443, slugs, 6) == 1);
+    REQUIRE(std::strcmp(slugs[0], "larvitar") == 0);
+    REQUIRE(emulocke::bossTeamSlugs(*r1, 374, slugs, 6) == 1);
+    REQUIRE(std::strcmp(slugs[0], "gible") == 0);
+    REQUIRE(emulocke::bossTeamSlugs(*r1, 398, slugs, 6) == 1);
+    REQUIRE(std::strcmp(slugs[0], "gible") == 0);
+    const emulocke::TrackerStop* r2 = findStop(*unbound, "r2");
+    REQUIRE(r2 != nullptr);
+    REQUIRE(emulocke::bossTeamSlugs(*r2, 246, slugs, 6) == 2);
+    REQUIRE(std::strcmp(slugs[0], "swinub") == 0);
+    REQUIRE(std::strcmp(slugs[1], "beldum") == 0);
+    REQUIRE(emulocke::titleDifficultyChoices("firered-us-1.0").empty());
     REQUIRE(emulocke::trackerAtlas(emulocke::kVoltWhite2ReduxUuid, "") !=
             emulocke::trackerAtlas(emulocke::kVoltWhite2ReduxUuid, "challenge"));
     REQUIRE(emulocke::trackerAtlas(emulocke::kBlazeBlackUuid, "", "full") ==

@@ -710,7 +710,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2155
+      "defeat": 2155,
+      "field": 2
     },
     {
       "id": "route-134",
@@ -915,7 +916,8 @@
           "slug": "exeggutor-alola",
           "lock": 390
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "route-120",
@@ -1252,7 +1254,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2157
+      "defeat": 2157,
+      "note": "This is a consecutive fight with no healing between Tate & Liza"
     },
     {
       "id": "mg3",
@@ -1437,7 +1440,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2158
+      "defeat": 2158,
+      "field": 2
     },
     {
       "id": "pacifidlog-town",
@@ -1636,7 +1640,9 @@
           "lock": 0
         }
       ],
-      "defeat": 1276
+      "defeat": 1276,
+      "field": 2,
+      "note": "You must opt in to at least two double battles from the Elite Four"
     },
     {
       "id": "e2",
@@ -1704,7 +1710,9 @@
           "lock": 0
         }
       ],
-      "defeat": 1278
+      "defeat": 1278,
+      "field": 2,
+      "note": "You must opt in to at least two double battles from the Elite Four"
     },
     {
       "id": "e3",
@@ -1770,7 +1778,9 @@
           "slug": "kyurem-black",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "note": "You must opt in to at least two double battles from the Elite Four"
     },
     {
       "id": "e4",
@@ -1836,7 +1846,9 @@
           "slug": "salamence",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "note": "You must opt in to at least two double battles from the Elite Four"
     },
     {
       "id": "ec",

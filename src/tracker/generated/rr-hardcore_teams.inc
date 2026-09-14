@@ -357,7 +357,6 @@ constexpr emulocke::BossMon kTeam_rr_hardcore_53[] = {
     {"toxtricity-mega", 0}
 };
 constexpr emulocke::BossMon kTeam_rr_hardcore_62[] = {
-    {"effecthail", 0},
     {"cloyster", 0},
     {"suicune", 0},
     {"clefable", 0},
@@ -366,7 +365,6 @@ constexpr emulocke::BossMon kTeam_rr_hardcore_62[] = {
     {"glalie", 0}
 };
 constexpr emulocke::BossMon kTeam_rr_hardcore_63[] = {
-    {"effecthail", 0},
     {"sandslash-alola", 0},
     {"reuniclus", 0},
     {"clefable", 0},
@@ -375,7 +373,6 @@ constexpr emulocke::BossMon kTeam_rr_hardcore_63[] = {
     {"glalie", 0}
 };
 constexpr emulocke::BossMon kTeam_rr_hardcore_64[] = {
-    {"effecthail", 0},
     {"cloyster", 0},
     {"suicune", 0},
     {"clefable", 0},
@@ -568,7 +565,6 @@ constexpr emulocke::BossMon kTeam_rr_hardcore_75[] = {
     {"treecko", 4}
 };
 constexpr emulocke::BossMon kTeam_rr_hardcore_76[] = {
-    {"doubletrue", 0},
     {"ludicolo", 0},
     {"kingdra", 0},
     {"genesect", 0},
@@ -577,7 +573,6 @@ constexpr emulocke::BossMon kTeam_rr_hardcore_76[] = {
     {"swampert-mega", 0}
 };
 constexpr emulocke::BossMon kTeam_rr_hardcore_77[] = {
-    {"doubletrue", 0},
     {"glaceon", 0},
     {"landorus-therian", 0},
     {"beartic", 0},
@@ -772,7 +767,6 @@ constexpr emulocke::BossMon kTeam_rr_hardcore_83[] = {
     {"eternatus-eternamax", 810}
 };
 constexpr emulocke::BossMon kTeam_rr_hardcore_91[] = {
-    {"effectsandstorm", 0},
     {"terrakion", 0},
     {"landorus-incarnate", 0},
     {"zygarde-50", 0},
@@ -789,7 +783,6 @@ constexpr emulocke::BossMon kTeam_rr_hardcore_92[] = {
     {"gyarados-mega", 0}
 };
 constexpr emulocke::BossMon kTeam_rr_hardcore_93[] = {
-    {"effectelectric-terrain", 0},
     {"electivire", 0},
     {"raichu-alola", 0},
     {"magnezone", 0},

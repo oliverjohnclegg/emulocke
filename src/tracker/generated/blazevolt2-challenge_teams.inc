@@ -148,14 +148,7 @@ constexpr emulocke::BossMon kTeam_blazevolt2_challenge_41[] = {
     {"starmie", 495},
     {"emboar", 495}
 };
-constexpr emulocke::BossMon kTeam_blazevolt2_challenge_46[] = {
-    {"mt", 0},
-    {"ufo", 0},
-    {"f00", 0},
-    {"mt2", 0}
-};
 constexpr emulocke::BossMon kTeam_blazevolt2_challenge_47[] = {
-    {"doubletrue", 0},
     {"swampert", 0},
     {"slowking", 0},
     {"pelipper", 0},
@@ -209,7 +202,6 @@ constexpr emulocke::BossMon kTeam_blazevolt2_challenge_61[] = {
     {"volcarona", 0}
 };
 constexpr emulocke::BossMon kTeam_blazevolt2_challenge_65[] = {
-    {"effectrain", 0},
     {"dragonite", 0},
     {"mantine", 0},
     {"rotom-fan", 0},
@@ -243,7 +235,6 @@ constexpr emulocke::BossMon kTeam_blazevolt2_challenge_70[] = {
     {"beheeyem", 0}
 };
 constexpr emulocke::BossMon kTeam_blazevolt2_challenge_71[] = {
-    {"effectrain", 0},
     {"poliwrath", 0},
     {"ludicolo", 0},
     {"kabutops", 0},

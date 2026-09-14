@@ -29,6 +29,10 @@ struct TrackerStop {
     uint16_t defeatFlag{};
     uint8_t defeatSpan{};
     uint8_t gymIndex{};
+    uint8_t fieldCount{1};
+    bool tag{};
+    const char* weather = "";
+    const char* note = "";
 };
 
 struct TrackerAtlas {

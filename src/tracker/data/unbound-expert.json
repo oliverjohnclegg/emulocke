@@ -21,15 +21,15 @@
       "team": [
         {
           "slug": "larvitar",
-          "lock": 0
+          "lock": 443
         },
         {
           "slug": "gible",
-          "lock": 0
+          "lock": 374
         },
         {
           "slug": "beldum",
-          "lock": 0
+          "lock": 246
         }
       ]
     },
@@ -73,15 +73,15 @@
         },
         {
           "slug": "larvitar",
-          "lock": 0
+          "lock": 443
         },
         {
           "slug": "gible",
-          "lock": 0
+          "lock": 374
         },
         {
           "slug": "beldum",
-          "lock": 0
+          "lock": 246
         }
       ]
     },
@@ -112,10 +112,6 @@
       "gym": 1,
       "team": [
         {
-          "slug": "doubletrue",
-          "lock": 0
-        },
-        {
           "slug": "floette",
           "lock": 0
         },
@@ -131,7 +127,9 @@
           "slug": "comfey",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "weather": "fog"
     },
     {
       "id": "route-3",
@@ -205,7 +203,9 @@
           "slug": "shiftry",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "tag": true
     },
     {
       "id": "route-5",
@@ -258,7 +258,8 @@
           "slug": "honchkrow",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Negative Energy A negative energy fills the battlefield and makes every non-Dark, non-Ghost and non-Psychic type Pokemon take 6.25% damage at the end of every turn."
     },
     {
       "id": "sh2-exp",
@@ -347,15 +348,15 @@
         },
         {
           "slug": "pupitar",
-          "lock": 0
+          "lock": 443
         },
         {
           "slug": "gabite",
-          "lock": 0
+          "lock": 374
         },
         {
           "slug": "metang",
-          "lock": 0
+          "lock": 246
         }
       ]
     },
@@ -405,7 +406,8 @@
           "slug": "crobat",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Tailwind A permanent tailwind effect for Flying-Types"
     },
     {
       "id": "frozen-forest",
@@ -453,7 +455,8 @@
           "slug": "heliolisk",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Inverse Battle Type matchups are reversed and no type is immune to any other type."
     },
     {
       "id": "route-11",
@@ -536,7 +539,9 @@
           "slug": "oranguru",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "tag": true
     },
     {
       "id": "tarmigan-town",
@@ -644,27 +649,27 @@
         },
         {
           "slug": "fraxure",
-          "lock": 0
+          "lock": 443
         },
         {
           "slug": "aggron",
-          "lock": 0
+          "lock": 374
         },
         {
           "slug": "fraxure",
-          "lock": 0
+          "lock": 246
         },
         {
           "slug": "pupitar",
-          "lock": 0
+          "lock": 443
         },
         {
           "slug": "gabite",
-          "lock": 0
+          "lock": 374
         },
         {
           "slug": "metagross",
-          "lock": 0
+          "lock": 246
         }
       ]
     },
@@ -686,10 +691,6 @@
       "gym": 5,
       "team": [
         {
-          "slug": "doubletrue",
-          "lock": 0
-        },
-        {
           "slug": "bronzong",
           "lock": 0
         },
@@ -709,7 +710,9 @@
           "slug": "escavalier",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "note": "Magnet Rise Permanent Magnet Rise effect for Steel-Type & Electric-Types making them immune to Ground type attacks."
     },
     {
       "id": "ruins-of-void",
@@ -751,7 +754,9 @@
           "slug": "bisharp",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "tag": true
     },
     {
       "id": "sh6-exp",
@@ -951,7 +956,8 @@
           "slug": "wailord",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Inverse Gravity Permanent Trick Room effect for weight, heavier Pokemon go first."
     },
     {
       "id": "icy-hole",
@@ -998,10 +1004,6 @@
       "gym": 7,
       "team": [
         {
-          "slug": "infop",
-          "lock": 0
-        },
-        {
           "slug": "toxapex",
           "lock": 0
         },
@@ -1025,7 +1027,9 @@
           "slug": "seaking",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "rain",
+      "note": "Camo-mons The Pokemon's types are that of the types of their first two attacks."
     },
     {
       "id": "cootes-bog",
@@ -1058,15 +1062,15 @@
         },
         {
           "slug": "rotom-fan",
-          "lock": 0
+          "lock": 443
         },
         {
           "slug": "rotom-fan",
-          "lock": 0
+          "lock": 374
         },
         {
           "slug": "rotom-mow",
-          "lock": 0
+          "lock": 246
         },
         {
           "slug": "vaporeon",
@@ -1074,39 +1078,39 @@
         },
         {
           "slug": "haxorus",
-          "lock": 0
+          "lock": 443
         },
         {
           "slug": "aggron",
-          "lock": 0
+          "lock": 374
         },
         {
           "slug": "haxorus",
-          "lock": 0
+          "lock": 246
         },
         {
           "slug": "talonflame",
-          "lock": 0
+          "lock": 443
         },
         {
           "slug": "chandelure",
-          "lock": 0
+          "lock": 374
         },
         {
           "slug": "talonflame",
-          "lock": 0
+          "lock": 246
         },
         {
           "slug": "tyranitar",
-          "lock": 0
+          "lock": 443
         },
         {
           "slug": "garchomp",
-          "lock": 0
+          "lock": 374
         },
         {
           "slug": "metagross",
-          "lock": 0
+          "lock": 246
         }
       ]
     },
@@ -1150,7 +1154,9 @@
           "slug": "eelektross",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "tag": true
     },
     {
       "id": "lr4-exp",
@@ -1268,7 +1274,8 @@
           "slug": "flygon",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Benjamin Butterfree When a Pokemon is knocked out, instead of fainting it devolves to a previous evolution. The Pokemon finally faints when it can\u2019t devolve anymore."
     },
     {
       "id": "route-18",
@@ -1296,10 +1303,6 @@
       "boss": "elitefour",
       "team": [
         {
-          "slug": "effectsandstorm",
-          "lock": 0
-        },
-        {
           "slug": "excadrill",
           "lock": 0
         },
@@ -1323,7 +1326,10 @@
           "slug": "landorus-therian",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "weather": "sandstorm",
+      "note": "Vicious Sandstorm Vicious sand causes Pokemon to lose 1/8 of max HP at the end of every turn"
     },
     {
       "id": "e2-exp",
@@ -1356,7 +1362,8 @@
           "slug": "blacephalon",
           "lock": 0
         }
-      ]
+      ],
+      "note": "Shadowy Veil Every Ghost-type Pokemon take half damage on full HP. Ghost-types are immune to entry hazards at full HP. Other Types cannot use Safeguard or Substitute."
     },
     {
       "id": "e3-exp",
@@ -1365,10 +1372,6 @@
       "locale": "Pok\u00e9mon League",
       "boss": "elitefour",
       "team": [
-        {
-          "slug": "effectmisty-terrain",
-          "lock": 0
-        },
         {
           "slug": "ribombee",
           "lock": 0
@@ -1393,7 +1396,9 @@
           "slug": "tapu-fini",
           "lock": 0
         }
-      ]
+      ],
+      "weather": "misty-terrain",
+      "note": "Fairy ring All Fairy-Type Pokemon get a +1 boost to their lowest Defense stat on switch in."
     },
     {
       "id": "e4-exp",
@@ -1402,10 +1407,6 @@
       "locale": "Pok\u00e9mon League",
       "boss": "elitefour",
       "team": [
-        {
-          "slug": "doubletrue",
-          "lock": 0
-        },
         {
           "slug": "goodra",
           "lock": 0
@@ -1430,7 +1431,9 @@
           "slug": "latias",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2,
+      "note": "Rainbow Battle All Dragon-type Pokemon on the field have their moves' secondary effect chance doubled. This stacks Serene Grace with the exception of flinching moves."
     },
     {
       "id": "c-exp",
@@ -1463,7 +1466,8 @@
           "slug": "pyroar",
           "lock": 0
         }
-      ]
+      ],
+      "field": 2
     },
     {
       "id": "tomb-of-borrius",

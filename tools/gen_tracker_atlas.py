@@ -36,6 +36,28 @@ FAMILY = {
 }
 
 
+def parse_sprite_ids():
+    ids = {}
+    for line in (ROOT / "src/poke/SpriteIndex.inc").read_text().splitlines():
+        m = re.search(r'\{"([^"]+)",\s*(\d+)\}', line)
+        if m:
+            ids[m.group(1)] = int(m.group(2))
+    return ids
+
+
+def keep_slug(slug, sprite):
+    if slug in sprite:
+        return True
+    prefix = slug + "-"
+    if any(k.startswith(prefix) for k in sprite):
+        return True
+    if "-" in slug:
+        base = slug.split("-", 1)[0]
+        if base in sprite or any(k.startswith(base + "-") for k in sprite):
+            return True
+    return False
+
+
 def ident(s):
     out = []
     for c in s:
@@ -50,7 +72,7 @@ def ident(s):
 
 
 def cpp_str(s):
-    return '"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"'
+    return '"' + s.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n") + '"'
 
 
 def boss_kind(s):
@@ -63,7 +85,7 @@ def boss_kind(s):
     }.get(s, "None")
 
 
-def emit_atlas(data):
+def emit_atlas(data, sprite):
     aid = data["id"]
     prefix = ident(aid)
     teams = []
@@ -77,17 +99,20 @@ def emit_atlas(data):
         team_sym = "nullptr"
         team_count = 0
         if team:
-            team_sym = f"kTeam_{prefix}_{i}"
-            team_count = len(team)
             rows = []
             for mon in team:
                 slug = mon["slug"]
+                if not keep_slug(slug, sprite):
+                    continue
                 lock = int(mon.get("lock") or 0)
                 rows.append(f'    {{{cpp_str(slug)}, {lock}}}')
-            team_lines.append(f"constexpr emulocke::BossMon {team_sym}[] = {{")
-            team_lines.append(",\n".join(rows))
-            team_lines.append("};")
-            teams.append(team_sym)
+            if rows:
+                team_sym = f"kTeam_{prefix}_{i}"
+                team_count = len(rows)
+                team_lines.append(f"constexpr emulocke::BossMon {team_sym}[] = {{")
+                team_lines.append(",\n".join(rows))
+                team_lines.append("};")
+                teams.append(team_sym)
         mets = stop.get("mets") or []
         met_sym = "nullptr"
         met_count = 0
@@ -108,12 +133,18 @@ def emit_atlas(data):
         defeat = int(stop.get("defeat") or 0)
         span = int(stop.get("span") or 0)
         gym = int(stop.get("gym") or 0)
+        field = int(stop.get("field") or 1)
+        if field < 1:
+            field = 1
+        tag = "true" if stop.get("tag") else "false"
+        weather = cpp_str(stop["weather"]) if stop.get("weather") else '""'
+        note = cpp_str(stop["note"]) if stop.get("note") else '""'
         stop_rows.append(
             "    {"
             f"{cpp_str(stop['id'])}, emulocke::TrackerStopKind::{kind}, {cpp_str(stop['name'])}, "
             f"{cpp_str(stop.get('locale') or '')}, emulocke::BossKind::{bk}, "
             f"emulocke::CatchKind::{catch}, {met_sym}, {met_count}, {team_sym}, {team_count}, "
-            f"{defeat}, {span}, {gym}"
+            f"{defeat}, {span}, {gym}, {field}, {tag}, {weather}, {note}"
             "}"
         )
     starters = [int(x) for x in data.get("starters") or []]
@@ -153,9 +184,10 @@ const TrackerAtlas& {fn}Atlas() {{
 
 def main():
     decls = []
+    sprite = parse_sprite_ids()
     for path in sorted(DATA.glob("*.json")):
         data = json.loads(path.read_text())
-        fn, aid = emit_atlas(data)
+        fn, aid = emit_atlas(data, sprite)
         decls.append(f"const TrackerAtlas& {fn}Atlas();")
     header = "#pragma once\n\n#include \"tracker/Atlas.hpp\"\n\nnamespace emulocke {\n\n"
     header += "\n".join(decls) + "\n\n}\n"

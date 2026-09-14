@@ -1,4 +1,5 @@
 #include "emu/Paths.hpp"
+#include "poke/SlugLabel.hpp"
 #include "poke/SpriteIndex.hpp"
 #include "poke/Sprites.hpp"
 #include "cart/GameArtPng.hpp"
@@ -58,6 +59,19 @@ int main(int argc, char** argv) {
     }
     if (emulocke::pokemonId("not-a-pokemon")) {
         return fail("garbage id");
+    }
+    if (emulocke::pokemonId("doubletrue") || emulocke::knownPokemonSlug("doubletrue") ||
+        emulocke::knownPokemonSlug("effectsandstorm")) {
+        return fail("note slug");
+    }
+    if (!emulocke::knownPokemonSlug("arceus-ground") || !emulocke::knownPokemonSlug("floette")) {
+        return fail("form slug");
+    }
+    if (emulocke::slugDisplayName("floette") != "Floette") {
+        return fail("floette label");
+    }
+    if (emulocke::slugDisplayName("beldum") != "Beldum") {
+        return fail("beldum label");
     }
     if (emulocke::normalizeSlug("MR. MIME") != "mr-mime") {
         return fail("mr mime slug");

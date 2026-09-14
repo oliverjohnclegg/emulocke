@@ -5,8 +5,10 @@
 #include "adapter/gen45/Names.hpp"
 #include "emu/Paths.hpp"
 #include "poke/Sprites.hpp"
+#include "run/Catalog.hpp"
 #include "run/RunMeta.hpp"
 #include "tracker/Atlas.hpp"
+#include "tracker/Difficulty.hpp"
 #include "tracker/frlg/Frlg.hpp"
 #include "tracker/Log.hpp"
 #include "ui/BoxSprites.hpp"
@@ -15,6 +17,7 @@
 #include "run/SavePeek.hpp"
 
 #include <cstring>
+#include <string_view>
 
 namespace emulocke {
 
@@ -95,9 +98,16 @@ void Application::syncTracker(const GameSnapshot& snap) {
     }
     if (!activeRunId_.empty() && runStore_) {
         Run* run = runStore_->find(activeRunId_);
-        if (run && snap.progress.difficulty[0] && run->difficulty != snap.progress.difficulty) {
-            run->difficulty = snap.progress.difficulty;
-            writeRunMeta(runStore_->dir(activeRunId_), *run);
+        if (run && snap.progress.difficulty[0] &&
+            (run->catalogUuid == kRadicalRedUuid || run->catalogUuid == kUnboundUuid)) {
+            const CatalogTitle* title = catalogByUuid(run->catalogUuid);
+            const std::string_view slug = title ? title->slug : "";
+            const std::string_view cart = snap.progress.difficulty;
+            if (run->difficulty.empty() ||
+                atlasDifficultyKey(slug, cart) != atlasDifficultyKey(slug, run->difficulty)) {
+                run->difficulty = cart;
+                writeRunMeta(runStore_->dir(activeRunId_), *run);
+            }
         }
     }
     const TrackerAtlas* atlas = trackerAtlas();
