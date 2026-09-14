@@ -13,7 +13,7 @@ struct Slot {
     bool ready{};
 };
 
-Slot kSlots[650];
+Slot kSlots[1026];
 
 void fillSlot(uint16_t species, Slot& slot) {
     const char* raw = nationalSpeciesName(species);
@@ -60,7 +60,7 @@ void fillSlot(uint16_t species, Slot& slot) {
 }  // namespace
 
 SpeciesRef nationalSpeciesRef(uint16_t species) {
-    if (species == 0 || species >= 650) {
+    if (species == 0 || species >= 1026) {
         return {};
     }
     Slot& slot = kSlots[species];

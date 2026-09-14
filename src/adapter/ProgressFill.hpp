@@ -1,6 +1,7 @@
 #pragma once
 
 #include "adapter/Snapshot.hpp"
+#include "adapter/StarterLine.hpp"
 
 #include <cstdint>
 #include <cstring>
@@ -14,7 +15,7 @@ inline void fillStarterSpecies(GameSnapshot& snap, std::span<const uint16_t> ids
             return;
         }
         for (uint16_t id : ids) {
-            if (mon.species == id) {
+            if (mon.species == id || sameStarterLine(mon.species, id)) {
                 snap.progress.starterSpecies = mon.species;
                 return;
             }

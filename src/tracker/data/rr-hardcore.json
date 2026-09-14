@@ -148,7 +148,8 @@
           "slug": "charmander",
           "lock": 810
         }
-      ]
+      ],
+      "defeat": 600
     },
     {
       "id": "route-1",

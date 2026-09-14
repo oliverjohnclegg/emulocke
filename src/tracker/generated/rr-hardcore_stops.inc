@@ -46,7 +46,7 @@ constexpr uint16_t kStarters_rr_hardcore[] = {1, 7, 4, 152, 155, 158, 252, 255, 
 constexpr emulocke::TrackerStop kStops_rr_hardcore[] = {
     {"starter", emulocke::TrackerStopKind::Encounter, "Starter", "", emulocke::BossKind::None, emulocke::CatchKind::Starter, nullptr, 0, nullptr, 0, 0, 0, 0},
     {"pallet-town", emulocke::TrackerStopKind::Encounter, "Pallet Town", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_rr_hardcore_0, 1, nullptr, 0, 0, 0, 0},
-    {"r1", emulocke::TrackerStopKind::Boss, "Gary", "Oak's Laboratory", emulocke::BossKind::Rival, emulocke::CatchKind::None, nullptr, 0, kTeam_rr_hardcore_2, 24, 0, 0, 0},
+    {"r1", emulocke::TrackerStopKind::Boss, "Gary", "Oak's Laboratory", emulocke::BossKind::Rival, emulocke::CatchKind::None, nullptr, 0, kTeam_rr_hardcore_2, 24, 600, 0, 0},
     {"route-1", emulocke::TrackerStopKind::Encounter, "Route 1", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_rr_hardcore_1, 1, nullptr, 0, 0, 0, 0},
     {"r2-hard", emulocke::TrackerStopKind::Boss, "Gary", "Route 1", emulocke::BossKind::Rival, emulocke::CatchKind::None, nullptr, 0, kTeam_rr_hardcore_4, 42, 0, 0, 0},
     {"viridian-city", emulocke::TrackerStopKind::Encounter, "Viridian City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_rr_hardcore_2, 1, nullptr, 0, 0, 0, 0},

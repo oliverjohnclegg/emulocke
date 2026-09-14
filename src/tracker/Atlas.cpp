@@ -1,5 +1,8 @@
 #include "tracker/Atlas.hpp"
 
+#include "adapter/frlg/FrlgNames.hpp"
+#include "adapter/gen45/Names.hpp"
+#include "adapter/StarterLine.hpp"
 #include "run/Catalog.hpp"
 #include "tracker/Atlases.hpp"
 #include "tracker/Difficulty.hpp"
@@ -13,6 +16,22 @@ namespace {
 bool isFrlg(std::string_view uuid) {
     return uuid == kFireRedUs10Uuid || uuid == kFireRedUs11Uuid || uuid == kLeafGreenUs10Uuid ||
            uuid == kLeafGreenUs11Uuid;
+}
+
+bool slugEq(const SpeciesRef& a, const SpeciesRef& b) {
+    return a.slug && b.slug && a.slug[0] && b.slug[0] && std::strcmp(a.slug, b.slug) == 0;
+}
+
+bool starterLockHits(uint16_t lock, uint16_t starter) {
+    if (lock == 0 || starter == 0 || lock == starter) {
+        return true;
+    }
+    const SpeciesRef nLock = nationalSpeciesRef(lock);
+    const SpeciesRef fLock = frlgSpeciesRef(lock);
+    const SpeciesRef nStarter = nationalSpeciesRef(starter);
+    const SpeciesRef fStarter = frlgSpeciesRef(starter);
+    return slugEq(nLock, nStarter) || slugEq(nLock, fStarter) || slugEq(fLock, nStarter) ||
+           slugEq(fLock, fStarter) || sameStarterLine(lock, starter);
 }
 
 }  // namespace
@@ -111,7 +130,7 @@ int bossTeamSlugs(const TrackerStop& stop, uint16_t starter, const char** out, i
     };
     for (uint8_t i = 0; i < stop.teamCount; ++i) {
         const BossMon& mon = stop.team[i];
-        if (starter != 0 && mon.starterLock != 0 && mon.starterLock != starter) {
+        if (!starterLockHits(mon.starterLock, starter)) {
             continue;
         }
         push(mon.slug);

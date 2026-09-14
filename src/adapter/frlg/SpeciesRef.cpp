@@ -13,7 +13,8 @@ struct Slot {
     bool ready{};
 };
 
-Slot kSlots[440];
+constexpr uint16_t kSpeciesCap = 1600;
+Slot kSlots[kSpeciesCap];
 
 void fillSlot(uint16_t species, Slot& slot) {
     const char* raw = frlgSpeciesName(species);
@@ -48,7 +49,7 @@ void fillSlot(uint16_t species, Slot& slot) {
     slot.slug[si] = 0;
     if (species >= 1 && species <= 251) {
         slot.national = species;
-    } else if (species >= 277) {
+    } else if (species >= 277 && species <= 411) {
         slot.national = static_cast<uint16_t>(species - 25);
     }
     if (std::strcmp(raw, "???") == 0) {
@@ -61,7 +62,7 @@ void fillSlot(uint16_t species, Slot& slot) {
 }  // namespace
 
 SpeciesRef frlgSpeciesRef(uint16_t species) {
-    if (species == 0 || species >= 440) {
+    if (species == 0 || species >= kSpeciesCap) {
         return {};
     }
     Slot& slot = kSlots[species];

@@ -1,6 +1,8 @@
 #include "tracker/Log.hpp"
 
 #include "adapter/Snapshot.hpp"
+#include "adapter/StarterLine.hpp"
+#include "adapter/frlg/FrlgNames.hpp"
 #include "adapter/gen45/Names.hpp"
 
 #include <cctype>
@@ -12,6 +14,25 @@
 namespace emulocke {
 namespace {
 
+bool sameSpecies(uint16_t a, uint16_t b) {
+    if (a == 0 || b == 0 || a == b) {
+        return a == b;
+    }
+    const SpeciesRef left[] = {frlgSpeciesRef(a), nationalSpeciesRef(a)};
+    const SpeciesRef right[] = {frlgSpeciesRef(b), nationalSpeciesRef(b)};
+    for (const SpeciesRef& l : left) {
+        if (!l.slug || !l.slug[0]) {
+            continue;
+        }
+        for (const SpeciesRef& r : right) {
+            if (r.slug && r.slug[0] && std::strcmp(l.slug, r.slug) == 0) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool catchMatches(const TrackerStop& stop, const Mon& mon, const TrackerAtlas& atlas) {
     if (mon.species == 0 || mon.egg) {
         return false;
@@ -22,7 +43,7 @@ bool catchMatches(const TrackerStop& stop, const Mon& mon, const TrackerAtlas& a
             return species == 1 || species == 4 || species == 7;
         }
         for (uint16_t id : atlas.starters) {
-            if (species == id) {
+            if (sameSpecies(species, id) || sameStarterLine(species, id)) {
                 return true;
             }
         }
@@ -85,17 +106,23 @@ void applyTrackerFill(TrackerLog& log, const TrackerAtlas& atlas, const GameSnap
                     }
                 }
             }
-            if (stop.bossKind == BossKind::Gym && gymBadgeEarned(snap, stop.gymIndex)) {
-                log.setDefeated(stop.id, true);
+            if (stop.bossKind == BossKind::Gym) {
+                if (gymBadgeEarned(snap, stop.gymIndex)) {
+                    log.setDefeated(stop.id, true);
+                } else if (stop.gymIndex != 0 && snap.gyms.slots != 0) {
+                    log.setDefeated(stop.id, false);
+                }
             }
             continue;
         }
         Caught row = log.caught(stop.id);
         if (row.personality != 0) {
-            for (const Mon* mon : mons) {
-                if (mon->personality == row.personality && mon->species != 0 && !mon->egg) {
-                    log.setCaught(stop.id, trackerSpeciesId(atlas.id, mon->species), mon->personality);
-                    break;
+            if (stop.catchKind != CatchKind::Starter) {
+                for (const Mon* mon : mons) {
+                    if (mon->personality == row.personality && mon->species != 0 && !mon->egg) {
+                        log.setCaught(stop.id, trackerSpeciesId(atlas.id, mon->species), mon->personality);
+                        break;
+                    }
                 }
             }
             continue;
@@ -118,6 +145,13 @@ void applyTrackerFill(TrackerLog& log, const TrackerAtlas& atlas, const GameSnap
                 claimed.insert(mon->personality);
             }
             break;
+        }
+    }
+    if (log.caught("starter").species != 0) {
+        const std::string_view id = atlas.id ? atlas.id : "";
+        if (id == "blaze" || id == "volt") {
+            log.setDefeated("b1", true);
+            log.setDefeated("c1", true);
         }
     }
 }

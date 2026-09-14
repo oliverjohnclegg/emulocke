@@ -86,6 +86,7 @@ constexpr const char* kNational[] = {
     "DURANT", "DEINO", "ZWEILOUS", "HYDREIGON", "LARVESTA", "VOLCARONA", "COBALION", "TERRAKION",
     "VIRIZION", "TORNADUS", "THUNDURUS", "RESHIRAM", "ZEKROM", "LANDORUS", "KYUREM", "KELDEO",
     "MELOETTA", "GENESECT",
+#include "adapter/gen45/NationalNamesLater.inc"
 };
 
 }  // namespace

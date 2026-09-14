@@ -52,6 +52,7 @@ void testLocalSaves() {
     checkSav(dir / "platinum-U.sav", "Anthony", 6);
     checkSav(dir / "heartgold-U.sav", "Ethan", 6);
     checkSav(dir / "black-U.sav", "Raval", 6);
+    checkSav(dir / "test_blaze_black.sav", "Gibbers", 4);
     checkSav(dir / "black2-U.sav", "Jason", 6);
     checkSav(dir / "rom_hack_patches" / "Pokemon Unbound.sav", nullptr, 6);
     checkSav(std::filesystem::path(home) / ".local/share/emulocke/emulocke/runs/6af31828902eec1e/battery.sav",
