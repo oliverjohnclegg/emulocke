@@ -65,11 +65,12 @@ void drawCheats(Application& app) {
     if (app.bodyFont()) {
         ImGui::PushFont(app.bodyFont());
     }
-    const float gap = 6.f;
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(ImGui::GetStyle().ItemSpacing.x, gap));
+    const float gap = 8.f;
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(ImGui::GetStyle().ItemSpacing.x, 0.f));
     ImGui::PushStyleColor(ImGuiCol_ChildBg, kScreenWell);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8.f, 8.f));
-    ImGui::BeginChild("cheats-well", ImVec2(0, -(kCheatAddH + gap)),
+    const float wellH = ImGui::GetContentRegionAvail().y - kCheatAddH - gap;
+    ImGui::BeginChild("cheats-well", ImVec2(0, wellH),
         ImGuiChildFlags_Borders | ImGuiChildFlags_AlwaysUseWindowPadding);
     std::string doomed;
     for (const Cheat& row : app.cheats().items()) {
@@ -78,6 +79,7 @@ void drawCheats(Application& app) {
     ImGui::EndChild();
     ImGui::PopStyleVar();
     ImGui::PopStyleColor();
+    ImGui::Dummy(ImVec2(0, gap));
     if (!doomed.empty()) {
         app.removeCheat(doomed);
     }
