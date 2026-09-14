@@ -422,6 +422,7 @@ int main() {
     std::filesystem::remove_all(tmp);
     fails += testBuildId();
     fails += testPatchFormats();
+    fails += testPatchBounds();
     fails += testLocalPatches();
     fails += testLayout();
     fails += testInput();

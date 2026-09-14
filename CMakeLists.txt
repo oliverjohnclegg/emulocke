@@ -254,6 +254,7 @@ add_executable(emulocke
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
     src/run/PatchBps.cpp
+    src/run/BpsCommands.cpp
     src/run/PatchXdelta.cpp
     src/run/RomLibrary.cpp
     src/run/RomLibraryEnsure.cpp
@@ -399,6 +400,7 @@ add_executable(emulocke-boot-check EXCLUDE_FROM_ALL
     src/run/CatalogLookup.cpp
     src/run/PatchApply.cpp
     src/run/PatchBps.cpp
+    src/run/BpsCommands.cpp
     src/run/PatchXdelta.cpp)
 target_include_directories(emulocke-boot-check PRIVATE src)
 target_compile_definitions(emulocke-boot-check PRIVATE SDL_MAIN_HANDLED)
@@ -421,6 +423,7 @@ add_executable(emulocke-run-check
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
     src/run/PatchBps.cpp
+    src/run/BpsCommands.cpp
     src/run/PatchXdelta.cpp
     src/run/RomLibrary.cpp
     src/run/RomLibraryEnsure.cpp
@@ -431,6 +434,7 @@ add_executable(emulocke-run-check
     src/run/RunStoreAttempts.cpp
     src/run/TitlePlay.cpp
     src/test/patch_format_check.cpp
+    src/test/patch_bounds_check.cpp
     src/test/local_patch_check.cpp
     src/test/layout_check.cpp
     src/test/input_check.cpp

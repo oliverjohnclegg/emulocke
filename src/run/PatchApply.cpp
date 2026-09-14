@@ -4,8 +4,38 @@
 #include <mgba-util/sha1.h>
 #include <mgba-util/vfs.h>
 #include <cstdio>
+#include <memory>
 
 namespace emulocke {
+namespace {
+
+struct VFileCloser {
+    void operator()(VFile* vf) const { vf->close(vf); }
+};
+using VFilePtr = std::unique_ptr<VFile, VFileCloser>;
+
+std::optional<std::vector<uint8_t>> applyMgbaPatch(
+    std::span<const uint8_t> rom, std::span<const uint8_t> patch) {
+    const VFilePtr vf(VFileFromConstMemory(patch.data(), patch.size()));
+    if (!vf) {
+        return std::nullopt;
+    }
+    Patch applied{};
+    if (!loadPatch(vf.get(), &applied) || !applied.outputSize || !applied.applyPatch) {
+        return std::nullopt;
+    }
+    const size_t outSize = applied.outputSize(&applied, rom.size());
+    if (outSize == 0 || outSize > kMaxPatchedRom) {
+        return std::nullopt;
+    }
+    std::vector<uint8_t> out(outSize);
+    if (!applied.applyPatch(&applied, rom.data(), rom.size(), out.data(), outSize)) {
+        return std::nullopt;
+    }
+    return out;
+}
+
+}  // namespace
 
 std::string sha1Hex(std::span<const uint8_t> bytes) {
     uint8_t digest[20]{};
@@ -25,22 +55,8 @@ std::optional<std::vector<uint8_t>> applyRomPatch(
     if (patch.size() >= 4 && patch[0] == 'B' && patch[1] == 'P' && patch[2] == 'S' && patch[3] == '1') {
         return applyBpsPatch(rom, patch);
     }
-    VFile* vf = VFileFromConstMemory(patch.data(), patch.size());
-    if (vf) {
-        Patch applied{};
-        if (loadPatch(vf, &applied) && applied.outputSize && applied.applyPatch) {
-            const size_t outSize = applied.outputSize(&applied, rom.size());
-            if (outSize) {
-                std::vector<uint8_t> out(outSize);
-                const bool ok = applied.applyPatch(&applied, rom.data(), rom.size(), out.data(), outSize);
-                vf->close(vf);
-                if (ok) {
-                    return out;
-                }
-                return applyXdeltaPatch(rom, patch);
-            }
-        }
-        vf->close(vf);
+    if (auto out = applyMgbaPatch(rom, patch)) {
+        return out;
     }
     return applyXdeltaPatch(rom, patch);
 }
