@@ -72,6 +72,15 @@ You import the baseline the hack depends on. Emulocke already ships the patch, s
 - Pokémon Inclement Emerald 1.13 (BuffelSaft, from Emerald)
 - Pokémon Emerald Kaizo (SinisterHoodedFigure, from Emerald)
 
+## Download
+
+Linux and Windows. No macOS build.
+
+[Vanguard](https://github.com/oliverjohnclegg/emulocke/releases/tag/vanguard) is the public tryout. Every push to `dev` replaces those zips. [Stable](https://github.com/oliverjohnclegg/emulocke/releases) is a versioned zip from `main`; there isn't one yet.
+
+Windows SmartScreen will warn on the `.exe`. The binary is unsigned, which is not the same as a virus. More info, then Run anyway. A bought Authenticode cert is how you make that warning go away; we don't have one.
+
+Keep `assets/` next to the binary after you unzip.
 
 ## Scripts
 
@@ -79,7 +88,7 @@ CMake 3.25+, C++20, Git. First configure fetches SDL3 if the machine doesn't alr
 
 | Command | Description |
 | --- | --- |
-| `git clone --recurse-submodules https://github.com/oliverjohnclegg/emulocke.git` | Clone the tree plus melonDS, mGBA, and Dear ImGui |
+| `git clone --recurse-submodules -b dev https://github.com/oliverjohnclegg/emulocke.git` | Clone `dev` plus melonDS, mGBA, and Dear ImGui |
 | `cmake -B build -DCMAKE_BUILD_TYPE=Release` | Configure. Linux CI uses `-G Ninja`. |
 | `cmake --build build --config Release --parallel` | Build |
 | `ctest --test-dir build --output-on-failure` | Checks that don't need a ROM |
@@ -134,9 +143,9 @@ Gamepad uses the standard SDL map. Pause, reset, and speed-up are under Emulatio
 
 ## Stable and Vanguard
 
-Vanguard is `dev`. That is the public build. Every push stamps `emulocke-vanguard-<commit>-linux-x64` and `emulocke-vanguard-<commit>-win-x64.exe`. The window reads `Emulocke VANGUARD [<commit>]`. Grab the latest artifact from Actions on `dev` if you want to play it without compiling. The suite is still moving; treat Vanguard as a tryout, then file what breaks against `dev`.
+Vanguard is `dev`. That is the public build. Every push to `dev` replaces the [Vanguard](https://github.com/oliverjohnclegg/emulocke/releases/tag/vanguard) prerelease (`emulocke-vanguard-<commit>-linux-x64.zip` and the Windows zip). The window reads `Emulocke VANGUARD [<commit>]`. The suite is still moving; treat Vanguard as a tryout, then file what breaks against `dev`.
 
-Stable is `main`. Versioned names: `emulocke-vX.X.X-linux-x64` and `emulocke-vX.X.X-win-x64.exe`, caption `Emulocke vX.X.X`. That channel is for a numbered cut the maintainer will stand behind. No Stable release exists yet, so don't wait on one.
+Stable is `main`. A push to `main` updates GitHub Release `vX.X.X` from `VERSION` (`emulocke-vX.X.X-linux-x64.zip` / Windows). Caption is `Emulocke vX.X.X`. That channel is for a numbered cut the maintainer will stand behind. No Stable release exists yet, so don't wait on one.
 
 A seated run appends ` - Pokémon <title>` on either build. Every push still compiles Ubuntu and Windows; Linux also runs the sprite and game-art checks, and both OSes run `ctest`.
 

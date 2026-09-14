@@ -117,3 +117,60 @@ jobs:
           name: ${{ steps.stage.outputs.artifact }}
           path: dist/
           if-no-files-found: error
+
+  release:
+    name: GitHub Release
+    needs: build
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: VERSION
+          sparse-checkout-cone-mode: false
+
+      - name: Download build zips
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Pack
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          for dir in artifacts/*; do
+            name=$(basename "$dir")
+            (cd "$dir" && zip -r "$GITHUB_WORKSPACE/dist/${name}.zip" .)
+          done
+          echo "VERSION=$(tr -d ' \r\n' < VERSION)" >> "$GITHUB_ENV"
+
+      - name: Publish Vanguard
+        if: github.ref == 'refs/heads/dev'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: vanguard
+          name: Vanguard
+          commit: ${{ github.sha }}
+          prerelease: true
+          makeLatest: false
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: dist/*.zip
+          body: Rolling tryout from `dev`. This release is replaced on every push to `dev`.
+
+      - name: Publish Stable
+        if: github.ref == 'refs/heads/main'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ env.VERSION }}
+          name: Stable v${{ env.VERSION }}
+          commit: ${{ github.sha }}
+          prerelease: false
+          makeLatest: true
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: dist/*.zip
+          body: Versioned cut from `main`.
