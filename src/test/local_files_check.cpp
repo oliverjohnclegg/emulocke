@@ -30,4 +30,5 @@ void testLocalFilePaths() {
     REQUIRE(!melonDS::Platform::CheckLocalFileWritable("../escape.bin"));
     const auto absolute = std::filesystem::temp_directory_path() / "emulocke-abs.bin";
     REQUIRE(GetLocalFilePath(absolute.string()) == absolute.string());
+    REQUIRE(emulocke::pathFromUtf8("runs/abc").filename() == "abc");
 }

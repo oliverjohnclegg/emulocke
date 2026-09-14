@@ -1,5 +1,6 @@
 #include "application/Prefs.hpp"
 #include "emu/FileBytes.hpp"
+#include "emu/Paths.hpp"
 #include "run/Catalog.hpp"
 #include "ui/Layout.hpp"
 #include "run/NuzlockeRules.hpp"
@@ -430,6 +431,24 @@ int main() {
     expect(!std::filesystem::exists(runs / extraId), "extra dir gone");
     expect(store.find(a2->id) && store.find(b->id), "remove leaves others");
     expect(!store.remove("missing"), "remove missing");
+
+    const auto wiped = tmp / "wiped_runs";
+    emulocke::RunStore afterWipe(wiped);
+    std::filesystem::remove_all(wiped);
+    auto recovered = afterWipe.create(emulocke::kFireRedUs10Uuid, emulocke::regularRules());
+    expect(recovered.has_value(), "create after root wiped");
+    expect(recovered && std::filesystem::exists(wiped / recovered->id / "meta.ini"), "wiped root rebuilt");
+    std::string lastId;
+    for (int i = 0; i < 8; ++i) {
+        auto extraRun = afterWipe.create(emulocke::kFireRedUs10Uuid, emulocke::regularRules());
+        expect(extraRun.has_value() && extraRun->id != lastId, "unique run ids");
+        lastId = extraRun->id;
+    }
+    const auto utf8Dir = emulocke::pathFromUtf8((tmp / "from-utf8").generic_string());
+    expect(utf8Dir.filename() == "from-utf8", "utf8 path filename");
+    std::filesystem::create_directories(utf8Dir);
+    expect(emulocke::writeWholeFile(utf8Dir / "x.bin", src.data(), src.size()), "write via path");
+    expect(emulocke::readWholeFile(utf8Dir / "x.bin", emulocke::kMaxRomFile) == src, "read via path");
 
     std::filesystem::remove_all(tmp);
     fails += testBuildId();

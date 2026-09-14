@@ -29,8 +29,8 @@ std::optional<std::filesystem::path> RomLibrary::ensurePlayable(
     }
     const char* asset = catalogPatchAsset(*title, optionId);
     const auto patchPath = assetsRoot_ / (asset ? asset : "");
-    const auto base = readWholeFile(storedPath(*prereq).string(), kMaxRomFile);
-    const auto patch = readWholeFile(patchPath.string(), kMaxPatchFile);
+    const auto base = readWholeFile(storedPath(*prereq), kMaxRomFile);
+    const auto patch = readWholeFile(patchPath, kMaxPatchFile);
     if (base.empty()) {
         error_ = std::string("Import ") + prereq->fullName + " to play this game.";
         return std::nullopt;
@@ -45,7 +45,7 @@ std::optional<std::filesystem::path> RomLibrary::ensurePlayable(
         return std::nullopt;
     }
     std::filesystem::create_directories(derivedDir(), ec);
-    if (!writeWholeFile(dest.string(), patched->data(), patched->size())) {
+    if (!writeWholeFile(dest, patched->data(), patched->size())) {
         error_ = "Couldn't write the patched dump.";
         return std::nullopt;
     }

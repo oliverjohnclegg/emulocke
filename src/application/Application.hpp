@@ -57,6 +57,7 @@ public:
     void savPickerClosed();
     void queueImport(std::string path);
     void queueImportSav(std::string path);
+    void notePickerFailed();
     void queueLoadRun(std::string id);
     void requestNewAttempt(std::string sourceId);
     void dismissNewAttempt();

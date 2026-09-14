@@ -4,6 +4,7 @@
 #include "run/Catalog.hpp"
 #include "ui/GamePicker.hpp"
 #include "ui/NewRunOptions.hpp"
+#include "ui/Theme.hpp"
 
 #include <imgui.h>
 
@@ -26,17 +27,39 @@ void drawImportSavButton(Application& app, bool canStart) {
     }
 }
 
+void drawStartGate(const CatalogTitle* selected, bool canStart) {
+    if (canStart || !selected) {
+        return;
+    }
+    if (selected->kind == TitleKind::Hack) {
+        const CatalogTitle* prereq = catalogByUuid(selected->prerequisiteUuid);
+        ImGui::TextDisabled("Import %s first.", prereq ? prereq->fullName : "the baseline");
+    } else {
+        ImGui::TextDisabled("Import this dump to start.");
+    }
+}
+
 }  // namespace
 
 void drawNewRunModal(Application& app) {
     if (!app.showNewRun()) {
         return;
     }
+    if (!ImGui::IsPopupOpen("NEW RUN")) {
+        ImGui::OpenPopup("NEW RUN");
+    }
     const ImVec2 center = ImGui::GetMainViewport()->GetCenter();
     ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
     ImGui::SetNextWindowSizeConstraints(ImVec2(520.f, 0.f), ImVec2(FLT_MAX, FLT_MAX));
-    if (!ImGui::Begin("NEW RUN", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse)) {
-        ImGui::End();
+    ImGui::PushStyleColor(ImGuiCol_PopupBg, kPanel);
+    bool open = true;
+    const ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_NoMove;
+    if (!ImGui::BeginPopupModal("NEW RUN", &open, flags)) {
+        ImGui::PopStyleColor();
+        if (!open) {
+            app.dismissNewRun();
+        }
         return;
     }
     NewRunDraft& draft = app.newRunDraft();
@@ -58,12 +81,17 @@ void drawNewRunModal(Application& app) {
         }
         ImGui::EndTabBar();
     }
+    if (!app.status().empty()) {
+        ImGui::TextWrapped("%s", app.status().c_str());
+    }
     const bool canStart = selected && app.romLibrary().ready(*selected);
+    drawStartGate(selected, canStart);
     if (!canStart) {
         ImGui::BeginDisabled();
     }
     if (ImGui::Button("START RUN")) {
         app.confirmNewRun();
+        ImGui::CloseCurrentPopup();
     }
     if (!canStart) {
         ImGui::EndDisabled();
@@ -71,9 +99,14 @@ void drawNewRunModal(Application& app) {
     ImGui::SameLine();
     if (ImGui::Button("CANCEL")) {
         app.dismissNewRun();
+        ImGui::CloseCurrentPopup();
     }
     drawImportSavButton(app, canStart);
-    ImGui::End();
+    ImGui::EndPopup();
+    ImGui::PopStyleColor();
+    if (!open) {
+        app.dismissNewRun();
+    }
 }
 
 }

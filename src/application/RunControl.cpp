@@ -1,5 +1,6 @@
 #include "application/Application.hpp"
 
+#include "emu/Paths.hpp"
 #include "run/Catalog.hpp"
 #include "tracker/Difficulty.hpp"
 
@@ -68,7 +69,7 @@ void Application::confirmDeleteRun() {
 }
 
 void Application::importPath(const std::string& path) {
-    const ImportResult result = romLibrary_->importFile(path);
+    const ImportResult result = romLibrary_->importFile(pathFromUtf8(path));
     status_ = result.message;
     if (result.ok && result.title) {
         const CatalogTitle* keep = catalogByUuid(importKeepUuid_);
@@ -143,17 +144,20 @@ void Application::createRunFromDraft() {
     pendingImportSav_.clear();
     if (newRunDraft_.catalogUuid.empty()) {
         status_ = "Pick a game.";
+        showNewRun_ = true;
         return;
     }
     auto rom = romLibrary_->ensurePlayable(newRunDraft_.catalogUuid, newRunDraft_.patchOption);
     if (!rom) {
         status_ = romLibrary_->lastError();
+        showNewRun_ = true;
         return;
     }
     auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules, newRunDraft_.patchOption,
                                       newRunDraft_.difficulty);
     if (!created) {
         status_ = "Failed to create run.";
+        showNewRun_ = true;
         return;
     }
     if (!sav.empty() && !runStore_->importBattery(created->id, sav)) {

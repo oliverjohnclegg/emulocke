@@ -3,6 +3,8 @@
 #include "run/RunMeta.hpp"
 
 #include <algorithm>
+#include <atomic>
+#include <chrono>
 #include <cstdint>
 #include <cstdio>
 #include <random>
@@ -11,10 +13,16 @@ namespace emulocke {
 namespace {
 
 std::string makeRunId() {
-    std::random_device rd;
-    const uint64_t n = (static_cast<uint64_t>(rd()) << 32) ^ rd();
+    static std::atomic<uint64_t> seq{1};
+    uint64_t mix = static_cast<uint64_t>(std::chrono::steady_clock::now().time_since_epoch().count());
+    mix ^= seq++ * 0x9e3779b97f4a7c15ull;
+    try {
+        std::random_device rd;
+        mix ^= (static_cast<uint64_t>(rd()) << 32) ^ rd();
+    } catch (...) {
+    }
     char buf[17];
-    std::snprintf(buf, sizeof buf, "%016llx", static_cast<unsigned long long>(n));
+    std::snprintf(buf, sizeof buf, "%016llx", static_cast<unsigned long long>(mix));
     return buf;
 }
 
@@ -57,13 +65,21 @@ Run* RunStore::find(const std::string& id) {
 }
 
 std::optional<Run> RunStore::persist(Run run) {
-    while (run.id.empty() || std::filesystem::exists(root_ / run.id)) {
-        run.id = makeRunId();
+    std::error_code ec;
+    std::filesystem::create_directories(root_, ec);
+    for (int i = 0; i < 64; ++i) {
+        if (run.id.empty() || std::filesystem::exists(root_ / run.id, ec)) {
+            run.id = makeRunId();
+            continue;
+        }
+        break;
+    }
+    if (run.id.empty() || std::filesystem::exists(root_ / run.id, ec)) {
+        return std::nullopt;
     }
     if (run.lineageId.empty()) {
         run.lineageId = run.id;
     }
-    std::error_code ec;
     if (!std::filesystem::create_directory(root_ / run.id, ec)) {
         return std::nullopt;
     }

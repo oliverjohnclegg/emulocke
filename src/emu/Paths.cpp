@@ -2,6 +2,8 @@
 
 #include <SDL3/SDL.h>
 #include <filesystem>
+#include <string>
+#include <string_view>
 
 namespace emulocke {
 
@@ -11,7 +13,7 @@ std::string assetPath(const char* relative) {
 
 std::filesystem::path assetsDir() {
     if (const char* base = SDL_GetBasePath()) {
-        const std::filesystem::path dir = std::filesystem::path(base) / "assets";
+        const std::filesystem::path dir = pathFromUtf8(base) / "assets";
         if (std::filesystem::exists(dir)) {
             return dir;
         }
@@ -25,7 +27,7 @@ std::filesystem::path assetsDir() {
 std::filesystem::path prefDir() {
     std::filesystem::path dir;
     if (char* pref = SDL_GetPrefPath("emulocke", "emulocke")) {
-        dir = pref;
+        dir = pathFromUtf8(pref);
         SDL_free(pref);
     } else {
         dir = std::filesystem::current_path();
@@ -33,6 +35,14 @@ std::filesystem::path prefDir() {
     std::error_code ec;
     std::filesystem::create_directories(dir, ec);
     return dir;
+}
+
+std::filesystem::path pathFromUtf8(std::string_view utf8) {
+#ifdef _WIN32
+    return std::filesystem::path(std::u8string(utf8.begin(), utf8.end()));
+#else
+    return std::filesystem::path(utf8);
+#endif
 }
 
 std::string localDataPath(const std::string& filename) {

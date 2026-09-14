@@ -28,6 +28,8 @@ int testFileBytes() {
     expect(emulocke::readWholeFile(path, 9).empty(), "read above the cap returns nothing");
     expect(emulocke::readWholeFile((dir / "missing.bin").string(), 10).empty(), "missing file returns nothing");
     expect(emulocke::readWholeFile(dir.string(), 10).empty(), "directory returns nothing");
+    expect(emulocke::writeWholeFile(dir / "via-path.bin", ten.data(), ten.size()), "write path overload");
+    expect(emulocke::readWholeFile(dir / "via-path.bin", 10) == ten, "read path overload");
     std::filesystem::remove_all(dir);
     return fails;
 }

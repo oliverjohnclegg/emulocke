@@ -1,6 +1,7 @@
 #include "emu/FileBytes.hpp"
 
 #include <cstdio>
+#include <filesystem>
 #include <fstream>
 
 namespace emulocke {
@@ -28,7 +29,7 @@ std::string fopenMode(unsigned mode) {
     return s;
 }
 
-bool writeWholeFile(const std::string& path, const uint8_t* data, std::size_t length) {
+bool writeWholeFile(const std::filesystem::path& path, const uint8_t* data, std::size_t length) {
     std::ofstream out(path, std::ios::binary | std::ios::trunc);
     if (!out) {
         return false;
@@ -37,7 +38,7 @@ bool writeWholeFile(const std::string& path, const uint8_t* data, std::size_t le
     return static_cast<bool>(out);
 }
 
-std::vector<uint8_t> readWholeFile(const std::string& path, std::size_t maxBytes) {
+std::vector<uint8_t> readWholeFile(const std::filesystem::path& path, std::size_t maxBytes) {
     std::ifstream in(path, std::ios::binary | std::ios::ate);
     if (!in) {
         return {};
