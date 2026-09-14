@@ -1,0 +1,25 @@
+Emulocke is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option)
+any later version. The full license text is in LICENSE.
+
+Third-party notice
+------------------
+
+melonDS is licensed under GPL-3.0-or-later. See third_party/melonDS/LICENSE.
+
+mGBA is licensed under MPL-2.0 and is marked incompatible with secondary
+licenses. mGBA source files remain under MPL-2.0 and are not relicensed as
+GPL. See third_party/mgba/LICENSE.
+
+Dear ImGui is licensed under the MIT License. See third_party/imgui/LICENSE.txt.
+
+xdelta3 is licensed under the Apache License 2.0. See third_party/xdelta3/LICENSE.
+
+SDL3 is licensed under the zlib license.
+
+Damage math follows the MIT-licensed Smogon damage calculator as used by
+Dynamic-Calc (hzla/Dynamic-Calc, @smogon/calc). Trainer tables for Fire Red /
+Leaf Green are generated from pret/pokefirered.
+
+Bundled UI fonts retain their own OFL licenses in assets/fonts/.

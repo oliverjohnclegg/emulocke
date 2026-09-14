@@ -206,3 +206,60 @@ jobs:
           name: fuzz-reproducers
           path: /tmp/emulocke-fuzz/artifacts/
           if-no-files-found: ignore
+
+  release:
+    name: GitHub Release
+    needs: [build, sanitize, tidy, fuzz-smoke]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          sparse-checkout: VERSION
+          sparse-checkout-cone-mode: false
+
+      - name: Download build zips
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          path: artifacts
+
+      - name: Pack
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          for dir in artifacts/*; do
+            name=$(basename "$dir")
+            (cd "$dir" && zip -r "$GITHUB_WORKSPACE/dist/${name}.zip" .)
+          done
+          echo "VERSION=$(tr -d ' \r\n' < VERSION)" >> "$GITHUB_ENV"
+
+      - name: Publish Vanguard
+        if: github.ref == 'refs/heads/dev'
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
+        with:
+          tag: vanguard
+          name: Vanguard
+          commit: ${{ github.sha }}
+          prerelease: true
+          makeLatest: false
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: dist/*.zip
+          body: Rolling tryout from `dev`. This release is replaced on every push to `dev`.
+
+      - name: Publish Stable
+        if: github.ref == 'refs/heads/main'
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
+        with:
+          tag: v${{ env.VERSION }}
+          name: Stable v${{ env.VERSION }}
+          commit: ${{ github.sha }}
+          prerelease: false
+          makeLatest: true
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: dist/*.zip
+          body: Versioned cut from `main`.

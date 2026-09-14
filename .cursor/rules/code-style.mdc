@@ -1,0 +1,12 @@
+---
+description: Emulocke code style. Always apply when writing or changing code.
+alwaysApply: true
+---
+
+# Code style
+
+Names carry the meaning. Do not add comments. If a block needs a comment, rename or split. License headers stay. Do not comment or reformat `third_party/`.
+
+Split files that grow past 100 lines when the new file has a real name. Generated tables, catalog rows, and vendored cores are exempt.
+
+If the same logic appears three times, it wants one function.

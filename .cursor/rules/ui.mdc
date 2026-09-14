@@ -1,11 +1,9 @@
 ---
-description: Distinctive graphite-clamshell UI for Emulocke. Always apply when touching UI, theme, layout, or visual copy.
+description: Graphite clamshell UI lock. Always apply when touching UI, theme, layout, or visual copy.
 alwaysApply: true
 ---
 
-# Frontend design
-
-Read and follow `.cursor/skills/frontend-design/SKILL.md` before changing UI.
+# UI
 
 Emulocke visual direction is **graphite clamshell**: matte graphite chassis, inset screen wells, parchment-metal hairlines (`#D7CDBD`), metal text on dark, scarce crimson for pause only. Type is M PLUS Rounded 1c for display and Fira Sans for body. Blocky DS geometry. Not cream command boxes. Not stock ImGui gray. Not purple gradients. Not Inter/Roboto/Arial/system UI fonts.
 

@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Host vulnerability
+    url: https://github.com/oliverjohnclegg/emulocke/security/policy
+    about: Crafted dump, save, patch, PNG, or prefs that crashes or corrupts memory. Email, not a public issue.

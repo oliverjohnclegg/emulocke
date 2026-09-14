@@ -1,0 +1,39 @@
+# Contributing
+
+Nobody commits onto `main` or `dev`, not outsiders and not Oliver: put the work on a `feature/` or `bugfix/` branch, then open a pull request.
+
+Branch off `dev`. Open the pull request against `dev`. `main` is Stable and maintainer-only; a PR that targets `main` from anyone except [oliverjohnclegg](https://github.com/oliverjohnclegg) is closed.
+
+Once the branch rulesets are on, GitHub rejects `git push` to `main` and `dev`. Oliver's bypass is PR-merge only, so he can merge a PR he authored. It does not let him push commits straight onto those branches.
+
+AI-authored commits and PRs are allowed. They don't merge until Oliver has read the diff and GitHub Actions is green. For someone else's PR that means an Approve from `@oliverjohnclegg`. GitHub won't let him Approve a PR he authored (including agent PRs under his login); those he merges after reading.
+
+Don't add Nintendo dumps, BIOS, firmware, or secrets. `.gitignore` already blocks `*.gba`, `*.nds`, `*.bin`, and the BIOS names. Live boot checks stay on your machine.
+
+Play bugs and feature requests: [GitHub Issues](https://github.com/oliverjohnclegg/emulocke/issues). Include OS, the window caption, and the catalog title. A vulnerability in dump import, patch apply, save parse, PNG fetch, prefs, or CI: [SECURITY.md](SECURITY.md), not a public issue.
+
+Product scope lives in [PRD.md](PRD.md). This is a nuzlocke host. General emulator extras that don't directly contribute to that experience aren't a priority.
+
+## Code
+
+These are review rules, not a CI gate. Human and agent PRs get the same pass. Cursor agents already load `.cursor/rules`. Match the tree that's already here.
+
+Don't add comments. Function and variable names carry the meaning. If a block needs a comment, the names failed: rename or split. License headers stay. Don't comment-bomb or reformat `third_party/`. This one is a reject, not a nit. A lot of C++ work treats comments as normal. Here they mean the names weren't good enough, and the PR comes back.
+
+Prefer files under 100 lines. Split when the new file has a real name. Generated tables, catalog rows, and vendored cores are exempt.
+
+If the same logic appears three times, it wants one function.
+
+## Tests and CI
+
+Merge gate: `linux-x64`, `win-x64`, `linux-asan-ubsan`, `clang-tidy`, and `libfuzzer-smoke`. No coverage number. Marking a PR ready for review is converted back to draft until those five are green on the head commit. New commits on a ready PR do the same. Leave it as a draft until they pass.
+
+Changes to adapters, catalog SHA or patch apply, calc math, the run library, the snapshot contract, or any byte parser need a check that would fail without the change. Extend an existing `emulocke-*-check`. Byte parsers also add a seed under `src/fuzz/corpus/<harness>/`. Don't add a second test framework.
+
+Parser or lifecycle C++ is not done until ASan+UBSan `ctest` and clang-tidy over the touched files are clean. `.cursor/rules/securitystandards.mdc` is the always-on bar. Local commands are in [docs/security/audit-2026-09-14.md](docs/security/audit-2026-09-14.md).
+
+UI chrome, copy, layout, and default keybinds don't need a new test.
+
+Public CI doesn't hold ROMs. `emulocke-boot-check` and `emulocke-frlg-live-check` are local only.
+
+Untrusted input is user dumps, saves, patch bytes, network PNGs, prefs, and emulator RAM. Workflows stay `contents: read` except the main-PR guard and the ready-review guard, which must not check out PR code. Actions are pinned to commit SHAs.

@@ -1,0 +1,10 @@
+---
+description: Write the minimum that solves the task. Always apply when writing or changing code.
+alwaysApply: true
+---
+
+# Simplicity
+
+Minimum code that solves the asked problem. No speculative suite features, no unused abstractions, no extra emulator options beyond the playable shell.
+
+For a larger change, follow `.cursor/skills/karpathy-guidelines/SKILL.md`.
