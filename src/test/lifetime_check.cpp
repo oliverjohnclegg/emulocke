@@ -60,6 +60,7 @@ int main() {
         checkHostAndTexturesOutliveNothing();
         checkRendererFailureReleasesWindow();
         checkAudioOpenClose();
+        testLocalFilePaths();
     }
     REQUIRE(SDL_WasInit(SDL_INIT_VIDEO) == 0);
     std::printf("lifetime check ok\n");

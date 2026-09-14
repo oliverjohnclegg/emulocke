@@ -12,6 +12,7 @@ int main() {
     testSaveBounds();
     testSnapshotContract();
     testLocalSaves();
+    testBatteryWatch();
     std::printf("adapter check ok\n");
     return 0;
 }

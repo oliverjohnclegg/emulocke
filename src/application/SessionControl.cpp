@@ -1,7 +1,6 @@
 #include "application/Application.hpp"
 
 #include "adapter/GameAdapter.hpp"
-#include "emu/FileBytes.hpp"
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
 #include "run/SavePeek.hpp"
@@ -71,19 +70,8 @@ void Application::emuLoop() {
             if (adapter_ && session_->liveMemory()) {
                 snapshot_ = adapter_->readLive(*session_->liveMemory());
                 if (!activeRunId_.empty()) {
-                    const auto sav = readWholeFile(runStore_->batteryPath(activeRunId_).string(), kMaxSaveFile);
-                    if (!sav.empty()) {
-                        GameSnapshot fromSave = adapter_->readSave(sav);
-                        if (fromSave.ok) {
-                            if (!snapshot_.ok || snapshot_.party.count == 0) {
-                                snapshot_ = fromSave;
-                            } else if (snapshot_.gyms.slots == 0 && fromSave.gyms.slots != 0) {
-                                snapshot_.gyms = fromSave.gyms;
-                                snapshot_.progress.badges = fromSave.progress.badges;
-                                snapshot_.progress.flags = fromSave.progress.flags;
-                            }
-                        }
-                    }
+                    battery_.refresh(runStore_->batteryPath(activeRunId_), *adapter_);
+                    battery_.mergeInto(snapshot_);
                 }
             }
         }
@@ -131,6 +119,7 @@ void Application::bootRun(const Run& run) {
         session_ = std::move(next);
         adapter_ = nullptr;
         snapshot_ = GameSnapshot{};
+        battery_ = {};
         uiSnap_ = {};
         uiSnapOk_ = false;
         uiAdapter_ = nullptr;

@@ -8,6 +8,7 @@
 #include "emu/EmuSession.hpp"
 #include "emu/Input.hpp"
 #include "emu/ScreenTexture.hpp"
+#include "run/BatteryWatch.hpp"
 #include "run/RomLibrary.hpp"
 #include "run/Run.hpp"
 #include "run/RunStore.hpp"
@@ -143,6 +144,7 @@ private:
     std::unique_ptr<TitlePlay> titlePlay_;
     const GameAdapter* adapter_{};
     GameSnapshot snapshot_{};
+    BatteryWatch battery_;
     mutable std::mutex sessionMutex_;
     std::thread emuThread_;
     std::atomic<bool> running_{false};

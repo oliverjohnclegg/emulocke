@@ -116,9 +116,10 @@ bool NdsSession::read(uint32_t addr, std::span<uint8_t> out) const {
     if (!nds_ || out.empty()) {
         return false;
     }
-    if (nds_->MainRAM && addr >= 0x02000000) {
+    if (nds_->MainRAM && (addr >> 24) == 0x02) {
         const uint32_t off = addr & nds_->MainRAMMask;
-        if (off + out.size() <= nds_->MainRAMMask + 1) {
+        const std::size_t mainRamBytes = static_cast<std::size_t>(nds_->MainRAMMask) + 1;
+        if (out.size() <= mainRamBytes - off) {
             std::memcpy(out.data(), nds_->MainRAM + off, out.size());
             return true;
         }

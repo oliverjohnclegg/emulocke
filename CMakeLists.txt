@@ -249,10 +249,12 @@ add_executable(emulocke
     src/emu/GbaSession.cpp
     src/emu/NdsSession.cpp
     src/emu/NdsPlatformFiles.cpp
+    src/emu/NdsPlatformLocal.cpp
     src/emu/NdsPlatformSync.cpp
     src/emu/NdsPlatformStubs.cpp
     src/emu/NdsPlatformDynlib.cpp
     src/emu/NdsPlatformSave.cpp
+    src/run/BatteryWatch.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
     src/run/CatalogFormat.cpp
@@ -331,19 +333,24 @@ add_dependencies(emulocke-game-art-check emulocke-assets)
 
 add_executable(emulocke-media-check
     src/test/media_check.cpp
+    src/test/slug_check.cpp
     src/emu/FileBytes.cpp)
 target_include_directories(emulocke-media-check PRIVATE src)
 target_link_libraries(emulocke-media-check PRIVATE emulocke_sprites)
 
 add_executable(emulocke-lifetime-check
     src/test/lifetime_check.cpp
+    src/test/local_files_check.cpp
     src/application/BuildId.cpp
     src/application/Host.cpp
     src/application/SdlRuntime.cpp
     src/emu/AudioOutput.cpp
+    src/emu/FileBytes.cpp
+    src/emu/NdsPlatformFiles.cpp
+    src/emu/NdsPlatformLocal.cpp
     src/emu/Paths.cpp
     src/emu/ScreenTexture.cpp)
-target_include_directories(emulocke-lifetime-check PRIVATE src)
+target_include_directories(emulocke-lifetime-check PRIVATE src third_party/melonDS/src)
 target_compile_definitions(emulocke-lifetime-check PRIVATE SDL_MAIN_HANDLED)
 target_link_libraries(emulocke-lifetime-check PRIVATE imgui SDL3::SDL3)
 emulocke_stamp_target(emulocke-lifetime-check)
@@ -374,10 +381,13 @@ add_executable(emulocke-adapter-check
     src/test/gen4_adapter_check.cpp
     src/test/gen5_adapter_check.cpp
     src/test/save_bounds_check.cpp
+    src/test/battery_watch_check.cpp
     src/test/SnapshotContract.cpp
     src/test/snapshot_fixtures.cpp
     src/test/snapshot_contract_check.cpp
-    src/test/local_sav_check.cpp)
+    src/test/local_sav_check.cpp
+    src/emu/FileBytes.cpp
+    src/run/BatteryWatch.cpp)
 target_include_directories(emulocke-adapter-check PRIVATE src)
 target_link_libraries(emulocke-adapter-check PRIVATE emulocke_adapter)
 
@@ -417,6 +427,7 @@ add_executable(emulocke-boot-check EXCLUDE_FROM_ALL
     src/emu/GbaSession.cpp
     src/emu/NdsSession.cpp
     src/emu/NdsPlatformFiles.cpp
+    src/emu/NdsPlatformLocal.cpp
     src/emu/NdsPlatformSync.cpp
     src/emu/NdsPlatformStubs.cpp
     src/emu/NdsPlatformDynlib.cpp

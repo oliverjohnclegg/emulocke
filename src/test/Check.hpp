@@ -20,3 +20,6 @@ void testGen5Adapter();
 void testSaveBounds();
 void testLocalSaves();
 void testSnapshotContract();
+void testSlugAllowlist();
+void testBatteryWatch();
+void testLocalFilePaths();

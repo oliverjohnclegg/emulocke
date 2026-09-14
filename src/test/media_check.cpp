@@ -43,6 +43,7 @@ void checkPngDecode() {
 
 int main() {
     checkPngDecode();
+    testSlugAllowlist();
     std::printf("media check ok\n");
     return 0;
 }
