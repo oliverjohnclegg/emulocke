@@ -74,21 +74,15 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool* cr
         }
         ImGui::TextDisabled("%s", line);
         if (crit) {
-            if (right) {
-                const ImVec2 ab = ImGui::GetItemRectMin();
-                const ImVec2 next = ImGui::GetCursorScreenPos();
-                const float cr = ImGui::CalcTextSize("CR").x + 4.f;
-                ImGui::SetCursorScreenPos(ImVec2(ab.x - 4.f - cr, ab.y));
-                if (calcCritMark(*crit)) {
-                    *crit = !*crit;
-                }
-                ImGui::SetCursorScreenPos(next);
-            } else {
-                ImGui::SameLine(0.f, 4.f);
-                if (calcCritMark(*crit)) {
-                    *crit = !*crit;
-                }
+            const ImVec2 next = ImGui::GetCursorScreenPos();
+            const float abY = ImGui::GetItemRectMin().y;
+            const float cr = ImGui::CalcTextSize("CR").x + 4.f;
+            const float x = right ? next.x : next.x + ImGui::GetContentRegionAvail().x - cr - 6.f;
+            ImGui::SetCursorScreenPos(ImVec2(x, abY));
+            if (calcCritMark(*crit)) {
+                *crit = !*crit;
             }
+            ImGui::SetCursorScreenPos(next);
         }
     }
     ImGui::PopID();
