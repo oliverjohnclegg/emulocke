@@ -76,7 +76,7 @@ bool Application::start(int argc, char** argv) {
 
 void Application::requestImportGame() {
     importKeepUuid_.clear();
-    showDumpPicker();
+    pendingDumpPicker_ = true;
 }
 
 void Application::requestImportSav() {

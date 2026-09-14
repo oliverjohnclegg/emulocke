@@ -41,14 +41,20 @@ void savPickerDone(void* userdata) {
     static_cast<Application*>(userdata)->savPickerClosed();
 }
 
+bool marshalPicked(Application* app, const char* path, SDL_MainThreadCallback fn) {
+    auto* job = new (std::nothrow) PickedFile{app, path};
+    if (job && SDL_RunOnMainThread(fn, job, false)) {
+        return true;
+    }
+    delete job;
+    SDL_RunOnMainThread(pickerFailed, app, false);
+    return false;
+}
+
 void onDumpPicked(void* userdata, const char* const* filelist, int) {
     auto* app = static_cast<Application*>(userdata);
     if (filelist && filelist[0]) {
-        auto* job = new (std::nothrow) PickedFile{app, filelist[0]};
-        if (job && SDL_RunOnMainThread(importPicked, job, false)) {
-            return;
-        }
-        delete job;
+        marshalPicked(app, filelist[0], importPicked);
         return;
     }
     if (!filelist) {
@@ -59,12 +65,9 @@ void onDumpPicked(void* userdata, const char* const* filelist, int) {
 void onSavPicked(void* userdata, const char* const* filelist, int) {
     auto* app = static_cast<Application*>(userdata);
     if (filelist && filelist[0]) {
-        auto* job = new (std::nothrow) PickedFile{app, filelist[0]};
-        if (job && SDL_RunOnMainThread(importSavPicked, job, false)) {
-            return;
+        if (!marshalPicked(app, filelist[0], importSavPicked)) {
+            SDL_RunOnMainThread(savPickerDone, app, false);
         }
-        delete job;
-        SDL_RunOnMainThread(savPickerDone, app, false);
         return;
     }
     SDL_RunOnMainThread(savPickerDone, app, false);
