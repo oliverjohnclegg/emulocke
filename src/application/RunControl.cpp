@@ -171,14 +171,17 @@ void Application::loadRun(const std::string& id) {
         return;
     }
     persistTracker();
+    persistCheats();
     bootRun(*run);
     if (session_) {
         activeRunId_ = id;
         runStore_->touch(id);
         loadTrackerLog();
+        loadCheats();
     } else {
         activeRunId_.clear();
         trackerLog_ = {};
+        cheats_.clear();
     }
     syncWindowTitle();
 }

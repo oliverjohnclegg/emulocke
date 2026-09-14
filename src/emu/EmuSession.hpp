@@ -2,11 +2,14 @@
 
 #include "adapter/Cartridge.hpp"
 #include "adapter/LiveMemory.hpp"
+#include "cheats/Cheat.hpp"
 #include "emu/Buttons.hpp"
 
 #include <cstdint>
 #include <optional>
+#include <span>
 #include <string>
+#include <string_view>
 
 namespace emulocke {
 
@@ -28,6 +31,8 @@ public:
     virtual const std::string& romName() const = 0;
     virtual const LiveMemory* liveMemory() const { return nullptr; }
     virtual std::optional<Cartridge> cartridge() const { return std::nullopt; }
+    virtual bool cheatsOk(std::string_view) { return false; }
+    virtual void installCheats(std::span<const CheatSpec>) {}
 };
 
 }

@@ -146,6 +146,7 @@ void Application::bootRun(const Run& run) {
 
 void Application::closeRun() {
     persistTracker();
+    persistCheats();
     stopEmuThread();
     harvestPlayOrigin();
     commitPlay();
@@ -160,6 +161,8 @@ void Application::closeRun() {
         speedUpOn_ = false;
         activeRunId_.clear();
         trackerLog_ = {};
+        cheats_.clear();
+        cheatError_.clear();
         lastPlayCommitNs_ = 0;
         status_ = "No cart.";
         if (previewTracker_) {
@@ -205,6 +208,7 @@ void Application::resetSession() {
 }
 
 void Application::shutdown() {
+    persistCheats();
     destroyTracker();
     stopEmuThread();
     harvestPlayOrigin();
