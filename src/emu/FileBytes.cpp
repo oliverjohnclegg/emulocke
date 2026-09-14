@@ -28,7 +28,7 @@ std::string fopenMode(unsigned mode) {
     return s;
 }
 
-bool writeWholeFile(const std::string& path, const uint8_t* data, uint32_t length) {
+bool writeWholeFile(const std::string& path, const uint8_t* data, std::size_t length) {
     std::ofstream out(path, std::ios::binary | std::ios::trunc);
     if (!out) {
         return false;
@@ -37,15 +37,20 @@ bool writeWholeFile(const std::string& path, const uint8_t* data, uint32_t lengt
     return static_cast<bool>(out);
 }
 
-std::vector<uint8_t> readWholeFile(const std::string& path) {
+std::vector<uint8_t> readWholeFile(const std::string& path, std::size_t maxBytes) {
     std::ifstream in(path, std::ios::binary | std::ios::ate);
     if (!in) {
         return {};
     }
-    const auto size = in.tellg();
+    const std::streamoff size = in.tellg();
+    if (size < 0 || static_cast<std::uintmax_t>(size) > maxBytes) {
+        return {};
+    }
     in.seekg(0);
-    std::vector<uint8_t> bytes(static_cast<size_t>(size));
-    in.read(reinterpret_cast<char*>(bytes.data()), size);
+    std::vector<uint8_t> bytes(static_cast<std::size_t>(size));
+    if (!in.read(reinterpret_cast<char*>(bytes.data()), size)) {
+        return {};
+    }
     return bytes;
 }
 

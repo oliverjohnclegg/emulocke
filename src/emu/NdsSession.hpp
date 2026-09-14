@@ -20,6 +20,8 @@ class NdsSession final : public EmuSession, public LiveMemory {
 public:
     static std::unique_ptr<NdsSession> open(const std::string& romPath, const std::string& savePath);
     ~NdsSession() override;
+    NdsSession(const NdsSession&) = delete;
+    NdsSession& operator=(const NdsSession&) = delete;
     ConsoleKind kind() const override { return ConsoleKind::Nds; }
     int screenCount() const override { return 2; }
     int screenWidth(int) const override { return 256; }

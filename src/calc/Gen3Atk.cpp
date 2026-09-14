@@ -43,7 +43,7 @@ int advAttack(const AdvCtx& ctx) {
     if (ctx.physical && (a.ability == kAbHustle || (a.ability == kAbGuts && a.status))) {
         at = at * 3 / 2;
     }
-    const int stage = ctx.physical ? a.atkStage : a.spaStage;
+    const int stage = ctx.physical ? static_cast<int>(a.atkStage) : static_cast<int>(a.spaStage);
     if (stage > 0 || (!ctx.crit && stage < 0)) {
         at = boostedStat(at, stage);
     }
@@ -62,7 +62,7 @@ int advDefense(const AdvCtx& ctx) {
     if (ctx.physical && d.ability == kAbMarvelScale && d.status) {
         df = df * 3 / 2;
     }
-    const int stage = ctx.physical ? d.defStage : d.spdStage;
+    const int stage = ctx.physical ? static_cast<int>(d.defStage) : static_cast<int>(d.spdStage);
     if (stage < 0 || (!ctx.crit && stage > 0)) {
         df = boostedStat(df, stage);
     }

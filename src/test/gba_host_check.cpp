@@ -159,7 +159,7 @@ int main(int argc, char** argv) {
     const auto rom = makeTestRom();
     const std::filesystem::path romPath = std::filesystem::temp_directory_path() / "emulocke-gba-check.gba";
     const std::filesystem::path savPath = std::filesystem::temp_directory_path() / "emulocke-gba-check.sav";
-    if (!emulocke::writeWholeFile(romPath.string(), rom.data(), static_cast<uint32_t>(rom.size()))) {
+    if (!emulocke::writeWholeFile(romPath.string(), rom.data(), rom.size())) {
         std::fprintf(stderr, "failed to write test ROM\n");
         return 1;
     }
@@ -194,7 +194,7 @@ int main(int argc, char** argv) {
         std::filesystem::temp_directory_path() / "emulocke-gba-persist.sav";
     std::vector<uint8_t> persist(0x20000, 0xA5);
     persist[0x10] = 0x3C;
-    if (!emulocke::writeWholeFile(persistSav.string(), persist.data(), static_cast<uint32_t>(persist.size()))) {
+    if (!emulocke::writeWholeFile(persistSav.string(), persist.data(), persist.size())) {
         std::fprintf(stderr, "failed to write persist sav\n");
         return 1;
     }
@@ -208,7 +208,7 @@ int main(int argc, char** argv) {
             persistSession->runFrame();
         }
     }
-    const auto after = emulocke::readWholeFile(persistSav.string());
+    const auto after = emulocke::readWholeFile(persistSav.string(), emulocke::kMaxSaveFile);
     if (after.size() < 0x11 || after[0x10] != 0x3C) {
         std::fprintf(stderr, "gba save was wiped on boot\n");
         return 1;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "emu/FileLimits.hpp"
+
 #include <cstdint>
 #include <optional>
 #include <span>

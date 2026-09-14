@@ -24,8 +24,8 @@ void applyIfPresent(const std::filesystem::path& romPath, const std::filesystem:
     if (!std::filesystem::exists(romPath) || !std::filesystem::exists(patchPath)) {
         return;
     }
-    const auto rom = emulocke::readWholeFile(romPath.string());
-    const auto patch = emulocke::readWholeFile(patchPath.string());
+    const auto rom = emulocke::readWholeFile(romPath.string(), emulocke::kMaxRomFile);
+    const auto patch = emulocke::readWholeFile(patchPath.string(), emulocke::kMaxPatchFile);
     auto out = emulocke::applyRomPatch(rom, patch);
     if (!out || out->empty()) {
         std::fprintf(stderr, "FAIL local patch %s\n", patchPath.filename().string().c_str());

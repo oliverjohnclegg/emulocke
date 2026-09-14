@@ -2,7 +2,12 @@
 
 #include "emu/KeyMap.hpp"
 
+#include <iosfwd>
+
 namespace emulocke {
+
+inline constexpr int kMinWindowSide = 320;
+inline constexpr int kMaxWindowSide = 16384;
 
 struct Prefs {
     int windowX = 0;
@@ -21,6 +26,7 @@ struct Prefs {
     KeyMap keys{};
 
     static Prefs load();
+    static Prefs parse(std::istream& in);
     void save() const;
 };
 

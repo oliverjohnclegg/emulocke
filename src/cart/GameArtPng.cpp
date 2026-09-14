@@ -1,36 +1,45 @@
 #include "cart/GameArtPng.hpp"
 
 #include "cart/GameArt.hpp"
+#include "emu/FileLimits.hpp"
 
 #include <algorithm>
 #include <fstream>
+#include <memory>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STBI_ONLY_PNG
 #define STBI_NO_FAILURE_STRINGS
+#define STBI_MAX_DIMENSIONS 4096
 #include "stb_image.h"
 #include "stb_image_write.h"
 
 namespace emulocke {
+namespace {
+
+struct StbiFree {
+    void operator()(uint8_t* pixels) const { stbi_image_free(pixels); }
+};
+
+}  // namespace
 
 std::optional<RgbaImage> decodePngRgba(const std::vector<uint8_t>& png) {
+    if (png.empty() || png.size() > kMaxImageFile) {
+        return std::nullopt;
+    }
     int width = 0;
     int height = 0;
     int channels = 0;
-    uint8_t* raw = stbi_load_from_memory(png.data(), static_cast<int>(png.size()), &width, &height,
-                                        &channels, 4);
-    if (!raw || width <= 0 || height <= 0) {
-        if (raw) {
-            stbi_image_free(raw);
-        }
+    const std::unique_ptr<uint8_t, StbiFree> raw(
+        stbi_load_from_memory(png.data(), static_cast<int>(png.size()), &width, &height, &channels, 4));
+    if (!raw || width <= 0 || height <= 0 || width > kMaxImageSide || height > kMaxImageSide) {
         return std::nullopt;
     }
     RgbaImage image;
     image.width = width;
     image.height = height;
-    image.pixels.assign(raw, raw + static_cast<size_t>(width) * height * 4);
-    stbi_image_free(raw);
+    image.pixels.assign(raw.get(), raw.get() + static_cast<size_t>(width) * static_cast<size_t>(height) * 4);
     return image;
 }
 

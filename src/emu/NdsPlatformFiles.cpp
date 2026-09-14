@@ -1,5 +1,4 @@
 #include "emu/FileBytes.hpp"
-#include "emu/Paths.hpp"
 
 #include <Platform.h>
 
@@ -10,13 +9,6 @@
 
 namespace melonDS::Platform {
 
-std::string GetLocalFilePath(const std::string& filename) {
-    if (std::filesystem::path(filename).is_absolute()) {
-        return filename;
-    }
-    return emulocke::localDataPath(filename);
-}
-
 FileHandle* OpenFile(const std::string& path, FileMode mode) {
     if ((mode & (FileMode::ReadWrite | FileMode::Append)) == FileMode::None) {
         return nullptr;
@@ -25,16 +17,8 @@ FileHandle* OpenFile(const std::string& path, FileMode mode) {
     return reinterpret_cast<FileHandle*>(fp);
 }
 
-FileHandle* OpenLocalFile(const std::string& path, FileMode mode) {
-    return OpenFile(GetLocalFilePath(path), mode);
-}
-
 bool FileExists(const std::string& name) {
     return std::filesystem::exists(name);
-}
-
-bool LocalFileExists(const std::string& name) {
-    return FileExists(GetLocalFilePath(name));
 }
 
 bool CheckFileWritable(const std::string& filepath) {
@@ -44,10 +28,6 @@ bool CheckFileWritable(const std::string& filepath) {
     }
     std::fclose(fp);
     return true;
-}
-
-bool CheckLocalFileWritable(const std::string& name) {
-    return CheckFileWritable(GetLocalFilePath(name));
 }
 
 bool CloseFile(FileHandle* file) {

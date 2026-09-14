@@ -33,7 +33,7 @@ void AudioOutput::close() {
 }
 
 void AudioOutput::push(const int16_t* interleavedStereo, int frames, int sourceHz) {
-    if (!stream_ || frames <= 0 || dropping_) {
+    if (!stream_ || frames <= 0 || dropping_.load()) {
         return;
     }
     if (sourceHz != sourceHz_) {
@@ -71,7 +71,7 @@ void AudioOutput::applyGain() {
     if (!stream_) {
         return;
     }
-    SDL_SetAudioStreamGain(stream_, muted_ ? 0.f : volume_ * 0.01f);
+    SDL_SetAudioStreamGain(stream_, muted_.load() ? 0.f : volume_.load() * 0.01f);
 }
 
 int AudioOutput::queuedBytes() const {

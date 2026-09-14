@@ -10,11 +10,11 @@
 namespace emulocke {
 
 bool parsePk45(std::span<const uint8_t> raw, bool utf16Names, Mon& out) {
-    if (raw.size() < kPkStoredSize) {
+    if (raw.size() < kPkStoredSize || raw.size() > kPk4PartySize) {
         return false;
     }
     std::array<uint8_t, kPk4PartySize> buf{};
-    if (!decryptPk45(raw, {buf.data(), raw.size()})) {
+    if (!decryptPk45(raw, buf)) {
         return false;
     }
     const uint16_t species = load16(buf.data() + 8);
@@ -55,7 +55,7 @@ bool parsePk45(std::span<const uint8_t> raw, bool utf16Names, Mon& out) {
     const uint16_t hid = static_cast<uint16_t>(out.personality >> 16);
     const uint16_t lid = static_cast<uint16_t>(out.personality);
     out.shiny = ((tid ^ sid ^ hid ^ lid) & 0xFFF8) == 0;
-    if (raw.size() > 0x8C) {
+    if (raw.size() >= kPkPartyStatsEnd) {
         out.level = buf[0x8C];
         out.hp = load16(buf.data() + 0x8E);
         out.maxHp = load16(buf.data() + 0x90);

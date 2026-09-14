@@ -7,6 +7,12 @@ on:
 permissions:
   contents: read
 
+env:
+  LINUX_PACKAGES: >-
+    ninja-build pkg-config libcurl4-openssl-dev liblzma-dev
+    libx11-dev libxext-dev libxrandr-dev libxcursor-dev
+    libxi-dev libxfixes-dev libxrender-dev libxkbcommon-dev
+
 jobs:
   build:
     name: ${{ matrix.label }}
@@ -22,7 +28,7 @@ jobs:
             label: win-x64
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           submodules: recursive
 
@@ -30,14 +36,11 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y ninja-build pkg-config \
-            libcurl4-openssl-dev liblzma-dev \
-            libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
-            libxi-dev libxfixes-dev libxrender-dev libxkbcommon-dev
+          sudo apt-get install -y $LINUX_PACKAGES
 
       - name: Setup MSYS2
         if: runner.os == 'Windows'
-        uses: msys2/setup-msys2@v2
+        uses: msys2/setup-msys2@66cd2cce69caa17b53920067426061ca1de3a884 # v2.32.0
         with:
           msystem: UCRT64
           update: false
@@ -112,8 +115,94 @@ jobs:
           echo "artifact=$artifact" >> "$GITHUB_OUTPUT"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ${{ steps.stage.outputs.artifact }}
           path: dist/
           if-no-files-found: error
+
+  sanitize:
+    name: linux-asan-ubsan
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          submodules: recursive
+
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $LINUX_PACKAGES clang libclang-rt-dev
+
+      - name: Configure
+        run: >-
+          cmake -B build-asan -G Ninja -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+          -DEMULOCKE_SANITIZE=address
+
+      - name: Build
+        run: cmake --build build-asan --parallel
+
+      - name: Test under ASan and UBSan
+        run: ctest --test-dir build-asan --output-on-failure
+
+  tidy:
+    name: clang-tidy
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          submodules: recursive
+
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $LINUX_PACKAGES clang clang-tidy
+
+      - name: Configure
+        run: >-
+          cmake -B build-tidy -G Ninja -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+
+      - name: Run clang-tidy over src
+        run: run-clang-tidy -p build-tidy -quiet "^$GITHUB_WORKSPACE/src/"
+
+  fuzz-smoke:
+    name: libfuzzer-smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          submodules: recursive
+
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y $LINUX_PACKAGES clang libclang-rt-dev
+
+      - name: Configure
+        run: >-
+          cmake -B build-fuzz -G Ninja -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+          -DEMULOCKE_SANITIZE=address -DEMULOCKE_FUZZ=ON
+
+      - name: Build harnesses
+        run: cmake --build build-fuzz --parallel --target fuzzers
+
+      - name: Fuzz each harness for 60s
+        run: ./tools/fuzz/smoke.sh build-fuzz 60
+
+      - name: Upload crash reproducers
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: fuzz-reproducers
+          path: /tmp/emulocke-fuzz/artifacts/
+          if-no-files-found: ignore

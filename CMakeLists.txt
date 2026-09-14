@@ -3,6 +3,8 @@ file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" EMULOCKE_VERSION)
 string(STRIP "${EMULOCKE_VERSION}" EMULOCKE_VERSION)
 project(emulocke VERSION ${EMULOCKE_VERSION} LANGUAGES C CXX)
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/BuildStamp.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Sanitizers.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Fuzzing.cmake")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -19,7 +21,7 @@ if(NOT SDL3_FOUND)
     FetchContent_Declare(
         SDL3
         GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-        GIT_TAG release-3.2.22
+        GIT_TAG a96677bdf6b4acb84af4ec294e5f60a4e8cbbe03
         GIT_SHALLOW TRUE)
     set(SDL_SHARED OFF CACHE BOOL "" FORCE)
     set(SDL_STATIC ON CACHE BOOL "" FORCE)
@@ -42,7 +44,7 @@ if(WIN32 AND NOT MINGW)
     FetchContent_Declare(
         dirent
         GIT_REPOSITORY https://github.com/tronkko/dirent.git
-        GIT_TAG 1.26
+        GIT_TAG 31db6474b5231c180bd4618c8c90e43af50c86d0
         GIT_SHALLOW TRUE)
     set(DIRENT_EXAMPLES OFF CACHE STRING "" FORCE)
     set(DIRENT_TESTS OFF CACHE STRING "" FORCE)
@@ -59,6 +61,7 @@ set(BUILD_SDL OFF CACHE BOOL "" FORCE)
 set(BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(BUILD_STATIC ON CACHE BOOL "" FORCE)
 add_subdirectory(third_party/mgba EXCLUDE_FROM_ALL)
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Hardening.cmake")
 
 find_package(LibLZMA REQUIRED)
 add_library(xdelta3 STATIC third_party/xdelta3/xdelta3.c)
@@ -82,6 +85,9 @@ endif()
 target_link_libraries(xdelta3 PUBLIC LibLZMA::LibLZMA)
 if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(xdelta3 PRIVATE -w -include assert.h)
+endif()
+if(EMULOCKE_SANITIZE STREQUAL "address")
+    target_compile_options(xdelta3 PRIVATE -fno-sanitize=undefined)
 endif()
 
 add_library(imgui STATIC
@@ -207,6 +213,7 @@ add_executable(emulocke
     src/main.cpp
     src/application/BuildId.cpp
     src/application/Host.cpp
+    src/application/SdlRuntime.cpp
     src/application/Application.cpp
     src/application/ApplicationCalc.cpp
     src/application/ApplicationPlay.cpp
@@ -217,6 +224,7 @@ add_executable(emulocke
     src/application/SessionControl.cpp
     src/application/AppLoop.cpp
     src/application/Prefs.cpp
+    src/application/PrefsParse.cpp
     src/application/RunControl.cpp
     src/ui/Theme.cpp
     src/ui/Shell.cpp
@@ -276,16 +284,19 @@ add_executable(emulocke
     src/emu/GbaSession.cpp
     src/emu/NdsSession.cpp
     src/emu/NdsPlatformFiles.cpp
+    src/emu/NdsPlatformLocal.cpp
     src/emu/NdsPlatformSync.cpp
     src/emu/NdsPlatformStubs.cpp
     src/emu/NdsPlatformDynlib.cpp
     src/emu/NdsPlatformSave.cpp
+    src/run/BatteryWatch.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
     src/run/CatalogFormat.cpp
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
     src/run/PatchBps.cpp
+    src/run/BpsCommands.cpp
     src/run/PatchXdelta.cpp
     src/run/RomLibrary.cpp
     src/run/RomLibraryEnsure.cpp
@@ -296,6 +307,11 @@ add_executable(emulocke
     src/run/RunStoreAttempts.cpp
     src/run/SavePeek.cpp
     src/run/TitlePlay.cpp)
+
+add_custom_target(emulocke-assets
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:emulocke>/assets)
 
 target_include_directories(emulocke PRIVATE src)
 target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_calc emulocke_tracker emulocke_dex emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
@@ -337,11 +353,7 @@ target_link_libraries(emulocke-sprite-check PRIVATE emulocke_sprites SDL3::SDL3)
 if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-sprite-check PRIVATE pthread)
 endif()
-add_custom_command(
-    TARGET emulocke-sprite-check POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:emulocke-sprite-check>/assets)
+add_dependencies(emulocke-sprite-check emulocke-assets)
 
 add_executable(emulocke-game-art-check
     src/test/game_art_check.cpp
@@ -352,11 +364,34 @@ target_link_libraries(emulocke-game-art-check PRIVATE emulocke_sprites SDL3::SDL
 if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-game-art-check PRIVATE pthread)
 endif()
-add_custom_command(
-    TARGET emulocke-game-art-check POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:emulocke-game-art-check>/assets)
+add_dependencies(emulocke-game-art-check emulocke-assets)
+
+add_executable(emulocke-media-check
+    src/test/media_check.cpp
+    src/test/slug_check.cpp
+    src/emu/FileBytes.cpp)
+target_include_directories(emulocke-media-check PRIVATE src)
+target_link_libraries(emulocke-media-check PRIVATE emulocke_sprites)
+
+add_executable(emulocke-lifetime-check
+    src/test/lifetime_check.cpp
+    src/test/local_files_check.cpp
+    src/application/BuildId.cpp
+    src/application/Host.cpp
+    src/application/SdlRuntime.cpp
+    src/emu/AudioOutput.cpp
+    src/emu/FileBytes.cpp
+    src/emu/NdsPlatformFiles.cpp
+    src/emu/NdsPlatformLocal.cpp
+    src/emu/Paths.cpp
+    src/emu/ScreenTexture.cpp)
+target_include_directories(emulocke-lifetime-check PRIVATE src third_party/melonDS/src)
+target_compile_definitions(emulocke-lifetime-check PRIVATE SDL_MAIN_HANDLED)
+target_link_libraries(emulocke-lifetime-check PRIVATE imgui SDL3::SDL3)
+emulocke_stamp_target(emulocke-lifetime-check)
+if(UNIX AND NOT APPLE)
+    target_link_libraries(emulocke-lifetime-check PRIVATE dl pthread)
+endif()
 
 add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
@@ -380,10 +415,14 @@ add_executable(emulocke-adapter-check
     src/test/rse_adapter_check.cpp
     src/test/gen4_adapter_check.cpp
     src/test/gen5_adapter_check.cpp
+    src/test/save_bounds_check.cpp
+    src/test/battery_watch_check.cpp
     src/test/SnapshotContract.cpp
     src/test/snapshot_fixtures.cpp
     src/test/snapshot_contract_check.cpp
-    src/test/local_sav_check.cpp)
+    src/test/local_sav_check.cpp
+    src/emu/FileBytes.cpp
+    src/run/BatteryWatch.cpp)
 target_include_directories(emulocke-adapter-check PRIVATE src)
 target_link_libraries(emulocke-adapter-check PRIVATE emulocke_adapter)
 
@@ -423,6 +462,7 @@ add_executable(emulocke-boot-check EXCLUDE_FROM_ALL
     src/emu/GbaSession.cpp
     src/emu/NdsSession.cpp
     src/emu/NdsPlatformFiles.cpp
+    src/emu/NdsPlatformLocal.cpp
     src/emu/NdsPlatformSync.cpp
     src/emu/NdsPlatformStubs.cpp
     src/emu/NdsPlatformDynlib.cpp
@@ -434,6 +474,7 @@ add_executable(emulocke-boot-check EXCLUDE_FROM_ALL
     src/run/CatalogLookup.cpp
     src/run/PatchApply.cpp
     src/run/PatchBps.cpp
+    src/run/BpsCommands.cpp
     src/run/PatchXdelta.cpp)
 target_include_directories(emulocke-boot-check PRIVATE src)
 target_compile_definitions(emulocke-boot-check PRIVATE SDL_MAIN_HANDLED)
@@ -456,6 +497,7 @@ add_executable(emulocke-run-check
     src/run/NuzlockeRules.cpp
     src/run/PatchApply.cpp
     src/run/PatchBps.cpp
+    src/run/BpsCommands.cpp
     src/run/PatchXdelta.cpp
     src/run/RomLibrary.cpp
     src/run/RomLibraryEnsure.cpp
@@ -466,6 +508,10 @@ add_executable(emulocke-run-check
     src/run/RunStoreAttempts.cpp
     src/run/TitlePlay.cpp
     src/test/patch_format_check.cpp
+    src/test/patch_bounds_check.cpp
+    src/test/file_bytes_check.cpp
+    src/test/prefs_check.cpp
+    src/application/PrefsParse.cpp
     src/test/local_patch_check.cpp
     src/test/layout_check.cpp
     src/test/input_check.cpp
@@ -481,6 +527,35 @@ if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-run-check PRIVATE dl pthread)
 endif()
 
+add_executable(emulocke-fuzz-seeds EXCLUDE_FROM_ALL
+    src/fuzz/SeedWriter.cpp
+    src/test/snapshot_fixtures.cpp
+    src/emu/FileBytes.cpp)
+target_include_directories(emulocke-fuzz-seeds PRIVATE src)
+target_link_libraries(emulocke-fuzz-seeds PRIVATE emulocke_adapter mgba xdelta3)
+if(MGBA_COMPILE_DEFS)
+    target_compile_definitions(emulocke-fuzz-seeds PRIVATE ${MGBA_COMPILE_DEFS})
+endif()
+
+if(EMULOCKE_FUZZ)
+    set(EMULOCKE_PATCH_SOURCES
+        src/run/PatchApply.cpp
+        src/run/PatchBps.cpp
+        src/run/BpsCommands.cpp
+        src/run/PatchXdelta.cpp)
+    foreach(harness fuzz_bps fuzz_xdelta fuzz_ips)
+        emulocke_add_fuzzer(${harness} ${EMULOCKE_PATCH_SOURCES})
+        target_link_libraries(${harness} PRIVATE mgba xdelta3)
+        if(MGBA_COMPILE_DEFS)
+            target_compile_definitions(${harness} PRIVATE ${MGBA_COMPILE_DEFS})
+        endif()
+    endforeach()
+    foreach(harness fuzz_gen3_save fuzz_gen4_save fuzz_gen5_save fuzz_pk45)
+        emulocke_add_fuzzer(${harness})
+        target_link_libraries(${harness} PRIVATE emulocke_adapter)
+    endforeach()
+endif()
+
 add_executable(emulocke-calc-check src/test/calc_check.cpp)
 target_include_directories(emulocke-calc-check PRIVATE src)
 target_link_libraries(emulocke-calc-check PRIVATE emulocke_calc)
@@ -493,13 +568,14 @@ enable_testing()
 add_test(NAME adapter COMMAND emulocke-adapter-check)
 add_test(NAME tracker COMMAND emulocke-tracker-check)
 add_test(NAME poke COMMAND emulocke-poke-check)
+add_test(NAME media COMMAND emulocke-media-check)
+add_test(NAME lifetime COMMAND emulocke-lifetime-check)
 add_test(NAME gba-host COMMAND emulocke-gba-check)
 add_test(NAME run COMMAND emulocke-run-check)
 add_test(NAME calc COMMAND emulocke-calc-check)
 add_test(NAME calc-pack COMMAND emulocke-calc-pack-check)
+if(EMULOCKE_SANITIZE)
+    emulocke_apply_sanitizer_test_env()
+endif()
 
-add_custom_command(
-    TARGET emulocke POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:emulocke>/assets)
+add_dependencies(emulocke emulocke-assets)

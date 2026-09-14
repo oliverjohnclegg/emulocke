@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <cstddef>
 #include <cstdint>
 
@@ -26,9 +27,9 @@ private:
     void applyGain();
     SDL_AudioStream* stream_{};
     int sourceHz_{48000};
-    bool muted_{false};
-    int volume_{100};
-    bool dropping_{false};
+    std::atomic<bool> muted_{false};
+    std::atomic<int> volume_{100};
+    std::atomic<bool> dropping_{false};
 };
 
 }
