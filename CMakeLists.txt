@@ -85,6 +85,9 @@ target_link_libraries(xdelta3 PUBLIC LibLZMA::LibLZMA)
 if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(xdelta3 PRIVATE -w -include assert.h)
 endif()
+if(EMULOCKE_SANITIZE STREQUAL "address")
+    target_compile_options(xdelta3 PRIVATE -fno-sanitize=alignment)
+endif()
 
 add_library(imgui STATIC
     third_party/imgui/imgui.cpp

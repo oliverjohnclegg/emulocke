@@ -9,6 +9,7 @@ int main() {
     testRseAdapter();
     testGen4Adapter();
     testGen5Adapter();
+    testSaveBounds();
     testSnapshotContract();
     testLocalSaves();
     std::printf("adapter check ok\n");

@@ -2,7 +2,9 @@
 
 #include "adapter/LiveMemory.hpp"
 #include "adapter/Snapshot.hpp"
+#include "adapter/gen45/Pk.hpp"
 
+#include <algorithm>
 #include <cstdint>
 #include <span>
 
@@ -11,6 +13,14 @@ namespace emulocke {
 inline constexpr std::size_t kGen5Party = 0x18E00;
 inline constexpr std::size_t kGen5Trainer = 0x19400;
 inline constexpr std::size_t kGen5Box = 0x400;
+inline constexpr std::size_t kGen5BoxCount = 24;
+inline constexpr std::size_t kGen5BoxStride = 30 * kPkStoredSize + 0x10;
+inline constexpr std::size_t kGen5BoxNameStride = 0x28;
+inline constexpr std::size_t kGen5TrainerBytes = 0x28;
+inline constexpr std::size_t kGen5MinSave = std::max({kGen5Trainer + kGen5TrainerBytes,
+                                                      kGen5Party + 8 + 6 * kPk5PartySize,
+                                                      kGen5Box + kGen5BoxCount * kGen5BoxStride,
+                                                      4 + kGen5BoxCount * kGen5BoxNameStride});
 inline constexpr std::size_t kBwBadgeOff = 0x21204;
 inline constexpr std::size_t kBw2BadgeOff = 0x21104;
 inline constexpr uint32_t kBwPartyLive = 0x022349B4;

@@ -17,5 +17,6 @@ void testFrlgDifficulty();
 void testRseAdapter();
 void testGen4Adapter();
 void testGen5Adapter();
+void testSaveBounds();
 void testLocalSaves();
 void testSnapshotContract();

@@ -31,10 +31,9 @@ void readParty(const uint8_t* sav, Party& party) {
 
 void readBoxes(const uint8_t* sav, Boxes& boxes) {
     boxes.current = sav[0];
-    for (int b = 0; b < 24; ++b) {
-        decodeUtf16Text({sav + 4 + static_cast<std::size_t>(b) * 0x28, 20}, boxes.boxes[b].name,
-                        sizeof(boxes.boxes[b].name));
-        const std::size_t boxOff = kGen5Box + static_cast<std::size_t>(b) * (kPkStoredSize * 30 + 0x10);
+    for (std::size_t b = 0; b < kGen5BoxCount; ++b) {
+        decodeUtf16Text({sav + 4 + b * kGen5BoxNameStride, 20}, boxes.boxes[b].name, sizeof(boxes.boxes[b].name));
+        const std::size_t boxOff = kGen5Box + b * kGen5BoxStride;
         for (int s = 0; s < 30; ++s) {
             parsePk45({sav + boxOff + s * kPkStoredSize, kPkStoredSize}, true, boxes.boxes[b].mons[s]);
         }
@@ -92,7 +91,7 @@ uint32_t scanGen5Party(const LiveMemory& mem, GameSnapshot& snap) {
 }  // namespace
 
 bool readGen5Save(std::span<const uint8_t> sav, GameSnapshot& snap, bool bw2) {
-    if (sav.size() < kGen5Trainer + 0x30) {
+    if (sav.size() < kGen5MinSave) {
         return false;
     }
     readTrainer(sav.data() + kGen5Trainer, snap.trainer);
