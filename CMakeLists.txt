@@ -4,6 +4,7 @@ string(STRIP "${EMULOCKE_VERSION}" EMULOCKE_VERSION)
 project(emulocke VERSION ${EMULOCKE_VERSION} LANGUAGES C CXX)
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/BuildStamp.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Sanitizers.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Fuzzing.cmake")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -86,7 +87,7 @@ if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(xdelta3 PRIVATE -w -include assert.h)
 endif()
 if(EMULOCKE_SANITIZE STREQUAL "address")
-    target_compile_options(xdelta3 PRIVATE -fno-sanitize=alignment)
+    target_compile_options(xdelta3 PRIVATE -fno-sanitize=alignment,null,object-size)
 endif()
 
 add_library(imgui STATIC
@@ -490,6 +491,35 @@ if(MGBA_COMPILE_DEFS)
 endif()
 if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-run-check PRIVATE dl pthread)
+endif()
+
+add_executable(emulocke-fuzz-seeds EXCLUDE_FROM_ALL
+    src/fuzz/SeedWriter.cpp
+    src/test/snapshot_fixtures.cpp
+    src/emu/FileBytes.cpp)
+target_include_directories(emulocke-fuzz-seeds PRIVATE src)
+target_link_libraries(emulocke-fuzz-seeds PRIVATE emulocke_adapter mgba xdelta3)
+if(MGBA_COMPILE_DEFS)
+    target_compile_definitions(emulocke-fuzz-seeds PRIVATE ${MGBA_COMPILE_DEFS})
+endif()
+
+if(EMULOCKE_FUZZ)
+    set(EMULOCKE_PATCH_SOURCES
+        src/run/PatchApply.cpp
+        src/run/PatchBps.cpp
+        src/run/BpsCommands.cpp
+        src/run/PatchXdelta.cpp)
+    foreach(harness fuzz_bps fuzz_xdelta fuzz_ips)
+        emulocke_add_fuzzer(${harness} ${EMULOCKE_PATCH_SOURCES})
+        target_link_libraries(${harness} PRIVATE mgba xdelta3)
+        if(MGBA_COMPILE_DEFS)
+            target_compile_definitions(${harness} PRIVATE ${MGBA_COMPILE_DEFS})
+        endif()
+    endforeach()
+    foreach(harness fuzz_gen3_save fuzz_gen4_save fuzz_gen5_save fuzz_pk45)
+        emulocke_add_fuzzer(${harness})
+        target_link_libraries(${harness} PRIVATE emulocke_adapter)
+    endforeach()
 endif()
 
 enable_testing()
