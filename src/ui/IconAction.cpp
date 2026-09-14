@@ -38,8 +38,9 @@ void iconRetry(ImVec2 p, ImVec2 size) {
     const float cy = p.y + size.y * 0.5f;
     const float r = size.x * 0.28f;
     const float t = 1.5f;
-    const float a0 = IM_PI * 0.45f;
-    const float a1 = IM_PI * 2.05f;
+    const float pi = 3.14159265f;
+    const float a0 = pi * 0.45f;
+    const float a1 = pi * 2.05f;
     ImDrawList* dl = ImGui::GetWindowDrawList();
     const ImU32 metal = ImGui::GetColorU32(kMetal);
     dl->PathArcTo(ImVec2(cx, cy), r, a0, a1, 16);
