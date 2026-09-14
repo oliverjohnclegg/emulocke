@@ -265,6 +265,11 @@ add_executable(emulocke
     src/run/SavePeek.cpp
     src/run/TitlePlay.cpp)
 
+add_custom_target(emulocke-assets
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:emulocke>/assets)
+
 target_include_directories(emulocke PRIVATE src)
 target_link_libraries(emulocke PRIVATE emulocke_adapter emulocke_tracker emulocke_dex emulocke_sprites core mgba xdelta3 imgui SDL3::SDL3)
 target_compile_definitions(emulocke PRIVATE SDL_MAIN_HANDLED)
@@ -305,11 +310,7 @@ target_link_libraries(emulocke-sprite-check PRIVATE emulocke_sprites SDL3::SDL3)
 if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-sprite-check PRIVATE pthread)
 endif()
-add_custom_command(
-    TARGET emulocke-sprite-check POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:emulocke-sprite-check>/assets)
+add_dependencies(emulocke-sprite-check emulocke-assets)
 
 add_executable(emulocke-game-art-check
     src/test/game_art_check.cpp
@@ -320,11 +321,7 @@ target_link_libraries(emulocke-game-art-check PRIVATE emulocke_sprites SDL3::SDL
 if(UNIX AND NOT APPLE)
     target_link_libraries(emulocke-game-art-check PRIVATE pthread)
 endif()
-add_custom_command(
-    TARGET emulocke-game-art-check POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:emulocke-game-art-check>/assets)
+add_dependencies(emulocke-game-art-check emulocke-assets)
 
 add_executable(emulocke-gba-check
     src/test/gba_host_check.cpp
@@ -459,8 +456,4 @@ if(EMULOCKE_SANITIZE)
     emulocke_apply_sanitizer_test_env()
 endif()
 
-add_custom_command(
-    TARGET emulocke POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:emulocke>/assets)
+add_dependencies(emulocke emulocke-assets)
