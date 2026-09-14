@@ -421,6 +421,15 @@ int main() {
     const emulocke::Run* legacyRun = loaded.find("0123456789abcdef");
     expect(legacyRun && legacyRun->playMs == 0, "legacy play 0");
 
+    auto extra = store.create(emulocke::kFireRedUs10Uuid, emulocke::regularRules());
+    expect(extra.has_value(), "create extra");
+    const std::string extraId = extra->id;
+    expect(store.remove(extraId), "remove extra");
+    expect(!store.find(extraId), "extra gone");
+    expect(!std::filesystem::exists(runs / extraId), "extra dir gone");
+    expect(store.find(a2->id) && store.find(b->id), "remove leaves others");
+    expect(!store.remove("missing"), "remove missing");
+
     std::filesystem::remove_all(tmp);
     fails += testBuildId();
     fails += testPatchFormats();

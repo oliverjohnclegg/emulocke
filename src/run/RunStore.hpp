@@ -22,6 +22,7 @@ public:
     std::optional<Run> create(std::string catalogUuid, NuzlockeRules rules, std::string patchOption = {},
                              std::string difficulty = {});
     std::optional<Run> createAttempt(const Run& source);
+    bool remove(const std::string& id);
     bool touch(const std::string& id);
     bool addPlayMs(const std::string& id, uint64_t ms);
     bool importBattery(const std::string& id, const std::filesystem::path& source) const;

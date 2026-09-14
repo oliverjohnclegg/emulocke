@@ -29,6 +29,16 @@ void RunStore::eraseLineageExcept(const std::string& lineageId, const std::strin
     }
 }
 
+bool RunStore::remove(const std::string& id) {
+    const Run* run = find(id);
+    if (!run) {
+        return false;
+    }
+    const std::string lineage = run->lineageKey();
+    eraseLineageExcept(lineage, {});
+    return true;
+}
+
 std::optional<Run> RunStore::createAttempt(const Run& source) {
     const std::string lineage = source.lineageKey();
     const int attempt = nextAttempt(lineage);

@@ -56,13 +56,21 @@ bool drawRunStrip(Application& app, const Run& run) {
     ImGui::SetCursorScreenPos(ImVec2(text.x, origin.y + kRunPad + 22.f));
     ImGui::TextDisabled("%s", meta);
     drawRunParty(app, snap.party, ImVec2(text.x, origin.y + kRunPad + 46.f));
-    const ImVec2 plus(origin.x + w - kRunPad - kRunPlus, origin.y + kRunPad);
-    ImGui::SetCursorScreenPos(plus);
+    const ImVec2 retry(origin.x + w - kRunPad - kRunPlus, origin.y + kRunPad);
+    const ImVec2 trash(retry.x - 4.f - kRunPlus, origin.y + kRunPad);
+    ImGui::SetCursorScreenPos(trash);
+    ImGui::SetNextItemAllowOverlap();
+    if (iconAction("del", "DELETE RUN", ImVec2(kRunPlus, kRunPlus))) {
+        app.requestDeleteRun(run.id);
+        load = false;
+    }
+    iconTrash(trash, ImVec2(kRunPlus, kRunPlus));
+    ImGui::SetCursorScreenPos(retry);
     if (iconAction("new", "NEW ATTEMPT", ImVec2(kRunPlus, kRunPlus))) {
         app.requestNewAttempt(run.id);
         load = false;
     }
-    iconPlus(plus, ImVec2(kRunPlus, kRunPlus));
+    iconRetry(retry, ImVec2(kRunPlus, kRunPlus));
     ImGui::SetCursorScreenPos(ImVec2(origin.x, origin.y + kRunStripH + 6.f));
     ImGui::Dummy(ImVec2(w, 0.f));
     ImGui::PopID();

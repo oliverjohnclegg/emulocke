@@ -83,6 +83,7 @@ void Application::run() {
         drawNewRunModal(*this);
         drawLoadingRunModal(*this);
         drawNewAttemptConfirm(*this);
+        drawDeleteRunConfirm(*this);
         ImGui::End();
         const bool* keys = SDL_GetKeyboardState(nullptr);
         const bool controlsOpen = ImGui::IsPopupOpen("Controls");

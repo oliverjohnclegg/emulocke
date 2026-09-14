@@ -55,6 +55,18 @@ void Application::confirmNewAttempt() {
     confirmAttemptId_.clear();
 }
 
+void Application::requestDeleteRun(std::string id) {
+    confirmDeleteId_ = std::move(id);
+}
+
+void Application::dismissDeleteRun() {
+    confirmDeleteId_.clear();
+}
+
+void Application::confirmDeleteRun() {
+    pendingDeleteId_ = std::move(confirmDeleteId_);
+}
+
 void Application::importPath(const std::string& path) {
     const ImportResult result = romLibrary_->importFile(path);
     status_ = result.message;
@@ -73,6 +85,11 @@ void Application::importPath(const std::string& path) {
 }
 
 void Application::drainPending() {
+    if (!pendingDeleteId_.empty()) {
+        const std::string id = std::move(pendingDeleteId_);
+        pendingDeleteId_.clear();
+        deleteRun(id);
+    }
     if (pendingNewRun_) {
         pendingNewRun_ = false;
         showNewRun_ = true;
@@ -144,6 +161,15 @@ void Application::createRunFromDraft() {
         return;
     }
     loadRun(created->id);
+}
+
+void Application::deleteRun(const std::string& id) {
+    if (activeRunId_ == id) {
+        closeRun();
+    }
+    if (!runStore_->remove(id)) {
+        status_ = "Failed to delete run.";
+    }
 }
 
 void Application::startNewAttempt(const std::string& sourceId) {
