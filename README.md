@@ -28,7 +28,7 @@ The cores pick themselves from the dump extension. The UI doesn't split "GBA vs 
 
 A lot of the tree is written by AI agents, and that is a choice: if you won't run software built that way, don't. Agent PRs are allowed. They don't merge until a human maintainer has read the diff and GitHub Actions is green.
 
-Outsiders open pull requests against `dev` (Vanguard). `main` is Stable and maintainer-only; a PR aimed at `main` from anyone else is closed.
+Nobody commits onto `main` or `dev`, including the maintainer. Work lives on a feature or bugfix branch, then a pull request. Outsiders open those against `dev` (Vanguard). `main` is Stable and maintainer-only; a PR aimed at `main` from anyone else is closed.
 
 ## Supported titles
 

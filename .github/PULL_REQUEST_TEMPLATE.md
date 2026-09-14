@@ -1,6 +1,6 @@
 ## Base
 
-This PR targets `dev`. PRs against `main` are closed unless the author is the maintainer.
+This PR targets `dev`, from a feature or bugfix branch. Do not commit onto `main` or `dev`. PRs against `main` are closed unless the author is the maintainer.
 
 ## Change
 

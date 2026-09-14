@@ -1,6 +1,10 @@
 # Contributing
 
+Nobody commits onto `main` or `dev`. Not outsiders, not Oliver. Put the work on a `feature/` or `bugfix/` branch, then open a pull request.
+
 Branch off `dev`. Open the pull request against `dev`. `main` is Stable and maintainer-only; a PR that targets `main` from anyone except [oliverjohnclegg](https://github.com/oliverjohnclegg) is closed.
+
+Once the branch rulesets are on, GitHub rejects `git push` to `main` and `dev`. Oliver's bypass is PR-merge only, so he can merge a PR he authored. It does not let him push commits straight onto those branches.
 
 AI-authored commits and PRs are allowed. They don't merge until Oliver has read the diff and both GitHub Actions jobs are green. For someone else's PR that means an Approve from `@oliverjohnclegg`. GitHub won't let him Approve a PR he authored (including agent PRs under his login); those he merges after reading.
 
