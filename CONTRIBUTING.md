@@ -14,11 +14,13 @@ Product scope lives in [PRD.md](PRD.md). This is a nuzlocke host. General emulat
 
 ## Code
 
-These are review rules, not a CI gate. AI PRs and human PRs get the same pass. Names carry the meaning; don't add comments. If a block needs a comment, the names failed: rename or split. License headers stay. Don't comment-bomb or reformat `third_party/`.
+These are review rules, not a CI gate. Human and agent PRs get the same pass. Cursor agents already load `.cursor/rules`. Match the tree that's already here.
+
+Don't add comments. Function and variable names carry the meaning. If a block needs a comment, the names failed: rename or split. License headers stay. Don't comment-bomb or reformat `third_party/`. This one is a reject, not a nit. A lot of C++ work treats comments as normal. Here they mean the names weren't good enough, and the PR comes back.
 
 Prefer files under 100 lines. Split when the new file has a real name. Generated tables, catalog rows, and vendored cores are exempt.
 
-If the same logic appears three times, it wants one function. Match the tree that's already here. A PR that fights this gets requested changes, not a lecture.
+If the same logic appears three times, it wants one function.
 
 ## Tests and CI
 
