@@ -2,6 +2,7 @@
 
 #include "application/Application.hpp"
 #include "ui/FieldLog.hpp"
+#include "ui/Calculator.hpp"
 #include "ui/Pokemon.hpp"
 #include "ui/Theme.hpp"
 #include "ui/Tracker.hpp"
@@ -42,6 +43,11 @@ void drawSuite(Application& app, ImVec2 size) {
         }
         if (ImGui::BeginTabItem("Logs")) {
             suitePane("logs", drawFieldLog, app);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Calculator", nullptr,
+                app.consumePreviewCalcSelect() ? ImGuiTabItemFlags_SetSelected : 0)) {
+            suitePane("calc", drawCalculator, app);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();

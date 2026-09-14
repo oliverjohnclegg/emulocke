@@ -24,3 +24,5 @@ CMakeCache.txt
 firmware.bin
 bios7.bin
 bios9.bin
+__pycache__/
+

@@ -1,6 +1,7 @@
 #include "application/Application.hpp"
 
 #include "adapter/GameAdapter.hpp"
+#include "calc/Pack.hpp"
 #include "emu/FileBytes.hpp"
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
@@ -83,6 +84,11 @@ void Application::emuLoop() {
                                 snapshot_.progress.flags = fromSave.progress.flags;
                             }
                         }
+                    }
+                }
+                if (const Run* run = runStore_->find(activeRunId_)) {
+                    if (!calcPack(run->catalogUuid, run->patchOption)) {
+                        snapshot_.battle = {};
                     }
                 }
             }
