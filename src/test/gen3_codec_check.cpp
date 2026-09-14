@@ -63,6 +63,10 @@ void testGen3Codec() {
     REQUIRE(out.maxHp == 20);
     REQUIRE(out.moves[0] == 33);
     REQUIRE(out.ivHp == 10);
+    REQUIRE(out.experience == 135);
+    const emulocke::Mon snap = emulocke::toSnapshotMon(out);
+    REQUIRE(snap.experience == 135);
+    REQUIRE(snap.level == 5);
     REQUIRE(out.ivAtk == 20);
     REQUIRE(out.metGame == 4);
     REQUIRE(std::string(out.nickname) == "BULBASAUR");

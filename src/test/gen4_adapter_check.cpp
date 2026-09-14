@@ -50,6 +50,7 @@ void testGen4Adapter() {
     emulocke::store32(plain.data() + 0x0C, 12345);
     emulocke::encodeGen4Text("PIKACHU", {plain.data() + 0x48, 22});
     emulocke::encodeGen4Text("Juli", {plain.data() + 0x68, 16});
+    plain[0x10] = 135;
     plain[0x8C] = 5;
     emulocke::store16(plain.data() + 0x8E, 20);
     emulocke::store16(plain.data() + 0x90, 20);
@@ -58,6 +59,7 @@ void testGen4Adapter() {
     emulocke::Mon round;
     REQUIRE(emulocke::parsePk45(pk, false, round));
     REQUIRE(round.species == 25);
+    REQUIRE(round.experience == 135);
     REQUIRE(std::string(round.speciesName) == "PIKACHU");
     REQUIRE(std::string(round.nickname) == "PIKACHU");
 

@@ -42,8 +42,17 @@ void Application::queueLoadRun(std::string id) {
     pendingLoadId_ = std::move(id);
 }
 
-void Application::queueNewAttempt(std::string sourceId) {
-    pendingAttemptId_ = std::move(sourceId);
+void Application::requestNewAttempt(std::string sourceId) {
+    confirmAttemptId_ = std::move(sourceId);
+}
+
+void Application::dismissNewAttempt() {
+    confirmAttemptId_.clear();
+}
+
+void Application::confirmNewAttempt() {
+    pendingAttemptId_ = std::move(confirmAttemptId_);
+    confirmAttemptId_.clear();
 }
 
 void Application::importPath(const std::string& path) {
@@ -71,6 +80,10 @@ void Application::drainPending() {
     if (pendingDumpPicker_) {
         pendingDumpPicker_ = false;
         showDumpPicker();
+    }
+    if (pendingSavPicker_) {
+        pendingSavPicker_ = false;
+        showSavPicker();
     }
     if (!pendingImport_.empty()) {
         const std::string path = std::move(pendingImport_);
@@ -109,6 +122,8 @@ void Application::drainPending() {
 }
 
 void Application::createRunFromDraft() {
+    const std::string sav = std::move(pendingImportSav_);
+    pendingImportSav_.clear();
     if (newRunDraft_.catalogUuid.empty()) {
         status_ = "Pick a game.";
         return;
@@ -122,6 +137,10 @@ void Application::createRunFromDraft() {
                                       newRunDraft_.difficulty);
     if (!created) {
         status_ = "Failed to create run.";
+        return;
+    }
+    if (!sav.empty() && !runStore_->importBattery(created->id, sav)) {
+        status_ = "Failed to import save.";
         return;
     }
     loadRun(created->id);

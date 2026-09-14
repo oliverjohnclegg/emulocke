@@ -23,6 +23,15 @@ void onDumpPicked(void* userdata, const char* const* filelist, int) {
     }
 }
 
+void onSavPicked(void* userdata, const char* const* filelist, int) {
+    auto* app = static_cast<Application*>(userdata);
+    if (filelist && filelist[0]) {
+        app->queueImportSav(filelist[0]);
+    } else {
+        app->savPickerClosed();
+    }
+}
+
 }  // namespace
 
 bool Application::start(int argc, char** argv) {
@@ -83,6 +92,14 @@ void Application::queueImport(std::string path) {
     pendingImport_ = std::move(path);
 }
 
+void Application::queueImportSav(std::string path) {
+    savPickerOpen_ = false;
+    pendingImportSav_ = std::move(path);
+    pendingNewRun_ = false;
+    showNewRun_ = false;
+    pendingCreate_ = true;
+}
+
 void Application::showDumpPicker() {
     const SDL_DialogFileFilter filters[] = {
         {"Pokemon dumps", "gba;nds"},
@@ -90,9 +107,28 @@ void Application::showDumpPicker() {
     SDL_ShowOpenFileDialog(onDumpPicked, this, host_.window(), filters, 1, nullptr, false);
 }
 
+void Application::showSavPicker() {
+    const SDL_DialogFileFilter filters[] = {
+        {"Save files", "sav"},
+    };
+    savPickerOpen_ = true;
+    SDL_ShowOpenFileDialog(onSavPicked, this, host_.window(), filters, 1, nullptr, false);
+}
+
 void Application::requestImportGame() {
     importKeepUuid_.clear();
     showDumpPicker();
+}
+
+void Application::requestImportSav() {
+    if (pendingSavPicker_ || savPickerOpen_ || pendingCreate_) {
+        return;
+    }
+    pendingSavPicker_ = true;
+}
+
+void Application::savPickerClosed() {
+    savPickerOpen_ = false;
 }
 
 void Application::requestImportFor(std::string uuid) {

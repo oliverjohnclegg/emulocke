@@ -46,9 +46,14 @@ public:
     void confirmNewRun();
     void requestImportGame();
     void requestImportFor(std::string uuid);
+    void requestImportSav();
+    void savPickerClosed();
     void queueImport(std::string path);
+    void queueImportSav(std::string path);
     void queueLoadRun(std::string id);
-    void queueNewAttempt(std::string sourceId);
+    void requestNewAttempt(std::string sourceId);
+    void dismissNewAttempt();
+    void confirmNewAttempt();
     void closeRun();
     void pauseToggle();
     void resetSession();
@@ -61,6 +66,7 @@ public:
     void setVolume(int volume);
     void setSpeedUp(int speed);
     void setSpeedUpHold(bool hold);
+    void setBottomScreen(bool on);
     void restoreDefaultWindow();
     bool paused() const { return paused_; }
     int screenScale() const { return prefs_.scale; }
@@ -74,6 +80,7 @@ public:
     const std::string& status() const { return status_; }
     bool copySnapshot(GameSnapshot& out) const;
     bool showNewRun() const { return showNewRun_; }
+    bool showNewAttemptConfirm() const { return !confirmAttemptId_.empty(); }
     NewRunDraft& newRunDraft() { return newRunDraft_; }
     RomLibrary& romLibrary() { return *romLibrary_; }
     const RomLibrary& romLibrary() const { return *romLibrary_; }
@@ -103,6 +110,7 @@ private:
     void drainPending();
     void importPath(const std::string& path);
     void showDumpPicker();
+    void showSavPicker();
     void createRunFromDraft();
     void startNewAttempt(const std::string& sourceId);
     void loadRun(const std::string& id);
@@ -142,11 +150,13 @@ private:
     ImFont* displayFont_{};
     ImFont* bodyFont_{};
     std::string pendingImport_;
+    std::string pendingImportSav_;
     std::string importKeepUuid_;
     std::string status_;
     std::string activeRunId_;
     std::string pendingLoadId_;
     std::string pendingAttemptId_;
+    std::string confirmAttemptId_;
     NewRunDraft newRunDraft_;
     std::atomic<uint64_t> pendingPlayNs_{0};
     std::atomic<uint64_t> playOriginNs_{0};
@@ -161,6 +171,8 @@ private:
     bool pendingNewRun_{false};
     bool pendingCreate_{false};
     bool pendingDumpPicker_{false};
+    bool pendingSavPicker_{false};
+    bool savPickerOpen_{false};
     std::atomic<uint32_t> buttons_{0};
     std::atomic<bool> touchDown_{false};
     std::atomic<uint16_t> touchX_{0};

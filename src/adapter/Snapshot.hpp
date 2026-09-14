@@ -44,6 +44,7 @@ struct Mon {
     uint8_t evSpd{};
     uint8_t nature{};
     uint8_t abilityNum{};
+    uint32_t experience{};
     MonGender gender{MonGender::Unknown};
     bool shiny{};
     bool egg{};

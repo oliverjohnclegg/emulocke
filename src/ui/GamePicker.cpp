@@ -40,7 +40,8 @@ bool titleMatches(const CatalogTitle& title, std::string_view query) {
     const std::string listed = catalogListTitle(title);
     return containsInsensitive(title.title, query) || containsInsensitive(listed, query) ||
            containsInsensitive(title.fullName, query) || containsInsensitive(title.version, query) ||
-           containsInsensitive(title.details, query) || containsInsensitive(title.slug, query);
+           containsInsensitive(title.details, query) || containsInsensitive(title.slug, query) ||
+           containsInsensitive(title.creator, query);
 }
 
 }  // namespace

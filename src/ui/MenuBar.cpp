@@ -39,7 +39,7 @@ void drawMenuBar(Application& app) {
     if (ImGui::BeginMenu("File")) {
         withBody(app, [&] {
             if (ImGui::MenuItem("Start New Attempt", nullptr, false, !app.activeRunId().empty())) {
-                app.queueNewAttempt(app.activeRunId());
+                app.requestNewAttempt(app.activeRunId());
             }
             if (ImGui::MenuItem("Import Game...")) {
                 app.requestImportGame();
@@ -94,6 +94,9 @@ void drawMenuBar(Application& app) {
                 scaleItem(app, "3x", 3);
                 scaleItem(app, "4x", 4);
                 ImGui::EndMenu();
+            }
+            if (ImGui::MenuItem("Bottom Screen", nullptr, app.prefs().bottomScreen)) {
+                app.setBottomScreen(!app.prefs().bottomScreen);
             }
             if (ImGui::MenuItem("Restore Default Window")) {
                 app.restoreDefaultWindow();

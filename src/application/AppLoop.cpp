@@ -87,6 +87,7 @@ void Application::run() {
         drawShell(*this);
         drawNewRunModal(*this);
         drawLoadingRunModal(*this);
+        drawNewAttemptConfirm(*this);
         ImGui::End();
         ImGui::Render();
         SDL_SetRenderDrawColor(host_.renderer(), 26, 26, 28, 255);

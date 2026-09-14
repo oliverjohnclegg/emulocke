@@ -35,6 +35,7 @@ Mon toSnapshotMon(const DecryptedMon& in) {
     mon.evSpd = in.evSpd;
     mon.nature = natureOf(in.personality);
     mon.abilityNum = in.abilityNum;
+    mon.experience = in.experience;
     mon.shiny = isShiny(in.otId, in.personality);
     mon.egg = in.egg;
     mon.status = in.status;

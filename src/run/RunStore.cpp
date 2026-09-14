@@ -116,6 +116,16 @@ bool RunStore::addPlayMs(const std::string& id, uint64_t ms) {
     return writeRunMeta(root_ / id, *run);
 }
 
+bool RunStore::importBattery(const std::string& id, const std::filesystem::path& source) const {
+    std::error_code exists;
+    if (!find(id) || !std::filesystem::is_regular_file(source, exists)) {
+        return false;
+    }
+    std::error_code ec;
+    std::filesystem::copy_file(source, batteryPath(id), std::filesystem::copy_options::overwrite_existing, ec);
+    return !ec;
+}
+
 std::filesystem::path RunStore::batteryPath(const std::string& id) const {
     return root_ / id / "battery.sav";
 }
