@@ -84,10 +84,6 @@ void drawStartRunRail(Application& app) {
 
 void drawHome(Application& app) {
     ImGui::BeginChild("home", ImVec2(0, 0), ImGuiChildFlags_Borders);
-    if (!app.status().empty()) {
-        ImGui::TextWrapped("%s", app.status().c_str());
-        ImGui::Dummy(ImVec2(0, 8));
-    }
     if (app.runStore().runs().empty()) {
         drawEmptyHome(app);
     } else {

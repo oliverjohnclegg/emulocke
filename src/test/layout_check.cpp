@@ -1,4 +1,5 @@
 #include "ui/Layout.hpp"
+#include "ui/Suite.hpp"
 #include "ui/WindowFit.hpp"
 
 #include <algorithm>
@@ -116,5 +117,19 @@ int testLayout() {
     expect(gbaHug.scale == 2 && gbaHug.x == 0.f && gbaHug.y == 0.f && gbaHug.gap == 5.f, "2x gba fills snapped pane");
     const auto gbaOnlyHug = emulocke::layoutLcds(2, 240, 160, 1, 480.f, 320.f);
     expect(gbaOnlyHug.scale == 2 && gbaOnlyHug.x == 0.f && gbaOnlyHug.y == 0.f, "2x gba only fills snapped pane");
+
+    const auto idle = emulocke::suiteTabs("", false, false);
+    expect(!idle.tracker && !idle.pokemon && idle.logs && !idle.calculator && !idle.cheats, "idle logs only");
+    const auto seated = emulocke::suiteTabs("run-1", false, false);
+    expect(seated.tracker && seated.pokemon && seated.logs && seated.calculator && seated.cheats,
+        "seated suite tabs");
+    const auto noCheats = emulocke::suiteTabs("run-1", false, false, false);
+    expect(noCheats.tracker && noCheats.calculator && !noCheats.cheats && noCheats.logs, "allow cheats off");
+    const auto previewT = emulocke::suiteTabs("", true, false);
+    expect(previewT.tracker && !previewT.pokemon && previewT.logs && !previewT.calculator && !previewT.cheats,
+        "preview tracker keeps logs");
+    const auto previewC = emulocke::suiteTabs("", false, true);
+    expect(!previewC.tracker && !previewC.pokemon && previewC.logs && previewC.calculator && !previewC.cheats,
+        "preview calc keeps logs");
     return fails;
 }

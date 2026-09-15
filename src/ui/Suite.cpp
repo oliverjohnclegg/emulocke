@@ -33,29 +33,33 @@ void drawSuite(Application& app, ImVec2 size) {
         ImGui::PushFont(display);
     }
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(ImGui::GetStyle().ItemSpacing.x, 0.f));
+    bool allowCheats = true;
+    if (const Run* run = app.runStore().find(app.activeRunId())) {
+        allowCheats = run->allowCheats;
+    }
+    const SuiteTabs tabs = suiteTabs(app.activeRunId(), app.previewTracker(), app.previewCalc(), allowCheats);
     if (ImGui::BeginTabBar("suite-tabs", ImGuiTabBarFlags_DrawSelectedOverline | ImGuiTabBarFlags_NoTooltip)) {
-        if (ImGui::BeginTabItem("Tracker")) {
+        if (tabs.tracker && ImGui::BeginTabItem("Tracker")) {
             suitePane("tracker", drawTracker, app);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Pokémon")) {
+        if (tabs.pokemon && ImGui::BeginTabItem("Pokémon")) {
             suitePane("pokemon", drawPokemon, app);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Calculator", nullptr,
+        if (tabs.calculator &&
+            ImGui::BeginTabItem("Calculator", nullptr,
                 app.consumePreviewCalcSelect() ? ImGuiTabItemFlags_SetSelected : 0)) {
             suitePane("calc", drawCalculator, app);
             ImGui::EndTabItem();
         }
-        bool cheats = true;
-        if (const Run* run = app.runStore().find(app.activeRunId())) {
-            cheats = run->allowCheats;
-        }
-        if (cheats && ImGui::BeginTabItem("Cheats")) {
+        if (tabs.cheats && ImGui::BeginTabItem("Cheats")) {
             suitePane("cheats", drawCheats, app);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Logs")) {
+        const ImGuiTabItemFlags logFlags =
+            (tabs.tracker || tabs.pokemon || tabs.calculator || tabs.cheats) ? 0 : ImGuiTabItemFlags_SetSelected;
+        if (tabs.logs && ImGui::BeginTabItem("Logs", nullptr, logFlags)) {
             suitePane("logs", drawFieldLog, app);
             ImGui::EndTabItem();
         }
