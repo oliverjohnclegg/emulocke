@@ -95,6 +95,9 @@ std::optional<Run> readRunMeta(const std::filesystem::path& dir) {
         !flag("dupesClause", run.rules.dupesClause) || !flag("shinyClause", run.rules.shinyClause)) {
         return std::nullopt;
     }
+    if (kv.count("allowCheats") && !parseBool(kv["allowCheats"], run.allowCheats)) {
+        return std::nullopt;
+    }
     if (kv.count("difficulty")) {
         run.difficulty = kv["difficulty"];
     }

@@ -42,17 +42,21 @@ void drawSuite(Application& app, ImVec2 size) {
             suitePane("pokemon", drawPokemon, app);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Logs")) {
-            suitePane("logs", drawFieldLog, app);
-            ImGui::EndTabItem();
-        }
         if (ImGui::BeginTabItem("Calculator", nullptr,
                 app.consumePreviewCalcSelect() ? ImGuiTabItemFlags_SetSelected : 0)) {
             suitePane("calc", drawCalculator, app);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Cheats")) {
+        bool cheats = true;
+        if (const Run* run = app.runStore().find(app.activeRunId())) {
+            cheats = run->allowCheats;
+        }
+        if (cheats && ImGui::BeginTabItem("Cheats")) {
             suitePane("cheats", drawCheats, app);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Logs")) {
+            suitePane("logs", drawFieldLog, app);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
