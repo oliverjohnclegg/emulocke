@@ -49,7 +49,8 @@
           "slug": "turtwig",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 5
     },
     {
       "id": "lake-verity",
@@ -101,7 +102,8 @@
           "slug": "turtwig",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 9
     },
     {
       "id": "oreburgh-gate",
@@ -141,7 +143,8 @@
           "slug": "cranidos",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 14
     },
     {
       "id": "oreburgh-mine",
@@ -221,7 +224,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 17
     },
     {
       "id": "eterna-forest",
@@ -267,7 +271,8 @@
           "slug": "roserade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 22
     },
     {
       "id": "jup1",
@@ -284,7 +289,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 23
     },
     {
       "id": "route-206",
@@ -351,7 +357,8 @@
           "slug": "mismagius",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 26
     },
     {
       "id": "route-209",
@@ -409,7 +416,8 @@
           "slug": "grotle",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 27
     },
     {
       "id": "the-lost-tower",
@@ -473,7 +481,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 32
     },
     {
       "id": "route-214",
@@ -570,7 +579,8 @@
           "slug": "grotle",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 36
     },
     {
       "id": "gym-5",
@@ -592,7 +602,8 @@
           "slug": "floatzel",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 37
     },
     {
       "id": "route-212",
@@ -640,7 +651,8 @@
           "slug": "murkrow",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 36
     },
     {
       "id": "fuego-ironworks",
@@ -744,7 +756,8 @@
           "slug": "torterra",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 38
     },
     {
       "id": "gym-6",
@@ -766,7 +779,8 @@
           "slug": "bastiodon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 41
     },
     {
       "id": "iron-island",
@@ -805,7 +819,8 @@
           "slug": "toxicroak",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 40
     },
     {
       "id": "mars2",
@@ -826,7 +841,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 40
     },
     {
       "id": "route-216",
@@ -888,7 +904,8 @@
           "slug": "froslass",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 44
     },
     {
       "id": "cyr2",
@@ -909,7 +926,8 @@
           "slug": "honchkrow",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 46
     },
     {
       "id": "sat2",
@@ -930,7 +948,8 @@
           "slug": "bronzor",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 44
     },
     {
       "id": "mnj",
@@ -963,7 +982,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 46
     },
     {
       "id": "cyr3",
@@ -992,7 +1012,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 48
     },
     {
       "id": "distortion-world",
@@ -1045,7 +1066,8 @@
           "slug": "electivire",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "route-223",
@@ -1126,7 +1148,8 @@
           "slug": "torterra",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 51
     },
     {
       "id": "e1",
@@ -1155,7 +1178,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 53
     },
     {
       "id": "e2",
@@ -1184,7 +1208,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 55
     },
     {
       "id": "e3",
@@ -1213,7 +1238,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 57
     },
     {
       "id": "e4",
@@ -1242,7 +1268,8 @@
           "slug": "gallade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 59
     },
     {
       "id": "c",
@@ -1275,7 +1302,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 62
     },
     {
       "id": "snowpoint-temple",

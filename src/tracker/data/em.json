@@ -58,7 +58,8 @@
           "slug": "treecko",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 5
     },
     {
       "id": "route-102",
@@ -126,7 +127,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2151
+      "defeat": 2151,
+      "cap": 15
     },
     {
       "id": "r2",
@@ -159,7 +161,8 @@
           "slug": "treecko",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 15
     },
     {
       "id": "route-105",
@@ -218,7 +221,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2152
+      "defeat": 2152,
+      "cap": 19
     },
     {
       "id": "route-106",
@@ -308,7 +312,8 @@
           "slug": "grovyle",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 20
     },
     {
       "id": "altering-cave",
@@ -331,7 +336,8 @@
           "slug": "ralts",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 16
     },
     {
       "id": "gym-3",
@@ -358,7 +364,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2153
+      "defeat": 2153,
+      "cap": 24
     },
     {
       "id": "route-117",
@@ -401,7 +408,8 @@
           "slug": "zubat",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 22
     },
     {
       "id": "route-113",
@@ -493,7 +501,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2154
+      "defeat": 2154,
+      "cap": 29
     },
     {
       "id": "fiery-path",
@@ -548,7 +557,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2155
+      "defeat": 2155,
+      "cap": 31
     },
     {
       "id": "new-mauville",
@@ -592,7 +602,8 @@
           "slug": "mightyena",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 28
     },
     {
       "id": "r4",
@@ -637,7 +648,8 @@
           "slug": "grovyle",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 31
     },
     {
       "id": "fortree-city",
@@ -686,7 +698,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2156
+      "defeat": 2156,
+      "cap": 33
     },
     {
       "id": "route-121",
@@ -763,7 +776,8 @@
           "slug": "zubat",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 33
     },
     {
       "id": "mtmax",
@@ -784,7 +798,8 @@
           "slug": "camerupt",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 39
     },
     {
       "id": "lilycove-city",
@@ -842,7 +857,8 @@
           "slug": "grovyle",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 34
     },
     {
       "id": "am1",
@@ -863,7 +879,8 @@
           "slug": "golbat",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 37
     },
     {
       "id": "route-124",
@@ -909,7 +926,8 @@
         }
       ],
       "defeat": 2157,
-      "field": 2
+      "field": 2,
+      "cap": 42
     },
     {
       "id": "mtmaxt",
@@ -942,7 +960,8 @@
           "slug": "golbat",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 44
     },
     {
       "id": "route-125",
@@ -1004,7 +1023,8 @@
           "slug": "mightyena",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 37
     },
     {
       "id": "aqarc",
@@ -1025,7 +1045,8 @@
           "slug": "sharpedo",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 43
     },
     {
       "id": "route-126",
@@ -1074,7 +1095,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2158
+      "defeat": 2158,
+      "cap": 46
     },
     {
       "id": "cave-of-origin",
@@ -1239,7 +1261,8 @@
           "slug": "gardevoir",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 45
     },
     {
       "id": "e1",
@@ -1269,7 +1292,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1275
+      "defeat": 1275,
+      "cap": 49
     },
     {
       "id": "e2",
@@ -1299,7 +1323,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1276
+      "defeat": 1276,
+      "cap": 51
     },
     {
       "id": "e3",
@@ -1329,7 +1354,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1277
+      "defeat": 1277,
+      "cap": 53
     },
     {
       "id": "e4",
@@ -1359,7 +1385,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1278
+      "defeat": 1278,
+      "cap": 55
     },
     {
       "id": "c1",
@@ -1392,7 +1419,8 @@
           "slug": "milotic",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 58
     },
     {
       "id": "c2",
@@ -1425,7 +1453,8 @@
           "slug": "metagross",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 78
     },
     {
       "id": "ss-tidal",

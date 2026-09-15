@@ -149,7 +149,8 @@
           "lock": 810
         }
       ],
-      "defeat": 600
+      "defeat": 600,
+      "cap": 5
     },
     {
       "id": "route-1",
@@ -460,7 +461,8 @@
           "lock": 0
         }
       ],
-      "weather": "sandstorm"
+      "weather": "sandstorm",
+      "cap": 16
     },
     {
       "id": "pewter-city",
@@ -931,7 +933,8 @@
           "lock": 0
         }
       ],
-      "weather": "rain"
+      "weather": "rain",
+      "cap": 28
     },
     {
       "id": "route-5",
@@ -990,7 +993,8 @@
           "lock": 0
         }
       ],
-      "weather": "electric-terrain"
+      "weather": "electric-terrain",
+      "cap": 36
     },
     {
       "id": "digletts-cave",
@@ -1207,7 +1211,8 @@
           "lock": 0
         }
       ],
-      "weather": "grassy-terrain"
+      "weather": "grassy-terrain",
+      "cap": 44
     },
     {
       "id": "ev2-hard",
@@ -1240,7 +1245,8 @@
           "slug": "kangaskhan-mega",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 47
     },
     {
       "id": "saffron-city",
@@ -1585,7 +1591,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "cap": 55
     },
     {
       "id": "ev4-hard",
@@ -1618,7 +1625,8 @@
           "slug": "kangaskhan-mega",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 57
     },
     {
       "id": "mb5-hard",
@@ -1688,7 +1696,8 @@
         }
       ],
       "field": 2,
-      "note": "Trick Room There is a permanent Trick Room effect on the field"
+      "note": "Trick Room There is a permanent Trick Room effect on the field",
+      "cap": 59
     },
     {
       "id": "route-16",
@@ -1781,7 +1790,8 @@
           "lock": 0
         }
       ],
-      "note": "Tailwind There is a permanent tailwind effect on Koga's side of the field"
+      "note": "Tailwind There is a permanent tailwind effect on Koga's side of the field",
+      "cap": 68
     },
     {
       "id": "safari-zone",
@@ -2034,7 +2044,8 @@
           "slug": "blaziken-mega",
           "lock": 4
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "pokemon-mansion",
@@ -2078,7 +2089,8 @@
           "lock": 0
         }
       ],
-      "weather": "sunlight"
+      "weather": "sunlight",
+      "cap": 76
     },
     {
       "id": "route-21",
@@ -2122,7 +2134,8 @@
           "lock": 0
         }
       ],
-      "note": "Purist Unable to bring fairy types into the Fight Sticky terrain You can't remove hazards from the field"
+      "note": "Purist Unable to bring fairy types into the Fight Sticky terrain You can't remove hazards from the field",
+      "cap": 81
     },
     {
       "id": "r5-hard",
@@ -3855,7 +3868,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 80
     }
   ]
 }

@@ -40,7 +40,8 @@
           "slug": "snivy",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 5
     },
     {
       "id": "route-19",
@@ -97,7 +98,8 @@
           "slug": "snivy",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 8
     },
     {
       "id": "1n",
@@ -114,7 +116,8 @@
           "slug": "lillipup",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 13
     },
     {
       "id": "virbank-city",
@@ -140,7 +143,8 @@
           "slug": "whirlipede",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 18
     },
     {
       "id": "virbank-complex",
@@ -188,7 +192,8 @@
           "slug": "leavanny",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 24
     },
     {
       "id": "relic-passage",
@@ -223,7 +228,8 @@
           "slug": "klink",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 23
     },
     {
       "id": "desert-resort",
@@ -258,7 +264,8 @@
           "slug": "boldore",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 26
     },
     {
       "id": "4n",
@@ -279,7 +286,8 @@
           "slug": "zebstrika",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 30
     },
     {
       "id": "route-16",
@@ -345,7 +353,8 @@
           "slug": "excadrill",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 33
     },
     {
       "id": "r3",
@@ -382,7 +391,8 @@
           "slug": "tranquill",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 25
     },
     {
       "id": "ch",
@@ -403,7 +413,8 @@
           "slug": "watchog",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 25
     },
     {
       "id": "col2",
@@ -424,7 +435,8 @@
           "slug": "klink",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 25
     },
     {
       "id": "route-6",
@@ -463,7 +475,8 @@
           "slug": "swanna",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 39
     },
     {
       "id": "chargestone-cave",
@@ -554,7 +567,8 @@
           "slug": "serperior",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 41
     },
     {
       "id": "undella-bay",
@@ -597,7 +611,8 @@
           "slug": "garbodor",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 44
     },
     {
       "id": "route-12",
@@ -654,7 +669,8 @@
           "slug": "haxorus",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 48
     },
     {
       "id": "zinz2",
@@ -675,7 +691,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 48
     },
     {
       "id": "shad",
@@ -696,7 +713,8 @@
           "slug": "absol",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 48
     },
     {
       "id": "seaside-cave",
@@ -744,7 +762,8 @@
           "slug": "jellicent",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 51
     },
     {
       "id": "route-22",
@@ -786,7 +805,8 @@
           "slug": "scolipede",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "zinz4",
@@ -807,7 +827,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 51
     },
     {
       "id": "col3",
@@ -836,7 +857,8 @@
           "slug": "klinklang",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 52
     },
     {
       "id": "giant-chasm",
@@ -878,7 +900,8 @@
           "slug": "hydreigon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 52
     },
     {
       "id": "route-23",
@@ -934,7 +957,8 @@
           "slug": "serperior",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 57
     },
     {
       "id": "e1n",
@@ -959,7 +983,8 @@
           "slug": "chandelure",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 58
     },
     {
       "id": "e2n",
@@ -984,7 +1009,8 @@
           "slug": "bisharp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 58
     },
     {
       "id": "e3n",
@@ -1009,7 +1035,8 @@
           "slug": "gothitelle",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 58
     },
     {
       "id": "e4n",
@@ -1034,7 +1061,8 @@
           "slug": "conkeldurr",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 58
     },
     {
       "id": "cn",
@@ -1067,7 +1095,8 @@
           "slug": "haxorus",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 59
     },
     {
       "id": "marvelous-bridge",

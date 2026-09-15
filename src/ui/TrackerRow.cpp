@@ -67,7 +67,7 @@ void drawBossRow(const TrackerStop& stop, const char* const* slugs, const char* 
         }
     }
     ImGui::SetCursorScreenPos(ImVec2(statusX, origin.y + (kTrackerRowH - kTrackerStatus) * 0.5f));
-    toggle = drawBossStatus(defeated);
+    toggle = drawBossStatus(defeated, stop.cap);
     ImGui::SetCursorScreenPos(ImVec2(origin.x, origin.y + kTrackerRowH));
 }
 
