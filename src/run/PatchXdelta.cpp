@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <new>
 
 extern "C" {
 #include "xdelta3.h"
@@ -31,10 +32,11 @@ void capFree(void*, void* ptr) {
 }
 
 int decodeInto(std::span<const uint8_t> rom, std::span<const uint8_t> patch, uint8_t* out,
-               usize_t avail, usize_t& wrote) {
+               usize_t avail, usize_t& wrote, int flags) {
     xd3_config config{};
     config.alloc = capAlloc;
     config.freef = capFree;
+    config.flags = flags;
     xd3_stream stream;
     int rc = xd3_config_stream(&stream, &config);
     if (rc == 0) {
@@ -55,19 +57,22 @@ int decodeInto(std::span<const uint8_t> rom, std::span<const uint8_t> patch, uin
     return rc;
 }
 
-}  // namespace
-
-std::optional<std::vector<uint8_t>> applyXdeltaPatch(
-    std::span<const uint8_t> rom, std::span<const uint8_t> patch) {
+std::optional<std::vector<uint8_t>> decodeXdelta(
+    std::span<const uint8_t> rom, std::span<const uint8_t> patch, int flags) {
     if (rom.empty() || rom.size() > kMaxRomFile || !hasVcdiffMagic(patch)) {
         return std::nullopt;
     }
     std::size_t avail = std::max(rom.size(), kXdeltaFirstBuffer);
     while (true) {
         avail = std::min(avail, kMaxRomFile);
-        std::vector<uint8_t> out(avail);
+        std::vector<uint8_t> out;
+        try {
+            out.resize(avail);
+        } catch (const std::bad_alloc&) {
+            return std::nullopt;
+        }
         usize_t wrote = 0;
-        const int rc = decodeInto(rom, patch, out.data(), static_cast<usize_t>(avail), wrote);
+        const int rc = decodeInto(rom, patch, out.data(), static_cast<usize_t>(avail), wrote, flags);
         if (rc == 0) {
             out.resize(wrote);
             return out;
@@ -77,6 +82,18 @@ std::optional<std::vector<uint8_t>> applyXdeltaPatch(
         }
         avail *= 2;
     }
+}
+
+}  // namespace
+
+std::optional<std::vector<uint8_t>> applyXdeltaPatch(
+    std::span<const uint8_t> rom, std::span<const uint8_t> patch) {
+    return decodeXdelta(rom, patch, 0);
+}
+
+std::optional<std::vector<uint8_t>> applyXdeltaPatchIgnoreChecksum(
+    std::span<const uint8_t> rom, std::span<const uint8_t> patch) {
+    return decodeXdelta(rom, patch, XD3_ADLER32_NOVER);
 }
 
 }
