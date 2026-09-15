@@ -68,6 +68,7 @@ bool Application::start(int argc, char** argv) {
             status_ = "Need a supported Pokemon dump.";
         } else {
             newRunDraft_.rules = regularRules();
+            newRunDraft_.allowCheats = true;
             showNewRun_ = true;
         }
     }

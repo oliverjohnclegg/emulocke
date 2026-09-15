@@ -21,6 +21,7 @@ bool writeRunMeta(const std::filesystem::path& dir, const Run& run) {
     out << "levelCap=" << yn(run.rules.levelCap) << "\n";
     out << "dupesClause=" << yn(run.rules.dupesClause) << "\n";
     out << "shinyClause=" << yn(run.rules.shinyClause) << "\n";
+    out << "allowCheats=" << yn(run.allowCheats) << "\n";
     if (!run.patchOption.empty()) {
         out << "patchOption=" << run.patchOption << "\n";
     }

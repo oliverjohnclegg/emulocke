@@ -25,6 +25,7 @@ void Application::requestNewRun() {
         bindTitleDifficulty(newRunDraft_.difficulty, title->slug);
     }
     newRunDraft_.rules = regularRules();
+    newRunDraft_.allowCheats = true;
     pendingNewRun_ = true;
 }
 
@@ -154,7 +155,7 @@ void Application::createRunFromDraft() {
         return;
     }
     auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules, newRunDraft_.patchOption,
-                                      newRunDraft_.difficulty);
+                                      newRunDraft_.difficulty, newRunDraft_.allowCheats);
     if (!created) {
         status_ = "Failed to create run.";
         showNewRun_ = true;

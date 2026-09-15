@@ -333,6 +333,7 @@ int main() {
     auto a = store.create(emulocke::kFireRedUs10Uuid, emulocke::regularRules());
     auto b = store.create(emulocke::kFireRedUs10Uuid, emulocke::hardcoreRules());
     expect(a && b, "create runs");
+    expect(a && a->allowCheats, "default allow cheats");
     expect(a && a->playMs == 0, "new play 0");
     const auto savIn = tmp / "incoming.sav";
     const std::vector<uint8_t> savBytes{0x10, 0x20, 0x30, 0x40};
@@ -399,6 +400,7 @@ int main() {
     expect(againRun && againRun->catalogUuid == emulocke::kFireRedUs10Uuid, "reload uuid");
     expect(againRun && againRun->attempt == 2, "reload attempt");
     expect(againRun && againRun->playMs == 0, "reload play 0");
+    expect(againRun && againRun->allowCheats, "reload allow cheats");
     expect(loaded.find(b->id) && loaded.find(b->id)->playMs == 250, "other run play");
 
     const auto legacyDir = runs / "0123456789abcdef";
@@ -422,10 +424,19 @@ int main() {
     loaded.load();
     const emulocke::Run* legacyRun = loaded.find("0123456789abcdef");
     expect(legacyRun && legacyRun->playMs == 0, "legacy play 0");
+    expect(legacyRun && legacyRun->allowCheats, "legacy allow cheats");
 
-    auto extra = store.create(emulocke::kFireRedUs10Uuid, emulocke::regularRules());
-    expect(extra.has_value(), "create extra");
-    const std::string extraId = extra->id;
+    auto extra = store.create(emulocke::kFireRedUs10Uuid, emulocke::regularRules(), {}, {}, false);
+    expect(extra && !extra->allowCheats, "create no cheats");
+    expect(extra && std::string(emulocke::rulesLabel(extra->rules)) == "REGULAR", "regular with cheats off");
+    {
+        emulocke::RunStore cheatReload(runs);
+        cheatReload.load();
+        expect(cheatReload.find(extra->id) && !cheatReload.find(extra->id)->allowCheats, "reload no cheats");
+    }
+    auto extra2 = store.createAttempt(*store.find(extra->id));
+    expect(extra2 && extra2->attempt == 2 && !extra2->allowCheats, "attempt copies allow cheats");
+    const std::string extraId = extra2->id;
     expect(store.remove(extraId), "remove extra");
     expect(!store.find(extraId), "extra gone");
     expect(!std::filesystem::exists(runs / extraId), "extra dir gone");

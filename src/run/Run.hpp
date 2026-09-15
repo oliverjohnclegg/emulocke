@@ -13,6 +13,7 @@ struct Run {
     int attempt = 1;
     std::string catalogUuid;
     NuzlockeRules rules;
+    bool allowCheats = true;
     std::string createdAt;
     std::string lastPlayedAt;
     uint64_t playMs = 0;
@@ -29,6 +30,7 @@ struct NewRunDraft {
     std::string patchOption;
     std::string difficulty;
     NuzlockeRules rules = regularRules();
+    bool allowCheats = true;
 };
 
 }

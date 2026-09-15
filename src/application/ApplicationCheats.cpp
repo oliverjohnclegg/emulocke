@@ -44,6 +44,9 @@ void Application::loadCheats() {
     if (!run) {
         return;
     }
+    if (!run->allowCheats) {
+        return;
+    }
     const auto game = cheatGamePath(run->catalogUuid);
     if (game.empty()) {
         return;

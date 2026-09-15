@@ -85,10 +85,11 @@ std::optional<Run> RunStore::persist(Run run) {
 }
 
 std::optional<Run> RunStore::create(std::string catalogUuid, NuzlockeRules rules, std::string patchOption,
-                                   std::string difficulty) {
+                                   std::string difficulty, bool allowCheats) {
     Run run;
     run.catalogUuid = std::move(catalogUuid);
     run.rules = rules;
+    run.allowCheats = allowCheats;
     run.patchOption = std::move(patchOption);
     run.difficulty = std::move(difficulty);
     run.attempt = 1;
