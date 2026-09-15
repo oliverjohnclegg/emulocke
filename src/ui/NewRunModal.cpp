@@ -76,7 +76,7 @@ void drawNewRunModal(Application& app) {
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Nuzlocke Settings")) {
-            drawNuzlockeSettings(draft.rules);
+            drawNuzlockeSettings(draft.rules, draft.allowCheats);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();

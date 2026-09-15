@@ -16,14 +16,15 @@ struct SuiteTabs {
     bool cheats;
 };
 
-inline SuiteTabs suiteTabs(std::string_view activeRunId, bool previewTracker, bool previewCalc) {
+inline SuiteTabs suiteTabs(std::string_view activeRunId, bool previewTracker, bool previewCalc,
+    bool allowCheats = true) {
     const bool runOn = !activeRunId.empty();
     return SuiteTabs{
         runOn || previewTracker,
         runOn,
         true,
         runOn || previewCalc,
-        runOn,
+        runOn && allowCheats,
     };
 }
 

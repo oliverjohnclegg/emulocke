@@ -123,6 +123,8 @@ int testLayout() {
     const auto seated = emulocke::suiteTabs("run-1", false, false);
     expect(seated.tracker && seated.pokemon && seated.logs && seated.calculator && seated.cheats,
         "seated suite tabs");
+    const auto noCheats = emulocke::suiteTabs("run-1", false, false, false);
+    expect(noCheats.tracker && noCheats.calculator && !noCheats.cheats && noCheats.logs, "allow cheats off");
     const auto previewT = emulocke::suiteTabs("", true, false);
     expect(previewT.tracker && !previewT.pokemon && previewT.logs && !previewT.calculator && !previewT.cheats,
         "preview tracker keeps logs");

@@ -20,7 +20,7 @@ public:
     const Run* find(const std::string& id) const;
     Run* find(const std::string& id);
     std::optional<Run> create(std::string catalogUuid, NuzlockeRules rules, std::string patchOption = {},
-                             std::string difficulty = {});
+                             std::string difficulty = {}, bool allowCheats = true);
     std::optional<Run> createAttempt(const Run& source);
     bool remove(const std::string& id);
     bool touch(const std::string& id);

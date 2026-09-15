@@ -33,7 +33,11 @@ void drawSuite(Application& app, ImVec2 size) {
         ImGui::PushFont(display);
     }
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(ImGui::GetStyle().ItemSpacing.x, 0.f));
-    const SuiteTabs tabs = suiteTabs(app.activeRunId(), app.previewTracker(), app.previewCalc());
+    bool allowCheats = true;
+    if (const Run* run = app.runStore().find(app.activeRunId())) {
+        allowCheats = run->allowCheats;
+    }
+    const SuiteTabs tabs = suiteTabs(app.activeRunId(), app.previewTracker(), app.previewCalc(), allowCheats);
     if (ImGui::BeginTabBar("suite-tabs", ImGuiTabBarFlags_DrawSelectedOverline | ImGuiTabBarFlags_NoTooltip)) {
         if (tabs.tracker && ImGui::BeginTabItem("Tracker")) {
             suitePane("tracker", drawTracker, app);
@@ -41,12 +45,6 @@ void drawSuite(Application& app, ImVec2 size) {
         }
         if (tabs.pokemon && ImGui::BeginTabItem("Pokémon")) {
             suitePane("pokemon", drawPokemon, app);
-            ImGui::EndTabItem();
-        }
-        const ImGuiTabItemFlags logFlags =
-            (tabs.tracker || tabs.pokemon || tabs.calculator || tabs.cheats) ? 0 : ImGuiTabItemFlags_SetSelected;
-        if (tabs.logs && ImGui::BeginTabItem("Logs", nullptr, logFlags)) {
-            suitePane("logs", drawFieldLog, app);
             ImGui::EndTabItem();
         }
         if (tabs.calculator &&
@@ -57,6 +55,12 @@ void drawSuite(Application& app, ImVec2 size) {
         }
         if (tabs.cheats && ImGui::BeginTabItem("Cheats")) {
             suitePane("cheats", drawCheats, app);
+            ImGui::EndTabItem();
+        }
+        const ImGuiTabItemFlags logFlags =
+            (tabs.tracker || tabs.pokemon || tabs.calculator || tabs.cheats) ? 0 : ImGuiTabItemFlags_SetSelected;
+        if (tabs.logs && ImGui::BeginTabItem("Logs", nullptr, logFlags)) {
+            suitePane("logs", drawFieldLog, app);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
