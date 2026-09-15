@@ -55,13 +55,9 @@ void drawFieldLog(Application& app) {
         }
         drawParty(snap);
     } else {
-        ImGui::TextDisabled("No supported cart seated.");
+        ImGui::TextDisabled("%s", app.status().empty() ? "No supported cart seated." : app.status().c_str());
         ImGui::Spacing();
         ImGui::TextWrapped("Supported carts write trainer, party, and boxes here.");
-        if (!app.status().empty()) {
-            ImGui::Dummy(ImVec2(0, 16));
-            ImGui::TextUnformatted(app.status().c_str());
-        }
     }
     if (app.bodyFont()) {
         ImGui::PopFont();

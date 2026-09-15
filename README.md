@@ -122,7 +122,7 @@ Opens the Calculator tab on the Fire Red pack with a fixture party. No ROM requi
 
 - Two-screen games: stacked screens. Mouse on the bottom pane is the stylus.
 - One-screen games: stacked screens. Bottom pane is the party LCD. View > Bottom Screen hides it and centers the game in the left pane.
-- With no run seated, the left column lists expeditions. Right column: Tracker, Pokémon, Logs, Calculator, then Cheats.
+- With no run seated, the left column lists expeditions. Right column is Logs only. Tracker, Pokémon, Calculator, and Cheats return once a run is seated. Cart status stays in Logs, never above START RUN or in New Run.
 
 File: import a dump, start a new attempt, close the seated run. Start and load from home. Emulation: pause, reset, Speed-up (2x-8x, default 3x, Hold Tab or tap to toggle). View: fullscreen, right pane (F8), screen scale (Fit / 1x / 2x / 3x / 4x), bottom screen, restore default window. Audio: mute and volume. Config: controls. Help: about.
 

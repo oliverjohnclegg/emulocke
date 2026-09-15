@@ -81,7 +81,7 @@ void drawNewRunModal(Application& app) {
         }
         ImGui::EndTabBar();
     }
-    if (!app.status().empty()) {
+    if (!app.status().empty() && app.status() != "No cart." && app.status() != "Cart seated.") {
         ImGui::TextWrapped("%s", app.status().c_str());
     }
     const bool canStart = selected && app.romLibrary().ready(*selected);
