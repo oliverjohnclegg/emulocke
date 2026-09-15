@@ -24,6 +24,5 @@ void drawRosterPane(BoxSprites& sprites, const MonView* mons, int n, const char*
                     int idBase);
 void drawMonWell(BoxSprites& sprites, const MonView& view, ImVec2 size, bool hpBar);
 void drawMonHover(const MonView& view);
-const char* pokeCopyNotice();
 
 }
