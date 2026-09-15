@@ -112,6 +112,7 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 - `GameAdapter::species(id)` returns national id, sprite slug, and display name. When that is empty, Tracker resolves national ids through the sprite index. `GameSnapshot.progress` holds starter, badges, difficulty, and flag bytes.
 - Adding a pure virtual on `GameAdapter` is how a new suite data need flags every adapter in CI.
 - If the suite needs a cart fact, add it to `GameSnapshot` and fill it in the adapter. A missing field is work, not a reason to drop the surface. Unimplemented titles leave the new fields zero.
+- Inventory of what save, live RAM, and static tables must supply: [docs/common-data.md](docs/common-data.md).
 
 ## Later host (not V1)
 
@@ -236,3 +237,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: One-screen games stack a party LCD under the game. 2x3 box sockets, HP tracks, occasional hop.
 - 2026-09-13: View > Bottom Screen toggles the GBA party LCD. Off fills the left pane and centers the game well.
 - 2026-09-14: Cheats suite tab. User-pasted Action Replay / GameShark / Codebreaker codes per catalog title. Enable flags on the run. New runs and attempts start disabled. No bundled lists.
+- 2026-09-15: Inventory of save, live RAM, and static game data the snapshot needs (`docs/common-data.md`).
