@@ -149,7 +149,8 @@
           "lock": 810
         }
       ],
-      "defeat": 600
+      "defeat": 600,
+      "cap": 5
     },
     {
       "id": "route-1",
@@ -267,7 +268,8 @@
           "slug": "charmander",
           "lock": 810
         }
-      ]
+      ],
+      "cap": 9
     },
     {
       "id": "viridian-city",
@@ -320,7 +322,8 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "cap": 8
     },
     {
       "id": "mb1",
@@ -341,7 +344,8 @@
           "slug": "flittle",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 14
     },
     {
       "id": "gym-1",
@@ -367,7 +371,8 @@
           "slug": "archen",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 14
     },
     {
       "id": "pewter-city",
@@ -425,7 +430,8 @@
           "slug": "mightyena",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 21
     },
     {
       "id": "route-24",
@@ -551,7 +557,8 @@
           "slug": "charmeleon",
           "lock": 810
         }
-      ]
+      ],
+      "cap": 21
     },
     {
       "id": "route-25",
@@ -620,7 +627,8 @@
           "slug": "clodsire",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 27
     },
     {
       "id": "route-5",
@@ -674,7 +682,8 @@
           "slug": "manectric-mega",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 34
     },
     {
       "id": "digletts-cave",
@@ -709,7 +718,8 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "cap": 29
     },
     {
       "id": "route-11",
@@ -883,7 +893,8 @@
           "slug": "electrode-hisui",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 44
     },
     {
       "id": "ev2",
@@ -916,7 +927,8 @@
           "slug": "veluza",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 46
     },
     {
       "id": "saffron-city",
@@ -1322,7 +1334,8 @@
           "slug": "charizard",
           "lock": 810
         }
-      ]
+      ],
+      "cap": 55
     },
     {
       "id": "ev3",
@@ -1349,7 +1362,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "cap": 55
     },
     {
       "id": "evg2",
@@ -1382,7 +1396,8 @@
           "slug": "veluza",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 56
     },
     {
       "id": "mb5",
@@ -1449,7 +1464,8 @@
           "slug": "gardevoir-mega",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 59
     },
     {
       "id": "route-16",
@@ -1499,7 +1515,8 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "cap": 63
     },
     {
       "id": "gym-6",
@@ -1533,7 +1550,8 @@
           "slug": "toxtricity-mega",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 68
     },
     {
       "id": "safari-zone",
@@ -1845,7 +1863,8 @@
           "slug": "blaziken-mega",
           "lock": 4
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "pokemon-mansion",
@@ -1888,7 +1907,8 @@
           "slug": "charizard-megay",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 76
     },
     {
       "id": "route-21",
@@ -1931,7 +1951,8 @@
           "slug": "naganadel",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 81
     },
     {
       "id": "r5",
@@ -2240,7 +2261,8 @@
           "slug": "venusaur",
           "lock": 816
         }
-      ]
+      ],
+      "cap": 81
     },
     {
       "id": "route-23",
@@ -2275,7 +2297,8 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "cap": 82
     },
     {
       "id": "e1a",
@@ -2309,7 +2332,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 85
     },
     {
       "id": "e1b",
@@ -2343,7 +2367,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 85
     },
     {
       "id": "e2a",
@@ -2376,7 +2401,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 85
     },
     {
       "id": "e2b",
@@ -2409,7 +2435,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 85
     },
     {
       "id": "e3a",
@@ -2442,7 +2469,8 @@
           "slug": "gengar",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 85
     },
     {
       "id": "e3b",
@@ -2475,7 +2503,8 @@
           "slug": "gengar",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 85
     },
     {
       "id": "e4a",
@@ -2508,7 +2537,8 @@
           "slug": "salamence",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 85
     },
     {
       "id": "e4b",
@@ -2541,7 +2571,8 @@
           "slug": "salamence",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 85
     },
     {
       "id": "ec",
@@ -2574,7 +2605,8 @@
           "slug": "ditto",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 85
     },
     {
       "id": "three-island",
@@ -2781,7 +2813,8 @@
           "slug": "mightyena",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 79
     },
     {
       "id": "ev5",
@@ -2806,7 +2839,8 @@
           "slug": "mawile-mega",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 79
     },
     {
       "id": "ev6",
@@ -2840,7 +2874,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 80
     }
   ]
 }

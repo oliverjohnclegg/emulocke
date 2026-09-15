@@ -211,6 +211,7 @@ void testTrackerAtlas() {
     REQUIRE(frBrock->teamCount == 2);
     REQUIRE(std::strcmp(frBrock->team[0].slug, "geodude") == 0);
     REQUIRE(std::strcmp(frBrock->team[1].slug, "onix") == 0);
+    REQUIRE(frBrock->cap == 14);
 
     const emulocke::TrackerStop* rival2 = nullptr;
     for (const emulocke::TrackerStop& stop : atlas->stops) {
@@ -223,4 +224,17 @@ void testTrackerAtlas() {
     REQUIRE(rival2->defeatFlag == emulocke::kFlagRivalRoute22);
     REQUIRE(rival2->defeatSpan == emulocke::kRivalTrainerSpan);
     REQUIRE(rival2->defeatFlag != 0x04F);
+    REQUIRE(rival2->cap == 9);
+
+    const emulocke::TrackerAtlas* em = emulocke::trackerAtlas(emulocke::kEmeraldUsUuid, "");
+    const emulocke::TrackerStop* roxanne = findStop(*em, "gym-1");
+    REQUIRE(roxanne != nullptr);
+    REQUIRE(roxanne->cap == 15);
+    REQUIRE(mirskle->cap == 21);
+    REQUIRE(brock->cap == 14);
+    REQUIRE(brockHard->cap == 16);
+    const emulocke::TrackerAtlas* incem = emulocke::trackerAtlas(emulocke::kInclementEmeraldUuid, "");
+    const emulocke::TrackerStop* incemGym = findStop(*incem, "gym-1");
+    REQUIRE(incemGym != nullptr);
+    REQUIRE(incemGym->cap == 0);
 }

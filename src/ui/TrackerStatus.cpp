@@ -3,6 +3,7 @@
 #include "ui/Theme.hpp"
 #include "ui/Tracker.hpp"
 
+#include <cstdio>
 #include <imgui.h>
 
 namespace emulocke {
@@ -72,15 +73,31 @@ bool drawEncounterStatus(EncounterStatus status) {
     return hit;
 }
 
-bool drawBossStatus(bool defeated) {
-    const bool hit = statusCell("win", defeated ? "Defeated" : "Undefeated");
+bool drawBossStatus(bool defeated, uint8_t cap) {
+    char tip[24];
     if (defeated) {
-        const ImVec2 a = ImGui::GetItemRectMin();
-        const ImVec2 b = ImGui::GetItemRectMax();
-        ImDrawList* dl = ImGui::GetWindowDrawList();
-        const ImU32 ink = ImGui::GetColorU32(kMetal);
+        std::snprintf(tip, sizeof tip, "Defeated");
+    } else if (cap) {
+        std::snprintf(tip, sizeof tip, "Level cap %u", cap);
+    } else {
+        std::snprintf(tip, sizeof tip, "Undefeated");
+    }
+    const bool hit = statusCell("win", tip);
+    const ImVec2 a = ImGui::GetItemRectMin();
+    const ImVec2 b = ImGui::GetItemRectMax();
+    ImDrawList* dl = ImGui::GetWindowDrawList();
+    const ImU32 ink = ImGui::GetColorU32(kMetal);
+    if (defeated) {
         dl->AddLine(ImVec2(a.x + 4.f, a.y + 9.f), ImVec2(a.x + 8.f, b.y - 5.f), ink, 1.4f);
         dl->AddLine(ImVec2(a.x + 8.f, b.y - 5.f), ImVec2(b.x - 4.f, a.y + 5.f), ink, 1.4f);
+    } else if (cap) {
+        char lab[4];
+        std::snprintf(lab, sizeof lab, "%u", cap);
+        const float fs = cap >= 100 ? 9.f : 11.f;
+        const ImVec2 ts = ImGui::GetFont()->CalcTextSizeA(fs, 1e9f, 0.f, lab);
+        dl->AddText(ImGui::GetFont(), fs,
+                    ImVec2(a.x + (b.x - a.x - ts.x) * 0.5f, a.y + (b.y - a.y - ts.y) * 0.5f - 0.5f), ink,
+                    lab);
     }
     return hit;
 }
