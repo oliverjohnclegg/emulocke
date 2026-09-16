@@ -1,6 +1,8 @@
 #include "ui/Cheats.hpp"
 
 #include "application/Application.hpp"
+#include "ui/KitMark.hpp"
+#include "ui/KitNav.hpp"
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
@@ -8,15 +10,16 @@
 namespace emulocke {
 namespace {
 
-bool plate(const char* id, const char* label, ImVec2 size) {
+bool plate(const char* id, const char* label, ImVec2 size, bool focus) {
     const ImVec2 p = ImGui::GetCursorScreenPos();
     ImGui::InvisibleButton(id, size);
     const bool hovered = ImGui::IsItemHovered();
     const bool clicked = ImGui::IsItemClicked();
     ImDrawList* dl = ImGui::GetWindowDrawList();
     const ImVec2 q(p.x + size.x, p.y + size.y);
-    dl->AddRectFilled(p, q, ImGui::GetColorU32(hovered ? kHeaderHover : kButton));
+    dl->AddRectFilled(p, q, kitPlate(hovered || focus));
     dl->AddRect(p, q, ImGui::GetColorU32(kBorder));
+    kitStroke(p, q, focus);
     const ImVec2 ts = ImGui::CalcTextSize(label);
     dl->AddText(ImVec2(p.x + (size.x - ts.x) * 0.5f, p.y + (size.y - ts.y) * 0.5f),
         ImGui::GetColorU32(kMetal), label);
@@ -57,13 +60,27 @@ void drawCheatsAdd(Application& app) {
     ImGui::PopStyleVar();
     ImGui::PopStyleColor();
     ImGui::Dummy(ImVec2(0, 12));
+    KitFocus& focus = app.kitFocus();
+    const bool hold = kitModalHold() || ImGui::GetIO().WantTextInput;
+    if (kitModalHold()) {
+        focus.modalIndex = 1;
+    }
+    if (!hold) {
+        kitMove(focus.modalIndex, 2, app.kit().left, app.kit().right);
+        if (app.kit().pause) {
+            ImGui::CloseCurrentPopup();
+        }
+    }
     const float gap = 5.f;
     const ImVec2 btn((plateW - gap) * 0.5f, 28.f);
-    if (plate("ok", "ADD", btn) && takeCheatDraft(app)) {
+    if ((plate("ok", "ADD", btn, focus.modalIndex == 0) ||
+            (!hold && app.kit().act && focus.modalIndex == 0)) &&
+        takeCheatDraft(app)) {
         ImGui::CloseCurrentPopup();
     }
     ImGui::SameLine(0.f, gap);
-    if (plate("cancel", "CANCEL", btn)) {
+    if (plate("cancel", "CANCEL", btn, focus.modalIndex == 1) ||
+        (!hold && app.kit().act && focus.modalIndex == 1)) {
         ImGui::CloseCurrentPopup();
     }
     ImGui::EndPopup();

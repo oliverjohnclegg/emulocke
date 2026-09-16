@@ -7,6 +7,8 @@
 #include "ui/MediaFetch.hpp"
 #include "ui/PngCache.hpp"
 #include "ui/Theme.hpp"
+#include "ui/KitMark.hpp"
+#include "ui/KitNav.hpp"
 
 #include <imgui.h>
 #include <algorithm>
@@ -69,6 +71,9 @@ void drawCalcPartyRail(Application& app, CalcSession& session) {
         }
         ImGui::PopID();
         spriteWell(app, a, slug.c_str(), dim, i == session.partySlot(), false, 0);
+        kitStroke(a, ImVec2(a.x + kWell, a.y + kWell),
+            kitNavSuite(app, KitTab::Calculator) && app.kitFocus().calcCol == 0 &&
+                app.kitFocus().calcRow == i);
     }
     ImGui::SetCursorScreenPos(ImVec2(origin.x, origin.y + 6 * (kWell + 4.f)));
     ImGui::Dummy(ImVec2(kWell, 1));
@@ -97,6 +102,9 @@ void drawCalcFoeRail(Application& app, CalcSession& session) {
         ImGui::PopID();
         spriteWell(app, a, row ? row->slug : "", i >= 0 && session.fainted(i),
             i >= 0 && i == session.foeSlot(), i >= 0 && i == next, mon ? mon->level : 0);
+        kitStroke(a, ImVec2(a.x + kWell, a.y + kWell),
+            kitNavSuite(app, KitTab::Calculator) && app.kitFocus().calcCol == 2 &&
+                app.kitFocus().calcRow == vis);
     }
     ImGui::SetCursorScreenPos(ImVec2(origin.x, origin.y + 6 * (kWell + 4.f)));
     ImGui::Dummy(ImVec2(56.f, 1));

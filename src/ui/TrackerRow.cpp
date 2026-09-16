@@ -27,10 +27,10 @@ void drawRowLeft(const TrackerStop& stop, bool struck) {
 }  // namespace
 
 void drawEncounterRow(const TrackerStop& stop, EncounterStatus status, const SpeciesRef& species,
-                      BoxSprites& sprites, bool& cycleStatus) {
+                      BoxSprites& sprites, bool& cycleStatus, bool focus) {
     const float w = ImGui::GetContentRegionAvail().x;
     const ImVec2 origin = ImGui::GetCursorScreenPos();
-    paintTrackerRow(w);
+    paintTrackerRow(w, focus);
     drawRowLeft(stop, status != EncounterStatus::Empty);
     const bool has = species.slug && species.slug[0];
     const float spriteY = origin.y + (kTrackerRowH - kBoxSpriteH) * 0.5f;
@@ -47,10 +47,10 @@ void drawEncounterRow(const TrackerStop& stop, EncounterStatus status, const Spe
 }
 
 void drawBossRow(const TrackerStop& stop, const char* const* slugs, const char* const* tips, int n, bool defeated,
-                 BoxSprites& sprites, bool& toggle) {
+                 BoxSprites& sprites, bool& toggle, bool focus) {
     const float w = ImGui::GetContentRegionAvail().x;
     const ImVec2 origin = ImGui::GetCursorScreenPos();
-    paintTrackerRow(w);
+    paintTrackerRow(w, focus);
     drawRowLeft(stop, defeated);
     const float spriteY = origin.y + (kTrackerRowH - kBoxSpriteH) * 0.5f;
     const float statusX = origin.x + w - 8.f - kTrackerStatus;

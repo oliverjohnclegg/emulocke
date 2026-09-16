@@ -1,11 +1,50 @@
 #include "ui/CalculatorDraw.hpp"
 
+#include "application/Application.hpp"
 #include "calc/Build.hpp"
+#include "ui/KitMark.hpp"
+#include "ui/KitNav.hpp"
 
 #include <imgui.h>
 
 namespace emulocke {
 namespace {
+
+int gFieldFocus = -1;
+bool gFieldAct = false;
+int gChip = 0;
+
+void applyFieldChip(FieldState& f, int i) {
+    if (i < 5) {
+        f.weather = static_cast<Weather>(i);
+        return;
+    }
+    if (i == 5) {
+        f.doubles = false;
+        return;
+    }
+    if (i == 6) {
+        f.doubles = true;
+        return;
+    }
+    const int s = i - 7;
+    SideMods& m = s < 7 ? f.ours : f.theirs;
+    const int b = s < 7 ? s : s - 7;
+    bool* flags[7] = {&m.reflect, &m.lightScreen, &m.protect, &m.seeded, &m.foresight, &m.helpingHand,
+        &m.switchingOut};
+    *flags[b] = !*flags[b];
+}
+
+bool fieldChip(const char* label, bool on, float width = 0.f) {
+    const int id = gChip++;
+    const bool focus = id == gFieldFocus;
+    bool hit = calcChip(label, on, width);
+    if (gFieldAct && focus) {
+        hit = true;
+    }
+    kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), focus);
+    return hit;
+}
 
 void weatherBar(FieldState& f) {
     static const char* k[] = {"None", "Sun", "Rain", "Sand", "Hail"};
@@ -21,23 +60,23 @@ void weatherBar(FieldState& f) {
         if (i) {
             ImGui::SameLine();
         }
-        if (calcChip(k[i], f.weather == v[i])) {
+        if (fieldChip(k[i], f.weather == v[i])) {
             f.weather = v[i];
         }
     }
     ImGui::Dummy(ImVec2(0, 4));
     calcAlignCenter(calcChipWidth("Singles") + gap + calcChipWidth("Doubles"));
-    if (calcChip("Singles", !f.doubles)) {
+    if (fieldChip("Singles", !f.doubles)) {
         f.doubles = false;
     }
     ImGui::SameLine();
-    if (calcChip("Doubles", f.doubles)) {
+    if (fieldChip("Doubles", f.doubles)) {
         f.doubles = true;
     }
 }
 
 void sideToggle(const char* label, bool& v, float w) {
-    if (calcChip(label, v, w)) {
+    if (fieldChip(label, v, w)) {
         v = !v;
     }
 }
@@ -60,8 +99,19 @@ void sideCol(const char* id, SideMods& s, float w) {
 
 }  // namespace
 
-void drawCalcField(Application&, CalcSession& session) {
+void drawCalcField(Application& app, CalcSession& session) {
     session.seedWeather(fieldFromSnap(session.snap()).weather);
+    gChip = 0;
+    gFieldFocus = -1;
+    gFieldAct = false;
+    if (kitNavSuite(app, KitTab::Calculator) && app.kitFocus().calcCol == 3) {
+        gFieldFocus = app.kitFocus().calcRow;
+        gFieldAct = app.kit().act;
+        if (gFieldAct) {
+            applyFieldChip(session.fieldState(), gFieldFocus);
+            gFieldAct = false;
+        }
+    }
     ImGui::Dummy(ImVec2(0, 6));
     weatherBar(session.fieldState());
     ImGui::Dummy(ImVec2(0, 6));

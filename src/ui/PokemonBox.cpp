@@ -5,7 +5,7 @@
 
 namespace emulocke {
 
-void drawBoxGrid(BoxSprites& sprites, const MonView* mons, int n, int idBase) {
+void drawBoxGrid(BoxSprites& sprites, const MonView* mons, int n, int indexBase, int focus, bool act) {
     const float inner = ImGui::GetContentRegionAvail().x;
     const float gap = 4.f;
     const float well = 36.f;
@@ -22,8 +22,8 @@ void drawBoxGrid(BoxSprites& sprites, const MonView* mons, int n, int idBase) {
             const float pad = std::max(0.f, (inner - used) * 0.5f);
             ImGui::SetCursorPosX(ImGui::GetCursorPosX() + pad);
         }
-        ImGui::PushID(idBase + i);
-        drawMonWell(sprites, mons[i], size, false);
+        ImGui::PushID(indexBase + i);
+        drawMonWell(sprites, mons[i], size, false, focus == indexBase + i, act && focus == indexBase + i);
         ImGui::PopID();
         if ((i + 1) % cols != 0 && i + 1 < n) {
             ImGui::SameLine(0.f, gap);
@@ -32,14 +32,14 @@ void drawBoxGrid(BoxSprites& sprites, const MonView* mons, int n, int idBase) {
 }
 
 void drawRosterPane(BoxSprites& sprites, const MonView* mons, int n, const char* title, const char* empty,
-                    int idBase) {
+                    int indexBase, int focus, bool act) {
     ImGui::TextUnformatted(title);
     ImGui::Separator();
     if (n <= 0) {
         ImGui::TextDisabled("%s", empty);
         return;
     }
-    drawBoxGrid(sprites, mons, n, idBase);
+    drawBoxGrid(sprites, mons, n, indexBase, focus, act);
 }
 
 }

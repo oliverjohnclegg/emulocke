@@ -51,6 +51,10 @@ void captureListen(Application& app) {
     if (!down) {
         return;
     }
+    if (pressed == SDL_SCANCODE_ESCAPE) {
+        listening = -1;
+        return;
+    }
     KeyMap map = app.prefs().keys;
     if (bindKey(map, listening, pressed)) {
         app.setKeys(map);
@@ -59,6 +63,10 @@ void captureListen(Application& app) {
 }
 
 }  // namespace
+
+bool controlsCapturing() {
+    return listening >= 0;
+}
 
 void drawControlsModal(Application& app) {
     if (!ImGui::IsPopupOpen("Controls")) {
@@ -107,7 +115,16 @@ void drawControlsModal(Application& app) {
     ImGui::Dummy(ImVec2(0, 8));
     ImGui::TextDisabled("Stylus          Mouse on bottom screen");
     ImGui::TextDisabled("Speed-up        %s", app.prefs().speedUpHold ? "Hold Tab" : "Tab");
-    ImGui::TextDisabled("Right pane      F8");
+    ImGui::TextDisabled("Pause           Esc");
+    ImGui::TextDisabled("Right pane      ` / F8");
+    ImGui::Dummy(ImVec2(0, 6));
+    ImGui::TextDisabled("SUITE");
+    ImGui::TextDisabled("Tabs            1 2 3 4 5");
+    ImGui::TextDisabled("Move            R V D G");
+    ImGui::TextDisabled("Act             F");
+    ImGui::TextDisabled("Snap            E");
+    ImGui::TextDisabled("Search          T");
+    ImGui::TextDisabled("Delete          Backspace");
     ImGui::Dummy(ImVec2(0, 12));
     const ImVec2 btn((plateW - 5.f) * 0.5f, 28.f);
     if (plate("defaults", "RESTORE DEFAULTS", btn, false)) {
@@ -115,7 +132,7 @@ void drawControlsModal(Application& app) {
         listening = -1;
     }
     ImGui::SameLine(0.f, 5.f);
-    if (plate("close", "CLOSE", btn, false)) {
+    if (plate("close", "CLOSE", btn, false) || app.kit().pause) {
         listening = -1;
         ImGui::CloseCurrentPopup();
     }

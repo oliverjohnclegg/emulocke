@@ -3,6 +3,7 @@
 #include "emu/Paths.hpp"
 #include "run/Catalog.hpp"
 #include "tracker/Difficulty.hpp"
+#include "ui/KitFocus.hpp"
 
 #include <string>
 
@@ -209,6 +210,9 @@ void Application::loadRun(const std::string& id) {
         runStore_->touch(id);
         loadTrackerLog();
         loadCheats();
+        kitFocus_ = {};
+        kitFocus_.tab = KitTab::Tracker;
+        kitFocus_.pendingTab = 1;
     } else {
         activeRunId_.clear();
         trackerLog_ = {};

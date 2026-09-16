@@ -124,7 +124,7 @@ Opens the Calculator tab on the Fire Red pack with a fixture party. No ROM requi
 - One-screen games: stacked screens. Bottom pane is the party LCD. View > Bottom Screen hides it and centers the game in the left pane.
 - With no run seated, the left column lists expeditions. Right column is Logs only. Tracker, Pokémon, Calculator, and Cheats return once a run is seated, in that order, with Logs last. Cart status stays in Logs, never above START RUN or in New Run.
 
-File: import a dump, start a new attempt, close the seated run. Start and load from home. Emulation: pause, reset, Speed-up (2x-8x, default 3x, Hold Tab or tap to toggle). View: fullscreen, right pane (F8), screen scale (Fit / 1x / 2x / 3x / 4x), bottom screen, restore default window. Audio: mute and volume. Config: controls. Help: about.
+File: import a dump, start a new attempt, close the seated run. Start and load from home. Emulation: pause, reset, Speed-up (2x-8x, default 3x, Hold Tab or tap to toggle). View: fullscreen, right pane (` / F8), screen scale (Fit / 1x / 2x / 3x / 4x), bottom screen, restore default window. Audio: mute and volume. Config: controls. Help: about.
 
 Window size, scale, right pane, bottom screen, mute, volume, speed-up, and keyboard bindings persist across launches. Battery saves live in the app data `runs/` folder, never beside the ROM.
 
@@ -145,9 +145,16 @@ Config > Controls remaps the keyboard. Defaults:
 | Select | RShift |
 | Stylus | Mouse on the bottom screen |
 | Speed-up | Tab |
-| Right pane | F8 |
+| Pause | Esc |
+| Right pane | ` / F8 |
+| Suite tabs | 1 2 3 4 5 |
+| Move | R V D G |
+| Act | F |
+| Snap | E |
+| Search | T |
+| Delete | Backspace |
 
-Gamepad uses the standard SDL map. Pause, reset, and speed-up are under Emulation. Hold Tab is the default; uncheck it to tap Tab on and off.
+Gamepad uses the standard SDL map. Pause, reset, and speed-up are under Emulation. Hold Tab is the default; uncheck it to tap Tab on and off. Suite keys are not remappable. They sit in the pocket around F so they do not overlap the default GBA cluster.
 
 ## Stable and Vanguard
 

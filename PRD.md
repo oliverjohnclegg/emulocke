@@ -34,7 +34,7 @@ Left column is the game. Right column is the suite.
 - One-screen games: stacked wells (240x160) in that same left pane, game then party LCD, 5px between them. Party LCD is suite chrome (box sprites, HP), not a second framebuffer. Not a stylus target. View > Bottom Screen turns it off; the game well stays integer-scaled and sits vertically centered in the left pane.
 - 21px graphite around the left pane. Not between the two screens. Same 21px below and to the right of the suite.
 - View > Screen Scale resizes the whole window so the screens fill the left pane at that integer size. The suite column scales with it (230px at 1x, 460px at 2x). Fit keeps the current window and integer-scales inside it. Default window fits 2x two-screen plus a 460px suite.
-- View or F8 can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
+- View or F8 / ` can hide the right pane. The window shrinks by the suite column so the left column and menu bar keep their size.
 - Right column is the suite. Tabs hold each function. Tracker is first. Pokémon is second. Calculator is third. Cheats is fourth. Logs is fifth. Every catalog title is represented: Tracker fills from a static atlas plus adapter facts. Difficulty is derived from the cart when the hack has an in-game setting. Pokémon lists the live party (with HP), boxed mons as box sprites, and a Grave of tracker-dead mons. Logs shows trainer, map, party, and badges for supported games. Calculator searches trainers and locations, then reads damage into the current party. A title is represented only when we ship every trainer battle plus that game's stat, type, ability, and move tables. Cartridge generation is not damage generation. CFRU titles do not inherit FireRed gen 3 math. Cheats are user-pasted Action Replay / GameShark / Codebreaker codes, stored per catalog title in the SDL pref path. Enable toggles live on the run. New runs and new attempts start with every cheat off. New Run Nuzlocke Settings has Allow Cheats? (default on); off hides the Cheats tab and does not change Regular or Hardcore. No bundled lists.
 - With no run seated, the left column is home. Empty home centers a START RUN hero. When plates exist, START RUN is a compact full-width stamp rail (plus + name) in the same graphite chrome as the plates. Each plate is `GAME - Preset`, a subtitle of host playtime as `HH:MM` • Attempt #N • Deaths • Badges, title art, and six party sockets. NEW ATTEMPT is a plus icon with a hover name. Click a plate to load. Cart status never sits above START RUN or in New Run; it stays in Logs. The right column shows only Logs until a run is seated. Tracker, Pokémon, Calculator, and Cheats return with the run.
 
@@ -56,7 +56,7 @@ A playable host. Suite is Tracker, Pokémon, Calculator, Cheats, then Logs.
 - Keyboard and SDL gamepad
 - Stylus on the bottom pane for two-screen games
 - Battery saves live in the run folder (`battery.sav`), never beside the ROM
-- Pause, reset, and speed-up (Tab, default 3x). Emulation > Speed-up holds the 2x-8x slider and Hold Tab vs toggle.
+- Pause, reset, and speed-up (Tab, default 3x). Esc pauses. Emulation > Speed-up holds the 2x-8x slider and Hold Tab vs toggle.
 - One run at a time; ROM extension picks the core
 - View: fullscreen, right pane (F8), screen scale Fit / 1x / 2x / 3x / 4x, bottom screen (party LCD, default on), restore default window
 - Audio: mute and volume
@@ -162,7 +162,14 @@ Config > Controls remaps the keyboard. Gamepad stays the standard SDL map.
 | Select | RShift |
 | Stylus | Mouse on bottom screen |
 | Speed-up | Tab |
-| Right pane | F8 |
+| Pause | Esc |
+| Right pane | ` / F8 |
+| Suite tabs | 1 2 3 4 5 |
+| Move | R V D G |
+| Act | F |
+| Snap | E |
+| Search | T |
+| Delete | Backspace |
 
 ## Design
 
@@ -237,4 +244,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: View > Bottom Screen toggles the GBA party LCD. Off fills the left pane and centers the game well.
 - 2026-09-14: Cheats suite tab. User-pasted Action Replay / GameShark / Codebreaker codes per catalog title. Enable flags on the run. New runs and attempts start disabled. No bundled lists.
 - 2026-09-15: Suite tabs are Tracker, Pokémon, Calculator, Cheats, Logs. New Run Nuzlocke Settings has Allow Cheats? (default on). Off hides the Cheats tab and does not change Regular or Hardcore.
-- 2026-09-15: Home and New Run never show cart status. With no run seated, the suite hides every tab except Logs.
+- 2026-09-16: Suite keyboard kit. Always-on reserved pocket around F. Esc pause. Grave aliases F8. 1-5 tabs. Tracker snap from the live map.

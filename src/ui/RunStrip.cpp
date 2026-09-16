@@ -7,6 +7,7 @@
 #include "run/SavePeek.hpp"
 #include "ui/IconAction.hpp"
 #include "ui/RunStripDraw.hpp"
+#include "ui/KitMark.hpp"
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
@@ -16,7 +17,7 @@
 
 namespace emulocke {
 
-bool drawRunStrip(Application& app, const Run& run) {
+bool drawRunStrip(Application& app, const Run& run, bool focus) {
     const CatalogTitle* title = catalogByUuid(run.catalogUuid);
     const GameSnapshot& snap = app.savePeek().get(app.runStore(), run);
     ImGui::PushID(run.id.c_str());
@@ -30,8 +31,9 @@ bool drawRunStrip(Application& app, const Run& run) {
         mouse.y >= origin.y && mouse.y < origin.y + kRunStripH;
     ImDrawList* dl = ImGui::GetWindowDrawList();
     dl->AddRectFilled(origin, ImVec2(origin.x + w, origin.y + kRunStripH),
-        ImGui::GetColorU32(hover ? kHeaderHover : kButton));
+        kitPlate(hover || focus));
     dl->AddRect(origin, ImVec2(origin.x + w, origin.y + kRunStripH), ImGui::GetColorU32(kBorder));
+    kitStroke(origin, ImVec2(origin.x + w, origin.y + kRunStripH), focus);
     drawRunArt(app, title, ImVec2(origin.x + kRunPad, origin.y + kRunPad));
     const ImVec2 text(origin.x + kRunPad * 2.f + kRunArtW, origin.y + kRunPad);
     char heading[48];
