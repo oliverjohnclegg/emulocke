@@ -5,6 +5,7 @@
 #include "ui/GameStrip.hpp"
 
 #include <imgui.h>
+#include <imgui_internal.h>
 #include <cctype>
 #include <string>
 #include <string_view>
@@ -63,7 +64,8 @@ void drawGamePicker(Application& app, std::string& catalogUuid) {
     ImGui::SetNextItemWidth(-FLT_MIN);
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(6.f, 20.f));
     if (app.kitFocus().focusSearch) {
-        ImGui::OpenPopup("##game");
+        const ImGuiID comboId = ImGui::GetCurrentWindow()->GetID("##game");
+        ImGui::OpenPopupEx(ImHashStr("##ComboPopup", 0, comboId));
         app.kitFocus().focusSearch = false;
     }
     const bool open = ImGui::BeginCombo("##game", nullptr, ImGuiComboFlags_HeightLarge);

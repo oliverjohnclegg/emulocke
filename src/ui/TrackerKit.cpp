@@ -38,7 +38,14 @@ void applyTrackerKit(Application& app, const TrackerAtlas& atlas, TrackerLog& lo
         }
     }
     if (focus.trackerRow != was) {
-        ImGui::SetScrollY(static_cast<float>(focus.trackerRow) * kTrackerRowH);
+        const float y = static_cast<float>(focus.trackerRow) * kTrackerRowH;
+        const float view = ImGui::GetWindowHeight();
+        const float cur = ImGui::GetScrollY();
+        if (y < cur) {
+            ImGui::SetScrollY(y);
+        } else if (y + kTrackerRowH > cur + view) {
+            ImGui::SetScrollY(y + kTrackerRowH - view);
+        }
     }
 }
 

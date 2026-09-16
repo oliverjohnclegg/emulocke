@@ -18,7 +18,8 @@ void Application::run() {
             const bool tabKey =
                 (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) &&
                 event.key.scancode == SDL_SCANCODE_TAB;
-            const bool stealTab = tabKey && session_ && !ImGui::GetIO().WantTextInput && !kitPopupOpen();
+            const bool stealTab = tabKey && session_ && !ImGui::GetIO().WantTextInput &&
+                !ImGui::IsPopupOpen(nullptr, ImGuiPopupFlags_AnyPopup);
             if (!stealTab) {
                 ImGui_ImplSDL3_ProcessEvent(&event);
             }
@@ -26,7 +27,8 @@ void Application::run() {
                 return;
             }
             if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat &&
-                event.key.scancode == SDL_SCANCODE_F8 && !ImGui::IsPopupOpen("Controls")) {
+                event.key.scancode == SDL_SCANCODE_F8 &&
+                !ImGui::IsPopupOpen(nullptr, ImGuiPopupFlags_AnyPopup)) {
                 setRightPane(!prefs_.rightPane);
             }
             if (event.type == SDL_EVENT_WINDOW_RESIZED || event.type == SDL_EVENT_WINDOW_MOVED) {
@@ -91,8 +93,8 @@ void Application::run() {
         drawLoadingRunModal(*this);
         drawNewAttemptConfirm(*this);
         drawDeleteRunConfirm(*this);
-        ImGui::End();
         const bool modal = kitPopupOpen();
+        ImGui::End();
         if (!ImGui::GetIO().WantTextInput && !controlsOpen && !modal) {
             buttons_ = input_.poll(keys, prefs_.keys);
         } else {
