@@ -65,7 +65,7 @@ A playable host. Suite is Tracker, Pokémon, Calculator, Cheats, then Logs.
 - Prefs persist in the SDL pref path as `prefs.ini`
 - Rules are stored on the run. The cores do not enforce them.
 - Tracker is a compact location/boss list. Every catalog title is represented. Difficulty is derived from the seated cart and persisted as `difficulty=` on `meta.ini`. Encounter state lives in `tracker.ini` on the run.
-- Pokémon is party wells with HP bars, boxed mons sorted by BST, then Grave: the same grid, greyscale, tracker-dead only. Click copies a Showdown set. Hover shows the same fields. Vanilla national-dex names and BST.
+- Pokémon is party wells with HP bars, boxed mons sorted by BST, then Grave: the same grid, greyscale, tracker-dead only. Two top-left icons copy the party or party+box in Showdown format. Click copies a Showdown set. Hover shows the same fields. Vanilla national-dex names and BST.
 - Cheats is a list of user-pasted Action Replay / GameShark / Codebreaker codes. Definitions live in `cheats/<catalogUuid>.ini` in the SDL pref path and survive NEW ATTEMPT. Enable flags live in the run folder; a new run or attempt starts with everything off. New Run Nuzlocke Settings has Allow Cheats? (default on). Off hides the Cheats tab for that run and does not flip Regular or Hardcore to Custom. No prebuilt lists.
 
 ## V1 non-goals
@@ -244,4 +244,6 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-13: View > Bottom Screen toggles the GBA party LCD. Off fills the left pane and centers the game well.
 - 2026-09-14: Cheats suite tab. User-pasted Action Replay / GameShark / Codebreaker codes per catalog title. Enable flags on the run. New runs and attempts start disabled. No bundled lists.
 - 2026-09-15: Suite tabs are Tracker, Pokémon, Calculator, Cheats, Logs. New Run Nuzlocke Settings has Allow Cheats? (default on). Off hides the Cheats tab and does not change Regular or Hardcore.
+- 2026-09-15: Home and New Run never show cart status. With no run seated, the suite hides every tab except Logs.
 - 2026-09-16: Suite keyboard kit. Always-on reserved pocket around F. Esc pause. Grave aliases F8. 1-5 tabs. Tracker snap from the live map.
+- 2026-09-16: Pokémon tab top-left icons copy the party or party+box to the clipboard in Showdown format. `--preview-tracker` also opens the Pokémon tab.

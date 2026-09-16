@@ -21,7 +21,7 @@ inline SuiteTabs suiteTabs(std::string_view activeRunId, bool previewTracker, bo
     const bool runOn = !activeRunId.empty();
     return SuiteTabs{
         runOn || previewTracker,
-        runOn,
+        runOn || previewTracker,
         true,
         runOn || previewCalc,
         runOn && allowCheats,

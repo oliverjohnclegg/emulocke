@@ -4,6 +4,7 @@
 #include "poke/Dex.hpp"
 #include "ui/BoxSprites.hpp"
 #include "ui/KitNav.hpp"
+#include "ui/PokemonCopy.hpp"
 #include "ui/PokemonDraw.hpp"
 #include "ui/PokemonGather.hpp"
 
@@ -53,6 +54,8 @@ void drawPokemon(Application& app) {
     }
     const bool act = nav && app.kit().act;
     const int well = focus.pokemonWell;
+    drawPokemonCopyButtons(party, 6, boxed.data(), static_cast<int>(boxed.size()));
+    ImGui::SameLine(0.f, 8.f);
     ImGui::TextUnformatted("PARTY");
     ImGui::Separator();
     drawPartyStrip(*sprites, party, 6, well, act);

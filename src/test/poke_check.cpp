@@ -57,6 +57,20 @@ int main() {
     REQUIRE(set.find("- Thunderbolt") != std::string::npos);
     REQUIRE(std::string(emulocke::monAbility(mon, 65, true)) == "Synchronize");
 
+    std::string team;
+    emulocke::appendSet(team, mon, ref, true);
+    emulocke::Mon mewtwo = mon;
+    mewtwo.species = 150;
+    mewtwo.nickname[0] = 0;
+    std::snprintf(mewtwo.speciesName, sizeof mewtwo.speciesName, "MEWTWO");
+    emulocke::SpeciesRef mewtwoRef;
+    mewtwoRef.national = 150;
+    mewtwoRef.name = "Mewtwo";
+    emulocke::appendSet(team, mewtwo, mewtwoRef, true);
+    REQUIRE(team.find("KAZ (Alakazam)") != std::string::npos);
+    REQUIRE(team.find("Mewtwo") != std::string::npos);
+    REQUIRE(team.find("\n\n") != std::string::npos);
+
     emulocke::Mon boxed;
     boxed.species = 1;
     boxed.experience = 135;
