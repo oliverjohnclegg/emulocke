@@ -42,7 +42,7 @@ void drawPokemon(Application& app) {
     std::vector<MonView> grave;
     gatherPokemon(app, snap, app.trackerLog(), gen3, party, boxed, grave);
     drawPokemonCopyButtons(party, 6, boxed.data(), static_cast<int>(boxed.size()));
-    ImGui::Dummy(ImVec2(0, 6));
+    ImGui::SameLine(0.f, 8.f);
     ImGui::TextUnformatted("PARTY");
     ImGui::Separator();
     drawPartyStrip(*sprites, party, 6);
