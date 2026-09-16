@@ -3,6 +3,7 @@
 #include "application/Application.hpp"
 #include "poke/Dex.hpp"
 #include "ui/BoxSprites.hpp"
+#include "ui/PokemonCopy.hpp"
 #include "ui/PokemonDraw.hpp"
 #include "ui/PokemonGather.hpp"
 
@@ -40,6 +41,8 @@ void drawPokemon(Application& app) {
     std::vector<MonView> boxed;
     std::vector<MonView> grave;
     gatherPokemon(app, snap, app.trackerLog(), gen3, party, boxed, grave);
+    drawPokemonCopyButtons(party, 6, boxed.data(), static_cast<int>(boxed.size()));
+    ImGui::Dummy(ImVec2(0, 6));
     ImGui::TextUnformatted("PARTY");
     ImGui::Separator();
     drawPartyStrip(*sprites, party, 6);
