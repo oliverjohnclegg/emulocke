@@ -1,4 +1,5 @@
 #include "ui/CalculatorMoveLine.hpp"
+#include "ui/KitMark.hpp"
 
 #include "calc/Session.hpp"
 #include "ui/Theme.hpp"
@@ -44,7 +45,7 @@ void paint(const char* s, ImU32 col, ImVec2 a, float w, float h, bool hugRight) 
 
 }  // namespace
 
-void drawCalcMoveRow(const CalcMoveLine& line, bool right, CalcSession& session) {
+void drawCalcMoveRow(const CalcMoveLine& line, bool right, CalcSession& session, bool focus, bool act) {
     ImGui::PushID(right ? "f" : "u");
     ImGui::PushID(line.slot);
     ImGui::TableNextRow();
@@ -52,9 +53,10 @@ void drawCalcMoveRow(const CalcMoveLine& line, bool right, CalcSession& session)
     const ImVec2 c0 = ImGui::GetCursorScreenPos();
     const float w0 = ImGui::GetContentRegionAvail().x;
     const bool sel = session.pickFoe() == right && session.pickSlot() == line.slot;
-    if (ImGui::Selectable("##pk", sel, ImGuiSelectableFlags_SpanAllColumns)) {
+    if (ImGui::Selectable("##pk", sel || focus, ImGuiSelectableFlags_SpanAllColumns) || act) {
         session.pickMove(right, line.slot);
     }
+    kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), focus);
     const float h = ImGui::GetItemRectSize().y;
     char d[20];
     dmgText(d, sizeof d, line);

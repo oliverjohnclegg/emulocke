@@ -1,5 +1,7 @@
 #include "application/Application.hpp"
 
+#include "ui/KitKeys.hpp"
+#include "ui/KitNav.hpp"
 #include "ui/Shell.hpp"
 
 #include <imgui.h>
@@ -16,7 +18,8 @@ void Application::run() {
             const bool tabKey =
                 (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) &&
                 event.key.scancode == SDL_SCANCODE_TAB;
-            if (!(tabKey && session_ && !ImGui::GetIO().WantTextInput)) {
+            const bool stealTab = tabKey && session_ && !ImGui::GetIO().WantTextInput && !kitPopupOpen();
+            if (!stealTab) {
                 ImGui_ImplSDL3_ProcessEvent(&event);
             }
             if (event.type == SDL_EVENT_QUIT) {
@@ -78,6 +81,10 @@ void Application::run() {
         ImGui::Begin("emulocke", nullptr,
             ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_MenuBar |
                 ImGuiWindowFlags_NoBringToFrontOnFocus);
+        const bool* keys = SDL_GetKeyboardState(nullptr);
+        const bool controlsOpen = ImGui::IsPopupOpen("Controls");
+        kit_ = pollKit(keys, ImGui::GetIO().WantTextInput, controlsCapturing());
+        handleKitHost(*this);
         drawMenuBar(*this);
         drawShell(*this);
         drawNewRunModal(*this);
@@ -85,14 +92,13 @@ void Application::run() {
         drawNewAttemptConfirm(*this);
         drawDeleteRunConfirm(*this);
         ImGui::End();
-        const bool* keys = SDL_GetKeyboardState(nullptr);
-        const bool controlsOpen = ImGui::IsPopupOpen("Controls");
-        if (!ImGui::GetIO().WantTextInput && !controlsOpen) {
+        const bool modal = kitPopupOpen();
+        if (!ImGui::GetIO().WantTextInput && !controlsOpen && !modal) {
             buttons_ = input_.poll(keys, prefs_.keys);
         } else {
             buttons_ = 0;
         }
-        if (controlsOpen) {
+        if (controlsOpen || modal) {
             speedUpOn_ = false;
         } else {
             pollSpeedUp(keys);

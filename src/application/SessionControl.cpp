@@ -163,6 +163,7 @@ void Application::closeRun() {
         trackerLog_ = {};
         cheats_.clear();
         cheatError_.clear();
+        kitFocus_ = {};
         lastPlayCommitNs_ = 0;
         status_ = "No cart.";
         if (previewTracker_) {

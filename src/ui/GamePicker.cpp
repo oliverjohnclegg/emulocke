@@ -62,6 +62,10 @@ void drawGamePicker(Application& app, std::string& catalogUuid) {
     ImGui::SetNextWindowSizeConstraints(ImVec2(0.f, 0.f), ImVec2(800.f, kTitleStripH * 8.f + 40.f));
     ImGui::SetNextItemWidth(-FLT_MIN);
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(6.f, 20.f));
+    if (app.kitFocus().focusSearch) {
+        ImGui::OpenPopup("##game");
+        app.kitFocus().focusSearch = false;
+    }
     const bool open = ImGui::BeginCombo("##game", nullptr, ImGuiComboFlags_HeightLarge);
     const ImVec2 previewMin = ImGui::GetItemRectMin();
     const ImVec2 previewMax = ImGui::GetItemRectMax();

@@ -6,6 +6,6 @@ namespace emulocke {
 
 class Application;
 
-bool drawRunStrip(Application& app, const Run& run);
+bool drawRunStrip(Application& app, const Run& run, bool focus = false);
 
 }

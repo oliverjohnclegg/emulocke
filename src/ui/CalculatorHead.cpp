@@ -1,4 +1,5 @@
 #include "ui/CalculatorDraw.hpp"
+#include "ui/KitMark.hpp"
 
 #include "calc/HpBar.hpp"
 #include "calc/Labels.hpp"
@@ -75,20 +76,22 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
     }
 }
 
-void drawCalcCrits(bool& ours, bool& theirs, float spineX, float abY) {
+void drawCalcCrits(bool& ours, bool& theirs, float spineX, float abY, int focus, bool act) {
     const float w = calcCritMarkWidth();
     const ImVec2 next = ImGui::GetCursorScreenPos();
     ImGui::PushID("oh");
     ImGui::SetCursorScreenPos(ImVec2(spineX - w - 1.f, abY));
-    if (calcCritMark(ours)) {
+    if (calcCritMark(ours) || (act && focus == 0)) {
         ours = !ours;
     }
+    kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), focus == 0);
     ImGui::PopID();
     ImGui::PushID("fh");
     ImGui::SetCursorScreenPos(ImVec2(spineX + 1.f, abY));
-    if (calcCritMark(theirs)) {
+    if (calcCritMark(theirs) || (act && focus == 1)) {
         theirs = !theirs;
     }
+    kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), focus == 1);
     ImGui::PopID();
     ImGui::SetCursorScreenPos(next);
 }

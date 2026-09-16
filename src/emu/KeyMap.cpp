@@ -65,8 +65,14 @@ SDL_Scancode parseScancode(const std::string& value) {
 }
 
 bool reservedScancode(SDL_Scancode code) {
-    return code == SDL_SCANCODE_UNKNOWN || code == SDL_SCANCODE_ESCAPE || code == SDL_SCANCODE_TAB ||
-        code == SDL_SCANCODE_F8;
+    if (code == SDL_SCANCODE_UNKNOWN || code == SDL_SCANCODE_ESCAPE || code == SDL_SCANCODE_TAB ||
+        code == SDL_SCANCODE_F8 || code == SDL_SCANCODE_GRAVE || code == SDL_SCANCODE_BACKSPACE ||
+        code == SDL_SCANCODE_E || code == SDL_SCANCODE_R || code == SDL_SCANCODE_T ||
+        code == SDL_SCANCODE_D || code == SDL_SCANCODE_F || code == SDL_SCANCODE_G ||
+        code == SDL_SCANCODE_V) {
+        return true;
+    }
+    return code >= SDL_SCANCODE_1 && code <= SDL_SCANCODE_5;
 }
 
 bool bindKey(KeyMap& map, int slot, SDL_Scancode code) {

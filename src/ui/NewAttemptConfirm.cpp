@@ -1,6 +1,8 @@
 #include "ui/Shell.hpp"
 
 #include "application/Application.hpp"
+#include "ui/KitMark.hpp"
+#include "ui/KitNav.hpp"
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
@@ -8,15 +10,16 @@
 namespace emulocke {
 namespace {
 
-bool namedPlate(const char* id, const char* label, ImVec2 size, bool danger) {
+bool namedPlate(const char* id, const char* label, ImVec2 size, bool danger, bool focus) {
     const ImVec2 p = ImGui::GetCursorScreenPos();
     ImGui::InvisibleButton(id, size);
     const bool hovered = ImGui::IsItemHovered();
     const bool clicked = ImGui::IsItemClicked();
     ImDrawList* dl = ImGui::GetWindowDrawList();
     const ImVec2 q(p.x + size.x, p.y + size.y);
-    dl->AddRectFilled(p, q, ImGui::GetColorU32(hovered ? kHeaderHover : kButton));
+    dl->AddRectFilled(p, q, kitPlate(hovered || focus));
     dl->AddRect(p, q, ImGui::GetColorU32(kBorder));
+    kitStroke(p, q, focus);
     if (danger) {
         dl->AddRectFilled(p, ImVec2(q.x, p.y + 2.f), kPaused);
     }
@@ -71,14 +74,27 @@ void drawNewAttemptConfirm(Application& app) {
     ImGui::PopStyleVar();
     ImGui::PopStyleColor();
     ImGui::Dummy(ImVec2(0, 12));
+    KitFocus& focus = app.kitFocus();
+    const bool hold = kitModalHold();
+    if (hold) {
+        focus.modalIndex = 1;
+    } else {
+        kitMove(focus.modalIndex, 2, app.kit().left, app.kit().right);
+        if (app.kit().pause) {
+            app.dismissNewAttempt();
+            ImGui::CloseCurrentPopup();
+        }
+    }
     const float gap = 5.f;
     const ImVec2 btn((plateW - gap) * 0.5f, 28.f);
-    if (namedPlate("end", "START NEW ATTEMPT", btn, true)) {
+    if (namedPlate("end", "START NEW ATTEMPT", btn, true, focus.modalIndex == 0) ||
+        (!hold && app.kit().act && focus.modalIndex == 0)) {
         app.confirmNewAttempt();
         ImGui::CloseCurrentPopup();
     }
     ImGui::SameLine(0.f, gap);
-    if (namedPlate("hold", "CANCEL", btn, false)) {
+    if (namedPlate("hold", "CANCEL", btn, false, focus.modalIndex == 1) ||
+        (!hold && app.kit().act && focus.modalIndex == 1)) {
         app.dismissNewAttempt();
         ImGui::CloseCurrentPopup();
     }

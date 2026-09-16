@@ -16,5 +16,6 @@ void drawDeleteRunConfirm(Application& app);
 std::string drawRunList(Application& app);
 void drawHelpPopups(Application& app);
 void drawControlsModal(Application& app);
+bool controlsCapturing();
 
 }
