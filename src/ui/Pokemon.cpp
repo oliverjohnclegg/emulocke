@@ -40,9 +40,6 @@ void drawPokemon(Application& app) {
     std::vector<MonView> boxed;
     std::vector<MonView> grave;
     gatherPokemon(app, snap, app.trackerLog(), gen3, party, boxed, grave);
-    if (const char* notice = pokeCopyNotice()) {
-        ImGui::TextDisabled("%s", notice);
-    }
     ImGui::TextUnformatted("PARTY");
     ImGui::Separator();
     drawPartyStrip(*sprites, party, 6);

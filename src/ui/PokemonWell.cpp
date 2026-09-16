@@ -31,10 +31,6 @@ std::string slugOf(const MonView& view) {
 
 }  // namespace
 
-const char* pokeCopyNotice() {
-    return ImGui::GetTime() - gCopiedAt < 1.25 ? "Copied to clipboard." : nullptr;
-}
-
 void drawMonWell(BoxSprites& sprites, const MonView& view, ImVec2 size, bool hpBar) {
     const ImVec2 a = ImGui::GetCursorScreenPos();
     const ImVec2 b(a.x + size.x, a.y + size.y);
