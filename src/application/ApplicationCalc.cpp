@@ -48,6 +48,8 @@ void Application::seedPreviewCalc() {
     }
     status_ = "Calculator preview";
     previewCalcSelect_ = true;
+    kitFocus_.tab = KitTab::Calculator;
+    kitFocus_.pendingTab = 3;
 }
 
 bool Application::consumePreviewCalcSelect() {

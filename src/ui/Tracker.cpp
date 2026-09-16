@@ -58,6 +58,8 @@ void drawTracker(Application& app) {
         return;
     }
     sprites->beginFrame();
+    applyTrackerKit(app, *atlas, log);
+    const int focusRow = app.kitFocus().trackerRow;
     ImGuiListClipper clipper;
     clipper.Begin(static_cast<int>(atlas->stops.size()), kTrackerRowH);
     while (clipper.Step()) {
@@ -71,7 +73,7 @@ void drawTracker(Application& app) {
                     ref = app.species(row.species);
                 }
                 bool cycle = false;
-                drawEncounterRow(stop, row.status, ref, *sprites, cycle);
+                drawEncounterRow(stop, row.status, ref, *sprites, cycle, i == focusRow);
                 if (cycle) {
                     log.setStatus(stop.id, nextEncounterStatus(row.status));
                 }
@@ -102,7 +104,7 @@ void drawTracker(Application& app) {
                     ++n;
                 }
                 bool toggle = false;
-                drawBossRow(stop, slugs, tips, n, log.defeated(stop.id), *sprites, toggle);
+                drawBossRow(stop, slugs, tips, n, log.defeated(stop.id), *sprites, toggle, i == focusRow);
                 if (toggle) {
                     log.setDefeated(stop.id, !log.defeated(stop.id));
                 }

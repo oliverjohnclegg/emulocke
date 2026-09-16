@@ -51,6 +51,18 @@ int testInput() {
     expect(swapped.codes[static_cast<int>(emulocke::KeySlot::B)] == SDL_SCANCODE_X, "B took A's old key");
     expect(!emulocke::bindKey(swapped, static_cast<int>(emulocke::KeySlot::B), SDL_SCANCODE_TAB), "Tab stays host");
     expect(swapped.codes[static_cast<int>(emulocke::KeySlot::B)] == SDL_SCANCODE_X, "Tab leaves B");
+    expect(!emulocke::bindKey(swapped, static_cast<int>(emulocke::KeySlot::A), SDL_SCANCODE_F), "F stays kit");
+    expect(!emulocke::bindKey(swapped, static_cast<int>(emulocke::KeySlot::A), SDL_SCANCODE_D), "D stays kit");
+    expect(!emulocke::bindKey(swapped, static_cast<int>(emulocke::KeySlot::A), SDL_SCANCODE_GRAVE), "Grave stays kit");
+    expect(!emulocke::bindKey(swapped, static_cast<int>(emulocke::KeySlot::A), SDL_SCANCODE_1), "1 stays kit");
+    expect(!emulocke::bindKey(swapped, static_cast<int>(emulocke::KeySlot::A), SDL_SCANCODE_E), "E stays kit");
+    expect(!emulocke::bindKey(swapped, static_cast<int>(emulocke::KeySlot::A), SDL_SCANCODE_BACKSPACE),
+        "Backspace stays kit");
+    expect(emulocke::reservedScancode(SDL_SCANCODE_V), "V reserved");
+    expect(emulocke::reservedScancode(SDL_SCANCODE_T), "T reserved");
+    expect(emulocke::reservedScancode(SDL_SCANCODE_5), "5 reserved");
+    expect(!emulocke::reservedScancode(SDL_SCANCODE_C), "C is free");
+    expect(!emulocke::reservedScancode(SDL_SCANCODE_Z), "Z is free");
     expect(emulocke::parseScancode("RShift") == SDL_SCANCODE_RSHIFT, "parse RShift");
     expect(emulocke::parseScancode("Enter") == SDL_SCANCODE_RETURN, "parse Enter");
     expect(std::strcmp(emulocke::scancodeLabel(SDL_SCANCODE_RSHIFT), "RShift") == 0, "label RShift");

@@ -30,7 +30,7 @@ void drawHelpPopups(Application& app) {
         ImGui::Spacing();
         ImGui::TextWrapped("No save states, disassemblers, or memory viewers. Frame skip comes later.");
         ImGui::Dummy(ImVec2(0, 12));
-        if (ImGui::Button("Close", ImVec2(140, 0))) {
+        if (ImGui::Button("Close", ImVec2(140, 0)) || app.kit().pause) {
             ImGui::CloseCurrentPopup();
         }
         ImGui::EndPopup();

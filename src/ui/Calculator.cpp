@@ -49,6 +49,7 @@ void drawCalculator(Application& app) {
         }
         return;
     }
+    applyCalculatorKit(app, session);
     drawCalcSearch(app, session);
     if (session.trainer() && !session.browsing()) {
         const PackTrainer* t = session.trainer();

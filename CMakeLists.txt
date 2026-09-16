@@ -193,6 +193,7 @@ add_library(emulocke_tracker STATIC
     src/tracker/Log.cpp
     src/tracker/LogIo.cpp
     src/tracker/Fill.cpp
+    src/tracker/Snap.cpp
     src/tracker/frlg/Stops.cpp
     src/tracker/frlg/Teams.cpp
     ${EMULOCKE_TRACKER_ATLASES})
@@ -256,11 +257,15 @@ add_executable(emulocke
     src/application/PrefsParse.cpp
     src/application/RunControl.cpp
     src/ui/Theme.cpp
+    src/ui/KitKeys.cpp
+    src/ui/KitNav.cpp
     src/ui/Shell.cpp
     src/ui/GbaPartyScreen.cpp
     src/ui/GbaPartySlot.cpp
     src/ui/Home.cpp
+    src/ui/HomeKit.cpp
     src/ui/NewRunModal.cpp
+    src/ui/NewRunKit.cpp
     src/ui/NewRunOptions.cpp
     src/ui/PresetPicker.cpp
     src/ui/GamePicker.cpp
@@ -273,6 +278,7 @@ add_executable(emulocke
     src/ui/RunList.cpp
     src/ui/Suite.cpp
     src/ui/Tracker.cpp
+    src/ui/TrackerKit.cpp
     src/ui/TrackerRow.cpp
     src/ui/TrackerMarks.cpp
     src/ui/TrackerKindTip.cpp
@@ -280,6 +286,7 @@ add_executable(emulocke
     src/ui/BoxSprites.cpp
     src/ui/FieldLog.cpp
     src/ui/Calculator.cpp
+    src/ui/CalculatorKit.cpp
     src/ui/CalculatorSearch.cpp
     src/ui/CalculatorStrip.cpp
     src/ui/CalculatorMatchup.cpp
@@ -475,6 +482,7 @@ add_executable(emulocke-tracker-check
     src/test/tracker_fill_check.cpp
     src/test/tracker_rival_fill_check.cpp
     src/test/preview_suite_check.cpp
+    src/test/tracker_snap_check.cpp
     src/application/PreviewSuite.cpp
     src/application/PreviewMons.cpp
     src/run/Catalog.cpp)
