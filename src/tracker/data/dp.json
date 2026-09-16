@@ -80,7 +80,8 @@
           "slug": "turtwig",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 9
     },
     {
       "id": "oreburgh-gate",
@@ -120,7 +121,8 @@
           "slug": "cranidos",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 14
     },
     {
       "id": "oreburgh-mine",
@@ -200,7 +202,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 16
     },
     {
       "id": "eterna-forest",
@@ -246,7 +249,8 @@
           "slug": "roserade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 22
     },
     {
       "id": "jup1",
@@ -263,7 +267,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 20
     },
     {
       "id": "route-206",
@@ -357,7 +362,8 @@
           "slug": "grotle",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 21
     },
     {
       "id": "route-209",
@@ -430,7 +436,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 30
     },
     {
       "id": "trophy-garden",
@@ -479,7 +486,8 @@
           "slug": "floatzel",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 30
     },
     {
       "id": "b3",
@@ -528,7 +536,8 @@
           "slug": "grotle",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 28
     },
     {
       "id": "route-212",
@@ -616,7 +625,8 @@
           "slug": "mismagius",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 36
     },
     {
       "id": "fuego-ironworks",
@@ -711,7 +721,8 @@
           "slug": "grotle",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 35
     },
     {
       "id": "canalave-city",
@@ -751,7 +762,8 @@
           "slug": "bastiodon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 39
     },
     {
       "id": "route-211",
@@ -781,7 +793,8 @@
           "slug": "bronzor",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 37
     },
     {
       "id": "mars2",
@@ -802,7 +815,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 39
     },
     {
       "id": "route-216",
@@ -873,7 +887,8 @@
           "slug": "abomasnow",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 42
     },
     {
       "id": "cyr1",
@@ -894,7 +909,8 @@
           "slug": "sneasel",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 43
     },
     {
       "id": "sat2",
@@ -915,7 +931,8 @@
           "slug": "bronzor",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 40
     },
     {
       "id": "mnj",
@@ -948,7 +965,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 46
     },
     {
       "id": "cyr2",
@@ -973,7 +991,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 48
     },
     {
       "id": "route-222",
@@ -1017,7 +1036,8 @@
           "slug": "luxray",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 49
     },
     {
       "id": "route-223",
@@ -1089,7 +1109,8 @@
           "slug": "torterra",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 53
     },
     {
       "id": "pokemon-league",
@@ -1127,7 +1148,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 57
     },
     {
       "id": "e2",
@@ -1156,7 +1178,8 @@
           "slug": "hippowdon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 59
     },
     {
       "id": "e3",
@@ -1185,7 +1208,8 @@
           "slug": "infernape",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 61
     },
     {
       "id": "e4",
@@ -1214,7 +1238,8 @@
           "slug": "bronzong",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 63
     },
     {
       "id": "c",
@@ -1247,7 +1272,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 66
     }
   ]
 }

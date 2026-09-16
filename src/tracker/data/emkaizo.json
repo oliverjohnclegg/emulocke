@@ -90,7 +90,8 @@
           "slug": "pikachu",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 9
     },
     {
       "id": "petalburg-woods",
@@ -165,7 +166,8 @@
           "slug": "marshtomp",
           "lock": 255
         }
-      ]
+      ],
+      "cap": 16
     },
     {
       "id": "r0",
@@ -222,7 +224,8 @@
           "slug": "marshtomp",
           "lock": 255
         }
-      ]
+      ],
+      "cap": 16
     },
     {
       "id": "gym-1",
@@ -257,7 +260,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2151
+      "defeat": 2151,
+      "cap": 15
     },
     {
       "id": "route-115",
@@ -299,7 +303,8 @@
           "slug": "arcanine",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 38
     },
     {
       "id": "mtmax1",
@@ -332,7 +337,8 @@
           "slug": "houndoom",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 39
     },
     {
       "id": "route-116",
@@ -412,7 +418,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2152
+      "defeat": 2152,
+      "cap": 19
     },
     {
       "id": "granite-cave",
@@ -452,7 +459,8 @@
           "slug": "ralts",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 70
     },
     {
       "id": "gym-3",
@@ -487,7 +495,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2153
+      "defeat": 2153,
+      "cap": 29
     },
     {
       "id": "route-110",
@@ -553,7 +562,8 @@
           "slug": "grovyle",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 26
     },
     {
       "id": "r1",
@@ -610,7 +620,8 @@
           "slug": "grovyle",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 26
     },
     {
       "id": "route-118",
@@ -704,7 +715,8 @@
           "slug": "charizard",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 37
     },
     {
       "id": "fallarbor-town",
@@ -776,7 +788,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2154
+      "defeat": 2154,
+      "cap": 42
     },
     {
       "id": "route-111",
@@ -830,7 +843,8 @@
         }
       ],
       "defeat": 2155,
-      "field": 2
+      "field": 2,
+      "cap": 48
     },
     {
       "id": "route-105",
@@ -908,7 +922,8 @@
           "slug": "lapras",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 49
     },
     {
       "id": "b2",
@@ -953,7 +968,8 @@
           "slug": "sceptile",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "r2",
@@ -998,7 +1014,8 @@
           "slug": "sceptile",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "foretree-city",
@@ -1049,7 +1066,8 @@
         }
       ],
       "defeat": 2156,
-      "field": 2
+      "field": 2,
+      "cap": 55
     },
     {
       "id": "scorched-slab",
@@ -1133,7 +1151,8 @@
           "slug": "sceptile",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 60
     },
     {
       "id": "r3",
@@ -1190,7 +1209,8 @@
           "slug": "sceptile",
           "lock": 258
         }
-      ]
+      ],
+      "cap": 60
     },
     {
       "id": "safari-zone",
@@ -1251,7 +1271,8 @@
           "slug": "dragonite",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 58
     },
     {
       "id": "magma-hideout",
@@ -1293,7 +1314,8 @@
           "slug": "castform",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 65
     },
     {
       "id": "mtmax2",
@@ -1326,7 +1348,8 @@
           "slug": "entei",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 66
     },
     {
       "id": "am2",
@@ -1359,7 +1382,8 @@
           "slug": "wailord",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 67
     },
     {
       "id": "route-124",
@@ -1413,7 +1437,8 @@
         }
       ],
       "defeat": 2157,
-      "field": 2
+      "field": 2,
+      "cap": 70
     },
     {
       "id": "mc2",
@@ -1446,7 +1471,8 @@
           "slug": "dusclops",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 70
     },
     {
       "id": "mtmax3",
@@ -1481,7 +1507,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "cap": 72
     },
     {
       "id": "route-125",
@@ -1559,7 +1586,8 @@
           "slug": "vaporeon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "aqarc",
@@ -1593,7 +1621,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 75
     },
     {
       "id": "route-126",
@@ -1644,7 +1673,8 @@
           "slug": "milotic",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 77
     },
     {
       "id": "8b",
@@ -1678,7 +1708,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 77
     },
     {
       "id": "cave-of-origins",
@@ -1818,7 +1849,8 @@
           "slug": "gardevoir",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 88
     },
     {
       "id": "e1",
@@ -1852,7 +1884,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1275
+      "defeat": 1275,
+      "cap": 100
     },
     {
       "id": "e2",
@@ -1886,7 +1919,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1276
+      "defeat": 1276,
+      "cap": 100
     },
     {
       "id": "e3",
@@ -1920,7 +1954,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1277
+      "defeat": 1277,
+      "cap": 100
     },
     {
       "id": "e4",
@@ -1954,7 +1989,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1278
+      "defeat": 1278,
+      "cap": 100
     },
     {
       "id": "c",
@@ -1987,7 +2023,8 @@
           "slug": "deoxys-attack",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 100
     }
   ]
 }

@@ -31,7 +31,8 @@
           "slug": "tepig",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 5
     },
     {
       "id": "c1",
@@ -52,7 +53,8 @@
           "slug": "tepig",
           "lock": 495
         }
-      ]
+      ],
+      "cap": 5
     },
     {
       "id": "route-1",
@@ -74,7 +76,8 @@
           "slug": "purrloin",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 7
     },
     {
       "id": "route-2",
@@ -108,7 +111,8 @@
           "slug": "tepig",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 7
     },
     {
       "id": "striaton-city",
@@ -142,7 +146,8 @@
           "slug": "purrloin",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 8
     },
     {
       "id": "gym-1",
@@ -168,7 +173,8 @@
           "slug": "pansage",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 14
     },
     {
       "id": "dreamyard",
@@ -211,7 +217,8 @@
           "slug": "purrloin",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 14
     },
     {
       "id": "wellspring-cave",
@@ -250,7 +257,8 @@
           "slug": "tympole",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 13
     },
     {
       "id": "gym-2",
@@ -268,7 +276,8 @@
           "slug": "watchog",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 20
     },
     {
       "id": "pinwheel-forest",
@@ -308,7 +317,8 @@
           "slug": "leavanny",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 23
     },
     {
       "id": "b3",
@@ -349,7 +359,8 @@
           "slug": "munna",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 20
     },
     {
       "id": "route-4",
@@ -399,7 +410,8 @@
           "slug": "liepard",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 22
     },
     {
       "id": "desert-resort",
@@ -442,7 +454,8 @@
           "slug": "sigilyph",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 22
     },
     {
       "id": "gym-4",
@@ -464,7 +477,8 @@
           "slug": "zebstrika",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 27
     },
     {
       "id": "route-5",
@@ -514,7 +528,8 @@
           "slug": "tranquill",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 26
     },
     {
       "id": "driftveil-drawbridge",
@@ -560,7 +575,8 @@
           "slug": "excadrill",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 31
     },
     {
       "id": "b4",
@@ -601,7 +617,8 @@
           "slug": "munna",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 28
     },
     {
       "id": "route-6",
@@ -653,7 +670,8 @@
           "slug": "klink",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 28
     },
     {
       "id": "route-7",
@@ -684,7 +702,8 @@
           "slug": "swanna",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 35
     },
     {
       "id": "c55",
@@ -725,7 +744,8 @@
           "slug": "pignite",
           "lock": 495
         }
-      ]
+      ],
+      "cap": 35
     },
     {
       "id": "route-17",
@@ -798,7 +818,8 @@
           "slug": "cryogonal",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 39
     },
     {
       "id": "dragonspiral-tower",
@@ -857,7 +878,8 @@
           "slug": "musharna",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 40
     },
     {
       "id": "moor-of-icirrus",
@@ -896,7 +918,8 @@
           "slug": "haxorus",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 43
     },
     {
       "id": "route-10",
@@ -946,7 +969,8 @@
           "slug": "emboar",
           "lock": 495
         }
-      ]
+      ],
+      "cap": 45
     },
     {
       "id": "victory-road",
@@ -977,7 +1001,8 @@
           "slug": "chandelure",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "e2",
@@ -1002,7 +1027,8 @@
           "slug": "bisharp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "e3",
@@ -1027,7 +1053,8 @@
           "slug": "gothitelle",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "e4",
@@ -1052,7 +1079,8 @@
           "slug": "mienshao",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "n5a",
@@ -1085,7 +1113,8 @@
           "slug": "vanilluxe",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 52
     },
     {
       "id": "gh",
@@ -1118,7 +1147,8 @@
           "slug": "hydreigon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 54
     },
     {
       "id": "c7",
@@ -1167,7 +1197,8 @@
           "slug": "emboar",
           "lock": 495
         }
-      ]
+      ],
+      "cap": 67
     },
     {
       "id": "e5",
@@ -1200,7 +1231,8 @@
           "slug": "chandelure",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "e6",
@@ -1233,7 +1265,8 @@
           "slug": "bisharp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "e7",
@@ -1266,7 +1299,8 @@
           "slug": "metagross",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "e8",
@@ -1299,7 +1333,8 @@
           "slug": "conkeldurr",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "c",
@@ -1332,7 +1367,8 @@
           "slug": "volcarona",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 77
     },
     {
       "id": "route-11",
@@ -1410,7 +1446,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 77
     },
     {
       "id": "undella-bay",
@@ -1524,7 +1561,8 @@
           "slug": "zebstrika",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 77
     }
   ]
 }

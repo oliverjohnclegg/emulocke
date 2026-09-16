@@ -316,7 +316,17 @@ def parse_league(path):
             token = parts[5].strip().lower()
             if token in lock_map:
                 lock = token
-        teams[cur].append({"slug": slug, "lock": lock})
+        level = 0
+        if len(parts) > 1:
+            raw = parts[1].split("@")[0].strip()
+            if raw and raw[0] not in "+-":
+                try:
+                    n = int(raw)
+                    if 1 <= n <= 255:
+                        level = n
+                except ValueError:
+                    pass
+        teams[cur].append({"slug": slug, "lock": lock, "level": level})
     return teams, notes
 
 
@@ -358,7 +368,11 @@ def attach_teams(stops, league, notes, starters, sprite):
         apply_battle_meta(stop, notes.get(bid) if bid else None)
         rows = league.get(bid) or []
         team = []
+        cap = 0
         for mon in rows:
+            lv = int(mon.get("level") or 0)
+            if lv > cap:
+                cap = lv
             lock = mon["lock"]
             if isinstance(lock, str):
                 want = STARTER_TYPES.get(lock, set())
@@ -373,6 +387,8 @@ def attach_teams(stops, league, notes, starters, sprite):
         team = [mon for mon in team if keep_slug(mon["slug"], sprite)]
         if team:
             stop["team"] = team
+        if cap:
+            stop["cap"] = cap
 
 
 def battle_suffix(atlas_id):
