@@ -56,9 +56,8 @@ std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath, const s
 void NdsSession::startConsole() {
     nds_->Reset();
     auto& fw = nds_->GetFirmware();
-    melonDS::MacAddress addr{};
-    std::copy(mac_.begin(), mac_.end(), addr.begin());
-    fw.GetHeader().MacAddr = addr;
+    constexpr std::size_t kFirmwareMacOffset = 0x36;
+    std::copy(mac_.begin(), mac_.end(), fw.Buffer() + kFirmwareMacOffset);
     fw.UpdateChecksums();
     if (nds_->NeedsDirectBoot()) {
         nds_->SetupDirectBoot(romName_);
