@@ -25,6 +25,21 @@ bool BatteryWatch::refresh(const std::filesystem::path& path, const GameAdapter&
     return true;
 }
 
+namespace {
+
+bool pcEmpty(const Boxes& boxes) {
+    for (const PcBox& box : boxes.boxes) {
+        for (const Mon& mon : box.mons) {
+            if (mon.species != 0) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+}  // namespace
+
 void BatteryWatch::mergeInto(GameSnapshot& live) const {
     if (!snapshot_.ok) {
         return;
@@ -37,6 +52,12 @@ void BatteryWatch::mergeInto(GameSnapshot& live) const {
         live.gyms = snapshot_.gyms;
         live.progress.badges = snapshot_.progress.badges;
         live.progress.flags = snapshot_.progress.flags;
+    }
+    if (pcEmpty(live.boxes) && !pcEmpty(snapshot_.boxes)) {
+        live.boxes = snapshot_.boxes;
+    }
+    if (live.overworld.mapName[0] == 0 && snapshot_.overworld.mapName[0] != 0) {
+        live.overworld = snapshot_.overworld;
     }
 }
 

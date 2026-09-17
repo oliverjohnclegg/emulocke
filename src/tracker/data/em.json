@@ -58,7 +58,9 @@
           "slug": "treecko",
           "lock": 258
         }
-      ]
+      ],
+      "defeat": 125,
+      "span": 3
     },
     {
       "id": "route-102",
@@ -159,7 +161,9 @@
           "slug": "treecko",
           "lock": 258
         }
-      ]
+      ],
+      "defeat": 211,
+      "span": 3
     },
     {
       "id": "route-105",
@@ -308,7 +312,9 @@
           "slug": "grovyle",
           "lock": 258
         }
-      ]
+      ],
+      "defeat": 125,
+      "span": 3
     },
     {
       "id": "altering-cave",
@@ -331,7 +337,8 @@
           "slug": "ralts",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 190
     },
     {
       "id": "gym-3",
@@ -401,7 +408,8 @@
           "slug": "zubat",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 139
     },
     {
       "id": "route-113",
@@ -592,7 +600,8 @@
           "slug": "mightyena",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1312
     },
     {
       "id": "r4",
@@ -637,7 +646,8 @@
           "slug": "grovyle",
           "lock": 258
         }
-      ]
+      ],
+      "defeat": 851
     },
     {
       "id": "fortree-city",
@@ -763,7 +773,8 @@
           "slug": "zubat",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 117
     },
     {
       "id": "mtmax",
@@ -784,7 +795,8 @@
           "slug": "camerupt",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 117
     },
     {
       "id": "lilycove-city",
@@ -842,7 +854,8 @@
           "slug": "grovyle",
           "lock": 258
         }
-      ]
+      ],
+      "defeat": 971
     },
     {
       "id": "am1",
@@ -863,7 +876,8 @@
           "slug": "golbat",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 452
     },
     {
       "id": "route-124",
@@ -942,7 +956,8 @@
           "slug": "golbat",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 117
     },
     {
       "id": "route-125",
@@ -1004,7 +1019,8 @@
           "slug": "mightyena",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1313
     },
     {
       "id": "aqarc",
@@ -1025,7 +1041,8 @@
           "slug": "sharpedo",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1314
     },
     {
       "id": "route-126",
@@ -1239,7 +1256,8 @@
           "slug": "gardevoir",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 126
     },
     {
       "id": "e1",
@@ -1392,7 +1410,8 @@
           "slug": "milotic",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2148
     },
     {
       "id": "c2",
@@ -1425,7 +1444,8 @@
           "slug": "metagross",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1272
     },
     {
       "id": "ss-tidal",

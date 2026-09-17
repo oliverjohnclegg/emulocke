@@ -18,6 +18,7 @@ void decodeGen4Text(std::span<const uint8_t> src, char* dest, std::size_t destSi
 void encodeGen4Text(const char* src, std::span<uint8_t> dest);
 void decodeUtf16Text(std::span<const uint8_t> src, char* dest, std::size_t destSize);
 void encodeUtf16Text(const char* src, std::span<uint8_t> dest);
+bool utf16NamePresent(std::span<const uint8_t> src);
 bool parsePk45(std::span<const uint8_t> raw, bool utf16Names, Mon& out);
 
 }

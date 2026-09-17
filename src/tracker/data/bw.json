@@ -31,7 +31,8 @@
           "slug": "tepig",
           "lock": 501
         }
-      ]
+      ],
+      "onStarter": true
     },
     {
       "id": "c1",
@@ -52,7 +53,8 @@
           "slug": "tepig",
           "lock": 495
         }
-      ]
+      ],
+      "onStarter": true
     },
     {
       "id": "route-1",
@@ -896,7 +898,8 @@
           "slug": "haxorus",
           "lock": 0
         }
-      ]
+      ],
+      "gym": 8
     },
     {
       "id": "route-10",
@@ -1118,7 +1121,8 @@
           "slug": "hydreigon",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2400
     },
     {
       "id": "c7",

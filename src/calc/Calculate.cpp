@@ -18,8 +18,8 @@ void fillRolls(DamageResult& out, int base) {
     out.max = out.rolls[15];
 }
 
-DamageResult oneHit(uint8_t chart, const Pokemon& atk, const Pokemon& def, const Move& move,
-    const Field& field, int hit) {
+DamageResult oneHit(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Pokemon& def,
+    const Move& move, const Field& field, int hit) {
     DamageResult out;
     const int eff = typeEff(chart, move.type, def.t1, def.t2, field.foresight);
     if (advImmune(def, move, eff) || move.kind == MoveKind::Status) {
@@ -38,7 +38,7 @@ DamageResult oneHit(uint8_t chart, const Pokemon& atk, const Pokemon& def, const
         return out;
     }
     const bool crit = move.crit && def.ability != kAbBattleArmor && def.ability != kAbShellArmor;
-    AdvCtx ctx{&atk, &def, &move, &field, chart, crit, move.category(chart) == MoveCat::Physical};
+    AdvCtx ctx{&atk, &def, &move, &field, chart, crit, move.category(chart) == MoveCat::Physical, dmgGen};
     const int bp = advBasePower(ctx, hit);
     if (bp <= 0) {
         out.immune = true;
@@ -67,16 +67,16 @@ int finalSpeed(const Pokemon& mon, const Field& field) {
     return spe;
 }
 
-DamageResult calculate(uint8_t, uint8_t typeChart, const Pokemon& atk, const Pokemon& def,
+DamageResult calculate(uint8_t dmgGen, uint8_t typeChart, const Pokemon& atk, const Pokemon& def,
     const Move& move, const Field& field) {
     const int hits = std::max(1, move.hits);
-    DamageResult total = oneHit(typeChart, atk, def, move, field, 1);
+    DamageResult total = oneHit(dmgGen, typeChart, atk, def, move, field, 1);
     total.hits = hits;
     if (total.immune || hits == 1) {
         return total;
     }
     for (int h = 2; h <= hits; ++h) {
-        const DamageResult part = oneHit(typeChart, atk, def, move, field, h);
+        const DamageResult part = oneHit(dmgGen, typeChart, atk, def, move, field, h);
         for (int i = 0; i < 16; ++i) {
             total.rolls[i] += part.rolls[i];
         }

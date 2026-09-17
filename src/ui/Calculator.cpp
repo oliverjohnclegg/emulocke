@@ -25,7 +25,7 @@ std::string_view seatedVariant(Application& app) {
         return {};
     }
     const Run* run = app.runStore().find(app.activeRunId());
-    return run ? std::string_view(run->patchOption) : std::string_view{};
+    return run ? std::string_view(run->difficulty) : std::string_view{};
 }
 
 }  // namespace
@@ -43,7 +43,7 @@ void drawCalculator(Application& app) {
         ImGui::TextDisabled("Not represented.");
         ImGui::Spacing();
         ImGui::TextWrapped(
-            "Need every trainer battle plus that game's stat, type, ability, and move tables.");
+            "A title is represented when live party and PC, the tracker atlas, and the calc pack all exist.");
         if (app.bodyFont()) {
             ImGui::PopFont();
         }

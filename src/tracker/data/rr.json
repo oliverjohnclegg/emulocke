@@ -267,7 +267,9 @@
           "slug": "charmander",
           "lock": 810
         }
-      ]
+      ],
+      "defeat": 1609,
+      "span": 3
     },
     {
       "id": "viridian-city",
@@ -320,7 +322,9 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1306,
+      "span": 3
     },
     {
       "id": "mb1",
@@ -341,7 +345,8 @@
           "slug": "flittle",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1323
     },
     {
       "id": "gym-1",
@@ -425,7 +430,8 @@
           "slug": "mightyena",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1322
     },
     {
       "id": "route-24",
@@ -551,7 +557,9 @@
           "slug": "charmeleon",
           "lock": 810
         }
-      ]
+      ],
+      "defeat": 1612,
+      "span": 3
     },
     {
       "id": "route-25",
@@ -585,7 +593,8 @@
           "slug": "scizor",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1288
     },
     {
       "id": "cerulean-city",
@@ -709,7 +718,9 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1306,
+      "span": 3
     },
     {
       "id": "route-11",
@@ -747,7 +758,8 @@
           "slug": "dudunsparce-three-segment",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1329
     },
     {
       "id": "route-9",
@@ -808,7 +820,8 @@
           "slug": "ceruledge",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1308
     },
     {
       "id": "pokemon-tower",
@@ -916,7 +929,8 @@
           "slug": "veluza",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1349
     },
     {
       "id": "saffron-city",
@@ -1322,7 +1336,9 @@
           "slug": "charizard",
           "lock": 810
         }
-      ]
+      ],
+      "defeat": 1712,
+      "span": 3
     },
     {
       "id": "ev3",
@@ -1349,7 +1365,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "defeat": 1321
     },
     {
       "id": "evg2",
@@ -1382,7 +1399,8 @@
           "slug": "veluza",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1349
     },
     {
       "id": "mb5",
@@ -1415,7 +1433,8 @@
           "slug": "gallade-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1597
     },
     {
       "id": "gym-5",
@@ -1499,7 +1518,9 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1306,
+      "span": 3
     },
     {
       "id": "gym-6",
@@ -1638,7 +1659,8 @@
           "slug": "glalie",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1338
     },
     {
       "id": "mb6b",
@@ -1671,7 +1693,8 @@
           "slug": "glalie",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1338
     },
     {
       "id": "mb6c",
@@ -1704,7 +1727,8 @@
           "slug": "glalie",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1338
     },
     {
       "id": "cinnabar-island",
@@ -1746,7 +1770,8 @@
           "slug": "aggron",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1309
     },
     {
       "id": "mb7b",
@@ -1779,7 +1804,8 @@
           "slug": "aggron",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1309
     },
     {
       "id": "mb7c",
@@ -1812,7 +1838,8 @@
           "slug": "aggron",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1309
     },
     {
       "id": "m1",
@@ -1845,7 +1872,9 @@
           "slug": "blaziken-mega",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1341,
+      "span": 3
     },
     {
       "id": "pokemon-mansion",
@@ -2240,7 +2269,9 @@
           "slug": "venusaur",
           "lock": 816
         }
-      ]
+      ],
+      "defeat": 1715,
+      "span": 3
     },
     {
       "id": "route-23",
@@ -2275,7 +2306,9 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1306,
+      "span": 3
     },
     {
       "id": "e1a",
@@ -2309,7 +2342,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "defeat": 1357
     },
     {
       "id": "e1b",
@@ -2343,7 +2377,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "defeat": 1357
     },
     {
       "id": "e2a",
@@ -2376,7 +2411,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1360
     },
     {
       "id": "e2b",
@@ -2409,7 +2445,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1360
     },
     {
       "id": "e3a",
@@ -2442,7 +2479,8 @@
           "slug": "gengar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1363
     },
     {
       "id": "e3b",
@@ -2475,7 +2513,8 @@
           "slug": "gengar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1363
     },
     {
       "id": "e4a",
@@ -2508,7 +2547,8 @@
           "slug": "salamence",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1319
     },
     {
       "id": "e4b",
@@ -2541,7 +2581,8 @@
           "slug": "salamence",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1319
     },
     {
       "id": "ec",
@@ -2574,7 +2615,9 @@
           "slug": "ditto",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1718,
+      "span": 3
     },
     {
       "id": "three-island",
@@ -2652,7 +2695,8 @@
           "slug": "aerodactyl",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1336
     },
     {
       "id": "2r",
@@ -2685,7 +2729,8 @@
           "slug": "gyarados",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1312
     },
     {
       "id": "3r",
@@ -2718,7 +2763,8 @@
           "slug": "manectric",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1440
     },
     {
       "id": "4r",
@@ -2751,7 +2797,8 @@
           "slug": "venusaur",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1345
     },
     {
       "id": "cerulean-cave",
@@ -2781,7 +2828,8 @@
           "slug": "mightyena",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1322
     },
     {
       "id": "ev5",
@@ -2806,7 +2854,8 @@
           "slug": "mawile-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1321
     },
     {
       "id": "ev6",
@@ -2840,7 +2889,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "defeat": 1349
     }
   ]
 }

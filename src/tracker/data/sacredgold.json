@@ -122,7 +122,8 @@
           "slug": "hoothoot",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 739
     },
     {
       "id": "gym-1",
@@ -235,7 +236,8 @@
           "slug": "koffing",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 123
     },
     {
       "id": "gym-2",
@@ -302,7 +304,8 @@
           "slug": "croconaw",
           "lock": 155
         }
-      ]
+      ],
+      "defeat": 784
     },
     {
       "id": "ilex-forest",
@@ -512,7 +515,8 @@
           "slug": "croconaw",
           "lock": 155
         }
-      ]
+      ],
+      "defeat": 454
     },
     {
       "id": "bell-tower",
@@ -643,7 +647,8 @@
           "slug": "jumpluff",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 455
     },
     {
       "id": "gym-5",
@@ -745,7 +750,8 @@
           "slug": "honchkrow",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 499
     },
     {
       "id": "cliff-cave",
@@ -779,7 +785,8 @@
           "slug": "weezing",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 500
     },
     {
       "id": "route-48",
@@ -818,7 +825,8 @@
           "slug": "houndoom",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 198
     },
     {
       "id": "route-42",
@@ -872,7 +880,8 @@
           "slug": "honchkrow",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 499
     },
     {
       "id": "petrel2",
@@ -901,7 +910,8 @@
           "slug": "weezing",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 500
     },
     {
       "id": "route-43",
@@ -986,7 +996,8 @@
           "slug": "weezing",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 198
     },
     {
       "id": "proton2",
@@ -1019,7 +1030,8 @@
           "slug": "crobat",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 198
     },
     {
       "id": "ariana3",
@@ -1052,7 +1064,8 @@
           "slug": "honchkrow",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 198
     },
     {
       "id": "archer2",
@@ -1085,7 +1098,8 @@
           "slug": "houndoom",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 198
     },
     {
       "id": "evg",
@@ -1118,7 +1132,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 198
     },
     {
       "id": "r1",
@@ -1175,7 +1190,8 @@
           "slug": "feraligatr",
           "lock": 155
         }
-      ]
+      ],
+      "defeat": 412
     },
     {
       "id": "route-44",
@@ -1315,7 +1331,8 @@
           "slug": "vaporeon",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 572
     },
     {
       "id": "victory-road",
@@ -1378,7 +1395,8 @@
           "slug": "feraligatr",
           "lock": 155
         }
-      ]
+      ],
+      "defeat": 522
     },
     {
       "id": "indigo-plateau",
@@ -1420,7 +1438,8 @@
           "slug": "xatu",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 228
     },
     {
       "id": "e2",
@@ -1453,7 +1472,8 @@
           "slug": "crobat",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 229
     },
     {
       "id": "e3",
@@ -1486,7 +1506,8 @@
           "slug": "machamp",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 230
     },
     {
       "id": "e4",
@@ -1519,7 +1540,8 @@
           "slug": "houndoom",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 231
     },
     {
       "id": "c",
@@ -1552,7 +1574,8 @@
           "slug": "dragonite",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 231
     },
     {
       "id": "vermillion-city",
@@ -1591,7 +1614,8 @@
           "slug": "raichu",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2470
     },
     {
       "id": "route-6",
@@ -1642,7 +1666,8 @@
           "slug": "alakazam",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 386
     },
     {
       "id": "route-7",
@@ -1693,7 +1718,8 @@
           "slug": "tangrowth",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 292
     },
     {
       "id": "route-16",
@@ -1759,7 +1785,8 @@
           "slug": "venomoth",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 301
     },
     {
       "id": "route-15",
@@ -1900,7 +1927,8 @@
           "slug": "starmie",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 384
     },
     {
       "id": "rock-tunnel",
@@ -1984,7 +2012,8 @@
           "slug": "onix",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 383
     },
     {
       "id": "route-3",
@@ -2059,7 +2088,8 @@
           "slug": "feraligatr",
           "lock": 155
         }
-      ]
+      ],
+      "defeat": 592
     },
     {
       "id": "viridian-forest",
@@ -2164,7 +2194,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 381
     },
     {
       "id": "k8",
@@ -2197,7 +2228,8 @@
           "slug": "tyranitar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 382
     },
     {
       "id": "route-19",
@@ -2275,7 +2307,8 @@
           "slug": "blastoise",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1620
     }
   ]
 }

@@ -18,7 +18,7 @@ bool parsePk45(std::span<const uint8_t> raw, bool utf16Names, Mon& out) {
         return false;
     }
     const uint16_t species = load16(buf.data() + 8);
-    if (species == 0) {
+    if (!nationalSpeciesKnown(species)) {
         return false;
     }
     out = Mon{};
@@ -47,9 +47,13 @@ bool parsePk45(std::span<const uint8_t> raw, bool utf16Names, Mon& out) {
     out.egg = ((iv >> 30) & 1) != 0;
     out.abilityNum = buf[0x15];
     out.metGame = buf[0x5F];
-    out.metLocation = load16(buf.data() + 0x46);
+    out.metLocation = load16(buf.data() + (utf16Names ? 0x80 : 0x46));
     out.ball = buf[0x83];
-    out.nature = static_cast<uint8_t>(out.personality % 25);
+    if (utf16Names && buf[0x41] < 25) {
+        out.nature = buf[0x41];
+    } else {
+        out.nature = static_cast<uint8_t>(out.personality % 25);
+    }
     const uint16_t tid = static_cast<uint16_t>(out.otId);
     const uint16_t sid = static_cast<uint16_t>(out.otId >> 16);
     const uint16_t hid = static_cast<uint16_t>(out.personality >> 16);
@@ -65,6 +69,9 @@ bool parsePk45(std::span<const uint8_t> raw, bool utf16Names, Mon& out) {
         out.spAttack = load16(buf.data() + 0x98);
         out.spDefense = load16(buf.data() + 0x9A);
         out.status = load32(buf.data() + 0x88);
+        if (out.level < 1 || out.level > 100 || out.maxHp == 0 || out.maxHp > 999 || out.hp > out.maxHp) {
+            return false;
+        }
     }
     if (utf16Names) {
         decodeUtf16Text({buf.data() + 0x48, 22}, out.nickname, sizeof(out.nickname));

@@ -49,7 +49,9 @@
           "slug": "turtwig",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 2030,
+      "span": 3
     },
     {
       "id": "lake-verity",
@@ -105,7 +107,9 @@
           "slug": "turtwig",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1427,
+      "span": 3
     },
     {
       "id": "oreburgh-gate",
@@ -263,7 +267,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1475
     },
     {
       "id": "eterna-forest",
@@ -297,7 +302,8 @@
           "slug": "chansey",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1788
     },
     {
       "id": "the-old-chateau",
@@ -371,7 +377,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1586
     },
     {
       "id": "eterna-building",
@@ -410,7 +417,8 @@
           "slug": "prinplup",
           "lock": 387
         }
-      ]
+      ],
+      "defeat": 1793
     },
     {
       "id": "d1",
@@ -443,7 +451,8 @@
           "slug": "prinplup",
           "lock": 387
         }
-      ]
+      ],
+      "defeat": 1796
     },
     {
       "id": "route-206",
@@ -486,7 +495,8 @@
           "slug": "kadabra",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1792
     },
     {
       "id": "mt-coronet",
@@ -533,7 +543,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 92
     },
     {
       "id": "gym-3",
@@ -600,7 +611,9 @@
           "slug": "prinplup",
           "lock": 390
         }
-      ]
+      ],
+      "defeat": 1653,
+      "span": 3
     },
     {
       "id": "sat1",
@@ -633,7 +646,8 @@
           "slug": "espeon",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1589
     },
     {
       "id": "route-209",
@@ -767,7 +781,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "defeat": 1796
     },
     {
       "id": "l2",
@@ -816,7 +831,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "defeat": 1793
     },
     {
       "id": "route-214",
@@ -921,7 +937,9 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "defeat": 1653,
+      "span": 3
     },
     {
       "id": "gym-5",
@@ -1008,7 +1026,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2093
     },
     {
       "id": "fuego-ironworks",
@@ -1077,7 +1096,8 @@
           "slug": "entei",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2085
     },
     {
       "id": "route-218",
@@ -1152,7 +1172,9 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "defeat": 1656,
+      "span": 3
     },
     {
       "id": "iron-island",
@@ -1194,7 +1216,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1789
     },
     {
       "id": "gym-6",
@@ -1266,7 +1289,8 @@
           "slug": "toxicroak",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 227
     },
     {
       "id": "mars2",
@@ -1295,7 +1319,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1585
     },
     {
       "id": "route-216",
@@ -1403,7 +1428,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1583
     },
     {
       "id": "sat3",
@@ -1436,7 +1462,8 @@
           "slug": "toxicroak",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 90
     },
     {
       "id": "mnj",
@@ -1493,7 +1520,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1587
     },
     {
       "id": "cyr3",
@@ -1510,7 +1538,8 @@
           "slug": "dialga",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1584
     },
     {
       "id": "cyr4",
@@ -1543,7 +1572,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1584
     },
     {
       "id": "route-222",
@@ -1594,7 +1624,8 @@
           "slug": "zapdos",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2084
     },
     {
       "id": "gym-8",
@@ -1704,7 +1735,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "defeat": 1793
     },
     {
       "id": "d3",
@@ -1753,7 +1785,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "defeat": 1796
     },
     {
       "id": "victory-road",
@@ -1816,7 +1849,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "defeat": 1790
     },
     {
       "id": "e1a",
@@ -1849,7 +1883,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1590
     },
     {
       "id": "e1b",
@@ -1882,7 +1917,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1590
     },
     {
       "id": "e1c",
@@ -1915,7 +1951,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1590
     },
     {
       "id": "e1d",
@@ -1948,7 +1985,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1590
     },
     {
       "id": "e2a",
@@ -1981,7 +2019,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1601
     },
     {
       "id": "e2b",
@@ -2014,7 +2053,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1601
     },
     {
       "id": "e2c",
@@ -2047,7 +2087,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1601
     },
     {
       "id": "e2d",
@@ -2080,7 +2121,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1601
     },
     {
       "id": "e3a",
@@ -2113,7 +2155,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1255
     },
     {
       "id": "e3b",
@@ -2146,7 +2189,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 181
     },
     {
       "id": "e3c",
@@ -2179,7 +2223,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 181
     },
     {
       "id": "e3d",
@@ -2212,7 +2257,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 181
     },
     {
       "id": "e4a",
@@ -2245,7 +2291,8 @@
           "slug": "gallade",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1255
     },
     {
       "id": "e4b",
@@ -2278,7 +2325,8 @@
           "slug": "gallade",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 182
     },
     {
       "id": "e4c",
@@ -2311,7 +2359,8 @@
           "slug": "gallade",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 182
     },
     {
       "id": "e4d",
@@ -2344,7 +2393,8 @@
           "slug": "gallade",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 182
     },
     {
       "id": "ca",
@@ -2377,7 +2427,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1447
     },
     {
       "id": "cb",
@@ -2410,7 +2461,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1447
     },
     {
       "id": "cc",
@@ -2443,7 +2495,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1447
     },
     {
       "id": "cd",
@@ -2476,7 +2529,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1447
     }
   ]
 }

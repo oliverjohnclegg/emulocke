@@ -1,5 +1,6 @@
 #include "adapter/hgss/HgssAdapter.hpp"
 
+#include "adapter/gen45/Names.hpp"
 #include "adapter/gen4/Layout.hpp"
 #include "adapter/gen4/Save.hpp"
 
@@ -27,8 +28,12 @@ GameSnapshot HgssAdapter::readLive(const LiveMemory& mem) const {
     GameSnapshot snap;
     snap.adapterId = id();
     snap.origin = SnapshotOrigin::Live;
-    fillGen4Live(mem, soulSilver_ ? kSsPartyLive : kHgPartyLive, snap);
+    fillGen4Live(mem, soulSilver_ ? kSsPartyLive : kHgPartyLive, hgssLayout(), snap);
     return snap;
+}
+
+SpeciesRef HgssAdapter::species(uint16_t internalId) const {
+    return nationalSpeciesRef(internalId);
 }
 
 }

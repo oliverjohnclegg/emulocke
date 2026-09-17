@@ -66,6 +66,15 @@ std::vector<uint8_t> gen4Sav(const emulocke::Gen4Layout& layout) {
     sav[layout.partyOff - 4] = 1;
     const auto pk = pk4();
     std::memcpy(sav.data() + layout.partyOff, pk.data(), pk.size());
+    const std::size_t box0 = layout.storageStart + (layout.paddedBoxes ? 0 : 4);
+    std::memcpy(sav.data() + box0, pk.data(), emulocke::kPkStoredSize);
+    if (layout.mapOff != 0) {
+        emulocke::store16(sav.data() + layout.mapOff, 201);
+    }
+    if (layout.eventFlagOff != 0) {
+        sav[layout.eventFlagOff] = 1;
+    }
+    sav[layout.trainerOff + 0x1A] = 1;
     const std::size_t fo = layout.generalSize - layout.footerSize;
     if (layout.footerSize == 0x10) {
         emulocke::store32(sav.data() + fo, 1);
@@ -89,6 +98,15 @@ std::vector<uint8_t> makeSuiteSav(SuiteSav kind) {
         std::array<uint8_t, emulocke::kPartyMonSize> party{};
         emulocke::encryptPartyMon(gen3Mon(), party);
         std::memcpy(blocks.block1.data() + emulocke::kFrlgPartyOff, party.data(), party.size());
+        blocks.block1[emulocke::kFrlgMapGroupOff] = 3;
+        blocks.block1[emulocke::kFrlgMapNumOff] = 0;
+        emulocke::DecryptedMon boxed = gen3Mon();
+        boxed.species = 4;
+        std::array<uint8_t, emulocke::kBoxMonSize> box{};
+        emulocke::encryptBoxMon(boxed, box);
+        std::memcpy(blocks.storage.data() + emulocke::kFrlgBoxStart, box.data(), box.size());
+        emulocke::encodeGen3Text("BOX 1", {blocks.storage.data() + emulocke::kFrlgBoxNameOff, 9});
+        blocks.block1[emulocke::kFrlgFlagsOff] = 1;
         return emulocke::writeFrlgSave(blocks);
     }
     if (kind == SuiteSav::Rse) {
@@ -99,6 +117,16 @@ std::vector<uint8_t> makeSuiteSav(SuiteSav kind) {
         std::array<uint8_t, emulocke::kPartyMonSize> party{};
         emulocke::encryptPartyMon(gen3Mon(), party);
         std::memcpy(blocks.block1.data() + emulocke::kRsePartyOff, party.data(), party.size());
+        blocks.block1[emulocke::kRseMapGroupOff] = 0;
+        blocks.block1[emulocke::kRseMapNumOff] = 9;
+        emulocke::DecryptedMon boxed = gen3Mon();
+        boxed.species = 4;
+        std::array<uint8_t, emulocke::kBoxMonSize> box{};
+        emulocke::encryptBoxMon(boxed, box);
+        std::memcpy(blocks.storage.data() + emulocke::kRseBoxStart, box.data(), box.size());
+        emulocke::encodeGen3Text("BOX 1", {blocks.storage.data() + emulocke::kRseBoxNameOff, 9});
+        blocks.block1[emulocke::kRseFlagsOffRs] = 1;
+        blocks.block1[emulocke::kRseFlagsOffEm] = 1;
         return emulocke::writeRseSave(blocks);
     }
     if (kind == SuiteSav::Dp) {
@@ -114,8 +142,14 @@ std::vector<uint8_t> makeSuiteSav(SuiteSav kind) {
     sav[emulocke::kGen5Party + 4] = 1;
     const auto pk = pk5();
     std::memcpy(sav.data() + emulocke::kGen5Party + 8, pk.data(), pk.size());
+    std::memcpy(sav.data() + emulocke::kGen5Box, pk.data(), emulocke::kPkStoredSize);
     emulocke::encodeUtf16Text("RED", {sav.data() + emulocke::kGen5Trainer + 4, 16});
     emulocke::store32(sav.data() + emulocke::kGen5Trainer + 0x14, 12345);
     sav[emulocke::kGen5Trainer + 0x1F] = emulocke::kVersionBlack;
+    emulocke::store16(sav.data() + emulocke::kGen5Position, 14);
+    sav[emulocke::kBwEventWork + emulocke::kBwFlagStart] = 1;
+    sav[emulocke::kBw2EventWork + emulocke::kBw2FlagStart] = 1;
+    sav[emulocke::kBwBadgeOff] = 1;
+    sav[emulocke::kBw2BadgeOff] = 1;
     return sav;
 }

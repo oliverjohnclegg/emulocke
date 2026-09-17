@@ -57,7 +57,7 @@ std::string_view atlasDifficultyKey(std::string_view slug, std::string_view raw)
         if (key == "hard" || key == "hardcore" || key == "2") {
             return "hard";
         }
-        if (key == "easy" || key == "1") {
+        if (key == "easy" || key == "0") {
             return "easy";
         }
         return {};

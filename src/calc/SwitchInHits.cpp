@@ -45,7 +45,7 @@ bool hasSeMove(uint8_t chart, const PackMon& mon, const Pokemon& player) {
 }
 
 int maxHitVs(const CalcPack& pack, const PackMon& mon, const Pokemon& player) {
-    const Pokemon atk = pokemonFromPack(mon);
+    const Pokemon atk = pokemonFromPack(mon, &pack);
     int best = 0;
     for (int i = 0; i < 4; ++i) {
         const MoveRow* row = moveById(mon.moves[i]);

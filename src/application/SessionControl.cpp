@@ -5,6 +5,7 @@
 #include "emu/FileBytes.hpp"
 #include "emu/GbaSession.hpp"
 #include "emu/NdsSession.hpp"
+#include "emu/Paths.hpp"
 #include "run/SavePeek.hpp"
 #include "ui/Layout.hpp"
 #include "ui/WindowFit.hpp"
@@ -76,9 +77,13 @@ void Application::emuLoop() {
                     battery_.mergeInto(snapshot_);
                 }
                 if (const Run* run = runStore_->find(activeRunId_)) {
-                    if (!calcPack(run->catalogUuid, run->patchOption)) {
+                    if (!calcPack(run->catalogUuid, run->difficulty)) {
                         snapshot_.battle = {};
                     }
+                }
+                if (session_->kind() == ConsoleKind::Nds) {
+                    ramCapture_.maybeWrite(*session_->liveMemory(), snapshot_.battle.inBattle,
+                        prefDir() / "ram-capture", SDL_GetTicks());
                 }
             }
         }

@@ -33,6 +33,13 @@ inline constexpr uint32_t kPtSavePtr = 0x02101D2C;
 inline constexpr uint32_t kPtPartyFromSave = 0xD088;
 inline constexpr uint32_t kHgPartyLive = 0x02111880;
 inline constexpr uint32_t kSsPartyLive = 0x021118A0;
+inline constexpr std::size_t kGen4FlagBytes = 364;
+inline constexpr std::size_t kDpEventFlag = 0xFDC;
+inline constexpr std::size_t kDpMap = 0x1238;
+inline constexpr std::size_t kPtEventFlag = 0xFEC;
+inline constexpr std::size_t kPtMap = 0x1280;
+inline constexpr std::size_t kHgssEventFlag = 0x10C4;
+inline constexpr std::size_t kHgssMap = 0x1234;
 
 enum class Gen4Family { DiamondPearl, Platinum, HeartGoldSoulSilver };
 
@@ -44,18 +51,22 @@ struct Gen4Layout {
     std::size_t trainerOff{};
     std::size_t partyOff{};
     bool paddedBoxes{};
+    std::size_t eventFlagOff{};
+    std::size_t mapOff{};
 };
 
 inline Gen4Layout dpLayout() {
-    return {Gen4Family::DiamondPearl, kDpGeneral, kDpGeneral, 0x14, kDpTrainer, kDpParty, false};
+    return {Gen4Family::DiamondPearl, kDpGeneral, kDpGeneral, 0x14, kDpTrainer, kDpParty, false, kDpEventFlag,
+        kDpMap};
 }
 
 inline Gen4Layout ptLayout() {
-    return {Gen4Family::Platinum, kPtGeneral, kPtGeneral, 0x14, kPtTrainer, kPtParty, false};
+    return {Gen4Family::Platinum, kPtGeneral, kPtGeneral, 0x14, kPtTrainer, kPtParty, false, kPtEventFlag, kPtMap};
 }
 
 inline Gen4Layout hgssLayout() {
-    return {Gen4Family::HeartGoldSoulSilver, kHgssGeneral, kHgssStorage, 0x10, kHgssTrainer, kHgssParty, true};
+    return {Gen4Family::HeartGoldSoulSilver, kHgssGeneral, kHgssStorage, 0x10, kHgssTrainer, kHgssParty, true,
+        kHgssEventFlag, kHgssMap};
 }
 
 inline constexpr std::size_t gen4StorageBytes(bool paddedBoxes) {

@@ -5,12 +5,22 @@
 
 namespace emulocke {
 
+struct SpeciesRow;
+
 struct PackMon {
     uint16_t species;
     uint8_t level;
     uint8_t iv;
     uint16_t item;
     uint16_t moves[4];
+    uint8_t ability{};
+    uint8_t nature{};
+    uint8_t evHp{};
+    uint8_t evAtk{};
+    uint8_t evDef{};
+    uint8_t evSpe{};
+    uint8_t evSpa{};
+    uint8_t evSpd{};
 };
 
 struct PackTrainer {
@@ -42,6 +52,8 @@ struct CalcPack {
     const uint16_t* locIds;
     const PackLocation* locations;
     int locationCount;
+    const SpeciesRow* dex{};
+    int dexCount{};
 };
 
 const CalcPack* calcPack(std::string_view uuid, std::string_view variant);

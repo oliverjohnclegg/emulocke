@@ -118,4 +118,20 @@ void encodeUtf16Text(const char* src, std::span<uint8_t> dest) {
     }
 }
 
+bool utf16NamePresent(std::span<const uint8_t> src) {
+    if (src.size() < 2) {
+        return false;
+    }
+    const uint16_t first = load16(src.data());
+    if (first == 0 || first == 0xFFFF) {
+        return false;
+    }
+    for (std::size_t i = 0; i + 1 < src.size(); i += 2) {
+        if (load16(src.data() + i) == 0xFFFF) {
+            return true;
+        }
+    }
+    return false;
+}
+
 }

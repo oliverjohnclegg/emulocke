@@ -40,13 +40,26 @@ void requireSnapshotForSuite(const emulocke::GameSnapshot& snap, const char* via
         need(mon.maxHp > 0 && mon.hp <= mon.maxHp, via, "party.hp");
     }
     need(snap.boxes.current < emulocke::kMaxBoxes, via, "boxes.current");
+    int boxed = 0;
     for (int b = 0; b < emulocke::kMaxBoxes; ++b) {
         for (int s = 0; s < 30; ++s) {
             const emulocke::Mon& mon = snap.boxes.boxes[static_cast<std::size_t>(b)].mons[static_cast<std::size_t>(s)];
             if (mon.species == 0) {
                 continue;
             }
+            ++boxed;
             need(nameOk(mon.speciesName), via, "box.speciesName");
         }
     }
+    need(boxed > 0, via, "boxed.mons");
+    need(nameOk(snap.overworld.mapName), via, "mapName");
+    need(snap.gyms.slots != 0, via, "gyms.slots");
+    bool flags = false;
+    for (uint8_t b : snap.progress.flags) {
+        if (b != 0) {
+            flags = true;
+            break;
+        }
+    }
+    need(flags, via, "flags");
 }

@@ -113,6 +113,9 @@ void applyTrackerFill(TrackerLog& log, const TrackerAtlas& atlas, const GameSnap
                     log.setDefeated(stop.id, false);
                 }
             }
+            if (stop.onStarter && log.caught("starter").species != 0) {
+                log.setDefeated(stop.id, true);
+            }
             continue;
         }
         Caught row = log.caught(stop.id);
@@ -147,11 +150,25 @@ void applyTrackerFill(TrackerLog& log, const TrackerAtlas& atlas, const GameSnap
             break;
         }
     }
-    if (log.caught("starter").species != 0) {
-        const std::string_view id = atlas.id ? atlas.id : "";
-        if (id == "blaze" || id == "volt") {
-            log.setDefeated("b1", true);
-            log.setDefeated("c1", true);
+}
+
+void applyFaintDeath(TrackerLog& log, const GameSnapshot& snap) {
+    for (uint8_t i = 0; i < snap.party.count; ++i) {
+        const Mon& mon = snap.party.mons[i];
+        if (mon.species == 0 || mon.egg || mon.maxHp == 0 || mon.personality == 0) {
+            continue;
+        }
+        for (const auto& [id, row] : log.caughtRows()) {
+            if (row.personality != mon.personality) {
+                continue;
+            }
+            if (mon.hp != 0) {
+                break;
+            }
+            if (row.status == EncounterStatus::Captured || row.status == EncounterStatus::Empty) {
+                log.setStatus(id, EncounterStatus::Dead);
+            }
+            break;
         }
     }
 }

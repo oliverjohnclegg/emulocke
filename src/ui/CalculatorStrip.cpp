@@ -1,6 +1,6 @@
 #include "ui/CalculatorDraw.hpp"
 
-#include "adapter/frlg/FrlgNames.hpp"
+#include "adapter/gen45/Names.hpp"
 #include "application/Application.hpp"
 #include "calc/Dex.hpp"
 #include "poke/SpriteIndex.hpp"
@@ -59,7 +59,7 @@ void drawCalcPartyRail(Application& app, CalcSession& session) {
     for (int i = 0; i < 6; ++i) {
         const Mon* mon = snap ? &snap->party.mons[static_cast<std::size_t>(i)] : nullptr;
         const std::string slug =
-            mon && mon->species ? speciesSlug(frlgSpeciesName(mon->species)) : "";
+            mon && mon->species ? speciesSlug(mon->speciesName) : "";
         const bool dim = mon && mon->species && mon->hp == 0;
         const ImVec2 a(origin.x, origin.y + i * (kWell + 4.f));
         ImGui::SetCursorScreenPos(a);
@@ -87,7 +87,14 @@ void drawCalcFoeRail(Application& app, CalcSession& session) {
     for (int vis = 0; vis < 6; ++vis) {
         const int i = order[vis];
         const PackMon* mon = i >= 0 ? trainerMon(*pack, *t, i) : nullptr;
-        const SpeciesRow* row = mon ? speciesById(mon->species) : nullptr;
+        const char* slug = "";
+        if (mon) {
+            if (pack->dmgGen == 4 || pack->dmgGen == 5) {
+                slug = nationalSpeciesRef(mon->species).slug;
+            } else if (const SpeciesRow* row = speciesById(mon->species)) {
+                slug = row->slug;
+            }
+        }
         const ImVec2 a(origin.x, origin.y + vis * (kWell + 4.f));
         ImGui::SetCursorScreenPos(a);
         ImGui::PushID(i >= 0 ? i + 40 : vis + 40);
@@ -95,7 +102,7 @@ void drawCalcFoeRail(Application& app, CalcSession& session) {
             session.lockFoe(i);
         }
         ImGui::PopID();
-        spriteWell(app, a, row ? row->slug : "", i >= 0 && session.fainted(i),
+        spriteWell(app, a, slug, i >= 0 && session.fainted(i),
             i >= 0 && i == session.foeSlot(), i >= 0 && i == next, mon ? mon->level : 0);
     }
     ImGui::SetCursorScreenPos(ImVec2(origin.x, origin.y + 6 * (kWell + 4.f)));

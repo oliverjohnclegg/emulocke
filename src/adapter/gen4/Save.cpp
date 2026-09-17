@@ -2,10 +2,13 @@
 
 #include "adapter/ProgressFill.hpp"
 #include "adapter/gen3/Codec.hpp"
+#include "adapter/gen4/Battle.hpp"
 #include "adapter/gen45/Pk.hpp"
 
 #include <array>
+#include <cstdio>
 #include <cstring>
+#include <vector>
 
 namespace emulocke {
 namespace {
@@ -74,6 +77,26 @@ void readBoxes(const uint8_t* storage, bool padded, Boxes& boxes) {
     }
 }
 
+void fillGen4Progress(const uint8_t* general, const Gen4Layout& layout, GameSnapshot& snap) {
+    if (layout.eventFlagOff != 0) {
+        fillFlagBank(snap, general + layout.eventFlagOff, kGen4FlagBytes);
+    }
+    if (layout.mapOff != 0) {
+        const uint16_t map = load16(general + layout.mapOff);
+        snap.overworld.mapNum = static_cast<uint8_t>(map & 0xFF);
+        snap.overworld.mapGroup = static_cast<uint8_t>(map >> 8);
+        std::snprintf(snap.overworld.mapName, sizeof(snap.overworld.mapName), "MAP %u", map);
+    }
+    fillGymsFromByte(snap, general[layout.trainerOff + 0x1A]);
+    if (layout.family == Gen4Family::HeartGoldSoulSilver) {
+        static constexpr uint16_t kHg[] = {152, 155, 158};
+        fillStarterSpecies(snap, kHg);
+    } else {
+        static constexpr uint16_t kDp[] = {387, 390, 393};
+        fillStarterSpecies(snap, kDp);
+    }
+}
+
 }  // namespace
 
 int activeGen4Slot(std::span<const uint8_t> sav, const Gen4Layout& layout) {
@@ -92,22 +115,12 @@ bool readGen4Save(std::span<const uint8_t> sav, const Gen4Layout& layout, GameSn
     readTrainer(sav.data() + base, layout.trainerOff, snap.trainer);
     readParty(sav.data() + base, layout.partyOff, snap.party);
     readBoxes(sav.data() + base + layout.storageStart, layout.paddedBoxes, snap.boxes);
-    const std::size_t badgeOff = base + layout.trainerOff + 0x1A;
-    if (badgeOff < sav.size()) {
-        fillGymsFromByte(snap, sav[badgeOff]);
-    }
-    if (layout.family == Gen4Family::HeartGoldSoulSilver) {
-        static constexpr uint16_t kHg[] = {152, 155, 158};
-        fillStarterSpecies(snap, kHg);
-    } else {
-        static constexpr uint16_t kDp[] = {387, 390, 393};
-        fillStarterSpecies(snap, kDp);
-    }
+    fillGen4Progress(sav.data() + base, layout, snap);
     snap.ok = true;
     return true;
 }
 
-bool fillGen4Live(const LiveMemory& mem, uint32_t partyAddr, GameSnapshot& snap) {
+bool fillGen4Live(const LiveMemory& mem, uint32_t partyAddr, const Gen4Layout& layout, GameSnapshot& snap) {
     uint8_t count = 0;
     if (!mem.read(partyAddr - 4, {&count, 1})) {
         return false;
@@ -127,11 +140,44 @@ bool fillGen4Live(const LiveMemory& mem, uint32_t partyAddr, GameSnapshot& snap)
         }
     }
     snap.ok = valid > 0;
-    if (snap.ok) {
-        static constexpr uint16_t kStarters[] = {152, 155, 158, 387, 390, 393};
-        fillStarterSpecies(snap, kStarters);
+    if (!snap.ok) {
+        return false;
     }
-    return snap.ok;
+    const uint32_t general = partyAddr - static_cast<uint32_t>(layout.partyOff);
+    std::array<uint8_t, kGen4TrainerBytes> trainer{};
+    if (mem.read(general + static_cast<uint32_t>(layout.trainerOff), trainer)) {
+        readTrainer(trainer.data(), 0, snap.trainer);
+    }
+    std::array<uint8_t, kGen4FlagBytes> flags{};
+    if (layout.eventFlagOff != 0 &&
+        mem.read(general + static_cast<uint32_t>(layout.eventFlagOff), flags)) {
+        fillFlagBank(snap, flags.data(), flags.size());
+    }
+    uint8_t mapRaw[2]{};
+    if (layout.mapOff != 0 && mem.read(general + static_cast<uint32_t>(layout.mapOff), mapRaw)) {
+        const uint16_t map = static_cast<uint16_t>(mapRaw[0] | (mapRaw[1] << 8));
+        snap.overworld.mapNum = static_cast<uint8_t>(map & 0xFF);
+        snap.overworld.mapGroup = static_cast<uint8_t>(map >> 8);
+        std::snprintf(snap.overworld.mapName, sizeof(snap.overworld.mapName), "MAP %u", map);
+    }
+    uint8_t badge = 0;
+    if (mem.read(general + static_cast<uint32_t>(layout.trainerOff + 0x1A), {&badge, 1})) {
+        fillGymsFromByte(snap, badge);
+    }
+    const std::size_t boxBytes = gen4StorageBytes(layout.paddedBoxes);
+    std::vector<uint8_t> storage(boxBytes);
+    if (mem.read(general + static_cast<uint32_t>(layout.storageStart), storage)) {
+        readBoxes(storage.data(), layout.paddedBoxes, snap.boxes);
+    }
+    if (layout.family == Gen4Family::HeartGoldSoulSilver) {
+        static constexpr uint16_t kHg[] = {152, 155, 158};
+        fillStarterSpecies(snap, kHg);
+    } else {
+        static constexpr uint16_t kDp[] = {387, 390, 393};
+        fillStarterSpecies(snap, kDp);
+    }
+    fillGen4Battle(mem, partyAddr, layout, snap);
+    return true;
 }
 
 }

@@ -76,7 +76,9 @@
           "slug": "treecko",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 125,
+      "span": 3
     },
     {
       "id": "route-104",
@@ -106,7 +108,9 @@
           "slug": "exeggcute",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 125,
+      "span": 3
     },
     {
       "id": "route-106",
@@ -473,7 +477,9 @@
           "slug": "gardevoir",
           "lock": 390
         }
-      ]
+      ],
+      "defeat": 125,
+      "span": 3
     },
     {
       "id": "gym-4",
@@ -656,7 +662,8 @@
           "slug": "camerupt",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 139
     },
     {
       "id": "jagged-pass",
@@ -835,7 +842,8 @@
           "slug": "blastoise",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1312
     },
     {
       "id": "r2",
@@ -917,7 +925,9 @@
           "lock": 390
         }
       ],
-      "field": 2
+      "field": 2,
+      "defeat": 125,
+      "span": 3
     },
     {
       "id": "route-120",
@@ -1055,7 +1065,8 @@
           "slug": "swampert",
           "lock": 390
         }
-      ]
+      ],
+      "defeat": 851
     },
     {
       "id": "route-122",
@@ -1106,7 +1117,8 @@
           "slug": "sharpedo",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1314
     },
     {
       "id": "team-magma-hideout",
@@ -1145,7 +1157,8 @@
           "slug": "houndoom",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 117
     },
     {
       "id": "team-aqua-hideout",
@@ -1184,7 +1197,8 @@
           "slug": "gyarados",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 452
     },
     {
       "id": "route-124",
@@ -1276,7 +1290,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 117
     },
     {
       "id": "shoal-cave",
@@ -1369,7 +1384,8 @@
           "slug": "swampert",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 828
     },
     {
       "id": "route-129",
@@ -1520,7 +1536,8 @@
           "slug": "gardevoir",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 126
     },
     {
       "id": "mb2-2",
@@ -1553,7 +1570,8 @@
           "slug": "aggron",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 126
     },
     {
       "id": "route-123",
@@ -1745,7 +1763,8 @@
           "slug": "calyrex-ice",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1277
     },
     {
       "id": "ed3",
@@ -1780,7 +1799,8 @@
         }
       ],
       "field": 2,
-      "note": "You must opt in to at least two double battles from the Elite Four"
+      "note": "You must opt in to at least two double battles from the Elite Four",
+      "defeat": 1277
     },
     {
       "id": "e4",
@@ -1813,7 +1833,8 @@
           "slug": "salamence",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1278
     },
     {
       "id": "ed4",
@@ -1848,7 +1869,8 @@
         }
       ],
       "field": 2,
-      "note": "You must opt in to at least two double battles from the Elite Four"
+      "note": "You must opt in to at least two double battles from the Elite Four",
+      "defeat": 1278
     },
     {
       "id": "ec",
@@ -1881,7 +1903,8 @@
           "slug": "swampert",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2148
     }
   ]
 }

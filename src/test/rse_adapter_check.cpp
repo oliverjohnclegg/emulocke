@@ -52,6 +52,14 @@ void testRseAdapter() {
     std::array<uint8_t, emulocke::kPartyMonSize> party{};
     REQUIRE(emulocke::encryptPartyMon(mon, party));
     std::memcpy(blocks.block1.data() + emulocke::kRsePartyOff, party.data(), party.size());
+    blocks.block1[emulocke::kRseMapGroupOff] = 0;
+    blocks.block1[emulocke::kRseMapNumOff] = 16;
+    emulocke::DecryptedMon boxed = mon;
+    boxed.species = 4;
+    std::strcpy(boxed.nickname, "TORCHIC");
+    std::array<uint8_t, emulocke::kBoxMonSize> box{};
+    REQUIRE(emulocke::encryptBoxMon(boxed, box));
+    std::memcpy(blocks.storage.data() + emulocke::kRseBoxStart, box.data(), box.size());
     emulocke::encodeGen3Text("BOX 1", {blocks.storage.data() + emulocke::kRseBoxNameOff, 9});
 
     const std::vector<uint8_t> sav = emulocke::writeRseSave(blocks);
@@ -64,6 +72,11 @@ void testRseAdapter() {
     REQUIRE(snap.party.mons[0].species == 277);
     REQUIRE(std::string(snap.party.mons[0].speciesName) == "TREECKO");
     REQUIRE(snap.progress.starterSpecies == 252);
+    REQUIRE(snap.boxes.boxes[0].mons[0].species == 4);
+    REQUIRE(std::string(snap.overworld.mapName) == "MAP 0-16");
+    const emulocke::SpeciesRef tree = fromSave->species(277);
+    REQUIRE(std::string(tree.slug) == "treecko");
+    REQUIRE(tree.national == 252);
 
     blocks.block1[emulocke::kRseFlagsOffRs + emulocke::kRseBadge1Rs / 8] =
         static_cast<uint8_t>(blocks.block1[emulocke::kRseFlagsOffRs + emulocke::kRseBadge1Rs / 8] |
@@ -76,9 +89,19 @@ void testRseAdapter() {
     ewram[emulocke::kEmPartyCount - 0x02000000] = 1;
     std::memcpy(ewram.data() + (emulocke::kEmParty - 0x02000000), party.data(), party.size());
     std::memcpy(ewram.data() + (emulocke::kEmSaveBlock2 - 0x02000000), blocks.block2.data(), 32);
+    std::memcpy(ewram.data() + (emulocke::kEmSaveBlock1 - 0x02000000), blocks.block1.data(), 64);
+    std::memcpy(ewram.data() + (emulocke::kEmStorage - 0x02000000) + emulocke::kRseBoxStart, box.data(),
+        box.size());
+    emulocke::store32(ewram.data() + (emulocke::kEmBattleTypeFlags - 0x02000000), emulocke::kRseBattleTypeTrainer);
+    emulocke::store16(ewram.data() + (emulocke::kEmBattleMons - 0x02000000), 277);
+    ewram[emulocke::kEmEnemyPartyCount - 0x02000000] = 1;
     emulocke::SpanMemory mem(0x02000000, ewram);
     const emulocke::GameSnapshot live = emulocke::adapterFor(em)->readLive(mem);
     REQUIRE(live.ok);
     REQUIRE(live.party.mons[0].species == 277);
     REQUIRE(std::string(live.trainer.name) == "MAY");
+    REQUIRE(live.boxes.boxes[0].mons[0].species == 4);
+    REQUIRE(std::string(live.overworld.mapName) == "MAP 0-16");
+    REQUIRE(live.battle.inBattle);
+    REQUIRE(live.battle.player.species == 277);
 }

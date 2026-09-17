@@ -10,7 +10,7 @@ Caught TrackerLog::caught(std::string_view id) const {
     return it->second;
 }
 
-void TrackerLog::setCaught(std::string_view id, uint16_t species, uint32_t personality) {
+void TrackerLog::setCaught(std::string_view id, uint16_t species, uint32_t personality, std::string_view slug) {
     Caught& row = caught_[std::string(id)];
     if (row.species != species || row.personality != personality) {
         row.species = species;
@@ -19,6 +19,10 @@ void TrackerLog::setCaught(std::string_view id, uint16_t species, uint32_t perso
     }
     if (species != 0 && row.status == EncounterStatus::Empty) {
         row.status = EncounterStatus::Captured;
+        dirty_ = true;
+    }
+    if (!slug.empty() && row.slug != slug) {
+        row.slug = std::string(slug);
         dirty_ = true;
     }
 }

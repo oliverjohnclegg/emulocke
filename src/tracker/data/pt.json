@@ -49,7 +49,9 @@
           "slug": "turtwig",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 2030,
+      "span": 3
     },
     {
       "id": "lake-verity",
@@ -101,7 +103,9 @@
           "slug": "turtwig",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1427,
+      "span": 3
     },
     {
       "id": "oreburgh-gate",
@@ -221,7 +225,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1475
     },
     {
       "id": "eterna-forest",
@@ -284,7 +289,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1586
     },
     {
       "id": "route-206",
@@ -409,7 +415,9 @@
           "slug": "grotle",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1650,
+      "span": 3
     },
     {
       "id": "the-lost-tower",
@@ -570,7 +578,9 @@
           "slug": "grotle",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1653,
+      "span": 3
     },
     {
       "id": "gym-5",
@@ -640,7 +650,8 @@
           "slug": "murkrow",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2093
     },
     {
       "id": "fuego-ironworks",
@@ -744,7 +755,9 @@
           "slug": "torterra",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1656,
+      "span": 3
     },
     {
       "id": "gym-6",
@@ -805,7 +818,8 @@
           "slug": "toxicroak",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 227
     },
     {
       "id": "mars2",
@@ -826,7 +840,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1585
     },
     {
       "id": "route-216",
@@ -909,7 +924,8 @@
           "slug": "honchkrow",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1583
     },
     {
       "id": "sat2",
@@ -930,7 +946,8 @@
           "slug": "bronzor",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 90
     },
     {
       "id": "mnj",
@@ -963,7 +980,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1587
     },
     {
       "id": "cyr3",
@@ -992,7 +1010,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1584
     },
     {
       "id": "distortion-world",
@@ -1126,7 +1145,9 @@
           "slug": "torterra",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1659,
+      "span": 3
     },
     {
       "id": "e1",
@@ -1155,7 +1176,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1441
     },
     {
       "id": "e2",
@@ -1184,7 +1206,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1442
     },
     {
       "id": "e3",
@@ -1213,7 +1236,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1443
     },
     {
       "id": "e4",
@@ -1242,7 +1266,8 @@
           "slug": "gallade",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1444
     },
     {
       "id": "c",
@@ -1275,7 +1300,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1447
     },
     {
       "id": "snowpoint-temple",

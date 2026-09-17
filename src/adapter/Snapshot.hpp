@@ -9,7 +9,7 @@ namespace emulocke {
 
 using AdapterId = std::string_view;
 
-inline constexpr std::size_t kFlagBankBytes = 288;
+inline constexpr std::size_t kFlagBankBytes = 512;
 
 enum class SnapshotOrigin { None, Save, Live };
 
@@ -117,6 +117,7 @@ struct BattleBattler {
     int8_t stages[8]{};
     uint32_t status{};
     uint8_t partyIndex{};
+    uint8_t level{};
 };
 
 struct BattleState {
@@ -127,6 +128,11 @@ struct BattleState {
     BattleBattler foe{};
     uint16_t foeHp[6]{};
     uint16_t foeMaxHp[6]{};
+    uint16_t foeAtk[6]{};
+    uint16_t foeDef[6]{};
+    uint16_t foeSpa[6]{};
+    uint16_t foeSpd[6]{};
+    uint16_t foeSpe[6]{};
     uint16_t foeSpecies[6]{};
     uint8_t foeLevel[6]{};
     uint8_t foeCount{};

@@ -80,7 +80,9 @@
           "slug": "turtwig",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1427,
+      "span": 3
     },
     {
       "id": "oreburgh-gate",
@@ -200,7 +202,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1475
     },
     {
       "id": "eterna-forest",
@@ -263,7 +266,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1586
     },
     {
       "id": "route-206",
@@ -357,7 +361,9 @@
           "slug": "grotle",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1653,
+      "span": 3
     },
     {
       "id": "route-209",
@@ -528,7 +534,9 @@
           "slug": "grotle",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1653,
+      "span": 3
     },
     {
       "id": "route-212",
@@ -711,7 +719,9 @@
           "slug": "grotle",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1427,
+      "span": 3
     },
     {
       "id": "canalave-city",
@@ -781,7 +791,8 @@
           "slug": "bronzor",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 227
     },
     {
       "id": "mars2",
@@ -802,7 +813,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1585
     },
     {
       "id": "route-216",
@@ -894,7 +906,8 @@
           "slug": "sneasel",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1583
     },
     {
       "id": "sat2",
@@ -915,7 +928,8 @@
           "slug": "bronzor",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 90
     },
     {
       "id": "mnj",
@@ -948,7 +962,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1587
     },
     {
       "id": "cyr2",
@@ -973,7 +988,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1587
     },
     {
       "id": "route-222",
@@ -1089,7 +1105,8 @@
           "slug": "torterra",
           "lock": 393
         }
-      ]
+      ],
+      "defeat": 1790
     },
     {
       "id": "pokemon-league",
@@ -1127,7 +1144,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1441
     },
     {
       "id": "e2",
@@ -1156,7 +1174,8 @@
           "slug": "hippowdon",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1442
     },
     {
       "id": "e3",
@@ -1185,7 +1204,8 @@
           "slug": "infernape",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1443
     },
     {
       "id": "e4",
@@ -1214,7 +1234,8 @@
           "slug": "bronzong",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1444
     },
     {
       "id": "c",
@@ -1247,7 +1268,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1447
     }
   ]
 }

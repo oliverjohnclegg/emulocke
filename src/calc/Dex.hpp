@@ -32,9 +32,14 @@ struct MoveRow {
     uint8_t kind;
     uint8_t hits;
     uint8_t contact;
+    uint8_t split{255};
 };
 
 const SpeciesRow* speciesById(uint16_t id);
+const SpeciesRow* nationalDexRow(uint16_t id);
+const SpeciesRow* speciesByName(const char* name);
+const SpeciesRow* nationalDex();
+int nationalDexCount();
 const MoveRow* moveById(uint16_t id);
 Move moveFromRow(const MoveRow& row);
 

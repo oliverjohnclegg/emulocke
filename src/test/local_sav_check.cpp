@@ -32,6 +32,17 @@ void checkSav(const std::filesystem::path& path, const char* expectOt, int expec
         REQUIRE(snap.party.count > 0);
     }
     REQUIRE(snap.party.mons[0].species != 0);
+    int boxed = 0;
+    for (int b = 0; b < emulocke::kMaxBoxes; ++b) {
+        for (int s = 0; s < 30; ++s) {
+            if (snap.boxes.boxes[static_cast<std::size_t>(b)].mons[static_cast<std::size_t>(s)].species) {
+                ++boxed;
+            }
+        }
+    }
+    REQUIRE(boxed > 0);
+    REQUIRE(snap.overworld.mapName[0] != 0);
+    REQUIRE(snap.gyms.slots != 0);
     if (expectOt) {
         REQUIRE(std::string(snap.trainer.name) == expectOt);
     }

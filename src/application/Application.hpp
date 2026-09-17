@@ -9,6 +9,7 @@
 #include "emu/AudioOutput.hpp"
 #include "emu/EmuSession.hpp"
 #include "emu/Input.hpp"
+#include "emu/RamCapture.hpp"
 #include "emu/ScreenTexture.hpp"
 #include "run/BatteryWatch.hpp"
 #include "run/RomLibrary.hpp"
@@ -159,6 +160,7 @@ private:
     AudioOutput audio_;
     Prefs prefs_;
     ScreenTexture screens_[2];
+    RamCapture ramCapture_;
     std::unique_ptr<EmuSession> session_;
     std::unique_ptr<RomLibrary> romLibrary_;
     std::unique_ptr<RunStore> runStore_;

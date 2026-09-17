@@ -40,7 +40,9 @@
           "slug": "squirtle",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1606,
+      "span": 3
     },
     {
       "id": "route-1",
@@ -92,7 +94,9 @@
           "slug": "squirtle",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1609,
+      "span": 3
     },
     {
       "id": "route-2",
@@ -225,7 +229,9 @@
           "slug": "squirtle",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1612,
+      "span": 3
     },
     {
       "id": "route-25",
@@ -291,7 +297,9 @@
           "slug": "wartortle",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1706,
+      "span": 3
     },
     {
       "id": "gym-3",
@@ -447,7 +455,8 @@
           "slug": "kangaskhan",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1207
     },
     {
       "id": "r5",
@@ -500,7 +509,9 @@
           "slug": "wartortle",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1709,
+      "span": 3
     },
     {
       "id": "saffron-city",
@@ -562,7 +573,9 @@
           "slug": "blastoise",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1712,
+      "span": 3
     },
     {
       "id": "g2",
@@ -587,7 +600,8 @@
           "slug": "nidoqueen",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1207
     },
     {
       "id": "gym-6",
@@ -929,7 +943,9 @@
           "slug": "blastoise",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1715,
+      "span": 3
     },
     {
       "id": "e1",
@@ -958,7 +974,8 @@
           "slug": "lapras",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1208
     },
     {
       "id": "e2",
@@ -987,7 +1004,8 @@
           "slug": "machamp",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1209
     },
     {
       "id": "e3",
@@ -1016,7 +1034,8 @@
           "slug": "gengar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1210
     },
     {
       "id": "e4",
@@ -1045,7 +1064,8 @@
           "slug": "dragonite",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1211
     },
     {
       "id": "c",
@@ -1102,7 +1122,8 @@
           "slug": "blastoise",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1212
     },
     {
       "id": "four-island",

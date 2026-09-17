@@ -335,7 +335,9 @@
           "slug": "charmander",
           "lock": 810
         }
-      ]
+      ],
+      "defeat": 1609,
+      "span": 3
     },
     {
       "id": "viridian-city",
@@ -396,7 +398,9 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1306,
+      "span": 3
     },
     {
       "id": "mb1-hard",
@@ -425,7 +429,8 @@
           "slug": "farfetchd-galar",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1323
     },
     {
       "id": "gym-1",
@@ -526,7 +531,8 @@
           "slug": "fearow",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1322
     },
     {
       "id": "route-24",
@@ -844,7 +850,9 @@
           "slug": "charmeleon",
           "lock": 810
         }
-      ]
+      ],
+      "defeat": 1612,
+      "span": 3
     },
     {
       "id": "route-25",
@@ -887,7 +895,8 @@
           "lock": 0
         }
       ],
-      "weather": "rain"
+      "weather": "rain",
+      "defeat": 1288
     },
     {
       "id": "cerulean-city",
@@ -1024,7 +1033,9 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1306,
+      "span": 3
     },
     {
       "id": "route-11",
@@ -1066,7 +1077,8 @@
           "slug": "altaria-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1329
     },
     {
       "id": "route-9",
@@ -1127,7 +1139,8 @@
           "slug": "gengar-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1308
     },
     {
       "id": "pokemon-tower",
@@ -1240,7 +1253,8 @@
           "slug": "kangaskhan-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1349
     },
     {
       "id": "saffron-city",
@@ -1558,7 +1572,9 @@
           "slug": "charizard-mega-x",
           "lock": 810
         }
-      ]
+      ],
+      "defeat": 1712,
+      "span": 3
     },
     {
       "id": "ev3-hard",
@@ -1585,7 +1601,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "defeat": 1321
     },
     {
       "id": "ev4-hard",
@@ -1618,7 +1635,8 @@
           "slug": "kangaskhan-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1349
     },
     {
       "id": "mb5-hard",
@@ -1652,7 +1670,8 @@
           "lock": 0
         }
       ],
-      "note": "Fighting Spirit Chuck's Pokemon will Endure a hit if above 75% of max HP"
+      "note": "Fighting Spirit Chuck's Pokemon will Endure a hit if above 75% of max HP",
+      "defeat": 1597
     },
     {
       "id": "gym-5",
@@ -1746,7 +1765,9 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1306,
+      "span": 3
     },
     {
       "id": "gym-6",
@@ -1888,7 +1909,8 @@
         }
       ],
       "weather": "hail",
-      "note": "Hard ice All Pryce's Pokemon have a +50% Defense boost"
+      "note": "Hard ice All Pryce's Pokemon have a +50% Defense boost",
+      "defeat": 1338
     },
     {
       "id": "mb6b-hard",
@@ -1923,7 +1945,8 @@
         }
       ],
       "weather": "hail",
-      "note": "Hard ice All Pryce's Pokemon have a +50% Defense boost"
+      "note": "Hard ice All Pryce's Pokemon have a +50% Defense boost",
+      "defeat": 1338
     },
     {
       "id": "mb6c-hard",
@@ -1958,7 +1981,8 @@
         }
       ],
       "weather": "hail",
-      "note": "Hard ice All Pryce's Pokemon have a +50% Defense boost"
+      "note": "Hard ice All Pryce's Pokemon have a +50% Defense boost",
+      "defeat": 1338
     },
     {
       "id": "cinnabar-island",
@@ -2001,7 +2025,8 @@
           "lock": 0
         }
       ],
-      "note": "Tempered steel Jasmine's Pokemon are immune to Fire type attacks"
+      "note": "Tempered steel Jasmine's Pokemon are immune to Fire type attacks",
+      "defeat": 1309
     },
     {
       "id": "m1-hard",
@@ -2034,7 +2059,9 @@
           "slug": "blaziken-mega",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1341,
+      "span": 3
     },
     {
       "id": "pokemon-mansion",
@@ -2707,7 +2734,9 @@
           "slug": "latias",
           "lock": 810
         }
-      ]
+      ],
+      "defeat": 1715,
+      "span": 3
     },
     {
       "id": "route-23",
@@ -2750,7 +2779,9 @@
           "slug": "treecko",
           "lock": 4
         }
-      ]
+      ],
+      "defeat": 1306,
+      "span": 3
     },
     {
       "id": "e1a-hard",
@@ -2786,7 +2817,8 @@
       ],
       "field": 2,
       "weather": "rain",
-      "note": "Heavy rain Lorelei's Pokemon are immune to Fire type attacks"
+      "note": "Heavy rain Lorelei's Pokemon are immune to Fire type attacks",
+      "defeat": 1357
     },
     {
       "id": "e1b-hard",
@@ -2821,7 +2853,8 @@
         }
       ],
       "field": 2,
-      "weather": "hail"
+      "weather": "hail",
+      "defeat": 1357
     },
     {
       "id": "e2a-hard",
@@ -2855,7 +2888,8 @@
           "lock": 0
         }
       ],
-      "weather": "misty-terrain"
+      "weather": "misty-terrain",
+      "defeat": 1360
     },
     {
       "id": "e2b-hard",
@@ -2888,7 +2922,8 @@
           "slug": "medicham-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1360
     },
     {
       "id": "e3-hard",
@@ -2922,7 +2957,8 @@
           "lock": 0
         }
       ],
-      "weather": "psychic-terrain"
+      "weather": "psychic-terrain",
+      "defeat": 1363
     },
     {
       "id": "e4a-hard",
@@ -2956,7 +2992,8 @@
           "lock": 0
         }
       ],
-      "note": "Sticky terrain You can't remove hazards from the field"
+      "note": "Sticky terrain You can't remove hazards from the field",
+      "defeat": 1319
     },
     {
       "id": "e4b-hard",
@@ -2990,7 +3027,8 @@
           "lock": 0
         }
       ],
-      "note": "Sticky terrain You can't remove hazards from the field"
+      "note": "Sticky terrain You can't remove hazards from the field",
+      "defeat": 1319
     },
     {
       "id": "ec-hard",
@@ -3575,7 +3613,9 @@
           "slug": "eternatus-eternamax",
           "lock": 810
         }
-      ]
+      ],
+      "defeat": 1718,
+      "span": 3
     },
     {
       "id": "three-island",
@@ -3655,7 +3695,8 @@
         }
       ],
       "weather": "sandstorm",
-      "note": "Cushioning Super Effective moves deal 1/3 less damage to Brock's Pokemon"
+      "note": "Cushioning Super Effective moves deal 1/3 less damage to Brock's Pokemon",
+      "defeat": 1336
     },
     {
       "id": "2r-hard",
@@ -3689,7 +3730,8 @@
           "lock": 0
         }
       ],
-      "weather": "rain"
+      "weather": "rain",
+      "defeat": 1312
     },
     {
       "id": "3r-hard",
@@ -3724,7 +3766,8 @@
         }
       ],
       "weather": "electric-terrain",
-      "note": "Magnet Rise Lt. Surge's Pokemon are immune to Ground type attacks"
+      "note": "Magnet Rise Lt. Surge's Pokemon are immune to Ground type attacks",
+      "defeat": 1440
     },
     {
       "id": "4r-hard",
@@ -3758,7 +3801,8 @@
           "lock": 0
         }
       ],
-      "weather": "grassy-terrain"
+      "weather": "grassy-terrain",
+      "defeat": 1345
     },
     {
       "id": "cerulean-cave",
@@ -3796,7 +3840,8 @@
           "slug": "fearow",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1322
     },
     {
       "id": "ev6-hard",
@@ -3821,7 +3866,8 @@
           "slug": "mawile-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1321
     },
     {
       "id": "ev7-hard",
@@ -3855,7 +3901,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "defeat": 1349
     }
   ]
 }

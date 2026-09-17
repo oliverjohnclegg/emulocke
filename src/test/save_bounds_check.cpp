@@ -53,6 +53,8 @@ void checkPk45() {
     emulocke::store32(plain.data(), 0x12345678);
     emulocke::store16(plain.data() + 8, 25);
     plain[0x8C] = 7;
+    emulocke::store16(plain.data() + 0x8E, 20);
+    emulocke::store16(plain.data() + 0x90, 20);
     std::vector<uint8_t> oversized(emulocke::kPk4PartySize + 64, 0);
     REQUIRE(emulocke::encryptPk45(plain, oversized));
     const std::span<const uint8_t> encrypted(oversized);
@@ -60,9 +62,22 @@ void checkPk45() {
     REQUIRE(!emulocke::parsePk45(encrypted, false, mon));
     REQUIRE(emulocke::parsePk45(encrypted.first(emulocke::kPk4PartySize), false, mon));
     REQUIRE(mon.level == 7);
+    REQUIRE(mon.maxHp == 20);
     REQUIRE(!emulocke::parsePk45(encrypted.first(emulocke::kPkStoredSize - 1), false, mon));
     REQUIRE(emulocke::parsePk45(encrypted.first(emulocke::kPkStoredSize), false, mon));
     REQUIRE(mon.level == 0);
+
+    std::vector<uint8_t> unknown = plain;
+    emulocke::store16(unknown.data() + 8, 9000);
+    std::vector<uint8_t> unknownEnc(emulocke::kPk4PartySize, 0);
+    REQUIRE(emulocke::encryptPk45(unknown, unknownEnc));
+    REQUIRE(!emulocke::parsePk45(unknownEnc, false, mon));
+
+    std::vector<uint8_t> noHp = plain;
+    emulocke::store16(noHp.data() + 0x90, 0);
+    std::vector<uint8_t> noHpEnc(emulocke::kPk4PartySize, 0);
+    REQUIRE(emulocke::encryptPk45(noHp, noHpEnc));
+    REQUIRE(!emulocke::parsePk45(noHpEnc, false, mon));
 }
 
 }  // namespace

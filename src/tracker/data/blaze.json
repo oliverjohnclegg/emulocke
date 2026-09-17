@@ -31,7 +31,8 @@
           "slug": "tepig",
           "lock": 501
         }
-      ]
+      ],
+      "onStarter": true
     },
     {
       "id": "c1",
@@ -52,7 +53,8 @@
           "slug": "snivy",
           "lock": 501
         }
-      ]
+      ],
+      "onStarter": true
     },
     {
       "id": "route-1",
@@ -1161,7 +1163,8 @@
           "lock": 0
         }
       ],
-      "note": "Rotation Battle: This battle is a Rotation battle."
+      "note": "Rotation Battle: This battle is a Rotation battle.",
+      "gym": 8
     },
     {
       "id": "route-10",
@@ -1444,7 +1447,8 @@
           "slug": "hydreigon",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2400
     },
     {
       "id": "route-11",

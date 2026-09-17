@@ -31,7 +31,9 @@
           "slug": "beldum",
           "lock": 246
         }
-      ]
+      ],
+      "defeat": 1606,
+      "span": 3
     },
     {
       "id": "route-1",
@@ -83,7 +85,9 @@
           "slug": "beldum",
           "lock": 246
         }
-      ]
+      ],
+      "defeat": 1609,
+      "span": 3
     },
     {
       "id": "route-2",
@@ -205,7 +209,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "defeat": 1294
     },
     {
       "id": "route-5",
@@ -280,7 +285,8 @@
           "slug": "vullaby",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1306
     },
     {
       "id": "sh3-exp",
@@ -293,7 +299,8 @@
           "slug": "houndoom",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1336
     },
     {
       "id": "valley-cave",
@@ -358,7 +365,9 @@
           "slug": "metang",
           "lock": 246
         }
-      ]
+      ],
+      "defeat": 1612,
+      "span": 3
     },
     {
       "id": "route-8",
@@ -541,7 +550,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "defeat": 1294
     },
     {
       "id": "tarmigan-town",
@@ -579,7 +589,8 @@
           "slug": "altaria",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1304
     },
     {
       "id": "thundercap-mt",
@@ -617,7 +628,8 @@
           "slug": "krookodile",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1305
     },
     {
       "id": "route-12",
@@ -671,7 +683,9 @@
           "slug": "metagross",
           "lock": 246
         }
-      ]
+      ],
+      "defeat": 1706,
+      "span": 3
     },
     {
       "id": "dehara-city",
@@ -756,7 +770,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "defeat": 1294
     },
     {
       "id": "sh6-exp",
@@ -785,7 +800,8 @@
           "slug": "decidueye",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1336
     },
     {
       "id": "route-15",
@@ -899,7 +915,8 @@
           "slug": "gardevoir",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1307
     },
     {
       "id": "route-16",
@@ -1112,7 +1129,9 @@
           "slug": "metagross",
           "lock": 246
         }
-      ]
+      ],
+      "defeat": 1715,
+      "span": 3
     },
     {
       "id": "crystal-peak",
@@ -1156,7 +1175,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "defeat": 1306
     },
     {
       "id": "lr4-exp",
@@ -1189,7 +1209,8 @@
           "slug": "primarina",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1307
     },
     {
       "id": "sh7-exp",
@@ -1222,7 +1243,8 @@
           "slug": "swoobat",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1305
     },
     {
       "id": "magnolia-fields",
@@ -1329,7 +1351,8 @@
       ],
       "field": 2,
       "weather": "sandstorm",
-      "note": "Vicious Sandstorm Vicious sand causes Pokemon to lose 1/8 of max HP at the end of every turn"
+      "note": "Vicious Sandstorm Vicious sand causes Pokemon to lose 1/8 of max HP at the end of every turn",
+      "defeat": 1690
     },
     {
       "id": "e2-exp",
@@ -1363,7 +1386,8 @@
           "lock": 0
         }
       ],
-      "note": "Shadowy Veil Every Ghost-type Pokemon take half damage on full HP. Ghost-types are immune to entry hazards at full HP. Other Types cannot use Safeguard or Substitute."
+      "note": "Shadowy Veil Every Ghost-type Pokemon take half damage on full HP. Ghost-types are immune to entry hazards at full HP. Other Types cannot use Safeguard or Substitute.",
+      "defeat": 1691
     },
     {
       "id": "e3-exp",
@@ -1398,7 +1422,8 @@
         }
       ],
       "weather": "misty-terrain",
-      "note": "Fairy ring All Fairy-Type Pokemon get a +1 boost to their lowest Defense stat on switch in."
+      "note": "Fairy ring All Fairy-Type Pokemon get a +1 boost to their lowest Defense stat on switch in.",
+      "defeat": 1692
     },
     {
       "id": "e4-exp",
@@ -1433,7 +1458,8 @@
         }
       ],
       "field": 2,
-      "note": "Rainbow Battle All Dragon-type Pokemon on the field have their moves' secondary effect chance doubled. This stacks Serene Grace with the exception of flinching moves."
+      "note": "Rainbow Battle All Dragon-type Pokemon on the field have their moves' secondary effect chance doubled. This stacks Serene Grace with the exception of flinching moves.",
+      "defeat": 1693
     },
     {
       "id": "c-exp",
@@ -1467,7 +1493,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "defeat": 1319
     },
     {
       "id": "tomb-of-borrius",
@@ -1545,7 +1572,8 @@
           "slug": "diancie",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1307
     }
   ]
 }

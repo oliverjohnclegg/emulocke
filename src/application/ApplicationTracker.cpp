@@ -4,6 +4,7 @@
 #include "adapter/frlg/FrlgNames.hpp"
 #include "adapter/gen45/Names.hpp"
 #include "application/PreviewSuite.hpp"
+#include "calc/Pack.hpp"
 #include "emu/Paths.hpp"
 #include "poke/Sprites.hpp"
 #include "run/Catalog.hpp"
@@ -21,6 +22,22 @@
 #include <string_view>
 
 namespace emulocke {
+namespace {
+
+bool cartDifficultyTitle(std::string_view uuid) {
+    return uuid == kRadicalRedUuid || uuid == kUnboundUuid || uuid == kInclementEmeraldUuid ||
+        uuid == kVoltWhite2ReduxUuid;
+}
+
+const TrackerAtlas* atlasIfPacked(std::string_view uuid, std::string_view difficulty, std::string_view patch) {
+    const TrackerAtlas* atlas = trackerAtlas(uuid, difficulty, patch);
+    if (!atlas || !calcPack(uuid, difficulty)) {
+        return nullptr;
+    }
+    return atlas;
+}
+
+}  // namespace
 
 Application::Application() = default;
 Application::~Application() = default;
@@ -41,6 +58,18 @@ const GameAdapter* Application::adapter() const {
 }
 
 SpeciesRef Application::species(uint16_t id) const {
+    if (!activeRunId_.empty() && runStore_) {
+        if (const Run* run = runStore_->find(activeRunId_)) {
+            if (const CatalogTitle* title = catalogByUuid(run->catalogUuid)) {
+                if (title->kind == TitleKind::Hack) {
+                    const SpeciesRef nat = nationalSpeciesRef(id);
+                    if (nat.slug && nat.slug[0] && std::strcmp(nat.slug, "???") != 0) {
+                        return nat;
+                    }
+                }
+            }
+        }
+    }
     if (const GameAdapter* live = adapter()) {
         const SpeciesRef ref = live->species(id);
         if (ref.slug && ref.slug[0] && std::strcmp(ref.slug, "???") != 0) {
@@ -63,11 +92,14 @@ const TrackerAtlas* Application::trackerAtlas() const {
     if (!activeRunId_.empty() && runStore_) {
         const Run* run = runStore_->find(activeRunId_);
         if (run) {
-            return emulocke::trackerAtlas(run->catalogUuid, run->difficulty, run->patchOption);
+            if (const TrackerAtlas* atlas =
+                    atlasIfPacked(run->catalogUuid, run->difficulty, run->patchOption)) {
+                return atlas;
+            }
         }
     }
     if (previewTracker_) {
-        return &frlgAtlas();
+        return atlasIfPacked(kFireRedUs10Uuid, {}, {});
     }
     return nullptr;
 }
@@ -80,10 +112,10 @@ void Application::syncTracker(const GameSnapshot& snap) {
     if (!snap.ok) {
         return;
     }
+    Run* run = nullptr;
     if (!activeRunId_.empty() && runStore_) {
-        Run* run = runStore_->find(activeRunId_);
-        if (run && snap.progress.difficulty[0] &&
-            (run->catalogUuid == kRadicalRedUuid || run->catalogUuid == kUnboundUuid)) {
+        run = runStore_->find(activeRunId_);
+        if (run && snap.progress.difficulty[0] && cartDifficultyTitle(run->catalogUuid)) {
             const CatalogTitle* title = catalogByUuid(run->catalogUuid);
             const std::string_view slug = title ? title->slug : "";
             const std::string_view cart = snap.progress.difficulty;
@@ -99,6 +131,18 @@ void Application::syncTracker(const GameSnapshot& snap) {
         return;
     }
     applyTrackerFill(trackerLog_, *atlas, snap);
+    if (!run || run->rules.faintIsDeath) {
+        applyFaintDeath(trackerLog_, snap);
+    }
+    for (const auto& [id, row] : trackerLog_.caughtRows()) {
+        if (row.species == 0 || !row.slug.empty()) {
+            continue;
+        }
+        const SpeciesRef ref = species(row.species);
+        if (ref.slug && ref.slug[0]) {
+            trackerLog_.setCaught(id, row.species, row.personality, ref.slug);
+        }
+    }
 }
 
 void Application::noteLoadingPainted() {

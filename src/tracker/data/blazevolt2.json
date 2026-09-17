@@ -40,7 +40,8 @@
           "slug": "tepig",
           "lock": 495
         }
-      ]
+      ],
+      "onStarter": true
     },
     {
       "id": "route-19",
@@ -1434,7 +1435,8 @@
           "slug": "hydreigon",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2400
     },
     {
       "id": "route-23",

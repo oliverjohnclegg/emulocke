@@ -155,16 +155,26 @@ add_library(emulocke_adapter STATIC
     src/adapter/rse/RseSave.cpp
     src/adapter/rse/RseFill.cpp
     src/adapter/rse/RseLive.cpp
+    src/adapter/rse/RseBattle.cpp
     src/adapter/rse/RseAdapter.cpp
     src/adapter/gen45/Names.cpp
     src/adapter/gen45/SpeciesRef.cpp
     src/adapter/gen45/Crypto.cpp
     src/adapter/gen45/Text.cpp
     src/adapter/gen45/Parse.cpp
+    src/adapter/gen45/NdsBattle.cpp
+    src/adapter/gen45/NdsBattleParty.cpp
+    src/adapter/gen45/NdsBattleScan.cpp
     src/adapter/gen4/Save.cpp
+    src/adapter/gen4/Battle.cpp
     src/adapter/dppt/DpptAdapter.cpp
     src/adapter/hgss/HgssAdapter.cpp
     src/adapter/gen5/Save.cpp
+    src/adapter/gen5/Battle.cpp
+    src/adapter/gen5/Pokeparam.cpp
+    src/adapter/gen5/PokeparamHp.cpp
+    src/adapter/gen5/PokeparamScan.cpp
+    src/adapter/gen5/PokeparamTag.cpp
     src/adapter/bw/BwAdapter.cpp)
 target_include_directories(emulocke_adapter PUBLIC src)
 
@@ -310,6 +320,7 @@ add_executable(emulocke
     src/ui/MediaFetch.cpp
     src/emu/Paths.cpp
     src/emu/FileBytes.cpp
+    src/emu/RamCapture.cpp
     src/emu/Input.cpp
     src/emu/KeyMap.cpp
     src/emu/AudioOutput.cpp
@@ -456,7 +467,9 @@ add_executable(emulocke-adapter-check
     src/test/frlg_difficulty_check.cpp
     src/test/rse_adapter_check.cpp
     src/test/gen4_adapter_check.cpp
+    src/test/gen4_battle_check.cpp
     src/test/gen5_adapter_check.cpp
+    src/test/gen5_battle_check.cpp
     src/test/save_bounds_check.cpp
     src/test/battery_watch_check.cpp
     src/test/SnapshotContract.cpp
@@ -538,6 +551,7 @@ add_executable(emulocke-run-check
     src/test/BuildIdChecks.cpp
     src/application/BuildId.cpp
     src/emu/FileBytes.cpp
+    src/emu/RamCapture.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
     src/run/CatalogFormat.cpp
@@ -557,6 +571,7 @@ add_executable(emulocke-run-check
     src/test/patch_format_check.cpp
     src/test/patch_bounds_check.cpp
     src/test/file_bytes_check.cpp
+    src/test/ram_capture_check.cpp
     src/test/prefs_check.cpp
     src/test/cheats_check.cpp
     src/application/PrefsParse.cpp
@@ -604,7 +619,7 @@ if(EMULOCKE_FUZZ)
             target_compile_definitions(${harness} PRIVATE ${MGBA_COMPILE_DEFS})
         endif()
     endforeach()
-    foreach(harness fuzz_gen3_save fuzz_gen4_save fuzz_gen5_save fuzz_pk45)
+    foreach(harness fuzz_gen3_save fuzz_gen4_save fuzz_gen5_save fuzz_pk45 fuzz_btl_pokeparam)
         emulocke_add_fuzzer(${harness})
         target_link_libraries(${harness} PRIVATE emulocke_adapter)
     endforeach()
@@ -618,6 +633,10 @@ add_executable(emulocke-calc-pack-check src/test/calc_pack_check.cpp)
 target_include_directories(emulocke-calc-pack-check PRIVATE src)
 target_link_libraries(emulocke-calc-pack-check PRIVATE emulocke_calc)
 
+add_executable(emulocke-calc-blaze-check src/test/calc_blaze_check.cpp)
+target_include_directories(emulocke-calc-blaze-check PRIVATE src)
+target_link_libraries(emulocke-calc-blaze-check PRIVATE emulocke_calc)
+
 enable_testing()
 add_test(NAME adapter COMMAND emulocke-adapter-check)
 add_test(NAME tracker COMMAND emulocke-tracker-check)
@@ -628,6 +647,7 @@ add_test(NAME gba-host COMMAND emulocke-gba-check)
 add_test(NAME run COMMAND emulocke-run-check)
 add_test(NAME calc COMMAND emulocke-calc-check)
 add_test(NAME calc-pack COMMAND emulocke-calc-pack-check)
+add_test(NAME calc-blaze COMMAND emulocke-calc-blaze-check)
 if(EMULOCKE_SANITIZE)
     emulocke_apply_sanitizer_test_env()
 endif()
