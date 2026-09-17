@@ -238,6 +238,7 @@ flowchart LR
 | Resource | Description |
 | --- | --- |
 | [PRD.md](PRD.md) | Product decisions and V1 scope |
+| [docs/common-data.md](docs/common-data.md) | Save, live RAM, and static tables the snapshot needs |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Branch targets, AI PRs, test/CI bar |
 | [SECURITY.md](SECURITY.md) | Vulnerabilities only. Play bugs go in [Issues](https://github.com/oliverjohnclegg/emulocke/issues) |
 | [docs/security/audit-2026-09-14.md](docs/security/audit-2026-09-14.md) | 14 September 2026 host audit (21 findings, all closed) |

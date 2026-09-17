@@ -112,6 +112,7 @@ Each supported game+revision has a `GameAdapter` that translates save bytes and 
 - `GameAdapter::species(id)` returns national id, sprite slug, and display name. When that is empty, Tracker resolves national ids through the sprite index. `GameSnapshot.progress` holds starter, badges, difficulty, and flag bytes.
 - Adding a pure virtual on `GameAdapter` is how a new suite data need flags every adapter in CI.
 - If the suite needs a cart fact, add it to `GameSnapshot` and fill it in the adapter. A missing field is work, not a reason to drop the surface. Unimplemented titles leave the new fields zero.
+- Inventory of what save, live RAM, and static tables must supply: [docs/common-data.md](docs/common-data.md).
 
 ## Later host (not V1)
 
@@ -247,3 +248,4 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-15: Home and New Run never show cart status. With no run seated, the suite hides every tab except Logs.
 - 2026-09-16: Suite keyboard kit. Always-on reserved pocket around F. Esc pause. Grave aliases F8. 1-5 tabs. Tracker snap from the live map.
 - 2026-09-16: Pokémon tab top-left icons copy the party or party+box to the clipboard in Showdown format. `--preview-tracker` also opens the Pokémon tab.
+- 2026-09-15: Inventory of save, live RAM, and static game data the snapshot needs (`docs/common-data.md`).
