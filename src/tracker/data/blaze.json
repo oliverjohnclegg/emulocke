@@ -32,7 +32,8 @@
           "lock": 501
         }
       ],
-      "onStarter": true
+      "onStarter": true,
+      "cap": 5
     },
     {
       "id": "c1",
@@ -54,7 +55,8 @@
           "lock": 501
         }
       ],
-      "onStarter": true
+      "onStarter": true,
+      "cap": 5
     },
     {
       "id": "route-1",
@@ -84,7 +86,8 @@
           "slug": "mankey",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 6
     },
     {
       "id": "route-2",
@@ -118,7 +121,8 @@
           "slug": "tepig",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 10
     },
     {
       "id": "striaton-city",
@@ -152,7 +156,8 @@
           "slug": "snivy",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 12
     },
     {
       "id": "gym-1",
@@ -235,7 +240,8 @@
           "lock": 501
         }
       ],
-      "note": "Rotation Battle: This battle is a Rotation battle."
+      "note": "Rotation Battle: This battle is a Rotation battle.",
+      "cap": 14
     },
     {
       "id": "dreamyard",
@@ -294,7 +300,8 @@
           "slug": "snivy",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 16
     },
     {
       "id": "wellspring-cave",
@@ -342,7 +349,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 19
     },
     {
       "id": "gym-2",
@@ -377,7 +385,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 20
     },
     {
       "id": "pinwheel-forest",
@@ -430,7 +439,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 30
     },
     {
       "id": "b3",
@@ -472,7 +482,8 @@
           "lock": 501
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 31
     },
     {
       "id": "route-4",
@@ -527,7 +538,8 @@
           "lock": 501
         }
       ],
-      "note": "Rotation Battle: This battle is a Rotation battle."
+      "note": "Rotation Battle: This battle is a Rotation battle.",
+      "cap": 33
     },
     {
       "id": "desert-resort",
@@ -579,7 +591,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 33
     },
     {
       "id": "gym-4",
@@ -613,7 +626,8 @@
           "slug": "zebstrika",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 38
     },
     {
       "id": "route-16",
@@ -676,7 +690,8 @@
           "slug": "serperior",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 38
     },
     {
       "id": "lostlorn-forest",
@@ -740,7 +755,8 @@
           "slug": "excadrill",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 44
     },
     {
       "id": "b4",
@@ -785,7 +801,8 @@
           "slug": "emboar",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 43
     },
     {
       "id": "route-6",
@@ -836,7 +853,8 @@
           "slug": "rotom-mow",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 47
     },
     {
       "id": "route-7",
@@ -890,7 +908,8 @@
         }
       ],
       "field": 3,
-      "note": "Triple Battle: This battle is a triple battle."
+      "note": "Triple Battle: This battle is a triple battle.",
+      "cap": 56
     },
     {
       "id": "route-17",
@@ -993,7 +1012,8 @@
           "lock": 501
         }
       ],
-      "note": "Rotation Battle: This battle is a Rotation battle."
+      "note": "Rotation Battle: This battle is a Rotation battle.",
+      "cap": 55
     },
     {
       "id": "iccirus-city",
@@ -1034,7 +1054,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 63
     },
     {
       "id": "route-8",
@@ -1102,7 +1123,8 @@
         }
       ],
       "field": 3,
-      "note": "Triple Battle: This battle is a triple battle."
+      "note": "Triple Battle: This battle is a triple battle.",
+      "cap": 65
     },
     {
       "id": "moor-of-icirrus",
@@ -1164,7 +1186,8 @@
         }
       ],
       "note": "Rotation Battle: This battle is a Rotation battle.",
-      "gym": 8
+      "gym": 8,
+      "cap": 66
     },
     {
       "id": "route-10",
@@ -1230,7 +1253,8 @@
           "slug": "serperior",
           "lock": 501
         }
-      ]
+      ],
+      "cap": 68
     },
     {
       "id": "victory-road",
@@ -1270,7 +1294,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 73
     },
     {
       "id": "e2",
@@ -1304,7 +1329,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 73
     },
     {
       "id": "e3",
@@ -1338,7 +1364,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 73
     },
     {
       "id": "e4",
@@ -1372,7 +1399,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 73
     },
     {
       "id": "ns-castle",
@@ -1414,7 +1442,8 @@
           "slug": "zekrom",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 75
     },
     {
       "id": "gh",
@@ -1448,7 +1477,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2400
+      "defeat": 2400,
+      "cap": 77
     },
     {
       "id": "route-11",
@@ -1535,7 +1565,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 100
     },
     {
       "id": "undella-bay",
@@ -1604,7 +1635,8 @@
           "slug": "chandelure",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 93
     },
     {
       "id": "e6",
@@ -1637,7 +1669,8 @@
           "slug": "zoroark",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 93
     },
     {
       "id": "e7",
@@ -1670,7 +1703,8 @@
           "slug": "conkeldurr",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 93
     },
     {
       "id": "e8",
@@ -1703,7 +1737,8 @@
           "slug": "metagross",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 93
     },
     {
       "id": "ch2",
@@ -1736,7 +1771,8 @@
           "slug": "volcarona",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 100
     },
     {
       "id": "route-15",

@@ -41,7 +41,8 @@
           "lock": 495
         }
       ],
-      "onStarter": true
+      "onStarter": true,
+      "cap": 5
     },
     {
       "id": "route-19",
@@ -114,7 +115,8 @@
           "slug": "pansage",
           "lock": 495
         }
-      ]
+      ],
+      "cap": 10
     },
     {
       "id": "o1-n",
@@ -131,7 +133,8 @@
           "slug": "nosepass",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 11
     },
     {
       "id": "gym-1",
@@ -157,7 +160,8 @@
           "slug": "munchlax",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 13
     },
     {
       "id": "virbank-city",
@@ -187,7 +191,8 @@
           "slug": "makuhita",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 18
     },
     {
       "id": "gym-2",
@@ -213,7 +218,8 @@
           "slug": "whirlipede",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 20
     },
     {
       "id": "gym-3",
@@ -239,7 +245,8 @@
           "slug": "cubchoo",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 20
     },
     {
       "id": "virbank-complex",
@@ -291,7 +298,8 @@
           "slug": "manectric",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 26
     },
     {
       "id": "gym-4",
@@ -321,7 +329,8 @@
           "slug": "leavanny",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 27
     },
     {
       "id": "relic-passage",
@@ -368,7 +377,8 @@
           "slug": "porygon2",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 28
     },
     {
       "id": "desert-resort",
@@ -408,7 +418,8 @@
           "slug": "sawsbuck",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 30
     },
     {
       "id": "emin",
@@ -433,7 +444,8 @@
           "slug": "espeon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 34
     },
     {
       "id": "natros",
@@ -466,7 +478,8 @@
           "slug": "simisear",
           "lock": 495
         }
-      ]
+      ],
+      "cap": 31
     },
     {
       "id": "anville-town",
@@ -500,7 +513,8 @@
           "slug": "torkoal",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 35
     },
     {
       "id": "route-5",
@@ -557,7 +571,8 @@
           "slug": "zebstrika",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 36
     },
     {
       "id": "charles",
@@ -590,7 +605,8 @@
           "slug": "crustle",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 37
     },
     {
       "id": "driftveil-drawbridge",
@@ -646,7 +662,8 @@
           "slug": "chandelure",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 41
     },
     {
       "id": "o5-n",
@@ -671,7 +688,8 @@
           "slug": "slaking",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 42
     },
     {
       "id": "clay-tunnel",
@@ -714,7 +732,8 @@
           "slug": "krookodile",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 43
     },
     {
       "id": "r2",
@@ -759,7 +778,8 @@
           "slug": "emboar",
           "lock": 495
         }
-      ]
+      ],
+      "cap": 47
     },
     {
       "id": "mistralton-cave",
@@ -802,7 +822,8 @@
       "kind": "boss",
       "name": "Colress",
       "locale": "Twist Mountain",
-      "boss": "evilteam"
+      "boss": "evilteam",
+      "cap": 52
     },
     {
       "id": "o6-n",
@@ -831,7 +852,8 @@
           "slug": "crawdaunt",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 51
     },
     {
       "id": "gym-8",
@@ -865,7 +887,8 @@
           "slug": "archeops",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 52
     },
     {
       "id": "reversal-mountain",
@@ -895,7 +918,8 @@
           "slug": "mienshao",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 51
     },
     {
       "id": "strange-house",
@@ -970,7 +994,8 @@
           "slug": "lilligant",
           "lock": 495
         }
-      ]
+      ],
+      "cap": 54
     },
     {
       "id": "undella-bay",
@@ -1045,7 +1070,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 56
     },
     {
       "id": "route-12",
@@ -1079,7 +1105,8 @@
           "slug": "conkeldurr",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 56
     },
     {
       "id": "village-bridge",
@@ -1139,7 +1166,8 @@
           "slug": "tropius",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 59
     },
     {
       "id": "gym-9",
@@ -1173,7 +1201,8 @@
           "slug": "salamence",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 61
     },
     {
       "id": "zinz2",
@@ -1203,7 +1232,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 60
     },
     {
       "id": "route-21",
@@ -1247,7 +1277,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 63
     },
     {
       "id": "gym-10",
@@ -1281,7 +1312,8 @@
           "slug": "bibarel",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 64
     },
     {
       "id": "route-22",
@@ -1329,7 +1361,8 @@
           "slug": "carnivine",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 64
     },
     {
       "id": "zinz4-n",
@@ -1363,7 +1396,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 66
     },
     {
       "id": "col3-n",
@@ -1396,7 +1430,8 @@
           "slug": "klinklang",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 66
     },
     {
       "id": "giants-chasm",
@@ -1436,7 +1471,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2400
+      "defeat": 2400,
+      "cap": 68
     },
     {
       "id": "route-23",
@@ -1478,7 +1514,8 @@
           "slug": "jynx",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 72
     },
     {
       "id": "o9-sun",
@@ -1511,7 +1548,8 @@
           "slug": "victreebel",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 72
     },
     {
       "id": "o9-rain",
@@ -1544,7 +1582,8 @@
           "slug": "kingdra",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 72
     },
     {
       "id": "o9-sand",
@@ -1577,7 +1616,8 @@
           "slug": "nidoking",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 72
     },
     {
       "id": "victory-road",
@@ -1640,7 +1680,8 @@
           "slug": "lilligant",
           "lock": 495
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "e1-n",
@@ -1673,7 +1714,8 @@
           "slug": "chandelure",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 74
     },
     {
       "id": "e2-n",
@@ -1706,7 +1748,8 @@
           "slug": "bisharp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 74
     },
     {
       "id": "e3-n",
@@ -1739,7 +1782,8 @@
           "slug": "metagross",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 74
     },
     {
       "id": "e4-n",
@@ -1772,7 +1816,8 @@
           "slug": "conkeldurr",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 74
     },
     {
       "id": "champ-n",
@@ -1805,7 +1850,8 @@
           "slug": "haxorus",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 75
     },
     {
       "id": "moor-of-icirrus",

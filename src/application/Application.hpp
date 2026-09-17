@@ -18,6 +18,8 @@
 #include "run/TitlePlay.hpp"
 #include "tracker/Log.hpp"
 #include "ui/GameArtGpu.hpp"
+#include "ui/KitFocus.hpp"
+#include "ui/KitKeys.hpp"
 
 #include <atomic>
 #include <cstdint>
@@ -124,6 +126,9 @@ public:
     void removeCheat(std::string_view id);
     void setCheatEnabled(std::string_view id, bool on);
     const std::string& cheatError() const { return cheatError_; }
+    const KitFrame& kit() const { return kit_; }
+    KitFocus& kitFocus() { return kitFocus_; }
+    const KitFocus& kitFocus() const { return kitFocus_; }
 
 private:
     void startEmuThread();
@@ -221,6 +226,8 @@ private:
     CalcSession calc_{};
     bool previewCalc_{};
     bool previewCalcSelect_{};
+    KitFrame kit_{};
+    KitFocus kitFocus_{};
 };
 
 }

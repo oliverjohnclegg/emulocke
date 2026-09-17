@@ -9,11 +9,16 @@
 
 namespace emulocke {
 
-void paintTrackerRow(float w) {
+void paintTrackerRow(float w, bool focus) {
     const ImVec2 origin = ImGui::GetCursorScreenPos();
     ImDrawList* dl = ImGui::GetWindowDrawList();
-    dl->AddRectFilled(origin, ImVec2(origin.x + w, origin.y + kTrackerRowH), ImGui::GetColorU32(kScreenWell));
+    dl->AddRectFilled(origin, ImVec2(origin.x + w, origin.y + kTrackerRowH),
+        ImGui::GetColorU32(focus ? kHeaderHover : kScreenWell));
     dl->AddRect(origin, ImVec2(origin.x + w, origin.y + kTrackerRowH), ImGui::GetColorU32(kBorder));
+    if (focus) {
+        dl->AddRect(origin, ImVec2(origin.x + w, origin.y + kTrackerRowH), ImGui::GetColorU32(kMetal), 0.f, 0,
+            1.8f);
+    }
 }
 
 void drawKindMark(const TrackerStop& stop) {

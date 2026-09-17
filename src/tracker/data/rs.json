@@ -60,7 +60,8 @@
         }
       ],
       "defeat": 130,
-      "span": 3
+      "span": 3,
+      "cap": 5
     },
     {
       "id": "route-102",
@@ -124,7 +125,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2055
+      "defeat": 2055,
+      "cap": 15
     },
     {
       "id": "route-116",
@@ -179,7 +181,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2056
+      "defeat": 2056,
+      "cap": 18
     },
     {
       "id": "route-106",
@@ -280,7 +283,8 @@
         }
       ],
       "defeat": 125,
-      "span": 3
+      "span": 3,
+      "cap": 20
     },
     {
       "id": "altering-cave",
@@ -313,7 +317,8 @@
           "lock": 0
         }
       ],
-      "defeat": 190
+      "defeat": 190,
+      "cap": 17
     },
     {
       "id": "gym-3",
@@ -336,7 +341,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2057
+      "defeat": 2057,
+      "cap": 23
     },
     {
       "id": "route-117",
@@ -432,7 +438,8 @@
           "lock": 0
         }
       ],
-      "defeat": 139
+      "defeat": 139,
+      "cap": 20
     },
     {
       "id": "max1",
@@ -454,7 +461,8 @@
           "lock": 0
         }
       ],
-      "defeat": 139
+      "defeat": 139,
+      "cap": 25
     },
     {
       "id": "lavaridge-town",
@@ -486,7 +494,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2058
+      "defeat": 2058,
+      "cap": 28
     },
     {
       "id": "fiery-path",
@@ -537,7 +546,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2059
+      "defeat": 2059,
+      "cap": 31
     },
     {
       "id": "route-118",
@@ -573,7 +583,8 @@
           "lock": 0
         }
       ],
-      "defeat": 893
+      "defeat": 893,
+      "cap": 28
     },
     {
       "id": "r3",
@@ -619,7 +630,8 @@
           "lock": 258
         }
       ],
-      "defeat": 851
+      "defeat": 851,
+      "cap": 31
     },
     {
       "id": "fortree-city",
@@ -655,7 +667,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2060
+      "defeat": 2060,
+      "cap": 33
     },
     {
       "id": "route-120",
@@ -769,7 +782,8 @@
           "lock": 258
         }
       ],
-      "defeat": 971
+      "defeat": 971,
+      "cap": 34
     },
     {
       "id": "ruby3",
@@ -791,7 +805,8 @@
           "lock": 0
         }
       ],
-      "defeat": 139
+      "defeat": 139,
+      "cap": 32
     },
     {
       "id": "route-124",
@@ -829,7 +844,8 @@
         }
       ],
       "defeat": 2061,
-      "field": 2
+      "field": 2,
+      "cap": 42
     },
     {
       "id": "route-125",
@@ -892,7 +908,8 @@
           "lock": 0
         }
       ],
-      "defeat": 829
+      "defeat": 829,
+      "cap": 38
     },
     {
       "id": "max2",
@@ -914,7 +931,8 @@
           "lock": 0
         }
       ],
-      "defeat": 829
+      "defeat": 829,
+      "cap": 43
     },
     {
       "id": "route-126",
@@ -972,7 +990,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2062
+      "defeat": 2062,
+      "cap": 43
     },
     {
       "id": "route-108",
@@ -1111,7 +1130,8 @@
           "lock": 0
         }
       ],
-      "defeat": 126
+      "defeat": 126,
+      "cap": 45
     },
     {
       "id": "e1",
@@ -1141,7 +1161,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1245
+      "defeat": 1245,
+      "cap": 49
     },
     {
       "id": "e2",
@@ -1171,7 +1192,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1246
+      "defeat": 1246,
+      "cap": 51
     },
     {
       "id": "e3",
@@ -1201,7 +1223,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1247
+      "defeat": 1247,
+      "cap": 53
     },
     {
       "id": "e4",
@@ -1231,7 +1254,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1248
+      "defeat": 1248,
+      "cap": 54
     },
     {
       "id": "c",
@@ -1265,7 +1289,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2148
+      "defeat": 2148,
+      "cap": 58
     },
     {
       "id": "sky-pillar",

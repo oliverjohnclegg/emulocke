@@ -106,6 +106,8 @@ const TrackerAtlas* Application::trackerAtlas() const {
 
 void Application::seedPreviewTracker() {
     seedPreviewSuite(trackerLog_, snapshot_);
+    kitFocus_.tab = KitTab::Tracker;
+    kitFocus_.pendingTab = 1;
 }
 
 void Application::syncTracker(const GameSnapshot& snap) {

@@ -145,7 +145,7 @@ def emit_atlas(data, sprite):
             f"{cpp_str(stop['id'])}, emulocke::TrackerStopKind::{kind}, {cpp_str(stop['name'])}, "
             f"{cpp_str(stop.get('locale') or '')}, emulocke::BossKind::{bk}, "
             f"emulocke::CatchKind::{catch}, {met_sym}, {met_count}, {team_sym}, {team_count}, "
-            f"{defeat}, {span}, {gym}, {field}, {tag}, {weather}, {note}, {on_starter}"
+            f"{defeat}, {span}, {gym}, {int(stop.get('cap') or 0)}, {field}, {tag}, {weather}, {note}, {on_starter}"
             "}"
         )
     starters = [int(x) for x in data.get("starters") or []]

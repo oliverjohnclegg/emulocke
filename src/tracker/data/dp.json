@@ -82,7 +82,8 @@
         }
       ],
       "defeat": 1427,
-      "span": 3
+      "span": 3,
+      "cap": 9
     },
     {
       "id": "oreburgh-gate",
@@ -122,7 +123,8 @@
           "slug": "cranidos",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 14
     },
     {
       "id": "oreburgh-mine",
@@ -203,7 +205,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1475
+      "defeat": 1475,
+      "cap": 16
     },
     {
       "id": "eterna-forest",
@@ -249,7 +252,8 @@
           "slug": "roserade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 22
     },
     {
       "id": "jup1",
@@ -267,7 +271,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1586
+      "defeat": 1586,
+      "cap": 20
     },
     {
       "id": "route-206",
@@ -363,7 +368,8 @@
         }
       ],
       "defeat": 1653,
-      "span": 3
+      "span": 3,
+      "cap": 21
     },
     {
       "id": "route-209",
@@ -436,7 +442,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 30
     },
     {
       "id": "trophy-garden",
@@ -485,7 +492,8 @@
           "slug": "floatzel",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 30
     },
     {
       "id": "b3",
@@ -536,7 +544,8 @@
         }
       ],
       "defeat": 1653,
-      "span": 3
+      "span": 3,
+      "cap": 28
     },
     {
       "id": "route-212",
@@ -624,7 +633,8 @@
           "slug": "mismagius",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 36
     },
     {
       "id": "fuego-ironworks",
@@ -721,7 +731,8 @@
         }
       ],
       "defeat": 1427,
-      "span": 3
+      "span": 3,
+      "cap": 35
     },
     {
       "id": "canalave-city",
@@ -761,7 +772,8 @@
           "slug": "bastiodon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 39
     },
     {
       "id": "route-211",
@@ -792,7 +804,8 @@
           "lock": 0
         }
       ],
-      "defeat": 227
+      "defeat": 227,
+      "cap": 37
     },
     {
       "id": "mars2",
@@ -814,7 +827,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1585
+      "defeat": 1585,
+      "cap": 39
     },
     {
       "id": "route-216",
@@ -885,7 +899,8 @@
           "slug": "abomasnow",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 42
     },
     {
       "id": "cyr1",
@@ -907,7 +922,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1583
+      "defeat": 1583,
+      "cap": 43
     },
     {
       "id": "sat2",
@@ -929,7 +945,8 @@
           "lock": 0
         }
       ],
-      "defeat": 90
+      "defeat": 90,
+      "cap": 40
     },
     {
       "id": "mnj",
@@ -963,7 +980,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1587
+      "defeat": 1587,
+      "cap": 46
     },
     {
       "id": "cyr2",
@@ -989,7 +1007,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1587
+      "defeat": 1587,
+      "cap": 48
     },
     {
       "id": "route-222",
@@ -1033,7 +1052,8 @@
           "slug": "luxray",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 49
     },
     {
       "id": "route-223",
@@ -1106,7 +1126,8 @@
           "lock": 393
         }
       ],
-      "defeat": 1790
+      "defeat": 1790,
+      "cap": 53
     },
     {
       "id": "pokemon-league",
@@ -1145,7 +1166,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1441
+      "defeat": 1441,
+      "cap": 57
     },
     {
       "id": "e2",
@@ -1175,7 +1197,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1442
+      "defeat": 1442,
+      "cap": 59
     },
     {
       "id": "e3",
@@ -1205,7 +1228,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1443
+      "defeat": 1443,
+      "cap": 61
     },
     {
       "id": "e4",
@@ -1235,7 +1259,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1444
+      "defeat": 1444,
+      "cap": 63
     },
     {
       "id": "c",
@@ -1269,7 +1294,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1447
+      "defeat": 1447,
+      "cap": 66
     }
   ]
 }

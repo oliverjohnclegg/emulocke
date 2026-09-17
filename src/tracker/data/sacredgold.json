@@ -123,7 +123,8 @@
           "lock": 0
         }
       ],
-      "defeat": 739
+      "defeat": 739,
+      "cap": 14
     },
     {
       "id": "gym-1",
@@ -157,7 +158,8 @@
           "slug": "pidgeotto",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 15
     },
     {
       "id": "route-32",
@@ -237,7 +239,8 @@
           "lock": 0
         }
       ],
-      "defeat": 123
+      "defeat": 123,
+      "cap": 18
     },
     {
       "id": "gym-2",
@@ -271,7 +274,8 @@
           "slug": "scyther",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 21
     },
     {
       "id": "rn1",
@@ -305,7 +309,8 @@
           "lock": 155
         }
       ],
-      "defeat": 784
+      "defeat": 784,
+      "cap": 21
     },
     {
       "id": "ilex-forest",
@@ -366,7 +371,8 @@
           "slug": "miltank",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 24
     },
     {
       "id": "ethan",
@@ -391,7 +397,8 @@
           "slug": "arcanine",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 23
     },
     {
       "id": "lyra",
@@ -416,7 +423,8 @@
           "slug": "ninetales",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 23
     },
     {
       "id": "route-35",
@@ -516,7 +524,8 @@
           "lock": 155
         }
       ],
-      "defeat": 454
+      "defeat": 454,
+      "cap": 27
     },
     {
       "id": "bell-tower",
@@ -559,7 +568,8 @@
           "slug": "gengar",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 29
     },
     {
       "id": "route-38",
@@ -648,7 +658,8 @@
           "lock": 0
         }
       ],
-      "defeat": 455
+      "defeat": 455,
+      "cap": 34
     },
     {
       "id": "gym-5",
@@ -682,7 +693,8 @@
           "slug": "poliwrath",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 35
     },
     {
       "id": "gym-6",
@@ -716,7 +728,8 @@
           "slug": "steelix",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 40
     },
     {
       "id": "route-47",
@@ -751,7 +764,8 @@
           "lock": 0
         }
       ],
-      "defeat": 499
+      "defeat": 499,
+      "cap": 38
     },
     {
       "id": "cliff-cave",
@@ -786,7 +800,8 @@
           "lock": 0
         }
       ],
-      "defeat": 500
+      "defeat": 500,
+      "cap": 37
     },
     {
       "id": "route-48",
@@ -826,7 +841,8 @@
           "lock": 0
         }
       ],
-      "defeat": 198
+      "defeat": 198,
+      "cap": 39
     },
     {
       "id": "route-42",
@@ -881,7 +897,8 @@
           "lock": 0
         }
       ],
-      "defeat": 499
+      "defeat": 499,
+      "cap": 43
     },
     {
       "id": "petrel2",
@@ -911,7 +928,8 @@
           "lock": 0
         }
       ],
-      "defeat": 500
+      "defeat": 500,
+      "cap": 43
     },
     {
       "id": "route-43",
@@ -963,7 +981,8 @@
           "slug": "mamoswine",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 43
     },
     {
       "id": "petrel3",
@@ -997,7 +1016,8 @@
           "lock": 0
         }
       ],
-      "defeat": 198
+      "defeat": 198,
+      "cap": 45
     },
     {
       "id": "proton2",
@@ -1031,7 +1051,8 @@
           "lock": 0
         }
       ],
-      "defeat": 198
+      "defeat": 198,
+      "cap": 46
     },
     {
       "id": "ariana3",
@@ -1065,7 +1086,8 @@
           "lock": 0
         }
       ],
-      "defeat": 198
+      "defeat": 198,
+      "cap": 47
     },
     {
       "id": "archer2",
@@ -1099,7 +1121,8 @@
           "lock": 0
         }
       ],
-      "defeat": 198
+      "defeat": 198,
+      "cap": 48
     },
     {
       "id": "evg",
@@ -1133,7 +1156,8 @@
           "lock": 0
         }
       ],
-      "defeat": 198
+      "defeat": 198,
+      "cap": 50
     },
     {
       "id": "r1",
@@ -1191,7 +1215,8 @@
           "lock": 155
         }
       ],
-      "defeat": 412
+      "defeat": 412,
+      "cap": 46
     },
     {
       "id": "route-44",
@@ -1258,7 +1283,8 @@
           "slug": "kingdra",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "route-45",
@@ -1332,7 +1358,8 @@
           "lock": 0
         }
       ],
-      "defeat": 572
+      "defeat": 572,
+      "cap": 50
     },
     {
       "id": "victory-road",
@@ -1396,7 +1423,8 @@
           "lock": 155
         }
       ],
-      "defeat": 522
+      "defeat": 522,
+      "cap": 53
     },
     {
       "id": "indigo-plateau",
@@ -1439,7 +1467,8 @@
           "lock": 0
         }
       ],
-      "defeat": 228
+      "defeat": 228,
+      "cap": 55
     },
     {
       "id": "e2",
@@ -1473,7 +1502,8 @@
           "lock": 0
         }
       ],
-      "defeat": 229
+      "defeat": 229,
+      "cap": 55
     },
     {
       "id": "e3",
@@ -1507,7 +1537,8 @@
           "lock": 0
         }
       ],
-      "defeat": 230
+      "defeat": 230,
+      "cap": 55
     },
     {
       "id": "e4",
@@ -1541,7 +1572,8 @@
           "lock": 0
         }
       ],
-      "defeat": 231
+      "defeat": 231,
+      "cap": 55
     },
     {
       "id": "c",
@@ -1575,7 +1607,8 @@
           "lock": 0
         }
       ],
-      "defeat": 231
+      "defeat": 231,
+      "cap": 60
     },
     {
       "id": "vermillion-city",
@@ -1615,7 +1648,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2470
+      "defeat": 2470,
+      "cap": 63
     },
     {
       "id": "route-6",
@@ -1667,7 +1701,8 @@
           "lock": 0
         }
       ],
-      "defeat": 386
+      "defeat": 386,
+      "cap": 66
     },
     {
       "id": "route-7",
@@ -1719,7 +1754,8 @@
           "lock": 0
         }
       ],
-      "defeat": 292
+      "defeat": 292,
+      "cap": 65
     },
     {
       "id": "route-16",
@@ -1786,7 +1822,8 @@
           "lock": 0
         }
       ],
-      "defeat": 301
+      "defeat": 301,
+      "cap": 64
     },
     {
       "id": "route-15",
@@ -1928,7 +1965,8 @@
           "lock": 0
         }
       ],
-      "defeat": 384
+      "defeat": 384,
+      "cap": 62
     },
     {
       "id": "rock-tunnel",
@@ -2013,7 +2051,8 @@
           "lock": 0
         }
       ],
-      "defeat": 383
+      "defeat": 383,
+      "cap": 61
     },
     {
       "id": "route-3",
@@ -2089,7 +2128,8 @@
           "lock": 155
         }
       ],
-      "defeat": 592
+      "defeat": 592,
+      "cap": 60
     },
     {
       "id": "viridian-forest",
@@ -2195,7 +2235,8 @@
           "lock": 0
         }
       ],
-      "defeat": 381
+      "defeat": 381,
+      "cap": 68
     },
     {
       "id": "k8",
@@ -2229,7 +2270,8 @@
           "lock": 0
         }
       ],
-      "defeat": 382
+      "defeat": 382,
+      "cap": 70
     },
     {
       "id": "route-19",
@@ -2308,7 +2350,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1620
+      "defeat": 1620,
+      "cap": 94
     }
   ]
 }

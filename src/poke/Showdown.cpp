@@ -116,4 +116,11 @@ std::string exportSet(const Mon& mon, SpeciesRef ref, bool gen3) {
     return out;
 }
 
+void appendSet(std::string& team, const Mon& mon, SpeciesRef ref, bool gen3) {
+    if (!team.empty()) {
+        team += '\n';
+    }
+    team += exportSet(mon, ref, gen3);
+}
+
 }  // namespace emulocke

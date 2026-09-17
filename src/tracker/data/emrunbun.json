@@ -78,7 +78,8 @@
         }
       ],
       "defeat": 125,
-      "span": 3
+      "span": 3,
+      "cap": 5
     },
     {
       "id": "route-104",
@@ -110,7 +111,8 @@
         }
       ],
       "defeat": 125,
-      "span": 3
+      "span": 3,
+      "cap": 12
     },
     {
       "id": "route-106",
@@ -173,7 +175,8 @@
           "slug": "tirtouga",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 16
     },
     {
       "id": "aq3",
@@ -194,7 +197,8 @@
           "slug": "whirlipede",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 16
     },
     {
       "id": "dewford-town",
@@ -238,7 +242,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2151
+      "defeat": 2151,
+      "cap": 21
     },
     {
       "id": "petalburg-woods",
@@ -309,7 +314,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2152
+      "defeat": 2152,
+      "cap": 25
     },
     {
       "id": "rusturf-tunnel",
@@ -360,7 +366,8 @@
           "slug": "delcatty",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 32
     },
     {
       "id": "route-110",
@@ -404,7 +411,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2153
+      "defeat": 2153,
+      "cap": 35
     },
     {
       "id": "r1",
@@ -479,7 +487,8 @@
         }
       ],
       "defeat": 125,
-      "span": 3
+      "span": 3,
+      "cap": 38
     },
     {
       "id": "gym-4",
@@ -514,7 +523,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2154
+      "defeat": 2154,
+      "cap": 42
     },
     {
       "id": "route-111",
@@ -574,7 +584,8 @@
           "slug": "aggron",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 48
     },
     {
       "id": "desert-underpass",
@@ -663,7 +674,8 @@
           "lock": 0
         }
       ],
-      "defeat": 139
+      "defeat": 139,
+      "cap": 54
     },
     {
       "id": "jagged-pass",
@@ -718,7 +730,8 @@
         }
       ],
       "defeat": 2155,
-      "field": 2
+      "field": 2,
+      "cap": 58
     },
     {
       "id": "route-134",
@@ -843,7 +856,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1312
+      "defeat": 1312,
+      "cap": 65
     },
     {
       "id": "r2",
@@ -927,7 +941,8 @@
       ],
       "field": 2,
       "defeat": 125,
-      "span": 3
+      "span": 3,
+      "cap": 66
     },
     {
       "id": "route-120",
@@ -980,7 +995,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2156
+      "defeat": 2156,
+      "cap": 70
     },
     {
       "id": "route-121",
@@ -1066,7 +1082,8 @@
           "lock": 390
         }
       ],
-      "defeat": 851
+      "defeat": 851,
+      "cap": 73
     },
     {
       "id": "route-122",
@@ -1118,7 +1135,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1314
+      "defeat": 1314,
+      "cap": 77
     },
     {
       "id": "team-magma-hideout",
@@ -1158,7 +1176,8 @@
           "lock": 0
         }
       ],
-      "defeat": 117
+      "defeat": 117,
+      "cap": 80
     },
     {
       "id": "team-aqua-hideout",
@@ -1198,7 +1217,8 @@
           "lock": 0
         }
       ],
-      "defeat": 452
+      "defeat": 452,
+      "cap": 82
     },
     {
       "id": "route-124",
@@ -1269,7 +1289,8 @@
         }
       ],
       "defeat": 2157,
-      "note": "This is a consecutive fight with no healing between Tate & Liza"
+      "note": "This is a consecutive fight with no healing between Tate & Liza",
+      "cap": 86
     },
     {
       "id": "mg3",
@@ -1291,7 +1312,8 @@
           "lock": 0
         }
       ],
-      "defeat": 117
+      "defeat": 117,
+      "cap": 89
     },
     {
       "id": "shoal-cave",
@@ -1385,7 +1407,8 @@
           "lock": 0
         }
       ],
-      "defeat": 828
+      "defeat": 828,
+      "cap": 90
     },
     {
       "id": "route-129",
@@ -1457,7 +1480,8 @@
         }
       ],
       "defeat": 2158,
-      "field": 2
+      "field": 2,
+      "cap": 93
     },
     {
       "id": "pacifidlog-town",
@@ -1537,7 +1561,8 @@
           "lock": 0
         }
       ],
-      "defeat": 126
+      "defeat": 126,
+      "cap": 95
     },
     {
       "id": "mb2-2",
@@ -1624,7 +1649,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1275
+      "defeat": 1275,
+      "cap": 100
     },
     {
       "id": "ed1",
@@ -1660,7 +1686,8 @@
       ],
       "defeat": 1276,
       "field": 2,
-      "note": "You must opt in to at least two double battles from the Elite Four"
+      "note": "You must opt in to at least two double battles from the Elite Four",
+      "cap": 100
     },
     {
       "id": "e2",
@@ -1694,7 +1721,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1277
+      "defeat": 1277,
+      "cap": 100
     },
     {
       "id": "ed2",
@@ -1730,7 +1758,8 @@
       ],
       "defeat": 1278,
       "field": 2,
-      "note": "You must opt in to at least two double battles from the Elite Four"
+      "note": "You must opt in to at least two double battles from the Elite Four",
+      "cap": 100
     },
     {
       "id": "e3",
@@ -1764,7 +1793,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1277
+      "defeat": 1277,
+      "cap": 100
     },
     {
       "id": "ed3",
@@ -1800,7 +1830,8 @@
       ],
       "field": 2,
       "note": "You must opt in to at least two double battles from the Elite Four",
-      "defeat": 1277
+      "defeat": 1277,
+      "cap": 100
     },
     {
       "id": "e4",
@@ -1834,7 +1865,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1278
+      "defeat": 1278,
+      "cap": 100
     },
     {
       "id": "ed4",
@@ -1870,7 +1902,8 @@
       ],
       "field": 2,
       "note": "You must opt in to at least two double battles from the Elite Four",
-      "defeat": 1278
+      "defeat": 1278,
+      "cap": 100
     },
     {
       "id": "ec",
@@ -1904,7 +1937,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2148
+      "defeat": 2148,
+      "cap": 100
     }
   ]
 }

@@ -51,7 +51,8 @@
         }
       ],
       "defeat": 2030,
-      "span": 3
+      "span": 3,
+      "cap": 5
     },
     {
       "id": "lake-verity",
@@ -109,7 +110,8 @@
         }
       ],
       "defeat": 1427,
-      "span": 3
+      "span": 3,
+      "cap": 11
     },
     {
       "id": "oreburgh-gate",
@@ -161,7 +163,8 @@
           "slug": "cranidos",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 16
     },
     {
       "id": "oreburgh-mine",
@@ -268,7 +271,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1475
+      "defeat": 1475,
+      "cap": 19
     },
     {
       "id": "eterna-forest",
@@ -303,7 +307,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1788
+      "defeat": 1788,
+      "cap": 20
     },
     {
       "id": "the-old-chateau",
@@ -352,7 +357,8 @@
           "slug": "roserade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 26
     },
     {
       "id": "jup1",
@@ -378,7 +384,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1586
+      "defeat": 1586,
+      "cap": 27
     },
     {
       "id": "eterna-building",
@@ -418,7 +425,8 @@
           "lock": 387
         }
       ],
-      "defeat": 1793
+      "defeat": 1793,
+      "cap": 30
     },
     {
       "id": "d1",
@@ -452,7 +460,8 @@
           "lock": 387
         }
       ],
-      "defeat": 1796
+      "defeat": 1796,
+      "cap": 30
     },
     {
       "id": "route-206",
@@ -496,7 +505,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1792
+      "defeat": 1792,
+      "cap": 28
     },
     {
       "id": "mt-coronet",
@@ -544,7 +554,8 @@
           "lock": 0
         }
       ],
-      "defeat": 92
+      "defeat": 92,
+      "cap": 32
     },
     {
       "id": "gym-3",
@@ -578,7 +589,8 @@
           "slug": "mismagius",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 33
     },
     {
       "id": "b3",
@@ -613,7 +625,8 @@
         }
       ],
       "defeat": 1653,
-      "span": 3
+      "span": 3,
+      "cap": 33
     },
     {
       "id": "sat1",
@@ -647,7 +660,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1589
+      "defeat": 1589,
+      "cap": 34
     },
     {
       "id": "route-209",
@@ -732,7 +746,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 39
     },
     {
       "id": "d2",
@@ -782,7 +797,8 @@
           "lock": 387
         }
       ],
-      "defeat": 1796
+      "defeat": 1796,
+      "cap": 45
     },
     {
       "id": "l2",
@@ -832,7 +848,8 @@
           "lock": 387
         }
       ],
-      "defeat": 1793
+      "defeat": 1793,
+      "cap": 45
     },
     {
       "id": "route-214",
@@ -939,7 +956,8 @@
         }
       ],
       "defeat": 1653,
-      "span": 3
+      "span": 3,
+      "cap": 42
     },
     {
       "id": "gym-5",
@@ -974,7 +992,8 @@
           "lock": 0
         }
       ],
-      "weather": "rain"
+      "weather": "rain",
+      "cap": 44
     },
     {
       "id": "route-212",
@@ -1027,7 +1046,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2093
+      "defeat": 2093,
+      "cap": 46
     },
     {
       "id": "fuego-ironworks",
@@ -1097,7 +1117,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2085
+      "defeat": 2085,
+      "cap": 48
     },
     {
       "id": "route-218",
@@ -1174,7 +1195,8 @@
         }
       ],
       "defeat": 1656,
-      "span": 3
+      "span": 3,
+      "cap": 49
     },
     {
       "id": "iron-island",
@@ -1217,7 +1239,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1789
+      "defeat": 1789,
+      "cap": 50
     },
     {
       "id": "gym-6",
@@ -1251,7 +1274,8 @@
           "slug": "bastiodon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 53
     },
     {
       "id": "route-211",
@@ -1290,7 +1314,8 @@
           "lock": 0
         }
       ],
-      "defeat": 227
+      "defeat": 227,
+      "cap": 53
     },
     {
       "id": "mars2",
@@ -1320,7 +1345,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1585
+      "defeat": 1585,
+      "cap": 53
     },
     {
       "id": "route-216",
@@ -1399,7 +1425,8 @@
           "slug": "froslass",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 56
     },
     {
       "id": "cyr2",
@@ -1429,7 +1456,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1583
+      "defeat": 1583,
+      "cap": 58
     },
     {
       "id": "sat3",
@@ -1463,7 +1491,8 @@
           "lock": 0
         }
       ],
-      "defeat": 90
+      "defeat": 90,
+      "cap": 57
     },
     {
       "id": "mnj",
@@ -1521,7 +1550,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1587
+      "defeat": 1587,
+      "cap": 58
     },
     {
       "id": "cyr3",
@@ -1539,7 +1569,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1584
+      "defeat": 1584,
+      "cap": 70
     },
     {
       "id": "cyr4",
@@ -1573,7 +1604,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1584
+      "defeat": 1584,
+      "cap": 60
     },
     {
       "id": "route-222",
@@ -1625,7 +1657,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2084
+      "defeat": 2084,
+      "cap": 63
     },
     {
       "id": "gym-8",
@@ -1659,7 +1692,8 @@
           "slug": "electivire",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 62
     },
     {
       "id": "route-223",
@@ -1736,7 +1770,8 @@
           "lock": 387
         }
       ],
-      "defeat": 1793
+      "defeat": 1793,
+      "cap": 70
     },
     {
       "id": "d3",
@@ -1786,7 +1821,8 @@
           "lock": 387
         }
       ],
-      "defeat": 1796
+      "defeat": 1796,
+      "cap": 70
     },
     {
       "id": "victory-road",
@@ -1850,7 +1886,8 @@
           "lock": 387
         }
       ],
-      "defeat": 1790
+      "defeat": 1790,
+      "cap": 71
     },
     {
       "id": "e1a",
@@ -1884,7 +1921,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1590
+      "defeat": 1590,
+      "cap": 72
     },
     {
       "id": "e1b",
@@ -1918,7 +1956,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1590
+      "defeat": 1590,
+      "cap": 72
     },
     {
       "id": "e1c",
@@ -1952,7 +1991,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1590
+      "defeat": 1590,
+      "cap": 72
     },
     {
       "id": "e1d",
@@ -1986,7 +2026,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1590
+      "defeat": 1590,
+      "cap": 72
     },
     {
       "id": "e2a",
@@ -2020,7 +2061,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1601
+      "defeat": 1601,
+      "cap": 73
     },
     {
       "id": "e2b",
@@ -2054,7 +2096,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1601
+      "defeat": 1601,
+      "cap": 73
     },
     {
       "id": "e2c",
@@ -2088,7 +2131,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1601
+      "defeat": 1601,
+      "cap": 73
     },
     {
       "id": "e2d",
@@ -2122,7 +2166,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1601
+      "defeat": 1601,
+      "cap": 73
     },
     {
       "id": "e3a",
@@ -2156,7 +2201,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1255
+      "defeat": 1255,
+      "cap": 74
     },
     {
       "id": "e3b",
@@ -2190,7 +2236,8 @@
           "lock": 0
         }
       ],
-      "defeat": 181
+      "defeat": 181,
+      "cap": 74
     },
     {
       "id": "e3c",
@@ -2224,7 +2271,8 @@
           "lock": 0
         }
       ],
-      "defeat": 181
+      "defeat": 181,
+      "cap": 74
     },
     {
       "id": "e3d",
@@ -2258,7 +2306,8 @@
           "lock": 0
         }
       ],
-      "defeat": 181
+      "defeat": 181,
+      "cap": 74
     },
     {
       "id": "e4a",
@@ -2292,7 +2341,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1255
+      "defeat": 1255,
+      "cap": 75
     },
     {
       "id": "e4b",
@@ -2326,7 +2376,8 @@
           "lock": 0
         }
       ],
-      "defeat": 182
+      "defeat": 182,
+      "cap": 75
     },
     {
       "id": "e4c",
@@ -2360,7 +2411,8 @@
           "lock": 0
         }
       ],
-      "defeat": 182
+      "defeat": 182,
+      "cap": 75
     },
     {
       "id": "e4d",
@@ -2394,7 +2446,8 @@
           "lock": 0
         }
       ],
-      "defeat": 182
+      "defeat": 182,
+      "cap": 75
     },
     {
       "id": "ca",
@@ -2428,7 +2481,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1447
+      "defeat": 1447,
+      "cap": 78
     },
     {
       "id": "cb",
@@ -2462,7 +2516,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1447
+      "defeat": 1447,
+      "cap": 78
     },
     {
       "id": "cc",
@@ -2496,7 +2551,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1447
+      "defeat": 1447,
+      "cap": 78
     },
     {
       "id": "cd",
@@ -2530,7 +2586,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1447
+      "defeat": 1447,
+      "cap": 78
     }
   ]
 }

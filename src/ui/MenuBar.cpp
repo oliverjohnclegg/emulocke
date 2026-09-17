@@ -58,7 +58,7 @@ void drawMenuBar(Application& app) {
     if (ImGui::BeginMenu("Emulation")) {
         withBody(app, [&] {
             const bool has = app.session() != nullptr;
-            if (ImGui::MenuItem(app.paused() ? "Resume" : "Pause", nullptr, false, has)) {
+            if (ImGui::MenuItem(app.paused() ? "Resume" : "Pause", "Esc", false, has)) {
                 app.pauseToggle();
             }
             if (ImGui::MenuItem("Reset", nullptr, false, has)) {
@@ -84,7 +84,7 @@ void drawMenuBar(Application& app) {
             if (ImGui::MenuItem("Fullscreen", nullptr, app.prefs().fullscreen)) {
                 app.setFullscreen(!app.prefs().fullscreen);
             }
-            if (ImGui::MenuItem("Right Pane", "F8", app.prefs().rightPane)) {
+            if (ImGui::MenuItem("Right Pane", "` / F8", app.prefs().rightPane)) {
                 app.setRightPane(!app.prefs().rightPane);
             }
             if (ImGui::BeginMenu("Screen Scale")) {

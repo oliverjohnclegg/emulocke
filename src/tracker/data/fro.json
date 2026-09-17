@@ -42,7 +42,8 @@
         }
       ],
       "defeat": 1606,
-      "span": 3
+      "span": 3,
+      "cap": 5
     },
     {
       "id": "route-1",
@@ -96,7 +97,8 @@
         }
       ],
       "defeat": 1609,
-      "span": 3
+      "span": 3,
+      "cap": 9
     },
     {
       "id": "route-2",
@@ -132,7 +134,8 @@
           "slug": "onix",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 14
     },
     {
       "id": "route-3",
@@ -187,7 +190,8 @@
           "slug": "starmie",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 21
     },
     {
       "id": "route-24",
@@ -231,7 +235,8 @@
         }
       ],
       "defeat": 1612,
-      "span": 3
+      "span": 3,
+      "cap": 18
     },
     {
       "id": "route-25",
@@ -299,7 +304,8 @@
         }
       ],
       "defeat": 1706,
-      "span": 3
+      "span": 3,
+      "cap": 20
     },
     {
       "id": "gym-3",
@@ -321,7 +327,8 @@
           "slug": "raichu",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 24
     },
     {
       "id": "route-11",
@@ -434,7 +441,8 @@
           "slug": "vileplume",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 29
     },
     {
       "id": "g1",
@@ -456,7 +464,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1207
+      "defeat": 1207,
+      "cap": 29
     },
     {
       "id": "r5",
@@ -511,7 +520,8 @@
         }
       ],
       "defeat": 1709,
-      "span": 3
+      "span": 3,
+      "cap": 25
     },
     {
       "id": "saffron-city",
@@ -575,7 +585,8 @@
         }
       ],
       "defeat": 1712,
-      "span": 3
+      "span": 3,
+      "cap": 40
     },
     {
       "id": "g2",
@@ -601,7 +612,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1207
+      "defeat": 1207,
+      "cap": 41
     },
     {
       "id": "gym-6",
@@ -627,7 +639,8 @@
           "slug": "alakazam",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 43
     },
     {
       "id": "route-16",
@@ -686,7 +699,8 @@
           "slug": "weezing",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 43
     },
     {
       "id": "safari-zone",
@@ -802,7 +816,8 @@
           "slug": "arcanine",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 47
     },
     {
       "id": "one-island",
@@ -868,7 +883,8 @@
           "slug": "rhyhorn",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "route-23",
@@ -945,7 +961,8 @@
         }
       ],
       "defeat": 1715,
-      "span": 3
+      "span": 3,
+      "cap": 53
     },
     {
       "id": "e1",
@@ -975,7 +992,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1208
+      "defeat": 1208,
+      "cap": 54
     },
     {
       "id": "e2",
@@ -1005,7 +1023,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1209
+      "defeat": 1209,
+      "cap": 56
     },
     {
       "id": "e3",
@@ -1035,7 +1054,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1210
+      "defeat": 1210,
+      "cap": 58
     },
     {
       "id": "e4",
@@ -1065,7 +1085,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1211
+      "defeat": 1211,
+      "cap": 60
     },
     {
       "id": "c",
@@ -1123,7 +1144,8 @@
           "lock": 4
         }
       ],
-      "defeat": 1212
+      "defeat": 1212,
+      "cap": 63
     },
     {
       "id": "four-island",

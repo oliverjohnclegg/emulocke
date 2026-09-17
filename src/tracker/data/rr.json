@@ -149,7 +149,8 @@
           "lock": 810
         }
       ],
-      "defeat": 600
+      "defeat": 600,
+      "cap": 5
     },
     {
       "id": "route-1",
@@ -269,7 +270,8 @@
         }
       ],
       "defeat": 1609,
-      "span": 3
+      "span": 3,
+      "cap": 9
     },
     {
       "id": "viridian-city",
@@ -324,7 +326,8 @@
         }
       ],
       "defeat": 1306,
-      "span": 3
+      "span": 3,
+      "cap": 8
     },
     {
       "id": "mb1",
@@ -346,7 +349,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1323
+      "defeat": 1323,
+      "cap": 14
     },
     {
       "id": "gym-1",
@@ -372,7 +376,8 @@
           "slug": "archen",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 14
     },
     {
       "id": "pewter-city",
@@ -431,7 +436,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1322
+      "defeat": 1322,
+      "cap": 21
     },
     {
       "id": "route-24",
@@ -559,7 +565,8 @@
         }
       ],
       "defeat": 1612,
-      "span": 3
+      "span": 3,
+      "cap": 21
     },
     {
       "id": "route-25",
@@ -629,7 +636,8 @@
           "slug": "clodsire",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 27
     },
     {
       "id": "route-5",
@@ -683,7 +691,8 @@
           "slug": "manectric-mega",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 34
     },
     {
       "id": "digletts-cave",
@@ -720,7 +729,8 @@
         }
       ],
       "defeat": 1306,
-      "span": 3
+      "span": 3,
+      "cap": 29
     },
     {
       "id": "route-11",
@@ -896,7 +906,8 @@
           "slug": "electrode-hisui",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 44
     },
     {
       "id": "ev2",
@@ -930,7 +941,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1349
+      "defeat": 1349,
+      "cap": 46
     },
     {
       "id": "saffron-city",
@@ -1338,7 +1350,8 @@
         }
       ],
       "defeat": 1712,
-      "span": 3
+      "span": 3,
+      "cap": 55
     },
     {
       "id": "ev3",
@@ -1366,7 +1379,8 @@
       ],
       "field": 2,
       "tag": true,
-      "defeat": 1321
+      "defeat": 1321,
+      "cap": 55
     },
     {
       "id": "evg2",
@@ -1400,7 +1414,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1349
+      "defeat": 1349,
+      "cap": 56
     },
     {
       "id": "mb5",
@@ -1468,7 +1483,8 @@
           "slug": "gardevoir-mega",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 59
     },
     {
       "id": "route-16",
@@ -1520,7 +1536,8 @@
         }
       ],
       "defeat": 1306,
-      "span": 3
+      "span": 3,
+      "cap": 63
     },
     {
       "id": "gym-6",
@@ -1554,7 +1571,8 @@
           "slug": "toxtricity-mega",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 68
     },
     {
       "id": "safari-zone",
@@ -1874,7 +1892,8 @@
         }
       ],
       "defeat": 1341,
-      "span": 3
+      "span": 3,
+      "cap": 73
     },
     {
       "id": "pokemon-mansion",
@@ -1917,7 +1936,8 @@
           "slug": "charizard-megay",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 76
     },
     {
       "id": "route-21",
@@ -1960,7 +1980,8 @@
           "slug": "naganadel",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 81
     },
     {
       "id": "r5",
@@ -2271,7 +2292,8 @@
         }
       ],
       "defeat": 1715,
-      "span": 3
+      "span": 3,
+      "cap": 81
     },
     {
       "id": "route-23",
@@ -2308,7 +2330,8 @@
         }
       ],
       "defeat": 1306,
-      "span": 3
+      "span": 3,
+      "cap": 82
     },
     {
       "id": "e1a",
@@ -2343,7 +2366,8 @@
         }
       ],
       "field": 2,
-      "defeat": 1357
+      "defeat": 1357,
+      "cap": 85
     },
     {
       "id": "e1b",
@@ -2378,7 +2402,8 @@
         }
       ],
       "field": 2,
-      "defeat": 1357
+      "defeat": 1357,
+      "cap": 85
     },
     {
       "id": "e2a",
@@ -2412,7 +2437,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1360
+      "defeat": 1360,
+      "cap": 85
     },
     {
       "id": "e2b",
@@ -2446,7 +2472,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1360
+      "defeat": 1360,
+      "cap": 85
     },
     {
       "id": "e3a",
@@ -2480,7 +2507,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1363
+      "defeat": 1363,
+      "cap": 85
     },
     {
       "id": "e3b",
@@ -2514,7 +2542,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1363
+      "defeat": 1363,
+      "cap": 85
     },
     {
       "id": "e4a",
@@ -2548,7 +2577,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1319
+      "defeat": 1319,
+      "cap": 85
     },
     {
       "id": "e4b",
@@ -2582,7 +2612,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1319
+      "defeat": 1319,
+      "cap": 85
     },
     {
       "id": "ec",
@@ -2617,7 +2648,8 @@
         }
       ],
       "defeat": 1718,
-      "span": 3
+      "span": 3,
+      "cap": 85
     },
     {
       "id": "three-island",
@@ -2829,7 +2861,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1322
+      "defeat": 1322,
+      "cap": 79
     },
     {
       "id": "ev5",
@@ -2855,7 +2888,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1321
+      "defeat": 1321,
+      "cap": 79
     },
     {
       "id": "ev6",
@@ -2890,7 +2924,8 @@
         }
       ],
       "field": 2,
-      "defeat": 1349
+      "defeat": 1349,
+      "cap": 80
     }
   ]
 }

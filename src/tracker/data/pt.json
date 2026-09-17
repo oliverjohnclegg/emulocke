@@ -51,7 +51,8 @@
         }
       ],
       "defeat": 2030,
-      "span": 3
+      "span": 3,
+      "cap": 5
     },
     {
       "id": "lake-verity",
@@ -105,7 +106,8 @@
         }
       ],
       "defeat": 1427,
-      "span": 3
+      "span": 3,
+      "cap": 9
     },
     {
       "id": "oreburgh-gate",
@@ -145,7 +147,8 @@
           "slug": "cranidos",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 14
     },
     {
       "id": "oreburgh-mine",
@@ -226,7 +229,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1475
+      "defeat": 1475,
+      "cap": 17
     },
     {
       "id": "eterna-forest",
@@ -272,7 +276,8 @@
           "slug": "roserade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 22
     },
     {
       "id": "jup1",
@@ -290,7 +295,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1586
+      "defeat": 1586,
+      "cap": 23
     },
     {
       "id": "route-206",
@@ -357,7 +363,8 @@
           "slug": "mismagius",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 26
     },
     {
       "id": "route-209",
@@ -417,7 +424,8 @@
         }
       ],
       "defeat": 1650,
-      "span": 3
+      "span": 3,
+      "cap": 27
     },
     {
       "id": "the-lost-tower",
@@ -481,7 +489,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 32
     },
     {
       "id": "route-214",
@@ -580,7 +589,8 @@
         }
       ],
       "defeat": 1653,
-      "span": 3
+      "span": 3,
+      "cap": 36
     },
     {
       "id": "gym-5",
@@ -602,7 +612,8 @@
           "slug": "floatzel",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 37
     },
     {
       "id": "route-212",
@@ -651,7 +662,8 @@
           "lock": 0
         }
       ],
-      "defeat": 2093
+      "defeat": 2093,
+      "cap": 36
     },
     {
       "id": "fuego-ironworks",
@@ -757,7 +769,8 @@
         }
       ],
       "defeat": 1656,
-      "span": 3
+      "span": 3,
+      "cap": 38
     },
     {
       "id": "gym-6",
@@ -779,7 +792,8 @@
           "slug": "bastiodon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 41
     },
     {
       "id": "iron-island",
@@ -819,7 +833,8 @@
           "lock": 0
         }
       ],
-      "defeat": 227
+      "defeat": 227,
+      "cap": 40
     },
     {
       "id": "mars2",
@@ -841,7 +856,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1585
+      "defeat": 1585,
+      "cap": 40
     },
     {
       "id": "route-216",
@@ -903,7 +919,8 @@
           "slug": "froslass",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 44
     },
     {
       "id": "cyr2",
@@ -925,7 +942,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1583
+      "defeat": 1583,
+      "cap": 46
     },
     {
       "id": "sat2",
@@ -947,7 +965,8 @@
           "lock": 0
         }
       ],
-      "defeat": 90
+      "defeat": 90,
+      "cap": 44
     },
     {
       "id": "mnj",
@@ -981,7 +1000,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1587
+      "defeat": 1587,
+      "cap": 46
     },
     {
       "id": "cyr3",
@@ -1011,7 +1031,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1584
+      "defeat": 1584,
+      "cap": 48
     },
     {
       "id": "distortion-world",
@@ -1064,7 +1085,8 @@
           "slug": "electivire",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "route-223",
@@ -1147,7 +1169,8 @@
         }
       ],
       "defeat": 1659,
-      "span": 3
+      "span": 3,
+      "cap": 51
     },
     {
       "id": "e1",
@@ -1177,7 +1200,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1441
+      "defeat": 1441,
+      "cap": 53
     },
     {
       "id": "e2",
@@ -1207,7 +1231,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1442
+      "defeat": 1442,
+      "cap": 55
     },
     {
       "id": "e3",
@@ -1237,7 +1262,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1443
+      "defeat": 1443,
+      "cap": 57
     },
     {
       "id": "e4",
@@ -1267,7 +1293,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1444
+      "defeat": 1444,
+      "cap": 59
     },
     {
       "id": "c",
@@ -1301,7 +1328,8 @@
           "lock": 0
         }
       ],
-      "defeat": 1447
+      "defeat": 1447,
+      "cap": 62
     },
     {
       "id": "snowpoint-temple",
