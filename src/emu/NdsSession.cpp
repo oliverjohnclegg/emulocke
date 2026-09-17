@@ -62,9 +62,6 @@ void NdsSession::startConsole() {
     if (nds_->NeedsDirectBoot()) {
         nds_->SetupDirectBoot(romName_);
     }
-    for (std::size_t i = 0; i < mac_.size(); ++i) {
-        nds_->ARM9Write8(0x027FFC3C + static_cast<uint32_t>(i), mac_[i]);
-    }
     nds_->Start();
 }
 
