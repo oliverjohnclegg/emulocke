@@ -1,6 +1,7 @@
 #include "calc/Ai.hpp"
 #include "calc/Build.hpp"
 #include "calc/Pack.hpp"
+#include "calc/Session.hpp"
 #include "calc/Type.hpp"
 #include "run/Catalog.hpp"
 #include "test/Check.hpp"
@@ -9,8 +10,6 @@
 #include <cstring>
 
 int main() {
-    REQUIRE(emulocke::calcPack(emulocke::kRadicalRedUuid, {}) == nullptr);
-    REQUIRE(emulocke::calcPack(emulocke::kUnboundUuid, {}) == nullptr);
     const emulocke::CalcPack* pack = emulocke::calcPack(emulocke::kFireRedUs10Uuid, {});
     REQUIRE(pack);
     REQUIRE(pack->dmgGen == 3 && pack->typeChart == 3 && pack->switchIn == 3);
@@ -50,6 +49,54 @@ int main() {
     REQUIRE(emulocke::calcPack(emulocke::kFireRedUs11Uuid, {}) == pack);
     REQUIRE(emulocke::calcPack(emulocke::kLeafGreenUs10Uuid, {}) == pack);
     REQUIRE(emulocke::calcPack(emulocke::kLeafGreenUs11Uuid, {}) == pack);
-    std::printf("calc pack check ok trainers=%d\n", pack->trainerCount);
+
+    const emulocke::CalcPack* em = emulocke::calcPack(emulocke::kEmeraldUsUuid, {});
+    REQUIRE(em && em->dmgGen == 3 && em->trainerCount > 400);
+    const emulocke::PackTrainer* roxanne = emulocke::packTrainer(*em, 265);
+    REQUIRE(roxanne && std::strcmp(roxanne->name, "ROXANNE") == 0);
+    REQUIRE(emulocke::calcPack(emulocke::kRubyUsUuid, {})->trainerCount > 300);
+
+    const emulocke::CalcPack* pt = emulocke::calcPack(emulocke::kPlatinumUsUuid, {});
+    REQUIRE(pt && pt->dmgGen == 4 && pt->trainerCount > 500);
+    const emulocke::PackTrainer* roark = emulocke::packTrainer(*pt, 246);
+    REQUIRE(roark);
+    REQUIRE(emulocke::pokemonFromPack(*emulocke::trainerMon(*pt, *roark, 0), pt).species != 0);
+    REQUIRE(emulocke::calcPack(emulocke::kDiamondUsUuid, {})->dmgGen == 4);
+    REQUIRE(emulocke::calcPack(emulocke::kHeartGoldUsUuid, {})->dmgGen == 4);
+    REQUIRE(emulocke::calcPack(emulocke::kBlackUsUuid, {})->dmgGen == 5);
+    REQUIRE(emulocke::calcPack(emulocke::kWhite2UsUuid, {})->dmgGen == 5);
+    const emulocke::CalcPack* blaze = emulocke::calcPack(emulocke::kBlazeBlackUuid, {});
+    REQUIRE(blaze && blaze->dmgGen == 5 && blaze->trainerCount > 400);
+    emulocke::CalcSession session;
+    session.setPack(blaze);
+    session.search("N");
+    REQUIRE(!session.trainerHits().empty());
+    REQUIRE(std::strcmp(session.trainerHits().front()->name, "N") == 0);
+    REQUIRE(std::strcmp(session.trainerHits().front()->cls, "PKMN Trainer") == 0);
+    REQUIRE(std::strcmp(session.trainerHits().front()->location, "Accumula Town") == 0);
+    session.search("Accumula");
+    REQUIRE(!session.trainerHits().empty());
+    bool nAtAccumula = false;
+    for (const emulocke::PackTrainer* t : session.trainerHits()) {
+        nAtAccumula |= std::strcmp(t->name, "N") == 0;
+    }
+    REQUIRE(nAtAccumula);
+    session.search("Bianca");
+    REQUIRE(!session.trainerHits().empty());
+    REQUIRE(std::strcmp(session.trainerHits().front()->name, "Bianca") == 0);
+    session.search("Youngster");
+    REQUIRE(!session.trainerHits().empty());
+    REQUIRE(std::strcmp(session.trainerHits().front()->cls, "Youngster") == 0);
+    REQUIRE(emulocke::calcPack(emulocke::kSacredGoldUuid, {})->dmgGen == 4);
+    REQUIRE(emulocke::calcPack(emulocke::kEmeraldKaizoUuid, {})->trainerCount > 400);
+    REQUIRE(emulocke::calcPack(emulocke::kFireRedOmegaUuid, {})->trainerCount > 400);
+    const emulocke::CalcPack* rr = emulocke::calcPack(emulocke::kRadicalRedUuid, {});
+    REQUIRE(rr && rr->dmgGen == 8 && rr->trainerCount > 400);
+    const emulocke::PackTrainer* rrBrock = emulocke::packTrainer(*rr, 414);
+    REQUIRE(rrBrock && std::strcmp(rrBrock->name, "Brock") == 0);
+    REQUIRE(emulocke::calcPack(emulocke::kRadicalRedUuid, "hardcore") == rr);
+    const emulocke::CalcPack* unbound = emulocke::calcPack(emulocke::kUnboundUuid, {});
+    REQUIRE(unbound && unbound->dmgGen == 8 && unbound->trainerCount > 400);
+    REQUIRE(emulocke::calcPack(emulocke::kUnboundUuid, "expert") == unbound);
     return 0;
 }

@@ -5,7 +5,9 @@
 #include "adapter/gen3/Codec.hpp"
 #include "adapter/rse/RseLayout.hpp"
 
+#include <cstdio>
 #include <cstring>
+#include <span>
 
 namespace emulocke {
 namespace {
@@ -33,13 +35,19 @@ void readParty(const uint8_t* block1, Party& party) {
     }
 }
 
-void readBoxes(const uint8_t* storage, Boxes& boxes) {
+}  // namespace
+
+void fillRseBoxes(std::span<const uint8_t> storage, Boxes& boxes) {
+    if (storage.size() < kRseStorageSize) {
+        return;
+    }
     boxes.current = storage[0];
     for (int b = 0; b < 14; ++b) {
-        decodeGen3Text({storage + kRseBoxNameOff + b * 9, 8}, boxes.boxes[b].name, sizeof(boxes.boxes[b].name));
+        decodeGen3Text({storage.data() + kRseBoxNameOff + b * 9, 8}, boxes.boxes[b].name,
+            sizeof(boxes.boxes[b].name));
         for (int s = 0; s < 30; ++s) {
             DecryptedMon dec;
-            const uint8_t* raw = storage + kRseBoxStart + (b * 30 + s) * kBoxMonSize;
+            const uint8_t* raw = storage.data() + kRseBoxStart + (b * 30 + s) * kBoxMonSize;
             if (!decryptBoxMon({raw, kBoxMonSize}, dec)) {
                 continue;
             }
@@ -48,7 +56,12 @@ void readBoxes(const uint8_t* storage, Boxes& boxes) {
     }
 }
 
-}  // namespace
+void fillRseMap(const uint8_t* block1, Overworld& overworld) {
+    overworld.mapGroup = block1[kRseMapGroupOff];
+    overworld.mapNum = block1[kRseMapNumOff];
+    std::snprintf(overworld.mapName, sizeof(overworld.mapName), "MAP %u-%u", overworld.mapGroup,
+        overworld.mapNum);
+}
 
 void fillRseProgress(GameSnapshot& snap, const uint8_t* block1, bool emerald) {
     const std::size_t flagsOff = emerald ? kRseFlagsOffEm : kRseFlagsOffRs;
@@ -61,6 +74,12 @@ void fillRseProgress(GameSnapshot& snap, const uint8_t* block1, bool emerald) {
         }
     }
     fillGymsFromByte(snap, earned);
+    if (emerald) {
+        const uint16_t code = load16(block1 + kRseVarsOffEm + static_cast<std::size_t>(kRseDifficultyVar - 0x4000) * 2);
+        if (code <= 3) {
+            writeDifficultyCode(snap, static_cast<uint8_t>(code));
+        }
+    }
     static constexpr uint16_t kNat[] = {252, 255, 258};
     static constexpr uint16_t kInt[] = {277, 280, 283};
     fillStarterSpecies(snap, kNat);
@@ -75,7 +94,8 @@ void fillRseProgress(GameSnapshot& snap, const uint8_t* block1, bool emerald) {
 void fillSnapshotFromRse(const RseSaveBlocks& blocks, GameSnapshot& snap, bool emerald) {
     readTrainer(blocks.block2.data(), snap.trainer);
     readParty(blocks.block1.data(), snap.party);
-    readBoxes(blocks.storage.data(), snap.boxes);
+    fillRseBoxes(blocks.storage, snap.boxes);
+    fillRseMap(blocks.block1.data(), snap.overworld);
     fillRseProgress(snap, blocks.block1.data(), emerald);
     snap.ok = true;
 }

@@ -44,8 +44,13 @@ void drawRunParty(Application& app, const Party& party, ImVec2 p) {
         const ImVec2 b(a.x + kSockW, a.y + kSockH);
         well(dl, a, b);
         const Mon& mon = party.mons[static_cast<std::size_t>(i)];
-        const std::string slug = speciesSlug(mon.speciesName);
-        if (slug.empty()) {
+        const SpeciesRef ref = app.species(mon.species);
+        const char* slug = ref.slug && ref.slug[0] ? ref.slug : nullptr;
+        const std::string fallback = slug ? std::string{} : speciesSlug(mon.speciesName);
+        if (!slug) {
+            slug = fallback.c_str();
+        }
+        if (!slug || !slug[0]) {
             continue;
         }
         const auto path = app.media().box(slug);

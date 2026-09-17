@@ -105,7 +105,8 @@
           "slug": "skrelp",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 191
     },
     {
       "id": "seaspray-cave",
@@ -349,7 +350,9 @@
           "slug": "marshtomp",
           "lock": 725
         }
-      ]
+      ],
+      "defeat": 211,
+      "span": 3
     },
     {
       "id": "r1m",
@@ -578,7 +581,9 @@
           "slug": "marshtomp",
           "lock": 725
         }
-      ]
+      ],
+      "defeat": 211,
+      "span": 3
     },
     {
       "id": "gym-1",
@@ -791,7 +796,8 @@
           "slug": "sharpedo",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1314
     },
     {
       "id": "route-110",
@@ -1033,7 +1039,9 @@
           "slug": "marshtomp",
           "lock": 725
         }
-      ]
+      ],
+      "defeat": 125,
+      "span": 3
     },
     {
       "id": "r2m",
@@ -1266,7 +1274,9 @@
           "slug": "marshtomp",
           "lock": 725
         }
-      ]
+      ],
+      "defeat": 125,
+      "span": 3
     },
     {
       "id": "w1",
@@ -1291,7 +1301,8 @@
           "slug": "kirlia",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 190
     },
     {
       "id": "gym-3",
@@ -1384,7 +1395,8 @@
           "slug": "gliscor",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 139
     },
     {
       "id": "mm1",
@@ -1413,7 +1425,8 @@
           "slug": "camerupt",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 139
     },
     {
       "id": "route-113",
@@ -1490,7 +1503,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "defeat": 1272
     },
     {
       "id": "route-115",
@@ -1672,7 +1686,8 @@
           "slug": "beedrill-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1312
     },
     {
       "id": "r3b",
@@ -1909,7 +1924,9 @@
           "slug": "sceptile-mega",
           "lock": 728
         }
-      ]
+      ],
+      "defeat": 125,
+      "span": 3
     },
     {
       "id": "r3m",
@@ -2146,7 +2163,9 @@
           "slug": "sceptile-mega",
           "lock": 728
         }
-      ]
+      ],
+      "defeat": 125,
+      "span": 3
     },
     {
       "id": "fortree-city",
@@ -2279,7 +2298,8 @@
           "slug": "gyarados-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 831
     },
     {
       "id": "route-123",
@@ -2350,7 +2370,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "defeat": 117
     },
     {
       "id": "mtm",
@@ -2383,7 +2404,8 @@
           "slug": "camerupt-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 117
     },
     {
       "id": "lilycove-city",
@@ -2629,7 +2651,8 @@
           "slug": "sceptile-mega",
           "lock": 728
         }
-      ]
+      ],
+      "defeat": 971
     },
     {
       "id": "r4m",
@@ -2866,7 +2889,8 @@
           "slug": "sceptile-mega",
           "lock": 728
         }
-      ]
+      ],
+      "defeat": 971
     },
     {
       "id": "team-aqua-hideout",
@@ -2905,7 +2929,8 @@
           "slug": "gyarados-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 452
     },
     {
       "id": "route-124",
@@ -2992,7 +3017,8 @@
           "slug": "gastrodon",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 117
     },
     {
       "id": "mmc",
@@ -3026,7 +3052,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "defeat": 117
     },
     {
       "id": "route-125",
@@ -3104,7 +3131,8 @@
           "slug": "beedrill-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1313
     },
     {
       "id": "aa2",
@@ -3137,7 +3165,8 @@
           "slug": "sharpedo-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 828
     },
     {
       "id": "route-126",
@@ -3341,7 +3370,8 @@
           "slug": "gallade-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 126
     },
     {
       "id": "e1",
@@ -3510,7 +3540,8 @@
           "slug": "milotic-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 2148
     },
     {
       "id": "artisan-cave",

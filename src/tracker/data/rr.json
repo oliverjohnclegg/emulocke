@@ -269,6 +269,8 @@
           "lock": 810
         }
       ],
+      "defeat": 1609,
+      "span": 3,
       "cap": 9
     },
     {
@@ -323,6 +325,8 @@
           "lock": 4
         }
       ],
+      "defeat": 1306,
+      "span": 3,
       "cap": 8
     },
     {
@@ -345,6 +349,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1323,
       "cap": 14
     },
     {
@@ -431,6 +436,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1322,
       "cap": 21
     },
     {
@@ -558,6 +564,8 @@
           "lock": 810
         }
       ],
+      "defeat": 1612,
+      "span": 3,
       "cap": 21
     },
     {
@@ -592,7 +600,8 @@
           "slug": "scizor",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1288
     },
     {
       "id": "cerulean-city",
@@ -719,6 +728,8 @@
           "lock": 4
         }
       ],
+      "defeat": 1306,
+      "span": 3,
       "cap": 29
     },
     {
@@ -757,7 +768,8 @@
           "slug": "dudunsparce-three-segment",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1329
     },
     {
       "id": "route-9",
@@ -818,7 +830,8 @@
           "slug": "ceruledge",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1308
     },
     {
       "id": "pokemon-tower",
@@ -928,6 +941,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1349,
       "cap": 46
     },
     {
@@ -1335,6 +1349,8 @@
           "lock": 810
         }
       ],
+      "defeat": 1712,
+      "span": 3,
       "cap": 55
     },
     {
@@ -1363,6 +1379,7 @@
       ],
       "field": 2,
       "tag": true,
+      "defeat": 1321,
       "cap": 55
     },
     {
@@ -1397,6 +1414,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1349,
       "cap": 56
     },
     {
@@ -1430,7 +1448,8 @@
           "slug": "gallade-mega",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1597
     },
     {
       "id": "gym-5",
@@ -1516,6 +1535,8 @@
           "lock": 4
         }
       ],
+      "defeat": 1306,
+      "span": 3,
       "cap": 63
     },
     {
@@ -1656,7 +1677,8 @@
           "slug": "glalie",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1338
     },
     {
       "id": "mb6b",
@@ -1689,7 +1711,8 @@
           "slug": "glalie",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1338
     },
     {
       "id": "mb6c",
@@ -1722,7 +1745,8 @@
           "slug": "glalie",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1338
     },
     {
       "id": "cinnabar-island",
@@ -1764,7 +1788,8 @@
           "slug": "aggron",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1309
     },
     {
       "id": "mb7b",
@@ -1797,7 +1822,8 @@
           "slug": "aggron",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1309
     },
     {
       "id": "mb7c",
@@ -1830,7 +1856,8 @@
           "slug": "aggron",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1309
     },
     {
       "id": "m1",
@@ -1864,6 +1891,8 @@
           "lock": 4
         }
       ],
+      "defeat": 1341,
+      "span": 3,
       "cap": 73
     },
     {
@@ -2262,6 +2291,8 @@
           "lock": 816
         }
       ],
+      "defeat": 1715,
+      "span": 3,
       "cap": 81
     },
     {
@@ -2298,6 +2329,8 @@
           "lock": 4
         }
       ],
+      "defeat": 1306,
+      "span": 3,
       "cap": 82
     },
     {
@@ -2333,6 +2366,7 @@
         }
       ],
       "field": 2,
+      "defeat": 1357,
       "cap": 85
     },
     {
@@ -2368,6 +2402,7 @@
         }
       ],
       "field": 2,
+      "defeat": 1357,
       "cap": 85
     },
     {
@@ -2402,6 +2437,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1360,
       "cap": 85
     },
     {
@@ -2436,6 +2472,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1360,
       "cap": 85
     },
     {
@@ -2470,6 +2507,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1363,
       "cap": 85
     },
     {
@@ -2504,6 +2542,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1363,
       "cap": 85
     },
     {
@@ -2538,6 +2577,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1319,
       "cap": 85
     },
     {
@@ -2572,6 +2612,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1319,
       "cap": 85
     },
     {
@@ -2606,6 +2647,8 @@
           "lock": 0
         }
       ],
+      "defeat": 1718,
+      "span": 3,
       "cap": 85
     },
     {
@@ -2684,7 +2727,8 @@
           "slug": "aerodactyl",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1336
     },
     {
       "id": "2r",
@@ -2717,7 +2761,8 @@
           "slug": "gyarados",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1312
     },
     {
       "id": "3r",
@@ -2750,7 +2795,8 @@
           "slug": "manectric",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1440
     },
     {
       "id": "4r",
@@ -2783,7 +2829,8 @@
           "slug": "venusaur",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 1345
     },
     {
       "id": "cerulean-cave",
@@ -2814,6 +2861,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1322,
       "cap": 79
     },
     {
@@ -2840,6 +2888,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1321,
       "cap": 79
     },
     {
@@ -2875,6 +2924,7 @@
         }
       ],
       "field": 2,
+      "defeat": 1349,
       "cap": 80
     }
   ]

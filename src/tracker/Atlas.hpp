@@ -34,6 +34,7 @@ struct TrackerStop {
     bool tag{};
     const char* weather = "";
     const char* note = "";
+    bool onStarter{};
 };
 
 struct TrackerAtlas {

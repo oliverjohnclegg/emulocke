@@ -48,8 +48,13 @@ void hpTrack(ImDrawList* dl, ImVec2 a, ImVec2 b, const Mon& mon) {
 }
 
 void boxSprite(Application& app, const Mon& mon, ImVec2 a, ImVec2 b, float hop) {
-    const std::string slug = speciesSlug(mon.speciesName);
-    if (slug.empty()) {
+    const SpeciesRef ref = app.species(mon.species);
+    const char* slug = ref.slug && ref.slug[0] ? ref.slug : nullptr;
+    const std::string fallback = slug ? std::string{} : speciesSlug(mon.speciesName);
+    if (!slug) {
+        slug = fallback.c_str();
+    }
+    if (!slug || !slug[0]) {
         return;
     }
     const auto path = app.media().box(slug);

@@ -139,12 +139,13 @@ def emit_atlas(data, sprite):
         tag = "true" if stop.get("tag") else "false"
         weather = cpp_str(stop["weather"]) if stop.get("weather") else '""'
         note = cpp_str(stop["note"]) if stop.get("note") else '""'
+        on_starter = "true" if stop.get("onStarter") else "false"
         stop_rows.append(
             "    {"
             f"{cpp_str(stop['id'])}, emulocke::TrackerStopKind::{kind}, {cpp_str(stop['name'])}, "
             f"{cpp_str(stop.get('locale') or '')}, emulocke::BossKind::{bk}, "
             f"emulocke::CatchKind::{catch}, {met_sym}, {met_count}, {team_sym}, {team_count}, "
-            f"{defeat}, {span}, {gym}, {int(stop.get('cap') or 0)}, {field}, {tag}, {weather}, {note}"
+            f"{defeat}, {span}, {gym}, {int(stop.get('cap') or 0)}, {field}, {tag}, {weather}, {note}, {on_starter}"
             "}"
         )
     starters = [int(x) for x in data.get("starters") or []]

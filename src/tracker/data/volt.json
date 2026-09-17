@@ -32,6 +32,7 @@
           "lock": 501
         }
       ],
+      "onStarter": true,
       "cap": 5
     },
     {
@@ -54,6 +55,7 @@
           "lock": 501
         }
       ],
+      "onStarter": true,
       "cap": 5
     },
     {
@@ -1184,6 +1186,7 @@
         }
       ],
       "note": "Rotation Battle: This battle is a Rotation battle.",
+      "gym": 8,
       "cap": 65
     },
     {
@@ -1474,6 +1477,7 @@
           "lock": 0
         }
       ],
+      "defeat": 2400,
       "cap": 77
     },
     {

@@ -3,14 +3,19 @@
 #include "emu/FileLimits.hpp"
 
 #include <algorithm>
+#include <chrono>
 #include <curl/curl.h>
 #include <memory>
 #include <mutex>
+#include <optional>
+#include <thread>
 
 namespace emulocke {
 namespace {
 
 constexpr long kMaxRedirects = 5;
+constexpr int kTries = 3;
+constexpr auto kRetry = std::chrono::milliseconds(200);
 
 size_t writeTo(char* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* out = static_cast<std::vector<uint8_t>*>(userdata);
@@ -32,13 +37,15 @@ bool isPng(const std::vector<uint8_t>& bytes) {
     return bytes.size() >= 8 && std::equal(std::begin(sig), std::end(sig), bytes.begin());
 }
 
-}  // namespace
+struct Fetch {
+    std::optional<std::vector<uint8_t>> png;
+    bool retry{};
+};
 
-std::optional<std::vector<uint8_t>> httpGetPng(const std::string& url) {
-    ensureCurl();
+Fetch getOnce(const std::string& url) {
     std::unique_ptr<CURL, decltype(&curl_easy_cleanup)> curl(curl_easy_init(), curl_easy_cleanup);
     if (!curl) {
-        return std::nullopt;
+        return {{}, true};
     }
     std::vector<uint8_t> body;
     long code = 0;
@@ -56,13 +63,32 @@ std::optional<std::vector<uint8_t>> httpGetPng(const std::string& url) {
     curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 2L);
     if (curl_easy_perform(curl.get()) != CURLE_OK) {
-        return std::nullopt;
+        return {{}, true};
     }
     curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &code);
     if (code != 200 || !isPng(body)) {
-        return std::nullopt;
+        return {{}, false};
     }
-    return body;
+    return {body, false};
 }
 
-}  // namespace emulocke
+}  // namespace
+
+std::optional<std::vector<uint8_t>> httpGetPng(const std::string& url) {
+    ensureCurl();
+    for (int attempt = 0; attempt < kTries; ++attempt) {
+        if (attempt != 0) {
+            std::this_thread::sleep_for(kRetry * attempt);
+        }
+        const Fetch got = getOnce(url);
+        if (got.png) {
+            return got.png;
+        }
+        if (!got.retry) {
+            return std::nullopt;
+        }
+    }
+    return std::nullopt;
+}
+
+}

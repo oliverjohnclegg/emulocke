@@ -40,10 +40,10 @@ void drawTracker(Application& app) {
             ImGui::Spacing();
             ImGui::TextWrapped("Encounter routes and bosses list here once a represented title is running.");
         } else {
-            ImGui::TextDisabled("No tracker plate for this title.");
+            ImGui::TextDisabled("Not represented.");
             ImGui::Spacing();
             ImGui::TextWrapped(
-                "A title is represented when its route order, catch keys, and boss teams are documented.");
+                "A title is represented when live party and PC, the tracker atlas, and the calc pack all exist.");
         }
         if (app.bodyFont()) {
             ImGui::PopFont();

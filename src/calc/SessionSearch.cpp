@@ -4,9 +4,14 @@
 #include <cctype>
 #include <cstdio>
 #include <cstring>
+#include <string_view>
 
 namespace emulocke {
 namespace {
+
+char fold(char c) {
+    return static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+}
 
 bool has(const char* hay, const char* needle) {
     if (!hay || !needle || !needle[0]) {
@@ -14,9 +19,20 @@ bool has(const char* hay, const char* needle) {
     }
     const std::string_view h = hay;
     const std::string_view n = needle;
-    auto fold = [](char c) { return static_cast<char>(std::tolower(static_cast<unsigned char>(c))); };
     return std::search(h.begin(), h.end(), n.begin(), n.end(),
-               [&](char a, char b) { return fold(a) == fold(b); }) != h.end();
+               [](char a, char b) { return fold(a) == fold(b); }) != h.end();
+}
+
+bool same(const char* a, const char* b) {
+    if (!a || !b) {
+        return false;
+    }
+    while (*a && *b) {
+        if (fold(*a++) != fold(*b++)) {
+            return false;
+        }
+    }
+    return *a == 0 && *b == 0;
 }
 
 }  // namespace
@@ -31,15 +47,21 @@ void CalcSession::search(const char* query) {
     if (!pack_ || !browsing_) {
         return;
     }
-    for (int i = 0; i < pack_->locationCount; ++i) {
-        if (has(pack_->locations[i].name, query_)) {
-            locations_.push_back(&pack_->locations[i]);
+    for (int pass = 0; pass < 2; ++pass) {
+        for (int i = 0; i < pack_->locationCount; ++i) {
+            const bool hit = same(pack_->locations[i].name, query_);
+            const bool sub = has(pack_->locations[i].name, query_);
+            if (pass == 0 ? hit : (sub && !hit)) {
+                locations_.push_back(&pack_->locations[i]);
+            }
         }
-    }
-    for (int i = 0; i < pack_->trainerCount; ++i) {
-        const PackTrainer& t = pack_->trainers[i];
-        if (has(t.name, query_) || has(t.cls, query_) || has(t.location, query_)) {
-            trainers_.push_back(&t);
+        for (int i = 0; i < pack_->trainerCount; ++i) {
+            const PackTrainer& t = pack_->trainers[i];
+            const bool hit = same(t.name, query_) || same(t.cls, query_);
+            const bool sub = has(t.name, query_) || has(t.cls, query_) || has(t.location, query_);
+            if (pass == 0 ? hit : (sub && !hit)) {
+                trainers_.push_back(&t);
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ struct AdvCtx {
     uint8_t chart{};
     bool crit{};
     bool physical{};
+    uint8_t dmgGen{3};
 };
 
 int advBasePower(const AdvCtx& ctx, int hit);

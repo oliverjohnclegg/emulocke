@@ -1,5 +1,6 @@
 #include "adapter/dppt/DpptAdapter.hpp"
 
+#include "adapter/gen45/Names.hpp"
 #include "adapter/gen4/Save.hpp"
 
 namespace emulocke {
@@ -40,11 +41,16 @@ GameSnapshot DpptAdapter::readLive(const LiveMemory& mem) const {
     snap.origin = SnapshotOrigin::Live;
     const uint32_t ptrAddr = edition_ == DpptEdition::Platinum ? kPtSavePtr : kDpSavePtr;
     const uint32_t partyOff = edition_ == DpptEdition::Platinum ? kPtPartyFromSave : kDpPartyFromSave;
+    const Gen4Layout layout = edition_ == DpptEdition::Platinum ? ptLayout() : dpLayout();
     const uint32_t base = mem.read32(ptrAddr);
     if (base >= 0x02000000) {
-        fillGen4Live(mem, base + partyOff, snap);
+        fillGen4Live(mem, base + partyOff, layout, snap);
     }
     return snap;
+}
+
+SpeciesRef DpptAdapter::species(uint16_t internalId) const {
+    return nationalSpeciesRef(internalId);
 }
 
 }

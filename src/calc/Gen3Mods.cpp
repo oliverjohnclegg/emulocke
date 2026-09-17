@@ -34,7 +34,7 @@ int advFinal(int base, const AdvCtx& ctx) {
     }
     base = (ctx.physical ? std::max(1, base) : base) + 2;
     if (ctx.crit) {
-        base *= 2;
+        base = ctx.dmgGen >= 5 ? base * 3 / 2 : base * 2;
     }
     if (f.helpingHand) {
         base = base * 3 / 2;

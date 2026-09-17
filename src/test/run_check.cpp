@@ -88,6 +88,7 @@ std::vector<uint8_t> makeUps(const std::vector<uint8_t>& src, const std::vector<
 int testLayout();
 int testInput();
 int testFileBytes();
+int testRamCapture();
 int testPrefs();
 int testCheats();
 
@@ -469,6 +470,7 @@ int main() {
     fails += testLayout();
     fails += testInput();
     fails += testFileBytes();
+    fails += testRamCapture();
     fails += testPrefs();
     fails += testCheats();
     if (fails) {

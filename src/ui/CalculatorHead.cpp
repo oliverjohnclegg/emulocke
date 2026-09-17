@@ -78,7 +78,8 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
 
 void drawCalcCrits(bool& ours, bool& theirs, float spineX, float abY, int focus, bool act) {
     const float w = calcCritMarkWidth();
-    const ImVec2 next = ImGui::GetCursorScreenPos();
+    const float gap = 4.f;
+    calcAlignCenter(w * 2.f + gap);
     ImGui::PushID("oh");
     ImGui::SetCursorScreenPos(ImVec2(spineX - w - 1.f, abY));
     if (calcCritMark(ours) || (act && focus == 0)) {
@@ -86,6 +87,7 @@ void drawCalcCrits(bool& ours, bool& theirs, float spineX, float abY, int focus,
     }
     kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), focus == 0);
     ImGui::PopID();
+    ImGui::SameLine(0.f, gap);
     ImGui::PushID("fh");
     ImGui::SetCursorScreenPos(ImVec2(spineX + 1.f, abY));
     if (calcCritMark(theirs) || (act && focus == 1)) {
@@ -93,7 +95,6 @@ void drawCalcCrits(bool& ours, bool& theirs, float spineX, float abY, int focus,
     }
     kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), focus == 1);
     ImGui::PopID();
-    ImGui::SetCursorScreenPos(next);
 }
 
 }

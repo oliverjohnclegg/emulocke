@@ -11,6 +11,7 @@ class TrackerLog;
 struct GameSnapshot;
 
 void gatherPokemon(Application& app, const GameSnapshot& snap, const TrackerLog& log, bool gen3,
-                   MonView party[6], std::vector<MonView>& boxed, std::vector<MonView>& grave);
+                   MonView party[6], std::vector<MonView>& boxed, std::vector<MonView>& grave,
+                   std::vector<Mon>& graveOwned);
 
 }

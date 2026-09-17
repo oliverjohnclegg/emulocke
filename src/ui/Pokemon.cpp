@@ -28,6 +28,16 @@ void drawPokemon(Application& app) {
         }
         return;
     }
+    if (!app.trackerAtlas()) {
+        ImGui::TextDisabled("Not represented.");
+        ImGui::Spacing();
+        ImGui::TextWrapped(
+            "A title is represented when live party and PC, the tracker atlas, and the calc pack all exist.");
+        if (app.bodyFont()) {
+            ImGui::PopFont();
+        }
+        return;
+    }
     app.syncTracker(snap);
     BoxSprites* sprites = app.boxSprites();
     if (!sprites) {
@@ -41,7 +51,8 @@ void drawPokemon(Application& app) {
     MonView party[6]{};
     std::vector<MonView> boxed;
     std::vector<MonView> grave;
-    gatherPokemon(app, snap, app.trackerLog(), gen3, party, boxed, grave);
+    std::vector<Mon> graveOwned;
+    gatherPokemon(app, snap, app.trackerLog(), gen3, party, boxed, grave, graveOwned);
     const int total = 6 + static_cast<int>(boxed.size()) + static_cast<int>(grave.size());
     KitFocus& focus = app.kitFocus();
     const bool nav = kitNavSuite(app, KitTab::Pokemon);

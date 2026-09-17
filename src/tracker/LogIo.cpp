@@ -49,6 +49,10 @@ Caught parseCaught(const std::string& val) {
     row.personality = static_cast<uint32_t>(std::stoul(rest.substr(0, mark)));
     if (mark != std::string::npos && mark + 1 < rest.size()) {
         row.status = statusFrom(rest[mark + 1]);
+        const auto slugAt = rest.find(':', mark + 1);
+        if (slugAt != std::string::npos && slugAt + 1 < rest.size()) {
+            row.slug = rest.substr(slugAt + 1);
+        }
     }
     if (row.status == EncounterStatus::Empty && row.species != 0) {
         row.status = EncounterStatus::Captured;
@@ -111,7 +115,11 @@ bool TrackerLog::save(const std::filesystem::path& path) const {
         if (row.species == 0 && row.status == EncounterStatus::Empty) {
             continue;
         }
-        out << id << '=' << row.species << ':' << row.personality << ':' << statusMark(row.status) << '\n';
+        out << id << '=' << row.species << ':' << row.personality << ':' << statusMark(row.status);
+        if (!row.slug.empty()) {
+            out << ':' << row.slug;
+        }
+        out << '\n';
     }
     out << "[boss]\n";
     std::map<std::string, bool> boss(boss_.begin(), boss_.end());

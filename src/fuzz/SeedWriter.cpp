@@ -57,5 +57,9 @@ int main(int argc, char** argv) {
     ok &= writeSeed(root, "fuzz_gen5_save", "bw", bw);
     ok &= writeSeed(root, "fuzz_pk45", "pk4", pk4);
     ok &= writeSeed(root, "fuzz_pk45", "pk5", pk5);
+    const uint8_t btlStat[] = {20, 0, 16, 0, 8, 0, 8, 0, 14, 0, 20, 0, 10, 0, 16, 0};
+    ok &= writeSeed(root, "fuzz_btl_pokeparam", "stats", std::span<const uint8_t>(btlStat, sizeof btlStat));
+    const uint8_t btlFaint[] = {22, 0, 0, 0, 99, 0, 99, 0, 22, 0, 22, 0, 11, 0, 12, 0};
+    ok &= writeSeed(root, "fuzz_btl_pokeparam", "faint", std::span<const uint8_t>(btlFaint, sizeof btlFaint));
     return ok ? 0 : 1;
 }

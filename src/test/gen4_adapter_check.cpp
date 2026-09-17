@@ -19,6 +19,10 @@ std::vector<uint8_t> makeDpSave(const uint8_t* pk, std::size_t pkSize) {
     emulocke::store32(sav.data() + emulocke::kDpTrainer + 0x10, 12345);
     sav[emulocke::kDpParty - 4] = 1;
     std::memcpy(sav.data() + emulocke::kDpParty, pk, pkSize);
+    std::memcpy(sav.data() + emulocke::kDpGeneral + 4, pk, emulocke::kPkStoredSize);
+    emulocke::store16(sav.data() + emulocke::kDpMap, 201);
+    sav[emulocke::kDpEventFlag] = 1;
+    sav[emulocke::kDpTrainer + 0x1A] = 1;
     const std::size_t fo = emulocke::kDpGeneral - 0x14;
     emulocke::store32(sav.data() + fo + 4, 1);
     emulocke::store32(sav.data() + fo + 8, emulocke::kDpGeneral);
@@ -51,6 +55,7 @@ void testGen4Adapter() {
     emulocke::encodeGen4Text("PIKACHU", {plain.data() + 0x48, 22});
     emulocke::encodeGen4Text("Juli", {plain.data() + 0x68, 16});
     plain[0x10] = 135;
+    emulocke::store16(plain.data() + 0x46, 201);
     plain[0x8C] = 5;
     emulocke::store16(plain.data() + 0x8E, 20);
     emulocke::store16(plain.data() + 0x90, 20);
@@ -62,6 +67,7 @@ void testGen4Adapter() {
     REQUIRE(round.experience == 135);
     REQUIRE(std::string(round.speciesName) == "PIKACHU");
     REQUIRE(std::string(round.nickname) == "PIKACHU");
+    REQUIRE(round.metLocation == 201);
 
     const std::vector<uint8_t> sav = makeDpSave(pk.data(), pk.size());
     const emulocke::GameAdapter* fromSave = emulocke::adapterForSave(sav);
@@ -74,13 +80,28 @@ void testGen4Adapter() {
     REQUIRE(snap.party.mons[0].species == 25);
     REQUIRE(snap.party.mons[0].level == 5);
 
+    REQUIRE(snap.boxes.boxes[0].mons[0].species == 25);
+    REQUIRE(std::string(snap.overworld.mapName).find("MAP") == 0);
+    REQUIRE(snap.gyms.slots == 8);
+    REQUIRE((snap.gyms.earned & 1u) != 0);
+    REQUIRE(emulocke::progressFlag(snap.progress, 0));
+    REQUIRE(std::string(fromSave->species(25).slug) == "pikachu");
+
     std::vector<uint8_t> ram(0x200000, 0);
     emulocke::store32(ram.data() + (emulocke::kDpSavePtr - 0x02000000), 0x02001000);
     ram[0x1000 + emulocke::kDpPartyFromSave - 4] = 1;
     std::memcpy(ram.data() + 0x1000 + emulocke::kDpPartyFromSave, pk.data(), pk.size());
+    const uint32_t general = 0x02001000 + emulocke::kDpPartyFromSave - emulocke::kDpParty;
+    std::memcpy(ram.data() + (general - 0x02000000) + emulocke::kDpGeneral + 4, pk.data(),
+        emulocke::kPkStoredSize);
+    emulocke::store16(ram.data() + (general - 0x02000000) + emulocke::kDpMap, 201);
+    ram[(general - 0x02000000) + emulocke::kDpEventFlag] = 1;
+    ram[(general - 0x02000000) + emulocke::kDpTrainer + 0x1A] = 1;
     emulocke::SpanMemory mem(0x02000000, ram);
     const emulocke::GameSnapshot live = emulocke::adapterFor(dia)->readLive(mem);
-    REQUIRE(live.ok);
     REQUIRE(live.party.count == 1);
     REQUIRE(live.party.mons[0].species == 25);
+    REQUIRE(!live.battle.inBattle);
+    REQUIRE(live.boxes.boxes[0].mons[0].species == 25);
+    REQUIRE(std::string(live.overworld.mapName).find("MAP") == 0);
 }

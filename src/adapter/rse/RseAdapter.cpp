@@ -1,5 +1,6 @@
 #include "adapter/rse/RseAdapter.hpp"
 
+#include "adapter/gen45/Names.hpp"
 #include "adapter/rse/RseLayout.hpp"
 #include "adapter/rse/RseLive.hpp"
 #include "adapter/rse/RseSave.hpp"
@@ -63,6 +64,13 @@ GameSnapshot RseAdapter::readLive(const LiveMemory& mem) const {
     snap.origin = SnapshotOrigin::Live;
     fillSnapshotFromRseLive(mem, snap, edition_ == RseEdition::Emerald);
     return snap;
+}
+
+SpeciesRef RseAdapter::species(uint16_t internalId) const {
+    if (internalId >= 277 && internalId <= 411) {
+        return nationalSpeciesRef(static_cast<uint16_t>(internalId - 25));
+    }
+    return nationalSpeciesRef(internalId);
 }
 
 }

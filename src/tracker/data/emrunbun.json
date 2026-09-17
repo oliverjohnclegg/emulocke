@@ -77,6 +77,8 @@
           "lock": 393
         }
       ],
+      "defeat": 125,
+      "span": 3,
       "cap": 5
     },
     {
@@ -108,6 +110,8 @@
           "lock": 0
         }
       ],
+      "defeat": 125,
+      "span": 3,
       "cap": 12
     },
     {
@@ -482,6 +486,8 @@
           "lock": 390
         }
       ],
+      "defeat": 125,
+      "span": 3,
       "cap": 38
     },
     {
@@ -668,6 +674,7 @@
           "lock": 0
         }
       ],
+      "defeat": 139,
       "cap": 54
     },
     {
@@ -849,6 +856,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1312,
       "cap": 65
     },
     {
@@ -932,6 +940,8 @@
         }
       ],
       "field": 2,
+      "defeat": 125,
+      "span": 3,
       "cap": 66
     },
     {
@@ -1072,6 +1082,7 @@
           "lock": 390
         }
       ],
+      "defeat": 851,
       "cap": 73
     },
     {
@@ -1124,6 +1135,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1314,
       "cap": 77
     },
     {
@@ -1164,6 +1176,7 @@
           "lock": 0
         }
       ],
+      "defeat": 117,
       "cap": 80
     },
     {
@@ -1204,6 +1217,7 @@
           "lock": 0
         }
       ],
+      "defeat": 452,
       "cap": 82
     },
     {
@@ -1298,6 +1312,7 @@
           "lock": 0
         }
       ],
+      "defeat": 117,
       "cap": 89
     },
     {
@@ -1392,6 +1407,7 @@
           "lock": 0
         }
       ],
+      "defeat": 828,
       "cap": 90
     },
     {
@@ -1545,6 +1561,7 @@
           "lock": 0
         }
       ],
+      "defeat": 126,
       "cap": 95
     },
     {
@@ -1578,7 +1595,8 @@
           "slug": "aggron",
           "lock": 0
         }
-      ]
+      ],
+      "defeat": 126
     },
     {
       "id": "route-123",
@@ -1775,6 +1793,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1277,
       "cap": 100
     },
     {
@@ -1811,6 +1830,7 @@
       ],
       "field": 2,
       "note": "You must opt in to at least two double battles from the Elite Four",
+      "defeat": 1277,
       "cap": 100
     },
     {
@@ -1845,6 +1865,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1278,
       "cap": 100
     },
     {
@@ -1881,6 +1902,7 @@
       ],
       "field": 2,
       "note": "You must opt in to at least two double battles from the Elite Four",
+      "defeat": 1278,
       "cap": 100
     },
     {
@@ -1915,6 +1937,7 @@
           "lock": 0
         }
       ],
+      "defeat": 2148,
       "cap": 100
     }
   ]

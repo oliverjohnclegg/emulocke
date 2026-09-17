@@ -8,7 +8,9 @@ int main() {
     testFrlgDifficulty();
     testRseAdapter();
     testGen4Adapter();
+    testGen4Battle();
     testGen5Adapter();
+    testGen5Battle();
     testSaveBounds();
     testSnapshotContract();
     testLocalSaves();

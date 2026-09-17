@@ -32,6 +32,8 @@
           "lock": 246
         }
       ],
+      "defeat": 1606,
+      "span": 3,
       "cap": 10
     },
     {
@@ -85,6 +87,8 @@
           "lock": 246
         }
       ],
+      "defeat": 1609,
+      "span": 3,
       "cap": 13
     },
     {
@@ -201,6 +205,7 @@
       ],
       "field": 2,
       "tag": true,
+      "defeat": 1294,
       "cap": 28
     },
     {
@@ -274,6 +279,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1306,
       "cap": 34
     },
     {
@@ -288,6 +294,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1336,
       "cap": 33
     },
     {
@@ -354,6 +361,8 @@
           "lock": 246
         }
       ],
+      "defeat": 1612,
+      "span": 3,
       "cap": 33
     },
     {
@@ -532,6 +541,7 @@
       ],
       "field": 2,
       "tag": true,
+      "defeat": 1294,
       "cap": 38
     },
     {
@@ -571,6 +581,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1304,
       "cap": 41
     },
     {
@@ -611,6 +622,7 @@
         }
       ],
       "weather": "rain",
+      "defeat": 1305,
       "cap": 41
     },
     {
@@ -666,6 +678,8 @@
           "lock": 374
         }
       ],
+      "defeat": 1706,
+      "span": 3,
       "cap": 47
     },
     {
@@ -753,6 +767,7 @@
       ],
       "field": 2,
       "tag": true,
+      "defeat": 1294,
       "cap": 47
     },
     {
@@ -783,6 +798,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1336,
       "cap": 46
     },
     {
@@ -894,6 +910,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1307,
       "cap": 53
     },
     {
@@ -1086,6 +1103,8 @@
           "lock": 246
         }
       ],
+      "defeat": 1715,
+      "span": 3,
       "cap": 65
     },
     {
@@ -1125,6 +1144,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1306,
       "cap": 62
     },
     {
@@ -1155,6 +1175,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1307,
       "cap": 62
     },
     {
@@ -1187,6 +1208,7 @@
       ],
       "field": 2,
       "tag": true,
+      "defeat": 1305,
       "cap": 62
     },
     {
@@ -1288,6 +1310,7 @@
       "field": 2,
       "weather": "sandstorm",
       "note": "Vicious Sandstorm Vicious sand causes Pokemon to lose 1/8 of max HP at the end of every turn",
+      "defeat": 1690,
       "cap": 76
     },
     {
@@ -1319,6 +1342,7 @@
         }
       ],
       "note": "Shadowy Veil Every Ghost-type Pokemon take half damage on full HP. Ghost-types are immune to entry hazards at full HP. Other Types cannot use Safeguard or Substitute.",
+      "defeat": 1691,
       "cap": 76
     },
     {
@@ -1351,6 +1375,7 @@
       ],
       "weather": "misty-terrain",
       "note": "Fairy ring All Fairy-Type Pokemon get a +1 boost to their lowest Defense stat on switch in.",
+      "defeat": 1692,
       "cap": 76
     },
     {
@@ -1383,6 +1408,7 @@
       ],
       "field": 2,
       "note": "Rainbow Battle All Dragon-type Pokemon on the field have their moves' secondary effect chance doubled. This stacks Serene Grace with the exception of flinching moves.",
+      "defeat": 1693,
       "cap": 76
     },
     {
@@ -1418,6 +1444,7 @@
         }
       ],
       "field": 2,
+      "defeat": 1319,
       "cap": 76
     },
     {
@@ -1497,6 +1524,7 @@
           "lock": 0
         }
       ],
+      "defeat": 1307,
       "cap": 74
     }
   ]

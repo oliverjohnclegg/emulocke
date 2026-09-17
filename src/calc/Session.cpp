@@ -82,7 +82,7 @@ void CalcSession::foeOrder(int slots[6]) const {
     Pokemon player{};
     if (snap_.ok && partySlot_ >= 0 && partySlot_ < 6 &&
         snap_.party.mons[static_cast<std::size_t>(partySlot_)].species) {
-        player = pokemonFromSnap(snap_.party.mons[static_cast<std::size_t>(partySlot_)]);
+        player = pokemonFromSnap(snap_.party.mons[static_cast<std::size_t>(partySlot_)], pack_);
     }
     switchOrder(*pack_, *trainer_, down, player, pack_->switchIn, slots,
         snap_.battle.inBattle ? snap_.battle.foe.partyIndex : -1);

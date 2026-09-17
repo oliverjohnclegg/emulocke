@@ -88,12 +88,14 @@ void testTrackerFill() {
     REQUIRE(loaded.caught("route-1").personality == 0);
     REQUIRE(loaded.caught("route-1").status == emulocke::EncounterStatus::Captured);
     REQUIRE(loaded.defeated("brock"));
+    starterLog.setCaught("route-1", 16, 99, "pidgey");
     starterLog.setStatus("route-1", emulocke::EncounterStatus::Dead);
     REQUIRE(starterLog.save(path));
     emulocke::TrackerLog deadLoaded;
     REQUIRE(deadLoaded.load(path));
     REQUIRE(deadLoaded.caught("route-1").status == emulocke::EncounterStatus::Dead);
     REQUIRE(deadLoaded.caught("route-1").species == 16);
+    REQUIRE(deadLoaded.caught("route-1").slug == "pidgey");
     REQUIRE(!deadLoaded.markedDead(0));
     deadLoaded.setCaught("route-1", 16, 99);
     REQUIRE(deadLoaded.markedDead(99));
@@ -165,6 +167,20 @@ void testTrackerFill() {
     REQUIRE(servineLog.defeated("b1"));
     REQUIRE(servineLog.defeated("c1"));
     REQUIRE(!servineLog.defeated("n1"));
+
+    emulocke::TrackerLog routeLog;
+    emulocke::GameSnapshot routeSnap;
+    routeSnap.ok = true;
+    routeSnap.party.count = 2;
+    routeSnap.party.mons[0].species = 495;
+    routeSnap.party.mons[0].personality = 9;
+    routeSnap.party.mons[1].species = 16;
+    routeSnap.party.mons[1].personality = 22;
+    routeSnap.party.mons[1].metLocation = 14;
+    emulocke::applyTrackerFill(routeLog, *blaze, routeSnap);
+    REQUIRE(routeLog.caught("starter").species == 495);
+    REQUIRE(routeLog.caught("route-1").species == 16);
+    REQUIRE(routeLog.caught("route-1").personality == 22);
 
     const char* home = std::getenv("HOME");
     if (home) {
@@ -253,4 +269,31 @@ void testTrackerFill() {
     const emulocke::GameAdapter* rse = emulocke::adapterFor(ruby);
     REQUIRE(rse != nullptr);
     REQUIRE(emulocke::matchSpeciesName(*rse, "Treecko") == 252);
+
+    emulocke::TrackerLog faintLog;
+    faintLog.setCaught("route-1", 16, 413912340);
+    emulocke::GameSnapshot fainted;
+    fainted.ok = true;
+    fainted.party.count = 1;
+    fainted.party.mons[0].species = 16;
+    fainted.party.mons[0].personality = 413912340;
+    fainted.party.mons[0].hp = 0;
+    fainted.party.mons[0].maxHp = 20;
+    emulocke::applyFaintDeath(faintLog, fainted);
+    REQUIRE(faintLog.caught("route-1").status == emulocke::EncounterStatus::Dead);
+    fainted.party.mons[0].hp = 18;
+    emulocke::applyFaintDeath(faintLog, fainted);
+    REQUIRE(faintLog.caught("route-1").status == emulocke::EncounterStatus::Dead);
+
+    emulocke::TrackerLog pidLog;
+    pidLog.setCaught("starter", 495, 3440405403);
+    emulocke::GameSnapshot pidFaint;
+    pidFaint.ok = true;
+    pidFaint.party.count = 1;
+    pidFaint.party.mons[0].species = 495;
+    pidFaint.party.mons[0].personality = 3440405403;
+    pidFaint.party.mons[0].hp = 0;
+    pidFaint.party.mons[0].maxHp = 24;
+    emulocke::applyFaintDeath(pidLog, pidFaint);
+    REQUIRE(pidLog.caught("starter").status == emulocke::EncounterStatus::Dead);
 }

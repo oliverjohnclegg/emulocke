@@ -98,4 +98,8 @@ const char* nationalSpeciesName(uint16_t species) {
     return "???";
 }
 
+bool nationalSpeciesKnown(uint16_t species) {
+    return species > 0 && species < sizeof(kNational) / sizeof(kNational[0]);
+}
+
 }

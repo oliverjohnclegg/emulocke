@@ -1,6 +1,7 @@
 #include "ui/CalculatorDraw.hpp"
 
 #include "adapter/frlg/FrlgNames.hpp"
+#include "adapter/gen45/Names.hpp"
 #include "application/Application.hpp"
 #include "calc/Ai.hpp"
 #include "calc/Build.hpp"
@@ -8,6 +9,7 @@
 #include "ui/Theme.hpp"
 #include "ui/KitNav.hpp"
 
+#include <cstdio>
 #include <imgui.h>
 
 namespace emulocke {
@@ -28,17 +30,41 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
     if (!foeSet) {
         return;
     }
-    Pokemon player = pokemonFromSnap(raw);
-    Pokemon foe = pokemonFromPack(*foeSet);
+    Pokemon player = pokemonFromSnap(raw, pack);
+    Pokemon foe = pokemonFromPack(*foeSet, pack);
     if (snap->battle.inBattle) {
-        if (session.partySlot() == snap->battle.player.partyIndex) {
+        if (session.partySlot() == snap->battle.player.partyIndex ||
+            raw.species == snap->battle.player.species) {
             applyBattler(player, snap->battle.player);
         }
         if (session.foeSlot() == snap->battle.foe.partyIndex) {
             applyBattler(foe, snap->battle.foe);
-        } else if (snap->battle.foeMaxHp[session.foeSlot()]) {
-            foe.hp = snap->battle.foeHp[session.foeSlot()];
-            foe.maxHp = snap->battle.foeMaxHp[session.foeSlot()];
+        }
+        const int fs = session.foeSlot();
+        if (fs >= 0 && fs < 6 && snap->battle.foeMaxHp[fs]) {
+            foe.maxHp = snap->battle.foeMaxHp[static_cast<std::size_t>(fs)];
+            foe.hp = snap->battle.foeHp[static_cast<std::size_t>(fs)];
+            if (foe.hp > foe.maxHp) {
+                foe.hp = foe.maxHp;
+            }
+            if (snap->battle.foeLevel[fs]) {
+                foe.level = snap->battle.foeLevel[fs];
+            }
+            if (snap->battle.foeAtk[fs]) {
+                foe.atk = snap->battle.foeAtk[fs];
+            }
+            if (snap->battle.foeDef[fs]) {
+                foe.def = snap->battle.foeDef[fs];
+            }
+            if (snap->battle.foeSpa[fs]) {
+                foe.spa = snap->battle.foeSpa[fs];
+            }
+            if (snap->battle.foeSpd[fs]) {
+                foe.spd = snap->battle.foeSpd[fs];
+            }
+            if (snap->battle.foeSpe[fs]) {
+                foe.spe = snap->battle.foeSpe[fs];
+            }
         }
     }
     const Field intoFoe = aimField(session.fieldState(), true);
@@ -46,7 +72,9 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
     const int pSpe = finalSpeed(player, intoFoe);
     const int fSpe = finalSpeed(foe, intoFoe);
     const char* pName = raw.speciesName[0] ? raw.speciesName : player.name;
-    const char* fName = frlgSpeciesName(foe.species);
+    const SpeciesRef foeRef =
+        (pack->dmgGen == 4 || pack->dmgGen == 5) ? nationalSpeciesRef(foe.species) : SpeciesRef{};
+    const char* fName = foeRef.name && foeRef.name[0] ? foeRef.name : frlgSpeciesName(foe.species);
     const ImVec2 top = ImGui::GetCursorScreenPos();
     const float pane = ImGui::GetContentRegionAvail().x;
     if (ImGui::BeginTable("calc-head", 3, ImGuiTableFlags_NoPadInnerX, ImVec2(pane, 0))) {
@@ -57,26 +85,32 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
         ImGui::TableSetColumnIndex(0);
         drawCalcSideHead(pName, player, false);
         const float abY = ImGui::GetItemRectMin().y;
-        ImGui::TableSetColumnIndex(1);
-        ImGui::Dummy(ImVec2(0, 8));
         ImGui::Text("%d", pSpe);
         if (pSpe > fSpe) {
-            ImGui::SameLine();
-            ImGui::TextDisabled(">spe");
-        }
-        ImGui::SameLine();
-        ImGui::Text("%d", fSpe);
-        if (fSpe > pSpe) {
             ImGui::SameLine();
             ImGui::TextDisabled(">spe");
         } else if (pSpe == fSpe) {
             ImGui::SameLine();
             ImGui::TextDisabled("tie");
         }
+        ImGui::TableSetColumnIndex(1);
+        ImGui::Dummy(ImVec2(0, 8));
         drawCalcCrits(session.sideCrit(false), session.sideCrit(true), top.x + pane * 0.5f, abY,
             app.kitFocus().calcCol == 1 ? app.kitFocus().calcRow : -1,
             kitNavSuite(app, KitTab::Calculator) && app.kit().act && app.kitFocus().calcCol == 1);
         ImGui::TableSetColumnIndex(2);
+        char fSpeBuf[8];
+        std::snprintf(fSpeBuf, sizeof fSpeBuf, "%d", fSpe);
+        float foeSpeW = ImGui::CalcTextSize(fSpeBuf).x;
+        if (fSpe > pSpe) {
+            foeSpeW += ImGui::CalcTextSize(">spe").x + ImGui::GetStyle().ItemSpacing.x;
+        }
+        calcAlignRight(foeSpeW);
+        if (fSpe > pSpe) {
+            ImGui::TextDisabled(">spe");
+            ImGui::SameLine();
+        }
+        ImGui::TextUnformatted(fSpeBuf);
         drawCalcSideHead(fName, foe, true);
         ImGui::EndTable();
     }

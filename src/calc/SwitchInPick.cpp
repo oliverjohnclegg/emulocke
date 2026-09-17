@@ -19,7 +19,15 @@ int mostSuitableMon(const CalcPack& pack, const PackTrainer& trainer, const bool
                 continue;
             }
             const PackMon* mon = trainerMon(pack, trainer, i);
-            const SpeciesRow* row = mon ? speciesById(mon->species) : nullptr;
+            const SpeciesRow* row = nullptr;
+            if (mon) {
+                if (pack.dmgGen >= 4) {
+                    row = nationalDexRow(mon->species);
+                }
+                if (!row) {
+                    row = speciesById(mon->species);
+                }
+            }
             if (!row) {
                 invalid[i] = true;
                 continue;

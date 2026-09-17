@@ -66,9 +66,17 @@ void checkMergePrefersLiveParty() {
     emulocke::GameSnapshot live = fromSave;
     live.party.count = 1;
     live.gyms.slots = 0;
+    live.boxes = {};
+    live.overworld = {};
     watch.mergeInto(live);
     REQUIRE(live.party.count == 1);
     REQUIRE(live.gyms.slots == fromSave.gyms.slots);
+    if (fromSave.boxes.boxes[0].mons[0].species != 0) {
+        REQUIRE(live.boxes.boxes[0].mons[0].species == fromSave.boxes.boxes[0].mons[0].species);
+    }
+    if (fromSave.overworld.mapName[0] != 0) {
+        REQUIRE(std::string(live.overworld.mapName) == fromSave.overworld.mapName);
+    }
     std::filesystem::remove_all(path.parent_path());
 }
 

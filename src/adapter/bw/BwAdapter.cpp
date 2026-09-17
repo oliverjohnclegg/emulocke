@@ -1,5 +1,6 @@
 #include "adapter/bw/BwAdapter.hpp"
 
+#include "adapter/gen45/Names.hpp"
 #include "adapter/gen5/Save.hpp"
 
 namespace emulocke {
@@ -30,6 +31,10 @@ GameSnapshot BwAdapter::readLive(const LiveMemory& mem) const {
     return snap;
 }
 
+SpeciesRef BwAdapter::species(uint16_t internalId) const {
+    return nationalSpeciesRef(internalId);
+}
+
 Bw2Adapter::Bw2Adapter(bool white) : white_(white) {}
 
 AdapterId Bw2Adapter::id() const {
@@ -52,8 +57,12 @@ GameSnapshot Bw2Adapter::readLive(const LiveMemory& mem) const {
     GameSnapshot snap;
     snap.adapterId = id();
     snap.origin = SnapshotOrigin::Live;
-    fillGen5Live(mem, white_ ? kWhite2PartyLive : kBw2PartyLive, snap);
+    fillGen5Live(mem, white_ ? kWhite2PartyLive : kBw2PartyLive, snap, true);
     return snap;
+}
+
+SpeciesRef Bw2Adapter::species(uint16_t internalId) const {
+    return nationalSpeciesRef(internalId);
 }
 
 }

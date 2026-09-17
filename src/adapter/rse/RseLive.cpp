@@ -2,6 +2,8 @@
 
 #include "adapter/gen3/BoxMon.hpp"
 #include "adapter/gen3/Codec.hpp"
+#include "adapter/rse/RseBattle.hpp"
+#include "adapter/rse/RseLayout.hpp"
 #include "adapter/rse/RseSave.hpp"
 
 #include <array>
@@ -28,6 +30,7 @@ void fillSnapshotFromRseLive(const LiveMemory& mem, GameSnapshot& snap, bool eme
     const uint32_t sb1 = emerald ? livePtr(mem, kEmSaveBlock1Ptr, kEmSaveBlock1, kRseSaveBlock1Size) : kRsSaveBlock1;
     const uint32_t partyAddr = emerald ? kEmParty : kRsParty;
     const uint32_t countAddr = emerald ? kEmPartyCount : kRsPartyCount;
+    const uint32_t storage = emerald ? livePtr(mem, kEmStoragePtr, kEmStorage, kRseStorageSize) : kRsStorage;
 
     std::array<uint8_t, kRseSaveBlock2Size> block2{};
     if (mem.read(sb2, block2)) {
@@ -57,8 +60,14 @@ void fillSnapshotFromRseLive(const LiveMemory& mem, GameSnapshot& snap, bool eme
     }
     std::array<uint8_t, kRseSaveBlock1Size> block1{};
     if (mem.read(sb1, block1)) {
+        fillRseMap(block1.data(), snap.overworld);
         fillRseProgress(snap, block1.data(), emerald);
     }
+    std::array<uint8_t, kRseStorageSize> pc{};
+    if (mem.read(storage, pc)) {
+        fillRseBoxes(pc, snap.boxes);
+    }
+    fillRseBattle(mem, snap, emerald);
     snap.ok = snap.party.count > 0;
 }
 
