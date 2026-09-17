@@ -8,7 +8,10 @@ namespace melonDS::Platform {
 
 void SignalStop(StopReason, void*) {}
 
-void Log(LogLevel, const char* fmt, ...) {
+void Log(LogLevel level, const char* fmt, ...) {
+    if (level == LogLevel::Debug) {
+        return;
+    }
     va_list args;
     va_start(args, fmt);
     std::vprintf(fmt, args);
