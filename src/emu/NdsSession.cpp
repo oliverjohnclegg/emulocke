@@ -3,17 +3,21 @@
 #include "emu/AudioOutput.hpp"
 #include "emu/Buttons.hpp"
 #include "emu/FileBytes.hpp"
+#include "run/NdsMac.hpp"
 #include <NDS.h>
 #include <NDSCart.h>
 #include <Args.h>
 #include <GPU.h>
+#include <SPI_Firmware.h>
 #include <SPU.h>
+#include <algorithm>
 #include <cstring>
 #include <filesystem>
 
 namespace emulocke {
 
-std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath, const std::string& savePath) {
+std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath, const std::string& savePath,
+                                             NdsMac mac) {
     auto bytes = readWholeFile(romPath, kMaxRomFile);
     if (bytes.empty()) {
         return nullptr;
@@ -22,6 +26,7 @@ std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath, const s
     session->romPath_ = romPath;
     session->savePath_ = savePath;
     session->romName_ = std::filesystem::path(romPath).filename().string();
+    session->mac_ = ndsMacAssigned(mac) ? mac : randomNdsMac();
     session->cart_ = cartridgeFromNdsRom(bytes);
     session->top_.assign(256 * 192, 0);
     session->bottom_.assign(256 * 192, 0);
@@ -44,12 +49,23 @@ std::unique_ptr<NdsSession> NdsSession::open(const std::string& romPath, const s
     settings.ScaleFactor = 1;
     settings.Threaded = true;
     session->nds_->GetRenderer().SetRenderSettings(settings);
-    session->nds_->Reset();
-    if (session->nds_->NeedsDirectBoot()) {
-        session->nds_->SetupDirectBoot(session->romName_);
-    }
-    session->nds_->Start();
+    session->startConsole();
     return session;
+}
+
+void NdsSession::startConsole() {
+    nds_->Reset();
+    auto& fw = nds_->GetFirmware();
+    constexpr std::size_t kFirmwareMacOffset = 0x36;
+    std::copy(mac_.begin(), mac_.end(), fw.Buffer() + kFirmwareMacOffset);
+    fw.UpdateChecksums();
+    if (nds_->NeedsDirectBoot()) {
+        nds_->SetupDirectBoot(romName_);
+    }
+    for (std::size_t i = 0; i < mac_.size(); ++i) {
+        nds_->ARM9Write8(0x027FFC3C + static_cast<uint32_t>(i), mac_[i]);
+    }
+    nds_->Start();
 }
 
 NdsSession::~NdsSession() = default;
@@ -78,11 +94,7 @@ void NdsSession::runFrame() {
 }
 
 void NdsSession::reset() {
-    nds_->Reset();
-    if (nds_->NeedsDirectBoot()) {
-        nds_->SetupDirectBoot(romName_);
-    }
-    nds_->Start();
+    startConsole();
 }
 
 void NdsSession::setButtons(uint32_t pressed) {

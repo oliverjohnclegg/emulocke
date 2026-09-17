@@ -1,5 +1,7 @@
 #include "run/RunMeta.hpp"
 
+#include "run/NdsMac.hpp"
+
 #include <fstream>
 
 namespace emulocke {
@@ -24,6 +26,9 @@ bool writeRunMeta(const std::filesystem::path& dir, const Run& run) {
     out << "allowCheats=" << yn(run.allowCheats) << "\n";
     if (!run.patchOption.empty()) {
         out << "patchOption=" << run.patchOption << "\n";
+    }
+    if (ndsMacAssigned(run.mac)) {
+        out << "mac=" << formatNdsMac(run.mac) << "\n";
     }
     out << "createdAt=" << run.createdAt << "\n";
     out << "lastPlayedAt=" << run.lastPlayedAt << "\n";

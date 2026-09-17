@@ -1,5 +1,6 @@
 #pragma once
 
+#include "run/NdsMac.hpp"
 #include "run/NuzlockeRules.hpp"
 
 #include <cstdint>
@@ -19,6 +20,7 @@ struct Run {
     uint64_t playMs = 0;
     std::string difficulty;
     std::string patchOption;
+    NdsMac mac{};
 
     const std::string& lineageKey() const {
         return lineageId.empty() ? id : lineageId;

@@ -134,7 +134,7 @@ Stable instance names: `emulocke-vX.X.X-win-x64.exe` and `emulocke-vX.X.X-linux-
 | UI | Dear ImGui (custom theme, not stock gray) |
 | GBA | mGBA as a library |
 | NDS | melonDS `core` + our `Platform.h` implementation |
-| NDS boot | FreeBIOS + generated firmware + direct boot |
+| NDS boot | FreeBIOS + generated firmware + direct boot. Per-run randomized MAC (`00:09:BF` + 3 bytes), persisted on `meta.ini`. |
 | Renderer | Software framebuffers uploaded as SDL textures |
 
 ## Legal
@@ -249,4 +249,5 @@ Graphite clamshell. Matte graphite chassis, inset screen wells, parchment-metal 
 - 2026-09-16: Suite keyboard kit. Always-on reserved pocket around F. Esc pause. Grave aliases F8. 1-5 tabs. Tracker snap from the live map.
 - 2026-09-16: Pokémon tab top-left icons copy the party or party+box to the clipboard in Showdown format. `--preview-tracker` also opens the Pokémon tab.
 - 2026-09-15: Inventory of save, live RAM, and static game data the snapshot needs (`docs/common-data.md`).
+- 2026-09-17: Each run gets a randomized DS MAC (`00:09:BF` + 3 bytes) stored on `meta.ini`. New Attempt rolls a new MAC. Applied to generated firmware and `0x027FFC3C` on boot and reset.
 - 2026-09-15: Representation is one bundle gate: live snapshot (party, PC, flags, map, battle), tracker atlas with auto-capture and auto-boss, and a calc pack. Incomplete titles show the empty plate.

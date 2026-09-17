@@ -1,6 +1,7 @@
 #include "run/RunMeta.hpp"
 
 #include "run/Catalog.hpp"
+#include "run/NdsMac.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -103,6 +104,11 @@ std::optional<Run> readRunMeta(const std::filesystem::path& dir) {
     }
     if (kv.count("patchOption")) {
         run.patchOption = kv["patchOption"];
+    }
+    if (kv.count("mac")) {
+        if (auto mac = parseNdsMac(kv["mac"])) {
+            run.mac = *mac;
+        }
     }
     return run;
 }
