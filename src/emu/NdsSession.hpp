@@ -2,6 +2,7 @@
 
 #include "adapter/LiveMemory.hpp"
 #include "emu/EmuSession.hpp"
+#include "run/NdsMac.hpp"
 
 #include <memory>
 #include <mutex>
@@ -18,7 +19,8 @@ namespace emulocke {
 
 class NdsSession final : public EmuSession, public LiveMemory {
 public:
-    static std::unique_ptr<NdsSession> open(const std::string& romPath, const std::string& savePath);
+    static std::unique_ptr<NdsSession> open(const std::string& romPath, const std::string& savePath,
+                                            NdsMac mac = {});
     ~NdsSession() override;
     NdsSession(const NdsSession&) = delete;
     NdsSession& operator=(const NdsSession&) = delete;
@@ -42,10 +44,12 @@ public:
 
 private:
     NdsSession() = default;
+    void startConsole();
     std::unique_ptr<melonDS::NDS> nds_;
     std::string romPath_;
     std::string savePath_;
     std::string romName_;
+    NdsMac mac_{};
     Cartridge cart_{};
     std::vector<uint32_t> top_;
     std::vector<uint32_t> bottom_;

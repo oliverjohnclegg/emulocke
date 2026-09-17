@@ -1,5 +1,6 @@
 #include "run/RunStore.hpp"
 
+#include "run/NdsMac.hpp"
 #include "run/RunMeta.hpp"
 
 #include <algorithm>
@@ -49,6 +50,7 @@ std::optional<Run> RunStore::createAttempt(const Run& source) {
     run.createdAt = isoTimestamp();
     run.lastPlayedAt = run.createdAt;
     run.playMs = 0;
+    run.mac = randomNdsMac();
     auto created = persist(std::move(run));
     if (!created) {
         return std::nullopt;

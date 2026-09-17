@@ -1,5 +1,6 @@
 #include "run/RunStore.hpp"
 
+#include "run/NdsMac.hpp"
 #include "run/RunMeta.hpp"
 
 #include <algorithm>
@@ -95,7 +96,20 @@ std::optional<Run> RunStore::create(std::string catalogUuid, NuzlockeRules rules
     run.attempt = 1;
     run.createdAt = isoTimestamp();
     run.lastPlayedAt = run.createdAt;
+    run.mac = randomNdsMac();
     return persist(std::move(run));
+}
+
+NdsMac RunStore::ensureMac(const std::string& id) {
+    Run* run = find(id);
+    if (!run) {
+        return {};
+    }
+    if (!ndsMacAssigned(run->mac)) {
+        run->mac = randomNdsMac();
+        writeRunMeta(root_ / id, *run);
+    }
+    return run->mac;
 }
 
 void RunStore::erase(const std::string& id) {

@@ -3,6 +3,7 @@
 #include "emu/Paths.hpp"
 #include "run/Catalog.hpp"
 #include "ui/Layout.hpp"
+#include "run/NdsMac.hpp"
 #include "run/NuzlockeRules.hpp"
 #include "run/PatchApply.hpp"
 #include "run/RomLibrary.hpp"
@@ -336,6 +337,23 @@ int main() {
     expect(a && b, "create runs");
     expect(a && a->allowCheats, "default allow cheats");
     expect(a && a->playMs == 0, "new play 0");
+    expect(a && emulocke::ndsMacAssigned(a->mac), "create mac");
+    expect(b && emulocke::ndsMacAssigned(b->mac), "other mac");
+    expect(a && b && a->mac != b->mac, "runs differ mac");
+    {
+        const auto parsed = emulocke::parseNdsMac(emulocke::formatNdsMac(a->mac));
+        expect(parsed && *parsed == a->mac, "mac roundtrip");
+        expect(emulocke::parseNdsMac("00:09:BF:11:22:34").has_value(), "mac colons");
+        expect(!emulocke::parseNdsMac("0009bf000000"), "mac zero nic");
+        expect(!emulocke::parseNdsMac("deadbeef"), "mac junk");
+        std::ifstream macIn(store.dir(a->id) / "meta.ini");
+        std::string macLine;
+        bool sawMac = false;
+        while (std::getline(macIn, macLine)) {
+            sawMac = sawMac || macLine.rfind("mac=", 0) == 0;
+        }
+        expect(sawMac, "meta has mac");
+    }
     const auto savIn = tmp / "incoming.sav";
     const std::vector<uint8_t> savBytes{0x10, 0x20, 0x30, 0x40};
     emulocke::writeWholeFile(savIn.string(), savBytes.data(), savBytes.size());
@@ -368,9 +386,11 @@ int main() {
     emulocke::TitlePlay reloadedPlay(playFile);
     expect(reloadedPlay.get(emulocke::kFireRedUs10Uuid) == 4000, "title reload");
 
+    const emulocke::NdsMac macA = a->mac;
     auto a2 = store.createAttempt(*store.find(a->id));
     expect(a2 && a2->attempt == 2 && !store.find(a->id), "replace attempt");
     expect(a2 && a2->playMs == 0, "attempt play 0");
+    expect(a2 && a2->mac != macA && emulocke::ndsMacAssigned(a2->mac), "attempt new mac");
     emulocke::TitlePlay afterAttempt(playFile);
     expect(afterAttempt.get(emulocke::kFireRedUs10Uuid) == 4000, "title after attempt");
     expect(store.addPlayMs(b->id, 250), "other add play");
@@ -402,6 +422,7 @@ int main() {
     expect(againRun && againRun->attempt == 2, "reload attempt");
     expect(againRun && againRun->playMs == 0, "reload play 0");
     expect(againRun && againRun->allowCheats, "reload allow cheats");
+    expect(againRun && againRun->mac == a2->mac, "reload mac");
     expect(loaded.find(b->id) && loaded.find(b->id)->playMs == 250, "other run play");
 
     const auto legacyDir = runs / "0123456789abcdef";
@@ -426,6 +447,17 @@ int main() {
     const emulocke::Run* legacyRun = loaded.find("0123456789abcdef");
     expect(legacyRun && legacyRun->playMs == 0, "legacy play 0");
     expect(legacyRun && legacyRun->allowCheats, "legacy allow cheats");
+    expect(legacyRun && !emulocke::ndsMacAssigned(legacyRun->mac), "legacy no mac");
+    const emulocke::NdsMac legacyMac = loaded.ensureMac("0123456789abcdef");
+    expect(emulocke::ndsMacAssigned(legacyMac), "legacy ensure mac");
+    expect(loaded.ensureMac("0123456789abcdef") == legacyMac, "legacy mac sticky");
+    {
+        emulocke::RunStore legacyReload(runs);
+        legacyReload.load();
+        expect(legacyReload.find("0123456789abcdef") &&
+                legacyReload.find("0123456789abcdef")->mac == legacyMac,
+            "legacy mac persisted");
+    }
 
     auto extra = store.create(emulocke::kFireRedUs10Uuid, emulocke::regularRules(), {}, {}, false);
     expect(extra && !extra->allowCheats, "create no cheats");

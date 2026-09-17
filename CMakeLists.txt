@@ -343,6 +343,7 @@ add_executable(emulocke
     src/emu/NdsPlatformStubs.cpp
     src/emu/NdsPlatformDynlib.cpp
     src/emu/NdsPlatformSave.cpp
+    src/run/NdsMac.cpp
     src/run/BatteryWatch.cpp
     src/run/Catalog.cpp
     src/run/CatalogLookup.cpp
@@ -529,6 +530,7 @@ add_executable(emulocke-boot-check EXCLUDE_FROM_ALL
     src/emu/GbaCheats.cpp
     src/emu/NdsSession.cpp
     src/emu/NdsCheats.cpp
+    src/run/NdsMac.cpp
     src/cheats/Lines.cpp
     src/emu/NdsPlatformFiles.cpp
     src/emu/NdsPlatformLocal.cpp
@@ -572,6 +574,7 @@ add_executable(emulocke-run-check
     src/run/RomLibrary.cpp
     src/run/RomLibraryEnsure.cpp
     src/run/RunLabel.cpp
+    src/run/NdsMac.cpp
     src/run/RunMeta.cpp
     src/run/RunMetaWrite.cpp
     src/run/RunStore.cpp

@@ -118,7 +118,7 @@ void Application::bootRun(const Run& run) {
             next = GbaSession::open(rom->string(), save);
             status_ = next ? "Cart seated." : "Couldn't open that game.";
         } else if (ext == ".nds") {
-            next = NdsSession::open(rom->string(), save);
+            next = NdsSession::open(rom->string(), save, runStore_->ensureMac(run.id));
             status_ = next ? "Cart seated." : "Couldn't open that game.";
         } else {
             status_ = "Need a Pokemon game (.gba or .nds).";
