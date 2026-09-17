@@ -49,7 +49,8 @@
           "slug": "turtwig",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 5
     },
     {
       "id": "lake-verity",
@@ -105,7 +106,8 @@
           "slug": "turtwig",
           "lock": 393
         }
-      ]
+      ],
+      "cap": 11
     },
     {
       "id": "oreburgh-gate",
@@ -157,7 +159,8 @@
           "slug": "cranidos",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 16
     },
     {
       "id": "oreburgh-mine",
@@ -263,7 +266,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 19
     },
     {
       "id": "eterna-forest",
@@ -297,7 +301,8 @@
           "slug": "chansey",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 20
     },
     {
       "id": "the-old-chateau",
@@ -346,7 +351,8 @@
           "slug": "roserade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 26
     },
     {
       "id": "jup1",
@@ -371,7 +377,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 27
     },
     {
       "id": "eterna-building",
@@ -410,7 +417,8 @@
           "slug": "prinplup",
           "lock": 387
         }
-      ]
+      ],
+      "cap": 30
     },
     {
       "id": "d1",
@@ -443,7 +451,8 @@
           "slug": "prinplup",
           "lock": 387
         }
-      ]
+      ],
+      "cap": 30
     },
     {
       "id": "route-206",
@@ -486,7 +495,8 @@
           "slug": "kadabra",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 28
     },
     {
       "id": "mt-coronet",
@@ -533,7 +543,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 32
     },
     {
       "id": "gym-3",
@@ -567,7 +578,8 @@
           "slug": "mismagius",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 33
     },
     {
       "id": "b3",
@@ -600,7 +612,8 @@
           "slug": "prinplup",
           "lock": 390
         }
-      ]
+      ],
+      "cap": 33
     },
     {
       "id": "sat1",
@@ -633,7 +646,8 @@
           "slug": "espeon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 34
     },
     {
       "id": "route-209",
@@ -718,7 +732,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 39
     },
     {
       "id": "d2",
@@ -767,7 +782,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "cap": 45
     },
     {
       "id": "l2",
@@ -816,7 +832,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "cap": 45
     },
     {
       "id": "route-214",
@@ -921,7 +938,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "cap": 42
     },
     {
       "id": "gym-5",
@@ -956,7 +974,8 @@
           "lock": 0
         }
       ],
-      "weather": "rain"
+      "weather": "rain",
+      "cap": 44
     },
     {
       "id": "route-212",
@@ -1008,7 +1027,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 46
     },
     {
       "id": "fuego-ironworks",
@@ -1077,7 +1097,8 @@
           "slug": "entei",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 48
     },
     {
       "id": "route-218",
@@ -1152,7 +1173,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "cap": 49
     },
     {
       "id": "iron-island",
@@ -1194,7 +1216,8 @@
           "slug": "lucario",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "gym-6",
@@ -1228,7 +1251,8 @@
           "slug": "bastiodon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 53
     },
     {
       "id": "route-211",
@@ -1266,7 +1290,8 @@
           "slug": "toxicroak",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 53
     },
     {
       "id": "mars2",
@@ -1295,7 +1320,8 @@
           "slug": "purugly",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 53
     },
     {
       "id": "route-216",
@@ -1374,7 +1400,8 @@
           "slug": "froslass",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 56
     },
     {
       "id": "cyr2",
@@ -1403,7 +1430,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 58
     },
     {
       "id": "sat3",
@@ -1436,7 +1464,8 @@
           "slug": "toxicroak",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 57
     },
     {
       "id": "mnj",
@@ -1493,7 +1522,8 @@
           "slug": "skuntank",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 58
     },
     {
       "id": "cyr3",
@@ -1510,7 +1540,8 @@
           "slug": "dialga",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 70
     },
     {
       "id": "cyr4",
@@ -1543,7 +1574,8 @@
           "slug": "weavile",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 60
     },
     {
       "id": "route-222",
@@ -1594,7 +1626,8 @@
           "slug": "zapdos",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 63
     },
     {
       "id": "gym-8",
@@ -1628,7 +1661,8 @@
           "slug": "electivire",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 62
     },
     {
       "id": "route-223",
@@ -1704,7 +1738,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "cap": 70
     },
     {
       "id": "d3",
@@ -1753,7 +1788,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "cap": 70
     },
     {
       "id": "victory-road",
@@ -1816,7 +1852,8 @@
           "slug": "empoleon",
           "lock": 387
         }
-      ]
+      ],
+      "cap": 71
     },
     {
       "id": "e1a",
@@ -1849,7 +1886,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 72
     },
     {
       "id": "e1b",
@@ -1882,7 +1920,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 72
     },
     {
       "id": "e1c",
@@ -1915,7 +1954,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 72
     },
     {
       "id": "e1d",
@@ -1948,7 +1988,8 @@
           "slug": "drapion",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 72
     },
     {
       "id": "e2a",
@@ -1981,7 +2022,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "e2b",
@@ -2014,7 +2056,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "e2c",
@@ -2047,7 +2090,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "e2d",
@@ -2080,7 +2124,8 @@
           "slug": "rhyperior",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 73
     },
     {
       "id": "e3a",
@@ -2113,7 +2158,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 74
     },
     {
       "id": "e3b",
@@ -2146,7 +2192,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 74
     },
     {
       "id": "e3c",
@@ -2179,7 +2226,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 74
     },
     {
       "id": "e3d",
@@ -2212,7 +2260,8 @@
           "slug": "magmortar",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 74
     },
     {
       "id": "e4a",
@@ -2245,7 +2294,8 @@
           "slug": "gallade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 75
     },
     {
       "id": "e4b",
@@ -2278,7 +2328,8 @@
           "slug": "gallade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 75
     },
     {
       "id": "e4c",
@@ -2311,7 +2362,8 @@
           "slug": "gallade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 75
     },
     {
       "id": "e4d",
@@ -2344,7 +2396,8 @@
           "slug": "gallade",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 75
     },
     {
       "id": "ca",
@@ -2377,7 +2430,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 78
     },
     {
       "id": "cb",
@@ -2410,7 +2464,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 78
     },
     {
       "id": "cc",
@@ -2443,7 +2498,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 78
     },
     {
       "id": "cd",
@@ -2476,7 +2532,8 @@
           "slug": "garchomp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 78
     }
   ]
 }

@@ -3,6 +3,7 @@
 #include "emu/Paths.hpp"
 #include "run/Catalog.hpp"
 #include "tracker/Difficulty.hpp"
+#include "ui/KitFocus.hpp"
 
 #include <string>
 
@@ -25,6 +26,7 @@ void Application::requestNewRun() {
         bindTitleDifficulty(newRunDraft_.difficulty, title->slug);
     }
     newRunDraft_.rules = regularRules();
+    newRunDraft_.allowCheats = true;
     pendingNewRun_ = true;
 }
 
@@ -154,7 +156,7 @@ void Application::createRunFromDraft() {
         return;
     }
     auto created = runStore_->create(newRunDraft_.catalogUuid, newRunDraft_.rules, newRunDraft_.patchOption,
-                                      newRunDraft_.difficulty);
+                                      newRunDraft_.difficulty, newRunDraft_.allowCheats);
     if (!created) {
         status_ = "Failed to create run.";
         showNewRun_ = true;
@@ -208,6 +210,9 @@ void Application::loadRun(const std::string& id) {
         runStore_->touch(id);
         loadTrackerLog();
         loadCheats();
+        kitFocus_ = {};
+        kitFocus_.tab = KitTab::Tracker;
+        kitFocus_.pendingTab = 1;
     } else {
         activeRunId_.clear();
         trackerLog_ = {};

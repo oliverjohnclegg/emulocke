@@ -31,7 +31,8 @@
           "slug": "beldum",
           "lock": 246
         }
-      ]
+      ],
+      "cap": 17
     },
     {
       "id": "route-1",
@@ -83,7 +84,8 @@
           "slug": "beldum",
           "lock": 246
         }
-      ]
+      ],
+      "cap": 19
     },
     {
       "id": "route-2",
@@ -129,7 +131,8 @@
         }
       ],
       "field": 2,
-      "weather": "fog"
+      "weather": "fog",
+      "cap": 21
     },
     {
       "id": "route-3",
@@ -205,7 +208,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "cap": 28
     },
     {
       "id": "route-5",
@@ -259,7 +263,8 @@
           "lock": 0
         }
       ],
-      "note": "Negative Energy A negative energy fills the battlefield and makes every non-Dark, non-Ghost and non-Psychic type Pokemon take 6.25% damage at the end of every turn."
+      "note": "Negative Energy A negative energy fills the battlefield and makes every non-Dark, non-Ghost and non-Psychic type Pokemon take 6.25% damage at the end of every turn.",
+      "cap": 27
     },
     {
       "id": "sh2-exp",
@@ -280,7 +285,8 @@
           "slug": "vullaby",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 34
     },
     {
       "id": "sh3-exp",
@@ -293,7 +299,8 @@
           "slug": "houndoom",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 33
     },
     {
       "id": "valley-cave",
@@ -358,7 +365,8 @@
           "slug": "metang",
           "lock": 246
         }
-      ]
+      ],
+      "cap": 33
     },
     {
       "id": "route-8",
@@ -407,7 +415,8 @@
           "lock": 0
         }
       ],
-      "note": "Tailwind A permanent tailwind effect for Flying-Types"
+      "note": "Tailwind A permanent tailwind effect for Flying-Types",
+      "cap": 33
     },
     {
       "id": "frozen-forest",
@@ -456,7 +465,8 @@
           "lock": 0
         }
       ],
-      "note": "Inverse Battle Type matchups are reversed and no type is immune to any other type."
+      "note": "Inverse Battle Type matchups are reversed and no type is immune to any other type.",
+      "cap": 37
     },
     {
       "id": "route-11",
@@ -541,7 +551,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "cap": 38
     },
     {
       "id": "tarmigan-town",
@@ -579,7 +590,8 @@
           "slug": "altaria",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 41
     },
     {
       "id": "thundercap-mt",
@@ -617,7 +629,8 @@
           "slug": "krookodile",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 41
     },
     {
       "id": "route-12",
@@ -671,7 +684,8 @@
           "slug": "metagross",
           "lock": 246
         }
-      ]
+      ],
+      "cap": 47
     },
     {
       "id": "dehara-city",
@@ -712,7 +726,8 @@
         }
       ],
       "field": 2,
-      "note": "Magnet Rise Permanent Magnet Rise effect for Steel-Type & Electric-Types making them immune to Ground type attacks."
+      "note": "Magnet Rise Permanent Magnet Rise effect for Steel-Type & Electric-Types making them immune to Ground type attacks.",
+      "cap": 46
     },
     {
       "id": "ruins-of-void",
@@ -756,7 +771,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "cap": 47
     },
     {
       "id": "sh6-exp",
@@ -785,7 +801,8 @@
           "slug": "decidueye",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 46
     },
     {
       "id": "route-15",
@@ -899,7 +916,8 @@
           "slug": "gardevoir",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 53
     },
     {
       "id": "route-16",
@@ -957,7 +975,8 @@
           "lock": 0
         }
       ],
-      "note": "Inverse Gravity Permanent Trick Room effect for weight, heavier Pokemon go first."
+      "note": "Inverse Gravity Permanent Trick Room effect for weight, heavier Pokemon go first.",
+      "cap": 53
     },
     {
       "id": "icy-hole",
@@ -1029,7 +1048,8 @@
         }
       ],
       "weather": "rain",
-      "note": "Camo-mons The Pokemon's types are that of the types of their first two attacks."
+      "note": "Camo-mons The Pokemon's types are that of the types of their first two attacks.",
+      "cap": 58
     },
     {
       "id": "cootes-bog",
@@ -1112,7 +1132,8 @@
           "slug": "metagross",
           "lock": 246
         }
-      ]
+      ],
+      "cap": 65
     },
     {
       "id": "crystal-peak",
@@ -1156,7 +1177,8 @@
         }
       ],
       "field": 2,
-      "tag": true
+      "tag": true,
+      "cap": 62
     },
     {
       "id": "lr4-exp",
@@ -1189,7 +1211,8 @@
           "slug": "primarina",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 62
     },
     {
       "id": "sh7-exp",
@@ -1222,7 +1245,8 @@
           "slug": "swoobat",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 62
     },
     {
       "id": "magnolia-fields",
@@ -1275,7 +1299,8 @@
           "lock": 0
         }
       ],
-      "note": "Benjamin Butterfree When a Pokemon is knocked out, instead of fainting it devolves to a previous evolution. The Pokemon finally faints when it can\u2019t devolve anymore."
+      "note": "Benjamin Butterfree When a Pokemon is knocked out, instead of fainting it devolves to a previous evolution. The Pokemon finally faints when it can\u2019t devolve anymore.",
+      "cap": 62
     },
     {
       "id": "route-18",
@@ -1329,7 +1354,8 @@
       ],
       "field": 2,
       "weather": "sandstorm",
-      "note": "Vicious Sandstorm Vicious sand causes Pokemon to lose 1/8 of max HP at the end of every turn"
+      "note": "Vicious Sandstorm Vicious sand causes Pokemon to lose 1/8 of max HP at the end of every turn",
+      "cap": 76
     },
     {
       "id": "e2-exp",
@@ -1363,7 +1389,8 @@
           "lock": 0
         }
       ],
-      "note": "Shadowy Veil Every Ghost-type Pokemon take half damage on full HP. Ghost-types are immune to entry hazards at full HP. Other Types cannot use Safeguard or Substitute."
+      "note": "Shadowy Veil Every Ghost-type Pokemon take half damage on full HP. Ghost-types are immune to entry hazards at full HP. Other Types cannot use Safeguard or Substitute.",
+      "cap": 76
     },
     {
       "id": "e3-exp",
@@ -1398,7 +1425,8 @@
         }
       ],
       "weather": "misty-terrain",
-      "note": "Fairy ring All Fairy-Type Pokemon get a +1 boost to their lowest Defense stat on switch in."
+      "note": "Fairy ring All Fairy-Type Pokemon get a +1 boost to their lowest Defense stat on switch in.",
+      "cap": 76
     },
     {
       "id": "e4-exp",
@@ -1433,7 +1461,8 @@
         }
       ],
       "field": 2,
-      "note": "Rainbow Battle All Dragon-type Pokemon on the field have their moves' secondary effect chance doubled. This stacks Serene Grace with the exception of flinching moves."
+      "note": "Rainbow Battle All Dragon-type Pokemon on the field have their moves' secondary effect chance doubled. This stacks Serene Grace with the exception of flinching moves.",
+      "cap": 76
     },
     {
       "id": "c-exp",
@@ -1467,7 +1496,8 @@
           "lock": 0
         }
       ],
-      "field": 2
+      "field": 2,
+      "cap": 76
     },
     {
       "id": "tomb-of-borrius",
@@ -1545,7 +1575,8 @@
           "slug": "diancie",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 75
     }
   ]
 }

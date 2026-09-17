@@ -3,6 +3,7 @@
 #include "application/Application.hpp"
 #include "run/Catalog.hpp"
 #include "ui/GamePicker.hpp"
+#include "ui/KitMark.hpp"
 #include "ui/NewRunOptions.hpp"
 #include "ui/Theme.hpp"
 
@@ -22,6 +23,7 @@ void drawImportSavButton(Application& app, bool canStart) {
     if (ImGui::Button(label)) {
         app.requestImportSav();
     }
+    kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), app.kitFocus().modalIndex == 2);
     if (!canStart) {
         ImGui::EndDisabled();
     }
@@ -76,15 +78,16 @@ void drawNewRunModal(Application& app) {
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Nuzlocke Settings")) {
-            drawNuzlockeSettings(draft.rules);
+            drawNuzlockeSettings(draft.rules, draft.allowCheats);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
     }
-    if (!app.status().empty()) {
+    if (!app.status().empty() && app.status() != "No cart." && app.status() != "Cart seated.") {
         ImGui::TextWrapped("%s", app.status().c_str());
     }
     const bool canStart = selected && app.romLibrary().ready(*selected);
+    applyNewRunKit(app, canStart);
     drawStartGate(selected, canStart);
     if (!canStart) {
         ImGui::BeginDisabled();
@@ -93,6 +96,7 @@ void drawNewRunModal(Application& app) {
         app.confirmNewRun();
         ImGui::CloseCurrentPopup();
     }
+    kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), app.kitFocus().modalIndex == 0);
     if (!canStart) {
         ImGui::EndDisabled();
     }
@@ -101,6 +105,7 @@ void drawNewRunModal(Application& app) {
         app.dismissNewRun();
         ImGui::CloseCurrentPopup();
     }
+    kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), app.kitFocus().modalIndex == 1);
     drawImportSavButton(app, canStart);
     ImGui::EndPopup();
     ImGui::PopStyleColor();

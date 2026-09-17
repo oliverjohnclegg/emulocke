@@ -67,7 +67,8 @@
           "slug": "chikorita",
           "lock": 158
         }
-      ]
+      ],
+      "cap": 5
     },
     {
       "id": "route-30",
@@ -133,7 +134,8 @@
           "slug": "hoothoot",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 10
     },
     {
       "id": "gym-1",
@@ -151,7 +153,8 @@
           "slug": "pidgeotto",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 13
     },
     {
       "id": "route-32",
@@ -222,7 +225,8 @@
           "slug": "koffing",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 12
     },
     {
       "id": "gym-2",
@@ -244,7 +248,8 @@
           "slug": "metapod",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 17
     },
     {
       "id": "r2",
@@ -273,7 +278,8 @@
           "slug": "bayleef",
           "lock": 158
         }
-      ]
+      ],
+      "cap": 18
     },
     {
       "id": "ilex-forest",
@@ -318,7 +324,8 @@
           "slug": "miltank",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 19
     },
     {
       "id": "route-35",
@@ -405,7 +412,8 @@
           "slug": "bayleef",
           "lock": 158
         }
-      ]
+      ],
+      "cap": 22
     },
     {
       "id": "bell-tower",
@@ -440,7 +448,8 @@
           "slug": "haunter",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 25
     },
     {
       "id": "route-38",
@@ -524,7 +533,8 @@
           "slug": "electrode",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 27
     },
     {
       "id": "gym-5",
@@ -542,7 +552,8 @@
           "slug": "poliwrath",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 31
     },
     {
       "id": "gym-6",
@@ -564,7 +575,8 @@
           "slug": "steelix",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 35
     },
     {
       "id": "cliff-edge-gate",
@@ -672,7 +684,8 @@
           "slug": "raticate",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 24
     },
     {
       "id": "ariana1",
@@ -701,7 +714,8 @@
           "slug": "grimer",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 27
     },
     {
       "id": "route-43",
@@ -732,7 +746,8 @@
           "slug": "piloswine",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 34
     },
     {
       "id": "r4",
@@ -769,7 +784,8 @@
           "slug": "meganium",
           "lock": 158
         }
-      ]
+      ],
+      "cap": 34
     },
     {
       "id": "petrel2",
@@ -802,7 +818,8 @@
           "slug": "weezing",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 33
     },
     {
       "id": "proton2",
@@ -819,7 +836,8 @@
           "slug": "weezing",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 33
     },
     {
       "id": "ariana2",
@@ -840,7 +858,8 @@
           "slug": "murkrow",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 32
     },
     {
       "id": "archer",
@@ -861,7 +880,8 @@
           "slug": "houndoom",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 38
     },
     {
       "id": "route-44",
@@ -923,7 +943,8 @@
           "slug": "kingdra",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 41
     },
     {
       "id": "route-45",
@@ -988,7 +1009,8 @@
           "slug": "vaporeon",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 38
     },
     {
       "id": "victory-road",
@@ -1035,7 +1057,8 @@
           "slug": "meganium",
           "lock": 158
         }
-      ]
+      ],
+      "cap": 40
     },
     {
       "id": "indigo-plateau",
@@ -1073,7 +1096,8 @@
           "slug": "xatu",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 42
     },
     {
       "id": "e2",
@@ -1102,7 +1126,8 @@
           "slug": "crobat",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 44
     },
     {
       "id": "e3",
@@ -1131,7 +1156,8 @@
           "slug": "machamp",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 46
     },
     {
       "id": "e4",
@@ -1160,7 +1186,8 @@
           "slug": "houndoom",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 47
     },
     {
       "id": "c",
@@ -1193,7 +1220,8 @@
           "slug": "dragonite",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "vermillion-city",
@@ -1228,7 +1256,8 @@
           "slug": "electabuzz",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 53
     },
     {
       "id": "route-6",
@@ -1267,7 +1296,8 @@
           "slug": "alakazam",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 55
     },
     {
       "id": "route-7",
@@ -1310,7 +1340,8 @@
           "slug": "bellossom",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 56
     },
     {
       "id": "route-16",
@@ -1372,7 +1403,8 @@
           "slug": "venomoth",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "route-15",
@@ -1505,7 +1537,8 @@
           "slug": "starmie",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 54
     },
     {
       "id": "rock-tunnel",
@@ -1579,7 +1612,8 @@
           "slug": "kabutops",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 54
     },
     {
       "id": "route-3",
@@ -1638,7 +1672,8 @@
           "slug": "meganium",
           "lock": 158
         }
-      ]
+      ],
+      "cap": 50
     },
     {
       "id": "viridian-forest",
@@ -1731,7 +1766,8 @@
           "slug": "rapidash",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 59
     },
     {
       "id": "k8",
@@ -1764,7 +1800,8 @@
           "slug": "pidgeot",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 60
     },
     {
       "id": "route-19",
@@ -1833,7 +1870,8 @@
           "slug": "blastoise",
           "lock": 0
         }
-      ]
+      ],
+      "cap": 88
     }
   ]
 }

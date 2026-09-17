@@ -6,12 +6,13 @@
 #include "calc/Build.hpp"
 #include "calc/Calculate.hpp"
 #include "ui/Theme.hpp"
+#include "ui/KitNav.hpp"
 
 #include <imgui.h>
 
 namespace emulocke {
 
-void drawCalcMatchup(Application&, CalcSession& session) {
+void drawCalcMatchup(Application& app, CalcSession& session) {
     const CalcPack* pack = session.pack();
     const PackTrainer* t = session.trainer();
     const GameSnapshot* snap = session.snap();
@@ -72,7 +73,9 @@ void drawCalcMatchup(Application&, CalcSession& session) {
             ImGui::SameLine();
             ImGui::TextDisabled("tie");
         }
-        drawCalcCrits(session.sideCrit(false), session.sideCrit(true), top.x + pane * 0.5f, abY);
+        drawCalcCrits(session.sideCrit(false), session.sideCrit(true), top.x + pane * 0.5f, abY,
+            app.kitFocus().calcCol == 1 ? app.kitFocus().calcRow : -1,
+            kitNavSuite(app, KitTab::Calculator) && app.kit().act && app.kitFocus().calcCol == 1);
         ImGui::TableSetColumnIndex(2);
         drawCalcSideHead(fName, foe, true);
         ImGui::EndTable();
@@ -86,11 +89,14 @@ void drawCalcMatchup(Application&, CalcSession& session) {
         ImGui::TableSetupColumn("b", ImGuiTableColumnFlags_WidthStretch, 1.f);
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
+        const bool kit = kitNavSuite(app, KitTab::Calculator);
+        const int row = app.kitFocus().calcCol == 1 ? app.kitFocus().calcRow : -1;
+        const bool act = kit && app.kit().act && app.kitFocus().calcCol == 1;
         drawCalcMoveCol(pack->dmgGen, pack->typeChart, player, foe, raw.moves, intoFoe, nullptr,
-            session.sideCrit(false), false, session);
+            session.sideCrit(false), false, session, row, act);
         ImGui::TableSetColumnIndex(1);
         drawCalcMoveCol(pack->dmgGen, pack->typeChart, foe, player, foeSet->moves, intoUs, pct,
-            session.sideCrit(true), true, session);
+            session.sideCrit(true), true, session, row, act);
         ImGui::EndTable();
     }
     const float bot = ImGui::GetCursorScreenPos().y;

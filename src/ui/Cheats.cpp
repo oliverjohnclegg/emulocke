@@ -3,6 +3,8 @@
 #include "application/Application.hpp"
 #include "cheats/Book.hpp"
 #include "ui/IconAction.hpp"
+#include "ui/KitMark.hpp"
+#include "ui/KitNav.hpp"
 #include "ui/Theme.hpp"
 
 #include <imgui.h>
@@ -14,13 +16,14 @@ namespace {
 constexpr float kCheatRowH = 26.f;
 constexpr float kCheatAddH = 28.f;
 
-void drawCheatRow(Application& app, const Cheat& row, std::string& doomed) {
+void drawCheatRow(Application& app, const Cheat& row, std::string& doomed, bool focus) {
     ImGui::PushID(row.id.c_str());
     const float w = ImGui::GetContentRegionAvail().x;
     const ImVec2 origin = ImGui::GetCursorScreenPos();
     ImDrawList* dl = ImGui::GetWindowDrawList();
     dl->AddRectFilled(origin, ImVec2(origin.x + w, origin.y + kCheatRowH), ImGui::GetColorU32(kFrame));
     dl->AddRect(origin, ImVec2(origin.x + w, origin.y + kCheatRowH), ImGui::GetColorU32(kBorder));
+    kitStroke(origin, ImVec2(origin.x + w, origin.y + kCheatRowH), focus);
     const float hit = 18.f;
     const float hitY = origin.y + (kCheatRowH - hit) * 0.5f;
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2.f, (hit - ImGui::GetFontSize()) * 0.5f));
@@ -44,16 +47,16 @@ void drawCheatRow(Application& app, const Cheat& row, std::string& doomed) {
     ImGui::PopID();
 }
 
-bool drawCheatAddStamp() {
+bool drawCheatAddStamp(bool focus) {
     const ImVec2 origin = ImGui::GetCursorScreenPos();
     const float w = ImGui::GetContentRegionAvail().x;
     ImGui::InvisibleButton("add-cheat", ImVec2(w, kCheatAddH));
     const bool hovered = ImGui::IsItemHovered();
     const bool clicked = ImGui::IsItemClicked();
     ImDrawList* dl = ImGui::GetWindowDrawList();
-    dl->AddRectFilled(origin, ImVec2(origin.x + w, origin.y + kCheatAddH),
-        ImGui::GetColorU32(hovered ? kHeaderHover : kButton));
+    dl->AddRectFilled(origin, ImVec2(origin.x + w, origin.y + kCheatAddH), kitPlate(hovered || focus));
     dl->AddRect(origin, ImVec2(origin.x + w, origin.y + kCheatAddH), ImGui::GetColorU32(kBorder));
+    kitStroke(origin, ImVec2(origin.x + w, origin.y + kCheatAddH), focus);
     const ImVec2 plus(origin.x + 6.f, origin.y + (kCheatAddH - 18.f) * 0.5f);
     iconPlus(plus, ImVec2(18.f, 18.f));
     const char* label = "ADD";
@@ -69,6 +72,23 @@ void drawCheats(Application& app) {
     if (app.bodyFont()) {
         ImGui::PushFont(app.bodyFont());
     }
+    const auto& items = app.cheats().items();
+    const int n = static_cast<int>(items.size());
+    KitFocus& focus = app.kitFocus();
+    std::string doomed;
+    if (kitNavSuite(app, KitTab::Cheats)) {
+        const KitFrame& kit = app.kit();
+        kitMove(focus.cheatsRow, n + 1, kit.up || kit.left, kit.down || kit.right);
+        if (kit.act && focus.cheatsRow == n) {
+            focus.openCheatAdd = true;
+        } else if (kit.act && focus.cheatsRow >= 0 && focus.cheatsRow < n) {
+            const Cheat& row = items[static_cast<std::size_t>(focus.cheatsRow)];
+            app.setCheatEnabled(row.id, !row.enabled);
+        }
+        if (kit.backspace && focus.cheatsRow >= 0 && focus.cheatsRow < n) {
+            doomed = items[static_cast<std::size_t>(focus.cheatsRow)].id;
+        }
+    }
     const float gap = 8.f;
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(ImGui::GetStyle().ItemSpacing.x, 0.f));
     ImGui::PushStyleColor(ImGuiCol_ChildBg, kScreenWell);
@@ -76,9 +96,10 @@ void drawCheats(Application& app) {
     const float wellH = ImGui::GetContentRegionAvail().y - kCheatAddH - gap;
     ImGui::BeginChild("cheats-well", ImVec2(0, wellH),
         ImGuiChildFlags_Borders | ImGuiChildFlags_AlwaysUseWindowPadding);
-    std::string doomed;
-    for (const Cheat& row : app.cheats().items()) {
-        drawCheatRow(app, row, doomed);
+    int i = 0;
+    for (const Cheat& row : items) {
+        drawCheatRow(app, row, doomed, i == focus.cheatsRow);
+        ++i;
     }
     ImGui::EndChild();
     ImGui::PopStyleVar();
@@ -87,9 +108,10 @@ void drawCheats(Application& app) {
     if (!doomed.empty()) {
         app.removeCheat(doomed);
     }
-    const bool add = drawCheatAddStamp();
+    const bool add = drawCheatAddStamp(focus.cheatsRow == n);
     ImGui::PopStyleVar();
-    if (add) {
+    if (add || focus.openCheatAdd) {
+        focus.openCheatAdd = false;
         ImGui::OpenPopup("ADD");
     }
     drawCheatsAdd(app);

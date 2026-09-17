@@ -3,6 +3,7 @@
 #include "poke/Showdown.hpp"
 #include "poke/SpriteIndex.hpp"
 #include "ui/BoxSprites.hpp"
+#include "ui/KitMark.hpp"
 #include "ui/Theme.hpp"
 #include "ui/Tracker.hpp"
 #include "ui/TrackerMarks.hpp"
@@ -31,16 +32,13 @@ std::string slugOf(const MonView& view) {
 
 }  // namespace
 
-const char* pokeCopyNotice() {
-    return ImGui::GetTime() - gCopiedAt < 1.25 ? "Copied to clipboard." : nullptr;
-}
-
-void drawMonWell(BoxSprites& sprites, const MonView& view, ImVec2 size, bool hpBar) {
+void drawMonWell(BoxSprites& sprites, const MonView& view, ImVec2 size, bool hpBar, bool focused, bool act) {
     const ImVec2 a = ImGui::GetCursorScreenPos();
     const ImVec2 b(a.x + size.x, a.y + size.y);
     ImDrawList* dl = ImGui::GetWindowDrawList();
     dl->AddRectFilled(a, b, ImGui::GetColorU32(kScreenWell));
     dl->AddRect(a, b, ImGui::GetColorU32(kBorder));
+    kitStroke(a, b, focused);
     if (view.mon) {
         const Mon& mon = *view.mon;
         const float spriteArea = hpBar ? size.y - 10.f : size.y;
@@ -75,13 +73,13 @@ void drawMonWell(BoxSprites& sprites, const MonView& view, ImVec2 size, bool hpB
         return;
     }
     const Mon& mon = *view.mon;
-    if (ImGui::IsItemHovered()) {
+    if (ImGui::IsItemHovered() || focused) {
         if (ImGui::BeginTooltip()) {
             drawMonHover(view);
             ImGui::EndTooltip();
         }
     }
-    if (ImGui::IsItemClicked()) {
+    if (ImGui::IsItemClicked() || act) {
         ImGui::SetClipboardText(exportSet(mon, view.ref, view.gen3).c_str());
         gCopiedPid = mon.personality;
         gCopiedSpecies = mon.species;

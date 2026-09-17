@@ -22,12 +22,12 @@ void drawCalcSearch(Application& app, CalcSession& session);
 void drawCalcPartyRail(Application& app, CalcSession& session);
 void drawCalcFoeRail(Application& app, CalcSession& session);
 void drawCalcSideHead(const char* name, const Pokemon& mon, bool right);
-void drawCalcCrits(bool& ours, bool& theirs, float spineX, float abY);
+void drawCalcCrits(bool& ours, bool& theirs, float spineX, float abY, int focus, bool act);
 void drawCalcMatchup(Application& app, CalcSession& session);
 void drawCalcField(Application& app, CalcSession& session);
 void drawCalcMoveCol(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Pokemon& def,
     const uint16_t* moves, const Field& field, const int* pct, bool crit, bool right,
-    CalcSession& session);
+    CalcSession& session, int focusRow, bool act);
 void drawCalcKo(CalcSession& session, uint8_t dmgGen, uint8_t chart, const Pokemon& player,
     const Pokemon& foe, const uint16_t* ours, const uint16_t* theirs, const Field& intoFoe,
     const Field& intoUs);

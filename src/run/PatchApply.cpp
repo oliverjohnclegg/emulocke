@@ -58,7 +58,10 @@ std::optional<std::vector<uint8_t>> applyRomPatch(
     if (auto out = applyMgbaPatch(rom, patch)) {
         return out;
     }
-    return applyXdeltaPatch(rom, patch);
+    if (auto out = applyXdeltaPatch(rom, patch)) {
+        return out;
+    }
+    return applyXdeltaPatchIgnoreChecksum(rom, patch);
 }
 
 }

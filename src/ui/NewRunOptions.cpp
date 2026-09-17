@@ -65,7 +65,7 @@ void drawGameConfig(NewRunDraft& draft, const CatalogTitle& title) {
     }
 }
 
-void drawNuzlockeSettings(NuzlockeRules& rules) {
+void drawNuzlockeSettings(NuzlockeRules& rules, bool& allowCheats) {
     drawPresetCombo(rules);
     if (ImGui::BeginTable("rules", 2, ImGuiTableFlags_SizingStretchProp)) {
         ImGui::TableNextColumn();
@@ -80,6 +80,7 @@ void drawNuzlockeSettings(NuzlockeRules& rules) {
         ImGui::Checkbox("Shiny clause", &rules.shinyClause);
         ImGui::EndTable();
     }
+    ImGui::Checkbox("Allow Cheats?", &allowCheats);
 }
 
 }
