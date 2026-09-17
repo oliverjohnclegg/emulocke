@@ -34,10 +34,18 @@ std::vector<std::string> spriteUrls(std::string_view slug, SpriteKind kind) {
     if (kind == SpriteKind::Front) {
         urls.push_back("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
                        n + ".png");
+        urls.push_back(
+            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/"
+            "generation-v/black-white/" +
+            n + ".png");
     } else {
         urls.push_back(
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/" + n +
             ".png");
+        urls.push_back(
+            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/"
+            "generation-v/black-white/back/" +
+            n + ".png");
     }
     return urls;
 }
