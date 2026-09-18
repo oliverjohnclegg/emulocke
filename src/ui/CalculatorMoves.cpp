@@ -20,7 +20,7 @@ void drawCalcMoveCol(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Po
     if (!right) {
         if (ImGui::BeginTable("cml", 2, ImGuiTableFlags_NoPadInnerX, tableW)) {
             ImGui::TableSetupColumn("n", ImGuiTableColumnFlags_WidthStretch);
-            ImGui::TableSetupColumn("d", ImGuiTableColumnFlags_WidthFixed, 56.f);
+            ImGui::TableSetupColumn("d", ImGuiTableColumnFlags_WidthFixed, 88.f);
             for (int i = 0; i < n; ++i) {
                 drawCalcMoveRow(lines[i], false, session, focusRow == base + i, act && focusRow == base + i);
             }
