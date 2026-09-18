@@ -46,10 +46,13 @@ void Application::seedPreviewCalc() {
     snapshot_.battle.player.hp = 80;
     snapshot_.battle.player.maxHp = 80;
     snapshot_.battle.player.partyIndex = 0;
-    snapshot_.battle.player.stages[1] = 2;
-    snapshot_.battle.player.stages[4] = 1;
     snapshot_.battle.foe.partyIndex = 0;
-    snapshot_.battle.foe.stages[2] = -1;
+    const int8_t playerSt[7] = {2, -1, 1, -2, 1, 1, -1};
+    const int8_t foeSt[7] = {-1, 2, -1, 1, -2, 1, 1};
+    for (int i = 0; i < 7; ++i) {
+        snapshot_.battle.player.stages[i + 1] = playerSt[i];
+        snapshot_.battle.foe.stages[i + 1] = foeSt[i];
+    }
     calc_.sync(kFireRedUs10Uuid, {}, &snapshot_);
     calc_.search("brock");
     if (!calc_.trainerHits().empty()) {

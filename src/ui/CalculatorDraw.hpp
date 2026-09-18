@@ -8,7 +8,7 @@ namespace emulocke {
 
 class Application;
 
-void calcStamp(const char* label);
+void calcStampBlock(const char* const* labels, int n, bool right);
 bool calcChip(const char* label, bool on, float width = 0.f);
 float calcChipWidth(const char* label);
 bool calcCritMark(bool on);

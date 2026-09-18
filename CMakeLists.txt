@@ -308,6 +308,7 @@ add_executable(emulocke
     src/ui/CalculatorKo.cpp
     src/ui/CalculatorField.cpp
     src/ui/CalculatorStamp.cpp
+    src/ui/CalculatorStamps.cpp
     src/ui/CalculatorChip.cpp
     src/ui/Cheats.cpp
     src/ui/CheatsAdd.cpp

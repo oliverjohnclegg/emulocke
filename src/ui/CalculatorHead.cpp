@@ -9,7 +9,7 @@
 namespace emulocke {
 namespace {
 
-int collectStages(const Pokemon& mon, char stages[][8]) {
+int collectStages(const Pokemon& mon, char stages[][8], const char* labels[8], const char* status) {
     int n = 0;
     auto add = [&](const char* stat, int8_t v) {
         if (!v || n >= 7) {
@@ -25,27 +25,14 @@ int collectStages(const Pokemon& mon, char stages[][8]) {
     add("SPE", mon.speStage);
     add("ACC", mon.accStage);
     add("EVA", mon.evaStage);
-    return n;
-}
-
-float stampRowWidth(const char* status, char stages[][8], int n) {
-    float w = 0.f;
+    int m = 0;
     if (status) {
-        w += ImGui::CalcTextSize(status).x + 16.f;
+        labels[m++] = status;
     }
     for (int i = 0; i < n; ++i) {
-        w += ImGui::CalcTextSize(stages[i]).x + 16.f;
+        labels[m++] = stages[i];
     }
-    return w > 0.f ? w - 8.f : 0.f;
-}
-
-void drawStamps(const char* status, char stages[][8], int n) {
-    if (status) {
-        calcStamp(status);
-    }
-    for (int i = 0; i < n; ++i) {
-        calcStamp(stages[i]);
-    }
+    return m;
 }
 
 }  // namespace
@@ -59,20 +46,18 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
     char hp[24];
     std::snprintf(hp, sizeof hp, "%d/%d (%d%%)", mon.hp, mon.maxHp, hpExactPct(mon.hp, mon.maxHp));
     char stages[7][8];
-    const int n = collectStages(mon, stages);
-    const char* status = statusAbbrev(mon.status);
+    const char* labels[8];
+    const int m = collectStages(mon, stages, labels, statusAbbrev(mon.status));
     if (right) {
-        if (status || n) {
-            calcAlignRight(stampRowWidth(status, stages, n));
-            drawStamps(status, stages, n);
+        if (m) {
+            calcStampBlock(labels, m, true);
         }
         calcAlignRight(calcFoeHpWidth(mon.hp, mon.maxHp));
         calcFoeHp(mon.hp, mon.maxHp);
     } else {
         ImGui::TextUnformatted(hp);
-        if (status || n) {
-            drawStamps(status, stages, n);
-            ImGui::NewLine();
+        if (m) {
+            calcStampBlock(labels, m, false);
         }
     }
     if (const char* ab = abilityName(mon.ability)) {
