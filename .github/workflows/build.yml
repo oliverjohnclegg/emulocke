@@ -80,6 +80,11 @@ jobs:
         shell: msys2 {0}
         run: cmake --build build --config Release --parallel
 
+      - name: Sprite check Windows
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: ./build/emulocke-sprite-check.exe
+
       - name: Test Linux
         if: runner.os == 'Linux'
         run: ctest --test-dir build --output-on-failure

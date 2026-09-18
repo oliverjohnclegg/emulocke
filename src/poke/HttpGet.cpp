@@ -62,6 +62,12 @@ Fetch getOnce(const std::string& url) {
     curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &body);
     curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 2L);
+#if defined(_WIN32) && defined(CURLSSLOPT_NATIVE_CA)
+    const char* noBundle = nullptr;
+    curl_easy_setopt(curl.get(), CURLOPT_SSL_OPTIONS, static_cast<long>(CURLSSLOPT_NATIVE_CA));
+    curl_easy_setopt(curl.get(), CURLOPT_CAINFO, noBundle);
+    curl_easy_setopt(curl.get(), CURLOPT_CAPATH, noBundle);
+#endif
     if (curl_easy_perform(curl.get()) != CURLE_OK) {
         return {{}, true};
     }
