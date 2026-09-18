@@ -73,11 +73,9 @@ void drawMonWell(BoxSprites& sprites, const MonView& view, ImVec2 size, bool hpB
         return;
     }
     const Mon& mon = *view.mon;
-    if (ImGui::IsItemHovered() || focused) {
-        if (ImGui::BeginTooltip()) {
-            drawMonHover(view);
-            ImGui::EndTooltip();
-        }
+    if (ImGui::BeginItemTooltip()) {
+        drawMonHover(view);
+        ImGui::EndTooltip();
     }
     if (ImGui::IsItemClicked() || act) {
         ImGui::SetClipboardText(exportSet(mon, view.ref, view.gen3).c_str());
