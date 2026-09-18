@@ -64,6 +64,7 @@ void CalcSession::search(const char* query) {
             }
         }
     }
+    keepStarterHits();
 }
 
 void CalcSession::lockParty(int slot) {
@@ -108,6 +109,7 @@ void CalcSession::pickLocation(const PackLocation* loc) {
             trainers_.push_back(t);
         }
     }
+    keepStarterHits();
 }
 
 }

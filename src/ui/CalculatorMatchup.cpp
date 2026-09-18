@@ -13,6 +13,35 @@
 #include <imgui.h>
 
 namespace emulocke {
+namespace {
+
+void drawCalcSpe(int spe, int other, bool right) {
+    char buf[8];
+    std::snprintf(buf, sizeof buf, "%d", spe);
+    if (right) {
+        float w = ImGui::CalcTextSize(buf).x;
+        if (spe > other) {
+            w += ImGui::CalcTextSize(">spe").x + ImGui::GetStyle().ItemSpacing.x;
+        }
+        calcAlignRight(w);
+        if (spe > other) {
+            ImGui::TextDisabled(">spe");
+            ImGui::SameLine();
+        }
+        ImGui::TextUnformatted(buf);
+        return;
+    }
+    ImGui::TextUnformatted(buf);
+    if (spe > other) {
+        ImGui::SameLine();
+        ImGui::TextDisabled(">spe");
+    } else if (spe == other) {
+        ImGui::SameLine();
+        ImGui::TextDisabled("tie");
+    }
+}
+
+}  // namespace
 
 void drawCalcMatchup(Application& app, CalcSession& session) {
     const CalcPack* pack = session.pack();
@@ -85,38 +114,28 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
         ImGui::TableSetColumnIndex(0);
         drawCalcSideHead(pName, player, false);
         const float abY = ImGui::GetItemRectMin().y;
-        ImGui::Text("%d", pSpe);
-        if (pSpe > fSpe) {
-            ImGui::SameLine();
-            ImGui::TextDisabled(">spe");
-        } else if (pSpe == fSpe) {
-            ImGui::SameLine();
-            ImGui::TextDisabled("tie");
-        }
+        const float pSpeY = ImGui::GetCursorScreenPos().y;
+        ImGui::TableSetColumnIndex(2);
+        drawCalcSideHead(fName, foe, true);
+        const float fSpeY = ImGui::GetCursorScreenPos().y;
+        const float speY = pSpeY > fSpeY ? pSpeY : fSpeY;
+        ImGui::TableSetColumnIndex(0);
+        ImGui::SetCursorScreenPos(ImVec2(ImGui::GetCursorScreenPos().x, speY));
+        drawCalcSpe(pSpe, fSpe, false);
         ImGui::TableSetColumnIndex(1);
         ImGui::Dummy(ImVec2(0, 8));
         drawCalcCrits(session.sideCrit(false), session.sideCrit(true), top.x + pane * 0.5f, abY,
             app.kitFocus().calcCol == 1 ? app.kitFocus().calcRow : -1,
             kitNavSuite(app, KitTab::Calculator) && app.kit().act && app.kitFocus().calcCol == 1);
         ImGui::TableSetColumnIndex(2);
-        char fSpeBuf[8];
-        std::snprintf(fSpeBuf, sizeof fSpeBuf, "%d", fSpe);
-        float foeSpeW = ImGui::CalcTextSize(fSpeBuf).x;
-        if (fSpe > pSpe) {
-            foeSpeW += ImGui::CalcTextSize(">spe").x + ImGui::GetStyle().ItemSpacing.x;
-        }
-        calcAlignRight(foeSpeW);
-        if (fSpe > pSpe) {
-            ImGui::TextDisabled(">spe");
-            ImGui::SameLine();
-        }
-        ImGui::TextUnformatted(fSpeBuf);
-        drawCalcSideHead(fName, foe, true);
+        ImGui::SetCursorScreenPos(ImVec2(ImGui::GetCursorScreenPos().x, speY));
+        drawCalcSpe(fSpe, pSpe, true);
         ImGui::EndTable();
     }
     ImGui::Dummy(ImVec2(0, 8));
     int pct[4]{};
-    moveUsePct(pack->dmgGen, pack->typeChart, t->aiFlags, foe, player, foeSet->moves, intoUs, pct);
+    moveUsePct(pack->dmgGen, pack->typeChart, t->aiFlags, foe, player, foeSet->moves, intoUs, pct,
+        pack);
     if (ImGui::BeginTable("calc-mv", 2,
             ImGuiTableFlags_NoPadInnerX | ImGuiTableFlags_SizingStretchSame, ImVec2(pane, 0))) {
         ImGui::TableSetupColumn("a", ImGuiTableColumnFlags_WidthStretch, 1.f);

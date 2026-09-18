@@ -116,7 +116,13 @@ def write_generated():
             f"constexpr PackLocation k{prefix}Locs[] = {{",
             f'#include "calc/data/Pack{prefix}Locs.inc"',
             "};",
-            f'constexpr CalcPack k{prefix}Pack{{"{title}", {dmg}, {dmg}, {dmg}, k{prefix}Mons, static_cast<int>(sizeof(k{prefix}Mons) / sizeof(k{prefix}Mons[0])), k{prefix}Trainers, static_cast<int>(sizeof(k{prefix}Trainers) / sizeof(k{prefix}Trainers[0])), k{prefix}LocIds, k{prefix}Locs, static_cast<int>(sizeof(k{prefix}Locs) / sizeof(k{prefix}Locs[0]))}};',
+            f'constexpr CalcPack k{prefix}Pack{{"{title}", {dmg}, {dmg}, {dmg}, k{prefix}Mons, static_cast<int>(sizeof(k{prefix}Mons) / sizeof(k{prefix}Mons[0])), k{prefix}Trainers, static_cast<int>(sizeof(k{prefix}Trainers) / sizeof(k{prefix}Trainers[0])), k{prefix}LocIds, k{prefix}Locs, static_cast<int>(sizeof(k{prefix}Locs) / sizeof(k{prefix}Locs[0]))'
+            + (
+                ", nullptr, 0, kDrayano31Moves, static_cast<int>(sizeof(kDrayano31Moves) / sizeof(kDrayano31Moves[0]))"
+                if prefix in ("Blaze", "Volt")
+                else ""
+            )
+            + "};",
             "",
         ]
     (OUT / "PackGenerated.inc").write_text("\n".join(lines) + "\n")

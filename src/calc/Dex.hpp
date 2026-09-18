@@ -7,6 +7,8 @@
 
 namespace emulocke {
 
+struct CalcPack;
+
 struct SpeciesRow {
     uint16_t id;
     const char* slug;
@@ -40,7 +42,9 @@ const SpeciesRow* nationalDexRow(uint16_t id);
 const SpeciesRow* speciesByName(const char* name);
 const SpeciesRow* nationalDex();
 int nationalDexCount();
+
 const MoveRow* moveById(uint16_t id);
 Move moveFromRow(const MoveRow& row);
+Move packedMove(const CalcPack* pack, uint16_t id);
 
 }

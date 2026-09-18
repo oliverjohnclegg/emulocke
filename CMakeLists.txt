@@ -132,6 +132,7 @@ add_library(emulocke_calc STATIC
     src/calc/SwitchInHits.cpp
     src/calc/Session.cpp
     src/calc/SessionSearch.cpp
+    src/calc/SessionHits.cpp
     src/calc/Ai.cpp
     src/calc/Labels.cpp)
 target_include_directories(emulocke_calc PUBLIC src)
@@ -210,6 +211,7 @@ add_library(emulocke_tracker STATIC
     ${EMULOCKE_TRACKER_ATLASES})
 target_include_directories(emulocke_tracker PUBLIC src)
 target_link_libraries(emulocke_tracker PUBLIC emulocke_adapter)
+target_link_libraries(emulocke_calc PUBLIC emulocke_tracker)
 
 add_library(emulocke_dex STATIC
     src/poke/Dex.cpp

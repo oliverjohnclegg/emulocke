@@ -4,12 +4,33 @@
 #include "calc/HpBar.hpp"
 #include "calc/Move.hpp"
 #include "calc/Pack.hpp"
+#include "calc/Session.hpp"
 #include "calc/Type.hpp"
 #include "run/Catalog.hpp"
 #include "test/Check.hpp"
+#include "tracker/Atlases.hpp"
 
 #include <cstdio>
 #include <cstring>
+
+namespace {
+
+bool isUnovaStarter(uint16_t id) {
+    return id == 495 || id == 498 || id == 501;
+}
+
+const emulocke::PackMon* monWith(const emulocke::CalcPack& pack, const emulocke::PackTrainer& t,
+    uint16_t id) {
+    for (int i = 0; i < t.count; ++i) {
+        const emulocke::PackMon* mon = emulocke::trainerMon(pack, t, i);
+        if (mon && mon->species == id) {
+            return mon;
+        }
+    }
+    return nullptr;
+}
+
+}  // namespace
 
 int main() {
     const emulocke::SpeciesRow* snivy = emulocke::nationalDexRow(495);
@@ -28,6 +49,28 @@ int main() {
     REQUIRE(nincada && nincada->species == 290);
     REQUIRE(nincada->moves[0] == 10 && nincada->moves[1] == 106 && nincada->moves[2] == 450 &&
         nincada->moves[3] == 141);
+    emulocke::Pokemon ninc = emulocke::pokemonFromPack(*nincada, blaze);
+    REQUIRE(ninc.maxHp == 20 && ninc.def == 16);
+    emulocke::Pokemon rattata{};
+    rattata.t1 = emulocke::Type::Normal;
+    rattata.level = 10;
+    rattata.atk = 16;
+    const emulocke::MoveRow* wheelRow = emulocke::moveById(172);
+    REQUIRE(wheelRow && wheelRow->bp == 60);
+    const emulocke::Move vanillaWheel = emulocke::moveFromRow(*wheelRow);
+    const emulocke::DamageResult vanilla = emulocke::calculate(5, 5, rattata, ninc, vanillaWheel, {});
+    REQUIRE(vanilla.min == 15 && vanilla.max == 18);
+    REQUIRE(vanilla.min * 100 / ninc.maxHp == 75);
+    REQUIRE(vanilla.max * 100 / ninc.maxHp == 90);
+    const emulocke::Move blazeWheel = emulocke::packedMove(blaze, 172);
+    REQUIRE(blazeWheel.bp == 75);
+    const emulocke::DamageResult packed = emulocke::calculate(5, 5, rattata, ninc, blazeWheel, {});
+    REQUIRE(packed.min == 18 && packed.max == 22);
+    REQUIRE(!packed.ohko(ninc.maxHp) && packed.max >= ninc.maxHp);
+    const emulocke::Move cut = emulocke::packedMove(blaze, 15);
+    REQUIRE(cut.bp == 60 && cut.type == emulocke::Type::Grass);
+    const emulocke::CalcPack* volt = emulocke::calcPack(emulocke::kVoltWhiteUuid, {});
+    REQUIRE(volt && emulocke::packedMove(volt, 172).bp == 75);
 
     emulocke::PackMon snivyMon{495, 7, 0, 0, {22, 33, 0, 0}};
     emulocke::Pokemon atk = emulocke::pokemonFromPack(snivyMon, blaze);
@@ -80,6 +123,14 @@ int main() {
     REQUIRE(fromPk.level == 6);
     REQUIRE(fromPk.maxHp == 21);
 
+    const emulocke::PackTrainer* eri = emulocke::packTrainer(*blaze, 8);
+    REQUIRE(eri && std::strcmp(eri->name, "Eri") == 0);
+    const emulocke::PackMon* azu = emulocke::trainerMon(*blaze, *eri, 3);
+    REQUIRE(azu && azu->species == 298 && azu->ability == 157);
+    emulocke::Pokemon az = emulocke::pokemonFromPack(*azu, blaze);
+    REQUIRE(az.ability == 157);
+    REQUIRE(emulocke::calculate(5, 5, atk, az, vw, emulocke::Field{}).immune);
+
     const emulocke::PackTrainer* castle = emulocke::packTrainer(*blaze, 587);
     REQUIRE(castle && castle->count == 6);
     const uint16_t want[6] = {571, 467, 80, 142, 474, 644};
@@ -88,5 +139,56 @@ int main() {
         REQUIRE(mon && mon->species == want[i]);
         REQUIRE(mon->moves[0] && mon->moves[1] && mon->moves[2] && mon->moves[3]);
     }
+
+    int route2 = 0;
+    int nuvema = 0;
+    int school = 0;
+    for (int i = 0; i < blaze->trainerCount; ++i) {
+        const emulocke::PackTrainer& t = blaze->trainers[i];
+        if (std::strcmp(t.name, "Bianca") == 0 && std::strcmp(t.location, "Route 2") == 0) {
+            REQUIRE(t.count == 2);
+            REQUIRE(monWith(*blaze, t, 52));
+            REQUIRE(t.count != 1);
+            ++route2;
+        }
+        if (std::strcmp(t.name, "Bianca") == 0 && std::strcmp(t.location, "Nuvema Town") == 0) {
+            REQUIRE(t.count == 1);
+            const emulocke::PackMon* mon = emulocke::trainerMon(*blaze, t, 0);
+            REQUIRE(mon && isUnovaStarter(mon->species));
+            ++nuvema;
+        }
+        if (std::strcmp(t.name, "Cheren") == 0 && std::strcmp(t.location, "Tranier's School") == 0) {
+            REQUIRE(t.count == 2);
+            REQUIRE(monWith(*blaze, t, 396));
+            ++school;
+        }
+    }
+    REQUIRE(route2 == 3);
+    REQUIRE(nuvema == 3);
+    REQUIRE(school == 3);
+
+    emulocke::CalcSession session;
+    session.sync(emulocke::kBlazeBlackUuid, {}, nullptr, 0, &emulocke::blazeAtlas());
+    session.search("Route 2");
+    int open = 0;
+    for (const emulocke::PackTrainer* t : session.trainerHits()) {
+        if (std::strcmp(t->name, "Bianca") == 0 && std::strcmp(t->location, "Route 2") == 0) {
+            ++open;
+        }
+    }
+    REQUIRE(open == 3);
+
+    session.sync(emulocke::kBlazeBlackUuid, {}, nullptr, 495, &emulocke::blazeAtlas());
+    session.search("Route 2");
+    const emulocke::PackTrainer* snivyBianca = nullptr;
+    for (const emulocke::PackTrainer* t : session.trainerHits()) {
+        if (std::strcmp(t->name, "Bianca") == 0 && std::strcmp(t->location, "Route 2") == 0) {
+            REQUIRE(!snivyBianca);
+            snivyBianca = t;
+        }
+    }
+    REQUIRE(snivyBianca && snivyBianca->count == 2);
+    REQUIRE(monWith(*blaze, *snivyBianca, 52));
+    REQUIRE(monWith(*blaze, *snivyBianca, 501));
     return 0;
 }

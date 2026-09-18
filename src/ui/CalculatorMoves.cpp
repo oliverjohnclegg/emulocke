@@ -10,7 +10,8 @@ void drawCalcMoveCol(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Po
     const uint16_t* moves, const Field& field, const int* pct, bool crit, bool right,
     CalcSession& session, int focusRow, bool act) {
     CalcMoveLine lines[4];
-    const int n = collectCalcMoves(dmgGen, chart, atk, def, moves, field, pct, crit, lines);
+    const int n =
+        collectCalcMoves(dmgGen, chart, session.pack(), atk, def, moves, field, pct, crit, lines);
     sortCalcMoves(lines, n, right);
     ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(72 / 255.f, 68 / 255.f, 62 / 255.f, 1.f));
     ImGui::PushStyleColor(ImGuiCol_HeaderHovered, kButtonHover);

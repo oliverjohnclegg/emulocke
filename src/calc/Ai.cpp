@@ -18,20 +18,20 @@ int typeEff(uint8_t chart, Type t, const Pokemon& d) {
 }  // namespace
 
 void moveUsePct(uint8_t dmgGen, uint8_t chart, uint32_t aiFlags, const Pokemon& foe,
-    const Pokemon& player, const uint16_t moveIds[4], const Field& field, int pct[4]) {
+    const Pokemon& player, const uint16_t moveIds[4], const Field& field, int pct[4],
+    const CalcPack* pack) {
     int score[4]{};
     int dmgMax[4]{};
     bool live[4]{};
     int bestDmg = 0;
     for (int i = 0; i < 4; ++i) {
         pct[i] = 0;
-        const MoveRow* row = moveById(moveIds[i]);
-        if (!row) {
+        const Move mv = packedMove(pack, moveIds[i]);
+        if (!mv.id) {
             continue;
         }
         live[i] = true;
         score[i] = 100;
-        const Move mv = moveFromRow(*row);
         const bool status = mv.kind == MoveKind::Status || mv.bp == 0;
         const int eff = typeEff(chart, mv.type, player);
         DamageResult dmg{};
