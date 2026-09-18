@@ -6,7 +6,6 @@
 #include "ui/KitMark.hpp"
 #include "ui/Theme.hpp"
 #include "ui/Tracker.hpp"
-#include "ui/TrackerMarks.hpp"
 
 #include <imgui.h>
 #include <string>
@@ -35,44 +34,41 @@ std::string slugOf(const MonView& view) {
 void drawMonWell(BoxSprites& sprites, const MonView& view, ImVec2 size, bool hpBar, bool focused, bool act) {
     const ImVec2 a = ImGui::GetCursorScreenPos();
     const ImVec2 b(a.x + size.x, a.y + size.y);
+    ImGui::InvisibleButton("well", size);
     ImDrawList* dl = ImGui::GetWindowDrawList();
     dl->AddRectFilled(a, b, ImGui::GetColorU32(kScreenWell));
     dl->AddRect(a, b, ImGui::GetColorU32(kBorder));
     kitStroke(a, b, focused);
-    if (view.mon) {
-        const Mon& mon = *view.mon;
-        const float spriteArea = hpBar ? size.y - 10.f : size.y;
-        const float x = a.x + (size.x - kBoxSpriteW) * 0.5f;
-        const float y = a.y + (spriteArea - kBoxSpriteH) * 0.5f;
-        ImGui::SetCursorScreenPos(ImVec2(x, y));
-        drawBoxSprite(sprites.get(slugOf(view)), nullptr, view.grey);
-        if (hpBar && mon.maxHp) {
-            const float x = a.x + 4.f;
-            const float y = b.y - 7.f;
-            const float w = size.x - 8.f;
-            float t = static_cast<float>(mon.hp) / static_cast<float>(mon.maxHp);
-            if (t < 0.f) {
-                t = 0.f;
-            }
-            if (t > 1.f) {
-                t = 1.f;
-            }
-            dl->AddRectFilled(ImVec2(x, y), ImVec2(x + w, y + 3.f), ImGui::GetColorU32(kFrame));
-            const ImU32 fill = t <= 0.2f ? kPaused : ImGui::GetColorU32(kMetal);
-            if (t > 0.f) {
-                dl->AddRectFilled(ImVec2(x, y), ImVec2(x + w * t, y + 3.f), fill);
-            }
-        }
-        if (copied(mon)) {
-            dl->AddText(ImVec2(a.x + 3.f, a.y + 2.f), ImGui::GetColorU32(kMetal), "COPIED");
-        }
-    }
-    ImGui::SetCursorScreenPos(a);
-    ImGui::InvisibleButton("well", size);
     if (!view.mon) {
         return;
     }
     const Mon& mon = *view.mon;
+    if (SDL_Texture* tex = sprites.get(slugOf(view))) {
+        const ImU32 tint = view.grey ? IM_COL32(117, 112, 105, 255) : IM_COL32_WHITE;
+        const float spriteArea = hpBar ? size.y - 10.f : size.y;
+        const ImVec2 p(a.x + (size.x - kBoxSpriteW) * 0.5f, a.y + (spriteArea - kBoxSpriteH) * 0.5f);
+        dl->AddImage(tex, p, ImVec2(p.x + kBoxSpriteW, p.y + kBoxSpriteH), ImVec2(0, 0), ImVec2(1, 1), tint);
+    }
+    if (hpBar && mon.maxHp) {
+        const float x = a.x + 4.f;
+        const float y = b.y - 7.f;
+        const float w = size.x - 8.f;
+        float t = static_cast<float>(mon.hp) / static_cast<float>(mon.maxHp);
+        if (t < 0.f) {
+            t = 0.f;
+        }
+        if (t > 1.f) {
+            t = 1.f;
+        }
+        dl->AddRectFilled(ImVec2(x, y), ImVec2(x + w, y + 3.f), ImGui::GetColorU32(kFrame));
+        const ImU32 fill = t <= 0.2f ? kPaused : ImGui::GetColorU32(kMetal);
+        if (t > 0.f) {
+            dl->AddRectFilled(ImVec2(x, y), ImVec2(x + w * t, y + 3.f), fill);
+        }
+    }
+    if (copied(mon)) {
+        dl->AddText(ImVec2(a.x + 3.f, a.y + 2.f), ImGui::GetColorU32(kMetal), "COPIED");
+    }
     if (ImGui::BeginItemTooltip()) {
         drawMonHover(view);
         ImGui::EndTooltip();
