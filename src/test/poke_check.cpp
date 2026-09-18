@@ -17,6 +17,7 @@ int main() {
     REQUIRE(std::string(emulocke::itemName(200, true)) == "Leftovers");
     REQUIRE(std::string(emulocke::itemName(234, false)) == "Leftovers");
     REQUIRE(std::string(emulocke::abilityName(28)) == "Synchronize");
+    REQUIRE(std::string(emulocke::abilityName(157)) == "Sap Sipper");
     REQUIRE(std::string(emulocke::natureName(10)) == "Timid");
     REQUIRE(emulocke::naturePlus(3) == 0);
     REQUIRE(emulocke::natureMinus(3) == 3);

@@ -13,11 +13,13 @@ from gen_calc_nds import (
     c_escape,
     emit_pack,
     find_learnsets,
+    find_personal,
     names_from_rom,
     parse_narc,
     parse_nds_files,
     parse_trdata,
     parse_trpoke,
+    personal_abilities,
 )
 from gen5_text import parse_gen5_text
 from trainer_locs import overlay_locs, species_names_from_rom
@@ -218,13 +220,14 @@ def extract_named(rom, prefix, title, dmg, trdata_path, trpoke_path):
     trdata = parse_narc(files[trdata_path])
     trpoke = parse_narc(files[trpoke_path])
     trainers = parse_trdata(trdata)
+    personal = personal_abilities(find_personal(files)) if dmg >= 5 else None
     parties = []
     for i, meta in enumerate(trainers):
         if not meta:
             parties.append([])
             continue
         raw = trpoke[i] if i < len(trpoke) else b""
-        parties.append(parse_trpoke(raw, meta["kind"], meta["count"], dmg))
+        parties.append(parse_trpoke(raw, meta["kind"], meta["count"], dmg, personal))
     apply_default_moves(trainers, parties, find_learnsets(files))
     names, classes = names_from_rom(files, trainers, "")
     preset = names_for(prefix)
