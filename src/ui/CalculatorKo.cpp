@@ -15,11 +15,10 @@ void drawCalcKo(CalcSession& session, uint8_t dmgGen, uint8_t chart, const Pokem
     const Field& intoUs) {
     const bool foeAtk = session.pickFoe();
     const uint16_t* moves = foeAtk ? theirs : ours;
-    const MoveRow* row = moveById(moves[session.pickSlot()]);
-    if (!row) {
+    Move mv = packedMove(session.pack(), moves[session.pickSlot()]);
+    if (!mv.id) {
         return;
     }
-    Move mv = moveFromRow(*row);
     mv.crit = session.sideCrit(foeAtk);
     const Pokemon& atk = foeAtk ? foe : player;
     const Pokemon& def = foeAtk ? player : foe;
