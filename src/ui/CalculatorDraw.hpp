@@ -8,7 +8,7 @@ namespace emulocke {
 
 class Application;
 
-void calcStampBlock(const char* const* labels, int n, bool right);
+void calcStampBlock(const char* const* labels, int n, bool right, bool hold);
 bool calcChip(const char* label, bool on, float width = 0.f);
 float calcChipWidth(const char* label);
 bool calcCritMark(bool on);
@@ -21,7 +21,7 @@ void calcFoeHp(int hp, int maxHp);
 void drawCalcSearch(Application& app, CalcSession& session);
 void drawCalcPartyRail(Application& app, CalcSession& session);
 void drawCalcFoeRail(Application& app, CalcSession& session);
-void drawCalcSideHead(const char* name, const Pokemon& mon, bool right);
+void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool hold);
 void drawCalcCrits(bool& ours, bool& theirs, float spineX, float abY, int focus, bool act);
 void drawCalcMatchup(Application& app, CalcSession& session);
 void drawCalcField(Application& app, CalcSession& session);

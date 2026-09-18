@@ -51,14 +51,15 @@ void stampAt(ImDrawList* dl, ImFont* font, float px, ImVec2 p, const char* label
 
 }  // namespace
 
-void calcStampBlock(const char* const* labels, int n, bool right) {
+void calcStampBlock(const char* const* labels, int n, bool right, bool hold) {
+    const float h = static_cast<float>(kStampRows) * (kStampPx + kStampPad * 2.f + 2.f) - 2.f;
     if (!labels || n <= 0) {
+        if (hold) ImGui::Dummy(ImVec2(0.f, h));
         return;
     }
     ImFont* font = ImGui::GetFont();
     const float avail = ImGui::GetContentRegionAvail().x;
     const ImVec2 origin = ImGui::GetCursorScreenPos();
-    const float h = static_cast<float>(kStampRows) * (kStampPx + kStampPad * 2.f + 2.f) - 2.f;
     const float px = stampPx(font, avail, labels, n);
     const float rowH = px + kStampPad * 2.f + 2.f;
     float x = 0.f;

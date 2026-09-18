@@ -37,7 +37,7 @@ int collectStages(const Pokemon& mon, char stages[][8], const char* labels[8], c
 
 }  // namespace
 
-void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
+void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool hold) {
     if (right) {
         calcAlignRight(ImGui::CalcTextSize(name).x);
     }
@@ -49,15 +49,15 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
     const char* labels[8];
     const int m = collectStages(mon, stages, labels, statusAbbrev(mon.status));
     if (right) {
-        if (m) {
-            calcStampBlock(labels, m, true);
+        if (m || hold) {
+            calcStampBlock(labels, m, true, hold);
         }
         calcAlignRight(calcFoeHpWidth(mon.hp, mon.maxHp));
         calcFoeHp(mon.hp, mon.maxHp);
     } else {
         ImGui::TextUnformatted(hp);
-        if (m) {
-            calcStampBlock(labels, m, false);
+        if (m || hold) {
+            calcStampBlock(labels, m, false, hold);
         }
     }
     if (const char* ab = abilityName(mon.ability)) {

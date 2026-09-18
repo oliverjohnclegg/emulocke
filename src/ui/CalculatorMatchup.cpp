@@ -83,7 +83,7 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
         ImGui::TableSetupColumn("b", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        drawCalcSideHead(pName, player, false);
+        drawCalcSideHead(pName, player, false, snap->battle.inBattle);
         const float abY = ImGui::GetItemRectMin().y;
         ImGui::Text("%d", pSpe);
         if (pSpe > fSpe) {
@@ -111,7 +111,7 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
             ImGui::SameLine();
         }
         ImGui::TextUnformatted(fSpeBuf);
-        drawCalcSideHead(fName, foe, true);
+        drawCalcSideHead(fName, foe, true, snap->battle.inBattle);
         ImGui::EndTable();
     }
     ImGui::Dummy(ImVec2(0, 8));
