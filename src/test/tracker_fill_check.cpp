@@ -285,6 +285,22 @@ void testTrackerFill() {
     emulocke::applyFaintDeath(faintLog, fainted);
     REQUIRE(faintLog.caught("route-1").status == emulocke::EncounterStatus::Dead);
 
+    emulocke::TrackerLog overlayLog;
+    overlayLog.setCaught("route-1", 16, 22);
+    emulocke::GameSnapshot overlaySnap;
+    overlaySnap.ok = true;
+    overlaySnap.party.count = 1;
+    overlaySnap.party.mons[0].species = 16;
+    overlaySnap.party.mons[0].personality = 22;
+    overlaySnap.party.mons[0].hp = 0;
+    overlaySnap.party.mons[0].pkHp = 17;
+    overlaySnap.party.mons[0].maxHp = 17;
+    emulocke::applyFaintDeath(overlayLog, overlaySnap);
+    REQUIRE(overlayLog.caught("route-1").status == emulocke::EncounterStatus::Captured);
+    overlayLog.setStatus("route-1", emulocke::EncounterStatus::Captured);
+    emulocke::applyFaintDeath(overlayLog, overlaySnap);
+    REQUIRE(overlayLog.caught("route-1").status == emulocke::EncounterStatus::Captured);
+
     emulocke::TrackerLog pidLog;
     pidLog.setCaught("starter", 495, 3440405403);
     emulocke::GameSnapshot pidFaint;
