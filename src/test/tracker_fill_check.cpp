@@ -68,6 +68,31 @@ void testTrackerFill() {
     emulocke::applyTrackerFill(ubLog, *unbound, ubSnap);
     REQUIRE(ubLog.caught("starter").species == 398);
 
+    ubSnap.party.mons[0].species = 496;
+    emulocke::TrackerLog ubGible;
+    emulocke::applyTrackerFill(ubGible, *unbound, ubSnap);
+    REQUIRE(ubGible.caught("starter").species == 496);
+
+    ubSnap.party.mons[0].species = 497;
+    emulocke::TrackerLog ubGabite;
+    emulocke::applyTrackerFill(ubGabite, *unbound, ubSnap);
+    REQUIRE(ubGabite.caught("starter").species == 497);
+
+    ubSnap.party.mons[0].species = 247;
+    emulocke::TrackerLog ubPupitar;
+    emulocke::applyTrackerFill(ubPupitar, *unbound, ubSnap);
+    REQUIRE(ubPupitar.caught("starter").species == 247);
+
+    ubSnap.party.mons[0].species = 399;
+    emulocke::TrackerLog ubMetang;
+    emulocke::applyTrackerFill(ubMetang, *unbound, ubSnap);
+    REQUIRE(ubMetang.caught("starter").species == 399);
+
+    ubSnap.party.mons[0].species = 374;
+    emulocke::TrackerLog ubHuntail;
+    emulocke::applyTrackerFill(ubHuntail, *unbound, ubSnap);
+    REQUIRE(ubHuntail.caught("starter").species == 0);
+
     emulocke::TrackerLog ubBoxes;
     emulocke::GameSnapshot boxed;
     boxed.ok = true;
