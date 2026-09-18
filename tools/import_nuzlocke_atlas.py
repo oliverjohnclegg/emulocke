@@ -71,6 +71,98 @@ FRLG_METS = {
     "six island": [0x3D],
 }
 
+UNBOUND_METS = {
+    "shadow base": [0x85],
+    "frozen heights": [0x58],
+    "route 1": [0x65],
+    "bellin town": [0x59],
+    "icicle cave": [0x8D],
+    "icy hole": [0x9D],
+    "route 2": [0x66],
+    "dresco town": [0x5A],
+    "route 3": [0x67],
+    "flower paradise": [0x88],
+    "grim woods": [0x7E],
+    "route 4": [0x63],
+    "cinder volcano": [0x7F],
+    "route 5": [0x69],
+    "pokemon day care": [0x9B],
+    "crater town": [0x5B],
+    "kbt expressway": [0x86],
+    "valley cave": [0x83],
+    "route 6": [0x6A],
+    "route 7": [0x6B],
+    "route 8": [0x6C],
+    "frost mountain": [0x82],
+    "blizzard city": [0x5C],
+    "frozen forest": [0x99],
+    "frozen tomb": [0xC2],
+    "route 9": [0x6D],
+    "autl woods": [0xB8],
+    "tehl town": [0x5D],
+    "underground pass": [0x81],
+    "route 10": [0x64],
+    "cave of being": [0x9A],
+    "auburn waterway": [0x8E],
+    "lost tunnel": [0x9C],
+    "fallshore city": [0x5E],
+    "route 11": [0x6F],
+    "cliff cave": [0xB9],
+    "epidimy town": [0x5F],
+    "thundercap mountain": [0x8A],
+    "thundercap mt": [0x8A],
+    "tarmigan town": [0x60],
+    "tarmigan mansion": [0x87],
+    "fullmoon island": [0xA3],
+    "newmoon island": [0x98],
+    "route 12": [0x70],
+    "dehara city": [0x62],
+    "dehara dept": [0xC4],
+    "game corner": [0xA0],
+    "rift cave": [0x8B],
+    "ruins of void": [0x68],
+    "cube space": [0x7D],
+    "route 13": [0x71],
+    "route 14": [0x72],
+    "great desert": [0x7B],
+    "tomb of borrius": [0xC0],
+    "desert ruins": [0xC1],
+    "gurun town": [0x7A],
+    "vivill woods": [0x8C],
+    "vivill town": [0x79],
+    "vivill warehouse": [0x7C],
+    "distortion world": [0x97],
+    "route 15": [0x73],
+    "route 16": [0x74],
+    "antisis city": [0x78],
+    "antisis port": [0xBA],
+    "antisis sewers": [0x8F],
+    "ferrothorn turf": [0xBF],
+    "route 17": [0x75],
+    "seaport city": [0x77],
+    "battleground": [0xBB],
+    "ss marine": [0xBE],
+    "battle frontier": [0xA7],
+    "battle tower": [0xB3],
+    "battle mine": [0xB2],
+    "battle circus": [0xB4],
+    "polder town": [0x90],
+    "safari zone": [0xA4],
+    "cootes bog": [0xB5],
+    "crystal peak": [0x9E],
+    "magnolia town": [0x91],
+    "magnolia fields": [0xB6],
+    "redwood village": [0x92],
+    "route 18": [0x76],
+    "island cave": [0xC3],
+    "victory road": [0x84],
+    "pokemon league": [0x89],
+    "redwood forest": [0xB7],
+    "cube corp": [0x93],
+    "underwater": [0xBD],
+    "hidden grotto": [0x80],
+}
+
 NS = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
 RR_FORM = {"-a": "-alola", "-g": "-galar", "-h": "-hisui", "-p": "-paldea"}
 
@@ -637,23 +729,13 @@ def main():
         ("incem", nuz / "routes/incem.txt", nuz / "leagues/incem.txt", rse, True),
         ("rr", nuz / "routes/radred.txt", nuz / "leagues/radred.txt", FRLG_METS, False),
         ("rr-hardcore", nuz / "routes/radred_hard.txt", nuz / "leagues/radred.txt", FRLG_METS, False),
-        ("unbound", nuz / "routes/unbound.txt", nuz / "leagues/unbound.txt", {}, False),
-        ("unbound-expert", nuz / "routes/unbound_exp.txt", nuz / "leagues/unbound.txt", {}, False),
+        ("unbound", nuz / "routes/unbound.txt", nuz / "leagues/unbound.txt", UNBOUND_METS, False),
+        ("unbound-expert", nuz / "routes/unbound_exp.txt", nuz / "leagues/unbound.txt", UNBOUND_METS, False),
         ("fro", nuz / "routes/fr.txt", nuz / "leagues/frlg.txt", FRLG_METS, False),
         ("platinum-kaizo", nuz / "routes/pt.txt", nuz / "leagues/plat.txt", gen4, False),
     ]
     for aid, route, league, mets, em in jobs:
         table = dict(mets)
-        if aid.startswith("unbound"):
-            starters, ub_stops = parse_routes(route)
-            table = {}
-            order = []
-            for stop in ub_stops:
-                for name in (stop.get("name"), stop.get("locale"), stop.get("loc")):
-                    key = norm(name or "")
-                    if key and key not in table:
-                        table[key] = [len(order)]
-                        order.append(key)
         extra = None
         if aid == "rr":
             extra = lambda stops: overlay_rr(stops, "/tmp/srcdocs/rr41_normal.xlsx", sprite)

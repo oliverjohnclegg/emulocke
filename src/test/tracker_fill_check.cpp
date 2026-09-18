@@ -73,10 +73,32 @@ void testTrackerFill() {
     boxed.ok = true;
     boxed.boxes.boxes[0].mons[0].species = 396;
     boxed.boxes.boxes[0].mons[0].personality = 44;
-    boxed.boxes.boxes[0].mons[0].metLocation = 2;
+    boxed.boxes.boxes[0].mons[0].metLocation = 0x65;
     emulocke::applyTrackerFill(ubBoxes, *unbound, boxed);
     REQUIRE(ubBoxes.caught("route-1").species == 396);
     REQUIRE(ubBoxes.caught("route-1").personality == 44);
+
+    emulocke::TrackerLog ubFakeMet;
+    emulocke::GameSnapshot fakeMet;
+    fakeMet.ok = true;
+    fakeMet.party.count = 1;
+    fakeMet.party.mons[0].species = 396;
+    fakeMet.party.mons[0].personality = 45;
+    fakeMet.party.mons[0].metLocation = 2;
+    emulocke::applyTrackerFill(ubFakeMet, *unbound, fakeMet);
+    REQUIRE(ubFakeMet.caught("route-1").species == 0);
+
+    const emulocke::TrackerAtlas* unboundExpert = emulocke::trackerAtlas(emulocke::kUnboundUuid, "expert");
+    REQUIRE(unboundExpert != nullptr);
+    emulocke::TrackerLog ubBellin;
+    emulocke::GameSnapshot bellin;
+    bellin.ok = true;
+    bellin.party.count = 1;
+    bellin.party.mons[0].species = 396;
+    bellin.party.mons[0].personality = 46;
+    bellin.party.mons[0].metLocation = 0x59;
+    emulocke::applyTrackerFill(ubBellin, *unboundExpert, bellin);
+    REQUIRE(ubBellin.caught("bellin-town").species == 396);
 
     const uint16_t brockFlag = emulocke::kFlagDefeatedBrock;
     pallet.progress.flags[brockFlag / 8] =
