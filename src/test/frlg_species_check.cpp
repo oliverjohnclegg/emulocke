@@ -39,4 +39,16 @@ void testFrlgSpecies() {
     REQUIRE(std::string(emulocke::hackAwareSpecies(".nds", 549, fr).slug) == "lilligant");
     REQUIRE(std::string(emulocke::hackAwareSpecies(".gba", 504, fr).slug) == "skorupi");
     REQUIRE(std::string(emulocke::hackAwareSpecies(".nds", 504, fr).slug) == "patrat");
+    REQUIRE(std::string(emulocke::hackAwareSpecies(".gba", 342, nullptr).slug) == "sealeo");
+
+    REQUIRE(std::string(emulocke::frlgSpeciesRef(847).slug) == "oinkologne");
+    const emulocke::SpeciesRef white = emulocke::unboundSpeciesRef(847);
+    REQUIRE(std::string(white.slug) == "floette");
+    REQUIRE(std::string(white.name) == "Floette");
+    REQUIRE(white.national == 670);
+    REQUIRE(std::string(emulocke::unboundSpeciesRef(848).slug) == "floette");
+    REQUIRE(std::string(emulocke::unboundSpeciesRef(778).slug) == "floette");
+    REQUIRE(std::string(emulocke::hackAwareSpecies(".gba", 847, fr, true).slug) == "floette");
+    REQUIRE(std::string(emulocke::hackAwareSpecies(".gba", 847, fr, false).slug) == "oinkologne");
+    REQUIRE(std::string(emulocke::hackAwareSpecies(".gba", 847, nullptr, true).slug) == "floette");
 }

@@ -73,10 +73,13 @@ void testFrlgBoxes() {
     emulocke::FrlgSaveBlocks blocks;
     std::array<uint8_t, emulocke::kCfruBoxMonSize> sealeo{};
     std::array<uint8_t, emulocke::kCfruBoxMonSize> servine{};
+    std::array<uint8_t, emulocke::kCfruBoxMonSize> floette{};
     packCfru(sealeo, cfruMon(342, "SEALEO"));
     packCfru(servine, cfruMon(549, "SERVINE"));
+    packCfru(floette, cfruMon(847, "FLOETTE"));
     std::memcpy(blocks.storage.data() + 4, sealeo.data(), sealeo.size());
     std::memcpy(blocks.storage.data() + 4 + emulocke::kCfruBoxMonSize, servine.data(), servine.size());
+    std::memcpy(blocks.storage.data() + 4 + 2 * emulocke::kCfruBoxMonSize, floette.data(), floette.size());
 
     emulocke::DecryptedMon asVanilla;
     const bool vanillaHit = emulocke::decryptBoxMon({blocks.storage.data() + 4, emulocke::kBoxMonSize}, asVanilla);
@@ -90,6 +93,8 @@ void testFrlgBoxes() {
     REQUIRE(snap.boxes.boxes[0].mons[0].species != 281);
     REQUIRE(std::string(snap.boxes.boxes[0].mons[0].speciesName) == "SEALEO");
     REQUIRE(std::string(snap.boxes.boxes[0].mons[1].speciesName) == "SERVINE");
+    REQUIRE(snap.boxes.boxes[0].mons[2].species == 847);
+    REQUIRE(std::string(snap.boxes.boxes[0].mons[2].speciesName) == "FLOETTE");
 
     sav = emulocke::writeFrlgSave(blocks);
     snap = readSav(sav);

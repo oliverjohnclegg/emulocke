@@ -16,6 +16,6 @@ inline constexpr float kRunPlus = 22.f;
 inline constexpr float kRunStripH = kRunArtH + kRunPad * 2.f;
 
 void drawRunArt(Application& app, const CatalogTitle* title, ImVec2 p);
-void drawRunParty(Application& app, const Party& party, ImVec2 p);
+void drawRunParty(Application& app, const CatalogTitle* title, const Party& party, ImVec2 p);
 
 }

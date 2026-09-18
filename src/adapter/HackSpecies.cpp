@@ -15,7 +15,14 @@ bool usable(const SpeciesRef& ref) {
 
 }  // namespace
 
-SpeciesRef hackAwareSpecies(std::string_view ext, uint16_t id, const GameAdapter* adapter) {
+SpeciesRef hackAwareSpecies(std::string_view ext, uint16_t id, const GameAdapter* adapter,
+                            bool unbound) {
+    if (unbound) {
+        const SpeciesRef ref = unboundSpeciesRef(id);
+        if (usable(ref)) {
+            return ref;
+        }
+    }
     if (ext == ".nds") {
         const SpeciesRef nat = nationalSpeciesRef(id);
         if (usable(nat)) {

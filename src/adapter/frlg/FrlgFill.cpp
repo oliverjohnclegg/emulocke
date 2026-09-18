@@ -108,6 +108,22 @@ void fillSnapshotFromFrlg(const FrlgSaveBlocks& blocks, GameSnapshot& snap) {
     std::snprintf(snap.overworld.mapName, sizeof(snap.overworld.mapName), "%s", name);
     fillFrlgProgress(blocks.block1.data(), snap);
     fillCfruDifficulty(blocks, snap);
+    if (unboundSave(blocks.fileSignature)) {
+        auto stamp = [](Mon& mon) {
+            if (mon.species == 0) {
+                return;
+            }
+            std::snprintf(mon.speciesName, sizeof mon.speciesName, "%s", unboundSpeciesName(mon.species));
+        };
+        for (Mon& mon : snap.party.mons) {
+            stamp(mon);
+        }
+        for (PcBox& box : snap.boxes.boxes) {
+            for (Mon& mon : box.mons) {
+                stamp(mon);
+            }
+        }
+    }
     snap.ok = true;
 }
 

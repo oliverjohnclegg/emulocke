@@ -64,7 +64,8 @@ SpeciesRef Application::species(uint16_t id) const {
         if (const Run* run = runStore_->find(activeRunId_)) {
             if (const CatalogTitle* title = catalogByUuid(run->catalogUuid)) {
                 if (title->kind == TitleKind::Hack) {
-                    const SpeciesRef ref = hackAwareSpecies(title->ext, id, live);
+                    const SpeciesRef ref =
+                        hackAwareSpecies(title->ext, id, live, run->catalogUuid == kUnboundUuid);
                     if (ref.slug && ref.slug[0] && std::strcmp(ref.slug, "???") != 0) {
                         return ref;
                     }

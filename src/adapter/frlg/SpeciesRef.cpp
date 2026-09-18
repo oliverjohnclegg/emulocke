@@ -17,6 +17,7 @@ struct Slot {
 
 constexpr uint16_t kSpeciesCap = 1600;
 Slot kSlots[kSpeciesCap];
+Slot kUnboundSlots[kSpeciesCap];
 
 uint16_t nationalIdForSlug(const char* slug) {
     if (!slug || !slug[0]) {
@@ -31,8 +32,7 @@ uint16_t nationalIdForSlug(const char* slug) {
     return 0;
 }
 
-void fillSlot(uint16_t species, Slot& slot) {
-    const char* raw = frlgSpeciesName(species);
+void fillSlot(const char* raw, Slot& slot) {
     std::size_t ni = 0;
     std::size_t si = 0;
     bool upper = true;
@@ -70,21 +70,29 @@ void fillSlot(uint16_t species, Slot& slot) {
     }
 }
 
-}  // namespace
-
-SpeciesRef frlgSpeciesRef(uint16_t species) {
+SpeciesRef cachedRef(uint16_t species, Slot* slots, const char* raw) {
     if (species == 0 || species >= kSpeciesCap) {
         return {};
     }
-    Slot& slot = kSlots[species];
+    Slot& slot = slots[species];
     if (!slot.ready) {
-        fillSlot(species, slot);
+        fillSlot(raw, slot);
         slot.ready = true;
     }
     if (slot.national == 0 && slot.name[0] == 0) {
         return {};
     }
     return {slot.national, slot.slug, slot.name};
+}
+
+}  // namespace
+
+SpeciesRef frlgSpeciesRef(uint16_t species) {
+    return cachedRef(species, kSlots, frlgSpeciesName(species));
+}
+
+SpeciesRef unboundSpeciesRef(uint16_t species) {
+    return cachedRef(species, kUnboundSlots, unboundSpeciesName(species));
 }
 
 }

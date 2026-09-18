@@ -9,6 +9,7 @@ namespace emulocke {
 
 class GameAdapter;
 
-SpeciesRef hackAwareSpecies(std::string_view ext, uint16_t id, const GameAdapter* adapter);
+SpeciesRef hackAwareSpecies(std::string_view ext, uint16_t id, const GameAdapter* adapter,
+                            bool unbound = false);
 
 }
