@@ -67,7 +67,7 @@ Needed while a run is seated. Live should refill the save-shaped snapshot when t
 
 CFRU live battle structs stay zero. Party HP still comes from the party snapshot.
 
-Gen 4/5 live today only has to prove party. Boxes, flags, gyms, map, and battle still come from the save merge until those RAM layouts are filled.
+Gen 4/5 live fills party and the trainer-battle overlay (HP, stages, enemy party). Boxes, flags, gyms, and map still come from the save merge.
 
 ## Mon blob (save or RAM)
 

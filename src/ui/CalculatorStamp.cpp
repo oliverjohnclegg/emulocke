@@ -18,7 +18,9 @@ void calcStamp(const char* label) {
     ImGui::GetWindowDrawList()->AddRect(
         p, b, ImGui::GetColorU32(ImVec4(kMetal.x, kMetal.y, kMetal.z, 0.45f)));
     ImGui::SetCursorScreenPos(ImVec2(p.x + 4.f, p.y + 1.f));
-    ImGui::TextDisabled("%s", label);
+    ImGui::PushStyleColor(ImGuiCol_Text, kMetal);
+    ImGui::TextUnformatted(label);
+    ImGui::PopStyleColor();
     ImGui::SameLine(0, 8.f);
 }
 

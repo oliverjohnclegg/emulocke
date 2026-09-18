@@ -24,6 +24,8 @@ struct Pokemon {
     int8_t speStage{};
     int8_t spaStage{};
     int8_t spdStage{};
+    int8_t accStage{};
+    int8_t evaStage{};
     uint8_t ability{};
     uint16_t item{};
     uint32_t status{};

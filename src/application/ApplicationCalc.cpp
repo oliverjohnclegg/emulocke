@@ -41,6 +41,15 @@ void Application::seedPreviewCalc() {
     snapshot_.party.mons[0] = previewMon(3, 32, 80, 80, 52, 53, 70, 70, 50, 75, 202, 73, 22);
     snapshot_.party.mons[1] = previewMon(25, 25, 55, 55, 35, 25, 40, 35, 70, 84, 86, 98, 21);
     snapshot_.party.mons[2] = previewMon(6, 36, 90, 90, 64, 58, 85, 65, 80, 53, 126, 52, 19);
+    snapshot_.battle.inBattle = true;
+    snapshot_.battle.player.species = 3;
+    snapshot_.battle.player.hp = 80;
+    snapshot_.battle.player.maxHp = 80;
+    snapshot_.battle.player.partyIndex = 0;
+    snapshot_.battle.player.stages[1] = 2;
+    snapshot_.battle.player.stages[4] = 1;
+    snapshot_.battle.foe.partyIndex = 0;
+    snapshot_.battle.foe.stages[2] = -1;
     calc_.sync(kFireRedUs10Uuid, {}, &snapshot_);
     calc_.search("brock");
     if (!calc_.trainerHits().empty()) {

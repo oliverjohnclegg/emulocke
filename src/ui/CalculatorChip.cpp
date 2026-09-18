@@ -1,4 +1,5 @@
 #include "ui/CalculatorDraw.hpp"
+#include "ui/KitMark.hpp"
 
 #include "ui/Theme.hpp"
 
@@ -42,6 +43,27 @@ bool calcCritMark(bool on) {
 
 float calcCritMarkWidth() {
     return ImGui::CalcTextSize("CR").x + 8.f;
+}
+
+void drawCalcCrits(bool& ours, bool& theirs, float spineX, float abY, int focus, bool act) {
+    const float w = calcCritMarkWidth();
+    const float gap = 4.f;
+    calcAlignCenter(w * 2.f + gap);
+    ImGui::PushID("oh");
+    ImGui::SetCursorScreenPos(ImVec2(spineX - w - 1.f, abY));
+    if (calcCritMark(ours) || (act && focus == 0)) {
+        ours = !ours;
+    }
+    kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), focus == 0);
+    ImGui::PopID();
+    ImGui::SameLine(0.f, gap);
+    ImGui::PushID("fh");
+    ImGui::SetCursorScreenPos(ImVec2(spineX + 1.f, abY));
+    if (calcCritMark(theirs) || (act && focus == 1)) {
+        theirs = !theirs;
+    }
+    kitStroke(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), focus == 1);
+    ImGui::PopID();
 }
 
 }

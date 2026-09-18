@@ -80,6 +80,18 @@ int main() {
     REQUIRE(fromPk.level == 6);
     REQUIRE(fromPk.maxHp == 21);
 
+    emulocke::Pokemon flat = emulocke::pokemonFromPack(snivyMon, blaze);
+    emulocke::Pokemon boosted = flat;
+    emulocke::BattleBattler ranks{};
+    ranks.stages[1] = 2;
+    ranks.stages[6] = 1;
+    emulocke::applyBattler(boosted, ranks);
+    REQUIRE(boosted.atkStage == 2);
+    REQUIRE(boosted.accStage == 1);
+    const emulocke::DamageResult flatHit = emulocke::calculate(5, 5, flat, def, vw, {});
+    const emulocke::DamageResult rankHit = emulocke::calculate(5, 5, boosted, def, vw, {});
+    REQUIRE(rankHit.max > flatHit.max);
+
     const emulocke::PackTrainer* castle = emulocke::packTrainer(*blaze, 587);
     REQUIRE(castle && castle->count == 6);
     const uint16_t want[6] = {571, 467, 80, 142, 474, 644};
