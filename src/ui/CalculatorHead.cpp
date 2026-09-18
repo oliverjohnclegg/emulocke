@@ -3,6 +3,7 @@
 
 #include "calc/HpBar.hpp"
 #include "calc/Labels.hpp"
+#include "poke/Dex.hpp"
 
 #include <imgui.h>
 #include <cstdio>
@@ -66,7 +67,8 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right) {
             ImGui::NewLine();
         }
     }
-    if (const char* ab = abilityName(mon.ability)) {
+    const char* ab = abilityName(static_cast<uint16_t>(mon.ability));
+    if (ab && ab[0]) {
         char line[40];
         std::snprintf(line, sizeof line, "AB  %s", ab);
         if (right) {

@@ -123,6 +123,14 @@ int main() {
     REQUIRE(fromPk.level == 6);
     REQUIRE(fromPk.maxHp == 21);
 
+    const emulocke::PackTrainer* eri = emulocke::packTrainer(*blaze, 8);
+    REQUIRE(eri && std::strcmp(eri->name, "Eri") == 0);
+    const emulocke::PackMon* azu = emulocke::trainerMon(*blaze, *eri, 3);
+    REQUIRE(azu && azu->species == 298 && azu->ability == 157);
+    emulocke::Pokemon az = emulocke::pokemonFromPack(*azu, blaze);
+    REQUIRE(az.ability == 157);
+    REQUIRE(emulocke::calculate(5, 5, atk, az, vw, emulocke::Field{}).immune);
+
     const emulocke::PackTrainer* castle = emulocke::packTrainer(*blaze, 587);
     REQUIRE(castle && castle->count == 6);
     const uint16_t want[6] = {571, 467, 80, 142, 474, 644};

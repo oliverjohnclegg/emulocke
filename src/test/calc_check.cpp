@@ -1,8 +1,9 @@
-#include "calc/KoChance.hpp"
+#include "calc/Ability.hpp"
 #include "calc/Build.hpp"
 #include "calc/Calculate.hpp"
 #include "calc/Dex.hpp"
 #include "calc/HpBar.hpp"
+#include "calc/KoChance.hpp"
 #include "calc/Pack.hpp"
 #include "calc/Stats.hpp"
 #include "calc/SwitchIn.hpp"
@@ -149,6 +150,35 @@ void testSwitchIn() {
     REQUIRE(order[0] == 0 && order[1] == 1);
 }
 
+void testSapSipper() {
+    Pokemon atk;
+    atk.level = 50;
+    atk.atk = 80;
+    atk.spa = 80;
+    atk.t1 = Type::Grass;
+    Pokemon def;
+    def.t1 = Type::Normal;
+    def.hp = 120;
+    def.maxHp = 120;
+    def.def = 50;
+    def.spd = 50;
+    def.ability = emulocke::kAbSapSipper;
+    Move vine;
+    vine.type = Type::Grass;
+    vine.bp = 45;
+    vine.split = 0;
+    REQUIRE(emulocke::calculate(5, 5, atk, def, vine, Field{}).immune);
+    Move ember;
+    ember.type = Type::Fire;
+    ember.bp = 40;
+    ember.split = 1;
+    const DamageResult sipFire = emulocke::calculate(5, 5, atk, def, ember, Field{});
+    Pokemon fat = def;
+    fat.ability = emulocke::kAbThickFat;
+    const DamageResult fatFire = emulocke::calculate(5, 5, atk, fat, ember, Field{});
+    REQUIRE(!sipFire.immune && sipFire.min > fatFire.min);
+}
+
 void testFairyCfru() {
     REQUIRE(emulocke::typeMul(6, Type::Fairy, Type::Dragon) == 20);
     REQUIRE(emulocke::typeMul(3, Type::Fairy, Type::Dragon) == 10);
@@ -279,6 +309,7 @@ void testKoChance() {
 int main() {
     testCometPunch();
     testFixedAndImmune();
+    testSapSipper();
     testFairyCfru();
     testHpBar();
     testSwitchIn();

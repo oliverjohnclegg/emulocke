@@ -133,7 +133,7 @@ Tracker auto-fill uses save/live flags, gym bits, starter, and every non-egg mon
 **Calc pack (per catalog UUID × variant)**
 
 - every trainer: table id, name, class, location, AI flags, mandatory (leaders / E4 / champion / rival)
-- each trainer mon: species, level, IV, item, four moves (learnset fill when the party has none)
+- each trainer mon: species, level, IV, item, four moves (learnset fill when the party has none), ability id when not species slot 0
 - location index: name → trainer ids
 
 Search is trainer and location, not species-first SETDEX.

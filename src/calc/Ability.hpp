@@ -27,6 +27,7 @@ inline constexpr uint8_t kAbTorrent = 67;
 inline constexpr uint8_t kAbSwarm = 68;
 inline constexpr uint8_t kAbPurePower = 74;
 inline constexpr uint8_t kAbShellArmor = 75;
+inline constexpr uint8_t kAbSapSipper = 157;
 
 inline constexpr uint16_t kItemChoiceBand = 186;
 inline constexpr uint16_t kItemSoulDew = 191;

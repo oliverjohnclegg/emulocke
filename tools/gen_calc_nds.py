@@ -107,7 +107,18 @@ def parse_trdata(entries):
     return trainers
 
 
-def parse_trpoke5(raw, kind, count):
+def ability_id(personal, species, slot):
+    if personal and 0 <= species < len(personal) and personal[species]:
+        row = personal[species]
+        if slot >= 2:
+            return row["ha"]
+        if slot == 1:
+            return row["a2"]
+        return row["a1"]
+    return 1 if slot == 1 else 0
+
+
+def parse_trpoke5(raw, kind, count, personal=None):
     has_moves = bool(kind & 1)
     has_item = bool(kind & 2)
     mons = []
@@ -116,6 +127,7 @@ def parse_trpoke5(raw, kind, count):
         if off + 8 > len(raw):
             break
         iv = raw[off]
+        slot = (raw[off + 1] >> 4) & 0xF
         level = u16(raw, off + 2)
         species = u16(raw, off + 4) & 0x7FF
         off += 8
@@ -131,13 +143,22 @@ def parse_trpoke5(raw, kind, count):
                 break
             moves = [u16(raw, off + j * 2) for j in range(4)]
             off += 8
-        mons.append({"iv": iv, "lvl": level, "species": species, "item": item, "moves": moves})
+        mons.append(
+            {
+                "iv": iv,
+                "lvl": level,
+                "species": species,
+                "item": item,
+                "moves": moves,
+                "ability": ability_id(personal, species, slot),
+            }
+        )
     return mons
 
 
-def parse_trpoke(raw, kind, count, gen=4):
+def parse_trpoke(raw, kind, count, gen=4, personal=None):
     if gen >= 5:
-        return parse_trpoke5(raw, kind, count)
+        return parse_trpoke5(raw, kind, count, personal)
     mons = []
     off = 0
 
@@ -202,6 +223,25 @@ def parse_personal(entries, rec_size):
                 "a2": rec[23] if len(rec) > 23 else 0,
             }
         )
+    return rows
+
+
+def find_personal(files):
+    blob = files.get("/a/0/1/6")
+    if blob and blob[:4] == b"NARC":
+        entries = parse_narc(blob)
+        if len(entries) > 200:
+            return entries
+    return []
+
+
+def personal_abilities(entries):
+    rows = []
+    for raw in entries:
+        if len(raw) < 27:
+            rows.append(None)
+            continue
+        rows.append({"a1": raw[24], "a2": raw[25], "ha": raw[26]})
     return rows
 
 
@@ -292,11 +332,19 @@ def emit_pack(out, prefix, title, dmg_gen, trainers, parties, names, classes, lo
             mv = mon["moves"] + [0, 0, 0, 0]
             iv = min(int(mon["iv"]) & 0xFF, 255)
             lvl = min(max(int(mon["lvl"]) & 0xFF, 1), 100)
-            mon_rows.append(
-                "    {%d, %d, %d, %d, {%d, %d, %d, %d}},"
-                % (mon["species"] & 0x7FF, lvl, iv, mon["item"] & 0xFFFF,
-                   mv[0] & 0xFFFF, mv[1] & 0xFFFF, mv[2] & 0xFFFF, mv[3] & 0xFFFF)
-            )
+            ability = int(mon.get("ability") or 0) & 0xFF
+            if ability:
+                mon_rows.append(
+                    "    {%d, %d, %d, %d, {%d, %d, %d, %d}, %d},"
+                    % (mon["species"] & 0x7FF, lvl, iv, mon["item"] & 0xFFFF,
+                       mv[0] & 0xFFFF, mv[1] & 0xFFFF, mv[2] & 0xFFFF, mv[3] & 0xFFFF, ability)
+                )
+            else:
+                mon_rows.append(
+                    "    {%d, %d, %d, %d, {%d, %d, %d, %d}},"
+                    % (mon["species"] & 0x7FF, lvl, iv, mon["item"] & 0xFFFF,
+                       mv[0] & 0xFFFF, mv[1] & 0xFFFF, mv[2] & 0xFFFF, mv[3] & 0xFFFF)
+                )
             mon_off += 1
         tname = pretty_trainer(tid, names)
         cls = classes[meta["cls"]] if meta["cls"] < len(classes) else "Trainer"
@@ -362,13 +410,14 @@ def extract(rom_path, out, prefix, title, dmg_gen, names_path, rec_size=44):
     if not trdata or not trpoke:
         raise SystemExit(f"no trainer narc in {rom_path}")
     trainers = parse_trdata(trdata)
+    personal = personal_abilities(find_personal(files)) if dmg_gen >= 5 else None
     parties = []
     for i, meta in enumerate(trainers):
         if not meta:
             parties.append([])
             continue
         raw = trpoke[i] if i < len(trpoke) else b""
-        parties.append(parse_trpoke(raw, meta["kind"], meta["count"], dmg_gen))
+        parties.append(parse_trpoke(raw, meta["kind"], meta["count"], dmg_gen, personal))
     apply_default_moves(trainers, parties, find_learnsets(files))
     names, classes = names_from_rom(files, trainers, names_path)
     emit_pack(Path(out), prefix, title, dmg_gen, trainers, parties, names, classes)
