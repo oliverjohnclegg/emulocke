@@ -224,6 +224,10 @@ constexpr CalcPack kB2w2Pack{
     static_cast<int>(sizeof(kB2w2Locs) / sizeof(kB2w2Locs[0])),
 };
 
+constexpr MoveFix kDrayano31Moves[] = {
+#include "calc/data/PackDrayano31Moves.inc"
+};
+
 #include "calc/data/PackGenerated.inc"
 
 bool isFrlg(std::string_view uuid) {

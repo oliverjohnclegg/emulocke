@@ -28,6 +28,28 @@ int main() {
     REQUIRE(nincada && nincada->species == 290);
     REQUIRE(nincada->moves[0] == 10 && nincada->moves[1] == 106 && nincada->moves[2] == 450 &&
         nincada->moves[3] == 141);
+    emulocke::Pokemon ninc = emulocke::pokemonFromPack(*nincada, blaze);
+    REQUIRE(ninc.maxHp == 20 && ninc.def == 16);
+    emulocke::Pokemon rattata{};
+    rattata.t1 = emulocke::Type::Normal;
+    rattata.level = 10;
+    rattata.atk = 16;
+    const emulocke::MoveRow* wheelRow = emulocke::moveById(172);
+    REQUIRE(wheelRow && wheelRow->bp == 60);
+    const emulocke::Move vanillaWheel = emulocke::moveFromRow(*wheelRow);
+    const emulocke::DamageResult vanilla = emulocke::calculate(5, 5, rattata, ninc, vanillaWheel, {});
+    REQUIRE(vanilla.min == 15 && vanilla.max == 18);
+    REQUIRE(vanilla.min * 100 / ninc.maxHp == 75);
+    REQUIRE(vanilla.max * 100 / ninc.maxHp == 90);
+    const emulocke::Move blazeWheel = emulocke::packedMove(blaze, 172);
+    REQUIRE(blazeWheel.bp == 75);
+    const emulocke::DamageResult packed = emulocke::calculate(5, 5, rattata, ninc, blazeWheel, {});
+    REQUIRE(packed.min == 18 && packed.max == 22);
+    REQUIRE(!packed.ohko(ninc.maxHp) && packed.max >= ninc.maxHp);
+    const emulocke::Move cut = emulocke::packedMove(blaze, 15);
+    REQUIRE(cut.bp == 60 && cut.type == emulocke::Type::Grass);
+    const emulocke::CalcPack* volt = emulocke::calcPack(emulocke::kVoltWhiteUuid, {});
+    REQUIRE(volt && emulocke::packedMove(volt, 172).bp == 75);
 
     emulocke::PackMon snivyMon{495, 7, 0, 0, {22, 33, 0, 0}};
     emulocke::Pokemon atk = emulocke::pokemonFromPack(snivyMon, blaze);

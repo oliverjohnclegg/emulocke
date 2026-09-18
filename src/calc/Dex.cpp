@@ -1,5 +1,7 @@
 #include "calc/Dex.hpp"
 
+#include "calc/Pack.hpp"
+
 #include <cctype>
 #include <cstring>
 
@@ -128,6 +130,29 @@ Move moveFromRow(const MoveRow& row) {
     }
     if (row.bp == 0 && row.kind == 0) {
         m.kind = MoveKind::Status;
+    }
+    return m;
+}
+
+Move packedMove(const CalcPack* pack, uint16_t id) {
+    const MoveRow* row = moveById(id);
+    if (!row) {
+        return {};
+    }
+    Move m = moveFromRow(*row);
+    if (!pack) {
+        return m;
+    }
+    for (int i = 0; i < pack->moveFixCount; ++i) {
+        const MoveFix& fix = pack->moveFixes[i];
+        if (fix.id != id) {
+            continue;
+        }
+        m.bp = fix.bp;
+        if (fix.type != 255) {
+            m.type = static_cast<Type>(fix.type);
+        }
+        break;
     }
     return m;
 }

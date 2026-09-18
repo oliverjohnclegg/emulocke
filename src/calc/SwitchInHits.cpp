@@ -34,10 +34,10 @@ int playerHitsMon(uint8_t chart, const Pokemon& player, const SpeciesRow& row) {
     return d;
 }
 
-bool hasSeMove(uint8_t chart, const PackMon& mon, const Pokemon& player) {
+bool hasSeMove(uint8_t chart, const PackMon& mon, const Pokemon& player, const CalcPack* pack) {
     for (int i = 0; i < 4; ++i) {
-        const MoveRow* row = moveById(mon.moves[i]);
-        if (row && typeEff(chart, static_cast<Type>(row->type), player) >= 20) {
+        const Move mv = packedMove(pack, mon.moves[i]);
+        if (mv.id && typeEff(chart, mv.type, player) >= 20) {
             return true;
         }
     }
@@ -48,12 +48,11 @@ int maxHitVs(const CalcPack& pack, const PackMon& mon, const Pokemon& player) {
     const Pokemon atk = pokemonFromPack(mon, &pack);
     int best = 0;
     for (int i = 0; i < 4; ++i) {
-        const MoveRow* row = moveById(mon.moves[i]);
-        if (!row || row->bp <= 1) {
+        const Move mv = packedMove(&pack, mon.moves[i]);
+        if (!mv.id || mv.bp <= 1) {
             continue;
         }
-        const DamageResult r =
-            calculate(pack.dmgGen, pack.typeChart, atk, player, moveFromRow(*row), Field{});
+        const DamageResult r = calculate(pack.dmgGen, pack.typeChart, atk, player, mv, Field{});
         if (!r.immune && r.max > best) {
             best = r.max;
         }
