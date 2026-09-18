@@ -4,12 +4,33 @@
 #include "calc/HpBar.hpp"
 #include "calc/Move.hpp"
 #include "calc/Pack.hpp"
+#include "calc/Session.hpp"
 #include "calc/Type.hpp"
 #include "run/Catalog.hpp"
 #include "test/Check.hpp"
+#include "tracker/Atlases.hpp"
 
 #include <cstdio>
 #include <cstring>
+
+namespace {
+
+bool isUnovaStarter(uint16_t id) {
+    return id == 495 || id == 498 || id == 501;
+}
+
+const emulocke::PackMon* monWith(const emulocke::CalcPack& pack, const emulocke::PackTrainer& t,
+    uint16_t id) {
+    for (int i = 0; i < t.count; ++i) {
+        const emulocke::PackMon* mon = emulocke::trainerMon(pack, t, i);
+        if (mon && mon->species == id) {
+            return mon;
+        }
+    }
+    return nullptr;
+}
+
+}  // namespace
 
 int main() {
     const emulocke::SpeciesRow* snivy = emulocke::nationalDexRow(495);
@@ -110,5 +131,56 @@ int main() {
         REQUIRE(mon && mon->species == want[i]);
         REQUIRE(mon->moves[0] && mon->moves[1] && mon->moves[2] && mon->moves[3]);
     }
+
+    int route2 = 0;
+    int nuvema = 0;
+    int school = 0;
+    for (int i = 0; i < blaze->trainerCount; ++i) {
+        const emulocke::PackTrainer& t = blaze->trainers[i];
+        if (std::strcmp(t.name, "Bianca") == 0 && std::strcmp(t.location, "Route 2") == 0) {
+            REQUIRE(t.count == 2);
+            REQUIRE(monWith(*blaze, t, 52));
+            REQUIRE(t.count != 1);
+            ++route2;
+        }
+        if (std::strcmp(t.name, "Bianca") == 0 && std::strcmp(t.location, "Nuvema Town") == 0) {
+            REQUIRE(t.count == 1);
+            const emulocke::PackMon* mon = emulocke::trainerMon(*blaze, t, 0);
+            REQUIRE(mon && isUnovaStarter(mon->species));
+            ++nuvema;
+        }
+        if (std::strcmp(t.name, "Cheren") == 0 && std::strcmp(t.location, "Tranier's School") == 0) {
+            REQUIRE(t.count == 2);
+            REQUIRE(monWith(*blaze, t, 396));
+            ++school;
+        }
+    }
+    REQUIRE(route2 == 3);
+    REQUIRE(nuvema == 3);
+    REQUIRE(school == 3);
+
+    emulocke::CalcSession session;
+    session.sync(emulocke::kBlazeBlackUuid, {}, nullptr, 0, &emulocke::blazeAtlas());
+    session.search("Route 2");
+    int open = 0;
+    for (const emulocke::PackTrainer* t : session.trainerHits()) {
+        if (std::strcmp(t->name, "Bianca") == 0 && std::strcmp(t->location, "Route 2") == 0) {
+            ++open;
+        }
+    }
+    REQUIRE(open == 3);
+
+    session.sync(emulocke::kBlazeBlackUuid, {}, nullptr, 495, &emulocke::blazeAtlas());
+    session.search("Route 2");
+    const emulocke::PackTrainer* snivyBianca = nullptr;
+    for (const emulocke::PackTrainer* t : session.trainerHits()) {
+        if (std::strcmp(t->name, "Bianca") == 0 && std::strcmp(t->location, "Route 2") == 0) {
+            REQUIRE(!snivyBianca);
+            snivyBianca = t;
+        }
+    }
+    REQUIRE(snivyBianca && snivyBianca->count == 2);
+    REQUIRE(monWith(*blaze, *snivyBianca, 52));
+    REQUIRE(monWith(*blaze, *snivyBianca, 501));
     return 0;
 }

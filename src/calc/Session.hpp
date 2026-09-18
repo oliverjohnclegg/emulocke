@@ -4,15 +4,19 @@
 #include "calc/Field.hpp"
 #include "calc/Pack.hpp"
 
+#include <cstdint>
 #include <string_view>
 #include <vector>
 
 namespace emulocke {
 
+struct TrackerAtlas;
+
 class CalcSession {
 public:
     void setPack(const CalcPack* pack);
-    void sync(std::string_view uuid, std::string_view variant, const GameSnapshot* snap);
+    void sync(std::string_view uuid, std::string_view variant, const GameSnapshot* snap,
+        uint16_t starter = 0, const TrackerAtlas* atlas = nullptr);
     void search(const char* query);
     void pickTrainer(const PackTrainer* trainer);
     void pickLocation(const PackLocation* loc);
@@ -44,8 +48,11 @@ public:
 
 private:
     void refreshFoe();
+    void keepStarterHits();
     const CalcPack* pack_{};
     PackTrainer const* trainer_{};
+    const TrackerAtlas* atlas_{};
+    uint16_t starter_{};
     GameSnapshot snap_{};
     int partySlot_{};
     int foeSlot_{};
