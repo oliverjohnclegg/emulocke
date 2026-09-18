@@ -3,6 +3,7 @@
 #include "calc/Calculate.hpp"
 #include "calc/Dex.hpp"
 #include "calc/HpBar.hpp"
+#include "calc/KoBand.hpp"
 #include "calc/KoChance.hpp"
 #include "calc/Pack.hpp"
 #include "calc/Stats.hpp"
@@ -304,6 +305,52 @@ void testKoChance() {
     REQUIRE(std::strstr(buf, "no damage"));
 }
 
+void testKoBand() {
+    using emulocke::KoBand;
+    emulocke::DamageResult d;
+    d.min = 100;
+    d.max = 120;
+    REQUIRE(emulocke::koBand(d, nullptr, 80) == KoBand::Ohko);
+    REQUIRE(emulocke::koBand(d, nullptr, 110) == KoBand::RollOhko);
+    emulocke::DamageResult crit;
+    crit.min = 160;
+    crit.max = 190;
+    d.min = 40;
+    d.max = 50;
+    REQUIRE(emulocke::koBand(d, &crit, 80) == KoBand::CritOhko);
+    crit.min = 70;
+    crit.max = 90;
+    REQUIRE(emulocke::koBand(d, &crit, 80) == KoBand::CritOhko);
+    crit.min = 40;
+    crit.max = 50;
+    d.min = 50;
+    d.max = 55;
+    REQUIRE(emulocke::koBand(d, &crit, 100) == KoBand::TwoHko);
+    d.min = 40;
+    d.max = 55;
+    REQUIRE(emulocke::koBand(d, &crit, 100) == KoBand::RollTwoHko);
+    d.min = 20;
+    d.max = 30;
+    REQUIRE(emulocke::koBand(d, &crit, 100) == KoBand::None);
+    d.min = 50;
+    d.max = 55;
+    crit.min = 100;
+    crit.max = 120;
+    REQUIRE(emulocke::koBand(d, &crit, 100) == KoBand::CritOhko);
+    d.min = 100;
+    d.max = 120;
+    crit.min = 200;
+    crit.max = 240;
+    REQUIRE(emulocke::koBand(d, &crit, 80) == KoBand::Ohko);
+    d.immune = true;
+    REQUIRE(emulocke::koBand(d, nullptr, 80) == KoBand::None);
+    d.immune = false;
+    d.min = 0;
+    d.max = 0;
+    REQUIRE(emulocke::koBand(d, nullptr, 80) == KoBand::None);
+    REQUIRE(emulocke::koBand(d, nullptr, 0) == KoBand::None);
+}
+
 }  // namespace
 
 int main() {
@@ -315,6 +362,7 @@ int main() {
     testSwitchIn();
     testField();
     testKoChance();
+    testKoBand();
     std::printf("calc check ok\n");
     return 0;
 }

@@ -98,6 +98,7 @@ Native ImGui tab. Not a webview. Dynamic-Calc / Smogon math, restyled in graphit
 - Pack carries `dmgGen`, `typeChart`, and `switchIn` of its own. Cartridge generation is not the default. CFRU is not gen 3.
 - Live FRLG and RSE battles fill `GameSnapshot.battle` (HP, stages, weather, enemy party). CFRU live battle structs stay zero until that title's pack exists; party HP still comes from the party snapshot.
 - `--preview-calc` opens the host on the FRLG pack with a fixture party so the tab can be exercised without a ROM.
+- Move rows color by KO band against current HP: guaranteed OHKO, rolled OHKO, crit OHKO, guaranteed 2HKO, rolled 2HKO. Damage % is always of max HP and is never rewritten to 100%+.
 
 ## Adapter
 

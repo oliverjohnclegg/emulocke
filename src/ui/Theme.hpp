@@ -20,6 +20,11 @@ inline constexpr ImVec4 kHeader{42 / 255.f, 42 / 255.f, 44 / 255.f, 1.f};
 inline constexpr ImVec4 kHeaderHover{54 / 255.f, 54 / 255.f, 56 / 255.f, 1.f};
 inline constexpr ImVec4 kHeaderActive{66 / 255.f, 66 / 255.f, 68 / 255.f, 1.f};
 inline constexpr ImU32 kPaused = IM_COL32(196, 43, 43, 255);
+inline constexpr ImU32 kKoOhko = IM_COL32(196, 43, 43, 255);
+inline constexpr ImU32 kKoRollOhko = IM_COL32(196, 112, 48, 255);
+inline constexpr ImU32 kKoCritOhko = IM_COL32(176, 140, 64, 255);
+inline constexpr ImU32 kKoTwoHko = IM_COL32(188, 156, 84, 255);
+inline constexpr ImU32 kKoRollTwoHko = IM_COL32(148, 136, 108, 255);
 inline constexpr ImVec4 kStatUp{196 / 255.f, 43 / 255.f, 43 / 255.f, 1.f};
 inline constexpr ImVec4 kStatDown{88 / 255.f, 148 / 255.f, 196 / 255.f, 1.f};
 

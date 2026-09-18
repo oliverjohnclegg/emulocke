@@ -123,6 +123,7 @@ add_library(emulocke_calc STATIC
     src/calc/Gen3Mods.cpp
     src/calc/Calculate.cpp
     src/calc/KoChance.cpp
+    src/calc/KoBand.cpp
     src/calc/Dex.cpp
     src/calc/Pack.cpp
     src/calc/Build.cpp
