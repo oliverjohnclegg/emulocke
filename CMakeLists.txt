@@ -499,6 +499,13 @@ add_executable(emulocke-adapter-check
     src/run/BatteryWatch.cpp)
 target_include_directories(emulocke-adapter-check PRIVATE src)
 target_link_libraries(emulocke-adapter-check PRIVATE emulocke_adapter)
+if(WIN32)
+    if(MSVC)
+        target_link_options(emulocke-adapter-check PRIVATE /STACK:8388608)
+    else()
+        target_link_options(emulocke-adapter-check PRIVATE -Wl,--stack,8388608)
+    endif()
+endif()
 
 add_executable(emulocke-tracker-check
     src/test/tracker_check.cpp
