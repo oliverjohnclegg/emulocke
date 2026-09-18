@@ -18,6 +18,11 @@ inline constexpr uint32_t kUnboundSignature210 = 0x01121999;
 inline constexpr uint32_t kUnboundSignature200 = 0x01121998;
 inline constexpr uint32_t kUnboundSignature = 0x01122000;
 
+inline bool unboundSave(uint32_t signature) {
+    return signature == kUnboundSignature210 || signature == kUnboundSignature200 ||
+           signature == kUnboundSignature;
+}
+
 void copyCfruParasite(const uint8_t* sector, uint16_t id, FrlgSaveBlocks& out);
 void fillCfruDifficulty(const FrlgSaveBlocks& blocks, GameSnapshot& snap);
 void fillCfruDifficultyLive(const LiveMemory& mem, GameSnapshot& snap);

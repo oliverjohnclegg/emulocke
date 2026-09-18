@@ -112,6 +112,8 @@ bool readFrlgSave(std::span<const uint8_t> sav, FrlgSaveBlocks& out) {
         std::memcpy(dest, sec, size);
         copyCfruParasite(sec, id, out);
     }
+    std::memcpy(out.flash30.data(), sectorBytes(sav, 30), out.flash30.size());
+    std::memcpy(out.flash31.data(), sectorBytes(sav, 31), out.flash31.size());
     return true;
 }
 

@@ -15,6 +15,7 @@ void testGen3Codec();
 void testFrlgAdapter();
 void testFrlgSpecies();
 void testFrlgDifficulty();
+void testFrlgBoxes();
 void testRseAdapter();
 void testGen4Adapter();
 void testGen4Battle();

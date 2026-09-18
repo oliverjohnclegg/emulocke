@@ -7,6 +7,7 @@ int main() {
     testFrlgAdapter();
     testFrlgSpecies();
     testFrlgDifficulty();
+    testFrlgBoxes();
     testRseAdapter();
     testGen4Adapter();
     testGen4Battle();

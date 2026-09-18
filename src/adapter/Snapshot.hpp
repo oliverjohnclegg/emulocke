@@ -15,7 +15,7 @@ enum class SnapshotOrigin { None, Save, Live };
 
 enum class MonGender : uint8_t { Male, Female, Unknown };
 
-inline constexpr int kMaxBoxes = 24;
+inline constexpr int kMaxBoxes = 25;
 
 struct Mon {
     uint16_t species{};

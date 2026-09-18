@@ -15,6 +15,9 @@ struct FrlgSaveBlocks {
     std::array<uint8_t, 0x83D0> storage{};
     std::array<uint8_t, 0x200> expandedFlags{};
     std::array<uint8_t, 0x200> expandedVars{};
+    std::array<uint8_t, 0x70> sector2Tail{};
+    std::array<uint8_t, 0x1000> flash30{};
+    std::array<uint8_t, 0x1000> flash31{};
     uint32_t fileSignature{};
 };
 

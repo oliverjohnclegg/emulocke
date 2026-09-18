@@ -148,6 +148,8 @@ add_library(emulocke_adapter STATIC
     src/adapter/gen3/BoxHeader.cpp
     src/adapter/frlg/FrlgSave.cpp
     src/adapter/frlg/CfruExpanded.cpp
+    src/adapter/frlg/CfruBoxMon.cpp
+    src/adapter/frlg/CfruBoxes.cpp
     src/adapter/frlg/FrlgFill.cpp
     src/adapter/frlg/FrlgLive.cpp
     src/adapter/frlg/FrlgBattle.cpp
@@ -481,6 +483,7 @@ add_executable(emulocke-adapter-check
     src/test/frlg_adapter_check.cpp
     src/test/frlg_species_check.cpp
     src/test/frlg_difficulty_check.cpp
+    src/test/frlg_box_check.cpp
     src/test/rse_adapter_check.cpp
     src/test/gen4_adapter_check.cpp
     src/test/gen4_battle_check.cpp

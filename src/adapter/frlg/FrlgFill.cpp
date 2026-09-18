@@ -1,5 +1,6 @@
 #include "adapter/frlg/FrlgSave.hpp"
 
+#include "adapter/frlg/CfruBoxes.hpp"
 #include "adapter/frlg/CfruExpanded.hpp"
 #include "adapter/frlg/FrlgLayout.hpp"
 #include "adapter/frlg/FrlgNames.hpp"
@@ -92,7 +93,13 @@ void fillFrlgProgress(const uint8_t* block1, GameSnapshot& snap) {
 void fillSnapshotFromFrlg(const FrlgSaveBlocks& blocks, GameSnapshot& snap) {
     readTrainer(blocks.block2.data(), snap.trainer);
     readParty(blocks.block1.data(), snap.party);
-    fillFrlgBoxes(blocks.storage, snap.boxes);
+    if (unboundSave(blocks.fileSignature) || cfruPackedStorage(blocks.storage) ||
+        cfruPackedMon({blocks.flash30.data() + kCfruFlash30BoxOff, kCfruBoxMonSize})) {
+        fillCfruPackedBoxes(blocks.storage, snap.boxes);
+        fillCfruSaveExtraBoxes(blocks, snap.boxes);
+    } else {
+        fillFrlgBoxes(blocks.storage, snap.boxes);
+    }
     readGyms(blocks.block1.data(), snap.gyms);
     snap.overworld.mapGroup = blocks.block1[kFrlgMapGroupOff];
     snap.overworld.mapNum = blocks.block1[kFrlgMapNumOff];
