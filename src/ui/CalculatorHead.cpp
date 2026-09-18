@@ -50,11 +50,11 @@ void drawCalcSideHead(const char* name, const Pokemon& mon, bool right, bool hol
     const char* labels[8];
     const int m = collectStages(mon, stages, labels, statusAbbrev(mon.status));
     if (right) {
+        calcAlignRight(calcFoeHpWidth(mon.hp, mon.maxHp));
+        calcFoeHp(mon.hp, mon.maxHp);
         if (m || hold) {
             calcStampBlock(labels, m, true, hold);
         }
-        calcAlignRight(calcFoeHpWidth(mon.hp, mon.maxHp));
-        calcFoeHp(mon.hp, mon.maxHp);
     } else {
         ImGui::TextUnformatted(hp);
         if (m || hold) {
