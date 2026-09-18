@@ -24,6 +24,7 @@ struct Mon {
     uint32_t otId{};
     uint8_t level{};
     uint16_t hp{};
+    uint16_t pkHp{};
     uint16_t maxHp{};
     uint16_t attack{};
     uint16_t defense{};

@@ -331,12 +331,14 @@ void testGen5Battle() {
     plantStats(liveRam, 0x0226D6B0 + 7 * emulocke::kBtlPokeparamSize, 10, 16, 7, 8, 11);
     REQUIRE(emulocke::fillGen5Live(liveMem, emulocke::kBwPartyLive, liveSnap));
     REQUIRE(liveSnap.party.mons[0].hp == 0);
+    REQUIRE(liveSnap.party.mons[0].pkHp == 22);
     REQUIRE(liveSnap.battle.player.species == 16);
     REQUIRE(liveSnap.battle.player.hp == 11);
     REQUIRE(liveSnap.battle.player.maxHp == 21);
     REQUIRE(liveSnap.battle.player.level == 6);
     REQUIRE(liveSnap.party.mons[1].level == 6);
     REQUIRE(liveSnap.party.mons[1].maxHp == 21);
+    REQUIRE(liveSnap.party.mons[1].pkHp == 17);
     REQUIRE(liveSnap.party.mons[1].spAttack == 10);
     REQUIRE(liveSnap.party.mons[1].speed == 12);
     REQUIRE(liveSnap.battle.foeHp[0] == 0);
