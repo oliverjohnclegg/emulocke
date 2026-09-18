@@ -78,15 +78,33 @@ void plantRanks(std::vector<uint8_t>& ram, uint32_t addr, const int8_t st[7]) {
     }
 }
 
-void plantParty(std::vector<uint8_t>& ram) {
+void plantOt(std::vector<uint8_t>& ram) {
     const uint32_t saveBase = emulocke::kBwPartyLive - 8 - static_cast<uint32_t>(emulocke::kGen5Party);
+    emulocke::encodeUtf16Text("Raval",
+        {ram.data() + (saveBase - 0x02000000) + emulocke::kGen5Trainer + 4, 16});
+}
+
+void plantParty(std::vector<uint8_t>& ram) {
+    plantOt(ram);
     ram[emulocke::kBwPartyLive - 0x02000000 - 4] = 1;
     const auto snivy = pk5(495, 0x11112222, 22, 22, 11, 12);
     std::memcpy(ram.data() + (emulocke::kBwPartyLive - 0x02000000), snivy.data(), snivy.size());
-    emulocke::encodeUtf16Text("Raval", {ram.data() + (saveBase - 0x02000000) + emulocke::kGen5Trainer + 4, 16});
     ram[emulocke::kBwEnemyPartyLive - 0x02000000 - 4] = 1;
     const auto nincada = pk5(290, 0xAABBCCDD, 22, 22, 10, 16);
     std::memcpy(ram.data() + (emulocke::kBwEnemyPartyLive - 0x02000000), nincada.data(), nincada.size());
+}
+
+void plantSchool(std::vector<uint8_t>& ram) {
+    plantOt(ram);
+    ram[emulocke::kBwPartyLive - 0x02000000 - 4] = 1;
+    const auto panpour = pk5(515, 0x11112222, 22, 22, 11, 12);
+    std::memcpy(ram.data() + (emulocke::kBwPartyLive - 0x02000000), panpour.data(), panpour.size());
+    ram[emulocke::kBwEnemyPartyLive - 0x02000000 - 4] = 2;
+    const auto starly = pk5(396, 0xAABBCCDD, 20, 20, 10, 10);
+    std::memcpy(ram.data() + (emulocke::kBwEnemyPartyLive - 0x02000000), starly.data(), starly.size());
+    const auto tepig = pk5(498, 0x33445566, 21, 21, 14, 11);
+    std::memcpy(ram.data() + (emulocke::kBwEnemyPartyLive - 0x02000000) + emulocke::kPk5PartySize,
+        tepig.data(), tepig.size());
 }
 
 }  // namespace
@@ -663,5 +681,59 @@ void testGen5Battle() {
     REQUIRE(emulocke::fillGen5Live(bakedMem, emulocke::kBwPartyLive, bakedSnap));
     REQUIRE(bakedSnap.battle.player.stages[1] == 2);
     REQUIRE(bakedSnap.party.mons[0].attack == 11);
+
+    emulocke::resetGen5Pokeparam();
+    std::vector<uint8_t> school(0x400000, 0);
+    plantSchool(school);
+    const uint32_t schoolBase = 0x0226D6B0;
+    plantLive(school, schoolBase, 515, 24, 24);
+    plantLive(school, schoolBase + emulocke::kBtlPokeparamSize, 396, 20, 20);
+    plantLive(school, schoolBase + 2 * emulocke::kBtlPokeparamSize, 498, 21, 21);
+    plantStats(school, schoolBase + 2 * emulocke::kBtlPokeparamSize, 16, 12, 8, 8, 10);
+    emulocke::SpanMemory schoolMem(0x02000000, school);
+    emulocke::GameSnapshot schoolSnap;
+    REQUIRE(emulocke::fillGen5Live(schoolMem, emulocke::kBwPartyLive, schoolSnap));
+    REQUIRE(schoolSnap.battle.player.species == 515);
+    REQUIRE(schoolSnap.battle.player.hp == 24);
+    REQUIRE(schoolSnap.battle.foe.species == 396);
+    REQUIRE(schoolSnap.battle.foe.partyIndex == 0);
+    REQUIRE(schoolSnap.battle.foe.hp == 20);
+    plantLive(school, schoolBase, 515, 24, 12);
+    plantLive(school, schoolBase + emulocke::kBtlPokeparamSize, 396, 20, 0);
+    plantLive(school, schoolBase + 2 * emulocke::kBtlPokeparamSize, 498, 21, 18);
+    plantLive(school, schoolBase + 3 * emulocke::kBtlPokeparamSize, 515, 24, 0);
+    plantStats(school, schoolBase + 2 * emulocke::kBtlPokeparamSize, 16, 12, 8, 8, 10);
+    REQUIRE(emulocke::fillGen5Live(schoolMem, emulocke::kBwPartyLive, schoolSnap));
+    REQUIRE(schoolSnap.battle.foe.species == 498);
+    REQUIRE(schoolSnap.battle.foe.partyIndex == 1);
+    REQUIRE(schoolSnap.battle.foe.hp == 18);
+    REQUIRE(schoolSnap.battle.foeAtk[1] == 16);
+    REQUIRE(schoolSnap.battle.player.species == 515);
+    REQUIRE(schoolSnap.battle.player.hp == 12);
+    REQUIRE(schoolSnap.party.mons[0].pkHp == 22);
+    REQUIRE(schoolSnap.party.mons[0].hp == 22);
+
+    emulocke::resetGen5Pokeparam();
+    std::vector<uint8_t> moved(0x400000, 0);
+    plantSchool(moved);
+    plantLive(moved, schoolBase, 515, 24, 24);
+    plantLive(moved, schoolBase + emulocke::kBtlPokeparamSize, 396, 20, 20);
+    emulocke::SpanMemory movedMem(0x02000000, moved);
+    emulocke::GameSnapshot movedSnap;
+    REQUIRE(emulocke::fillGen5Live(movedMem, emulocke::kBwPartyLive, movedSnap));
+    REQUIRE(movedSnap.battle.foe.species == 396);
+    plantLive(moved, schoolBase, 515, 24, 24);
+    plantLive(moved, schoolBase + emulocke::kBtlPokeparamSize, 396, 20, 0);
+    const uint32_t movedBase = 0x02300000;
+    plantLive(moved, movedBase, 515, 24, 12);
+    plantLive(moved, movedBase + emulocke::kBtlPokeparamSize, 498, 21, 18);
+    plantLive(moved, movedBase + 2 * emulocke::kBtlPokeparamSize, 515, 24, 0);
+    plantStats(moved, movedBase + emulocke::kBtlPokeparamSize, 16, 12, 8, 8, 10);
+    REQUIRE(emulocke::fillGen5Live(movedMem, emulocke::kBwPartyLive, movedSnap));
+    REQUIRE(movedSnap.battle.foe.species == 498);
+    REQUIRE(movedSnap.battle.foe.partyIndex == 1);
+    REQUIRE(movedSnap.battle.foe.hp == 18);
+    REQUIRE(movedSnap.battle.player.hp == 12);
+    REQUIRE(movedSnap.party.mons[0].pkHp == 22);
 }
 

@@ -167,6 +167,13 @@ void takeHit(Hit& best, const Hit& hit) {
     if (best.live && hit.live && isMirror(best.addr, hit.addr)) {
         return;
     }
+    if (hit.live && hit.hp > 0 && (!best.live || best.hp == 0)) {
+        best = hit;
+        return;
+    }
+    if (best.live && best.hp > 0 && hit.live && hit.hp == 0) {
+        return;
+    }
     if (hit.live && hit.hp == 0) {
         best = hit;
         return;
@@ -186,9 +193,21 @@ void takeHit(Hit& best, const Hit& hit) {
     best = hit;
 }
 
+uint16_t livingFoeSpecies(const GameSnapshot& snap) {
+    for (uint8_t i = 0; i < snap.battle.foeCount && i < 6; ++i) {
+        if (!(gDeadFoe & (1u << i)) && snap.battle.foeSpecies[i]) {
+            return snap.battle.foeSpecies[i];
+        }
+    }
+    return 0;
+}
+
 uint16_t secondSpecies(const GameSnapshot& snap) {
     if (snap.party.count > 1 && snap.party.mons[1].species != 0) {
         return snap.party.mons[1].species;
+    }
+    if (const uint16_t living = livingFoeSpecies(snap)) {
+        return living;
     }
     return snap.battle.foeSpecies[0];
 }
@@ -197,6 +216,46 @@ bool slotAt(const LiveMemory& mem, uint32_t base, uint8_t slot, uint16_t sp, uin
     uint16_t seed, uint16_t atk, uint16_t def, Hit& hit) {
     return fromAddr(mem, base + slot * static_cast<uint32_t>(kBtlPokeparamSize), sp, maxHp, seed, atk,
         def, hit);
+}
+
+bool foeStats(const GameSnapshot& snap, uint16_t sp, uint16_t& maxHp, uint16_t& seed, uint16_t& atk,
+    uint16_t& def) {
+    for (uint8_t i = 0; i < snap.battle.foeCount && i < 6; ++i) {
+        if (snap.battle.foeSpecies[i] == sp) {
+            maxHp = snap.battle.foeMaxHp[i];
+            seed = snap.battle.foeHp[i];
+            atk = snap.battle.foeAtk[i];
+            def = snap.battle.foeDef[i];
+            return true;
+        }
+    }
+    return false;
+}
+
+bool baseHasSpecies(const LiveMemory& mem, uint32_t base, const GameSnapshot& snap, uint16_t sp) {
+    uint16_t maxHp = 0;
+    uint16_t seed = 0;
+    uint16_t atk = 0;
+    uint16_t def = 0;
+    if (!foeStats(snap, sp, maxHp, seed, atk, def)) {
+        for (uint8_t i = 0; i < snap.party.count; ++i) {
+            const Mon& mon = snap.party.mons[i];
+            if (mon.species == sp) {
+                maxHp = mon.maxHp;
+                seed = mon.hp;
+                atk = mon.attack;
+                def = mon.defense;
+                break;
+            }
+        }
+    }
+    Hit hit{};
+    for (uint8_t slot = 0; slot < 7; ++slot) {
+        if (slotAt(mem, base, slot, sp, maxHp, seed, atk, def, hit)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool baseOk(const LiveMemory& mem, uint32_t base, const GameSnapshot& snap, bool needSecond) {
@@ -212,16 +271,21 @@ bool baseOk(const LiveMemory& mem, uint32_t base, const GameSnapshot& snap, bool
     if (!needSecond || !next) {
         return true;
     }
-    uint16_t nMax = snap.battle.foeMaxHp[0];
-    uint16_t nSeed = snap.battle.foeHp[0];
-    uint16_t nAtk = snap.battle.foeAtk[0];
-    uint16_t nDef = snap.battle.foeDef[0];
+    uint16_t nMax = 0;
+    uint16_t nSeed = 0;
+    uint16_t nAtk = 0;
+    uint16_t nDef = 0;
     if (snap.party.count > 1 && snap.party.mons[1].species == next) {
         const Mon& mon = snap.party.mons[1];
         nMax = mon.maxHp;
         nSeed = mon.hp;
         nAtk = mon.attack;
         nDef = mon.defense;
+    } else if (!foeStats(snap, next, nMax, nSeed, nAtk, nDef)) {
+        nMax = snap.battle.foeMaxHp[0];
+        nSeed = snap.battle.foeHp[0];
+        nAtk = snap.battle.foeAtk[0];
+        nDef = snap.battle.foeDef[0];
     }
     for (uint8_t slot = 1; slot < 7; ++slot) {
         if (slotAt(mem, base, slot, next, nMax, nSeed, nAtk, nDef, hit)) {
@@ -333,9 +397,19 @@ void setFoes(GameSnapshot& snap, const std::array<Hit, 6>& hits) {
             snap.battle.foeSpe[i] = hits[i].spe;
         }
     }
-    const uint8_t fIdx = snap.battle.foe.partyIndex;
-    if (fIdx < 6) {
-        copyStages(snap.battle.foe, hits[fIdx]);
+    uint8_t use = snap.battle.foe.partyIndex;
+    if (use >= snap.battle.foeCount || snap.battle.foeHp[use] == 0) {
+        use = 0xff;
+        for (uint8_t i = 0; i < snap.battle.foeCount && i < 6; ++i) {
+            if (snap.battle.foeHp[i] > 0) {
+                use = i;
+                break;
+            }
+        }
+    }
+    if (use < 6) {
+        snap.battle.foe.partyIndex = use;
+        copyStages(snap.battle.foe, hits[use]);
     }
 }
 
@@ -420,6 +494,69 @@ void overlayScan(const LiveMemory& mem, GameSnapshot& snap) {
     setFoes(snap, foeHit);
 }
 
+bool missingLivingFoe(const LiveMemory& mem, uint32_t base, const GameSnapshot& snap) {
+    const uint16_t living = livingFoeSpecies(snap);
+    return living != 0 && (base == 0 || !baseHasSpecies(mem, base, snap, living));
+}
+
+uint32_t findBase(const LiveMemory& mem, const GameSnapshot& snap) {
+    static constexpr uint32_t kChunk = 0x8000;
+    std::array<uint8_t, kChunk> chunk{};
+    const uint32_t end = kNdsRam + kNdsRamBytes;
+    const uint16_t lead = snap.party.mons[0].species;
+    uint32_t livePick = 0;
+    uint32_t formPick = 0;
+    for (uint32_t addr = kNdsRam; addr < end; addr += kChunk) {
+        const uint32_t n = addr + kChunk > end ? end - addr : kChunk;
+        if (n < 16 || !mem.read(addr, {chunk.data(), n})) {
+            continue;
+        }
+        for (uint32_t i = 0; i + 8 <= n; i += 2) {
+            if (load16(chunk.data() + i) != lead) {
+                continue;
+            }
+            const uint32_t here = addr + i;
+            if (!baseOk(mem, here, snap, true)) {
+                continue;
+            }
+            if (gDeadFoe && missingLivingFoe(mem, here, snap)) {
+                continue;
+            }
+            Hit hit{};
+            const Mon& leadMon = snap.party.mons[0];
+            const bool live = fromAddr(mem, here, lead, leadMon.maxHp, leadMon.hp, leadMon.attack,
+                                  leadMon.defense, hit) &&
+                hit.live;
+            if (live) {
+                if (livePick != 0 && isMirror(livePick, here)) {
+                    continue;
+                }
+                livePick = here;
+            } else {
+                formPick = here;
+            }
+        }
+    }
+    return livePick != 0 ? livePick : formPick;
+}
+
+void applyOverlay(const LiveMemory& mem, GameSnapshot& snap) {
+    if (gBase != 0 && !baseOk(mem, gBase, snap, false)) {
+        gBase = 0;
+    }
+    if (gBase != 0 && gDeadFoe && missingLivingFoe(mem, gBase, snap)) {
+        gBase = 0;
+    }
+    if (gBase == 0) {
+        gBase = findBase(mem, snap);
+    }
+    if (gBase != 0) {
+        overlayBase(mem, snap);
+    } else {
+        overlayScan(mem, snap);
+    }
+}
+
 }  // namespace
 
 void resetGen5Pokeparam() {
@@ -433,51 +570,10 @@ void overlayGen5Pokeparam(const LiveMemory& mem, GameSnapshot& snap) {
         !snap.battle.foe.species) {
         return;
     }
-    if (gBase != 0 && !baseOk(mem, gBase, snap, false)) {
+    applyOverlay(mem, snap);
+    if (gDeadFoe && missingLivingFoe(mem, gBase, snap)) {
         gBase = 0;
-    }
-    if (gBase == 0) {
-        static constexpr uint32_t kChunk = 0x8000;
-        std::array<uint8_t, kChunk> chunk{};
-        const uint32_t end = kNdsRam + kNdsRamBytes;
-        const uint16_t lead = snap.party.mons[0].species;
-        uint32_t livePick = 0;
-        uint32_t formPick = 0;
-        for (uint32_t addr = kNdsRam; addr < end; addr += kChunk) {
-            const uint32_t n = addr + kChunk > end ? end - addr : kChunk;
-            if (n < 16 || !mem.read(addr, {chunk.data(), n})) {
-                continue;
-            }
-            for (uint32_t i = 0; i + 8 <= n; i += 2) {
-                if (load16(chunk.data() + i) != lead) {
-                    continue;
-                }
-                const uint32_t here = addr + i;
-                if (!baseOk(mem, here, snap, true)) {
-                    continue;
-                }
-                Hit hit{};
-                const Mon& leadMon = snap.party.mons[0];
-                const bool live =
-                    fromAddr(mem, here, lead, leadMon.maxHp, leadMon.hp, leadMon.attack,
-                        leadMon.defense, hit) &&
-                    hit.live;
-                if (live) {
-                    if (livePick != 0 && isMirror(livePick, here)) {
-                        continue;
-                    }
-                    livePick = here;
-                } else {
-                    formPick = here;
-                }
-            }
-        }
-        gBase = livePick != 0 ? livePick : formPick;
-    }
-    if (gBase != 0) {
-        overlayBase(mem, snap);
-    } else {
-        overlayScan(mem, snap);
+        applyOverlay(mem, snap);
     }
     const uint8_t fIdx = snap.battle.foe.partyIndex;
     if (fIdx < 6) {
