@@ -66,6 +66,9 @@ bool advImmune(const Pokemon& def, const Move& move, int typeEff) {
     if (def.ability == kAbWonderGuard && typeEff <= 10) {
         return true;
     }
+    if (def.ability == kAbSapSipper && move.type == Type::Grass) {
+        return true;
+    }
     return false;
 }
 

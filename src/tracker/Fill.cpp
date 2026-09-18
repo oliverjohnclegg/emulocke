@@ -162,7 +162,7 @@ void applyFaintDeath(TrackerLog& log, const GameSnapshot& snap) {
             if (row.personality != mon.personality) {
                 continue;
             }
-            if (mon.hp != 0) {
+            if (mon.hp != 0 || mon.pkHp != 0) {
                 break;
             }
             if (row.status == EncounterStatus::Captured || row.status == EncounterStatus::Empty) {

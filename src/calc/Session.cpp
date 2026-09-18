@@ -35,6 +35,8 @@ void CalcSession::setPack(const CalcPack* pack) {
     critTheirs_ = false;
     pickFoe_ = false;
     pickSlot_ = 0;
+    atlas_ = nullptr;
+    starter_ = 0;
 }
 
 void CalcSession::seedWeather(Weather w) {
@@ -44,7 +46,8 @@ void CalcSession::seedWeather(Weather w) {
     }
 }
 
-void CalcSession::sync(std::string_view uuid, std::string_view variant, const GameSnapshot* snap) {
+void CalcSession::sync(std::string_view uuid, std::string_view variant, const GameSnapshot* snap,
+    uint16_t starter, const TrackerAtlas* atlas) {
     const CalcPack* next = calcPack(uuid, variant);
     if (next != pack_) {
         setPack(next);
@@ -54,6 +57,8 @@ void CalcSession::sync(std::string_view uuid, std::string_view variant, const Ga
     } else {
         snap_ = {};
     }
+    starter_ = starter;
+    atlas_ = atlas;
     refreshFoe();
     seedWeather(fieldFromSnap(snap ? &snap_ : nullptr).weather);
 }

@@ -1,5 +1,6 @@
 #include "adapter/Snapshot.hpp"
 #include "adapter/Species.hpp"
+#include "calc/Nature.hpp"
 #include "poke/Dex.hpp"
 #include "poke/Showdown.hpp"
 #include "test/Check.hpp"
@@ -16,7 +17,22 @@ int main() {
     REQUIRE(std::string(emulocke::itemName(200, true)) == "Leftovers");
     REQUIRE(std::string(emulocke::itemName(234, false)) == "Leftovers");
     REQUIRE(std::string(emulocke::abilityName(28)) == "Synchronize");
+    REQUIRE(std::string(emulocke::abilityName(157)) == "Sap Sipper");
     REQUIRE(std::string(emulocke::natureName(10)) == "Timid");
+    REQUIRE(emulocke::naturePlus(3) == 0);
+    REQUIRE(emulocke::natureMinus(3) == 3);
+    REQUIRE(std::string(emulocke::natureStatAbbrev(0)) == "atk");
+    REQUIRE(std::string(emulocke::natureStatAbbrev(3)) == "spa");
+    REQUIRE(emulocke::naturePlus(1) == 0);
+    REQUIRE(emulocke::natureMinus(1) == 1);
+    REQUIRE(std::string(emulocke::natureStatAbbrev(1)) == "def");
+    REQUIRE(emulocke::naturePlus(10) == 2);
+    REQUIRE(emulocke::natureMinus(10) == 0);
+    REQUIRE(std::string(emulocke::natureStatAbbrev(2)) == "spe");
+    REQUIRE(emulocke::naturePlus(0) == -1);
+    REQUIRE(emulocke::natureMinus(0) == -1);
+    REQUIRE(emulocke::naturePlus(25) == -1);
+    REQUIRE(emulocke::natureMinus(25) == -1);
     REQUIRE(emulocke::gen3Adapter("firered-us-1.0"));
     REQUIRE(!emulocke::gen3Adapter("diamond-us"));
     REQUIRE(emulocke::levelFromExp(1, 135) == 5);

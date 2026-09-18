@@ -36,7 +36,11 @@ void drawCalculator(Application& app) {
     }
     GameSnapshot snap;
     const GameSnapshot* live = app.copySnapshot(snap) ? &snap : nullptr;
-    app.calc().sync(seatedUuid(app), seatedVariant(app), live);
+    uint16_t starter = app.trackerLog().caught("starter").species;
+    if (starter == 0 && live) {
+        starter = live->progress.starterSpecies;
+    }
+    app.calc().sync(seatedUuid(app), seatedVariant(app), live, starter, app.trackerAtlas());
     CalcSession& session = app.calc();
     ImGui::Dummy(ImVec2(0, 8));
     if (!session.pack()) {

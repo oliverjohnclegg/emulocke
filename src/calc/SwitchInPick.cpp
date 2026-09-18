@@ -41,7 +41,7 @@ int mostSuitableMon(const CalcPack& pack, const PackTrainer& trainer, const bool
         if (bestId < 0) {
             break;
         }
-        if (hasSeMove(pack.typeChart, *trainerMon(pack, trainer, bestId), player)) {
+        if (hasSeMove(pack.typeChart, *trainerMon(pack, trainer, bestId), player, &pack)) {
             return bestId;
         }
         invalid[bestId] = true;

@@ -15,6 +15,7 @@ Mon toSnapshotMon(const DecryptedMon& in) {
     mon.otId = in.otId;
     mon.level = in.level;
     mon.hp = in.hp;
+    mon.pkHp = in.hp;
     mon.maxHp = in.maxHp;
     mon.attack = in.attack;
     mon.defense = in.defense;

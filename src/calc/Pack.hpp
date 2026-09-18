@@ -40,6 +40,12 @@ struct PackLocation {
     uint16_t idOff;
 };
 
+struct MoveFix {
+    uint16_t id;
+    uint8_t type;
+    uint8_t bp;
+};
+
 struct CalcPack {
     const char* title;
     uint8_t dmgGen;
@@ -54,6 +60,8 @@ struct CalcPack {
     int locationCount;
     const SpeciesRow* dex{};
     int dexCount{};
+    const MoveFix* moveFixes{};
+    int moveFixCount{};
 };
 
 const CalcPack* calcPack(std::string_view uuid, std::string_view variant);

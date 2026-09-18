@@ -52,7 +52,7 @@ constexpr uint16_t kBlazeLocIds[] = {
 constexpr PackLocation kBlazeLocs[] = {
 #include "calc/data/PackBlazeLocs.inc"
 };
-constexpr CalcPack kBlazePack{"BLAZE BLACK", 5, 5, 5, kBlazeMons, static_cast<int>(sizeof(kBlazeMons) / sizeof(kBlazeMons[0])), kBlazeTrainers, static_cast<int>(sizeof(kBlazeTrainers) / sizeof(kBlazeTrainers[0])), kBlazeLocIds, kBlazeLocs, static_cast<int>(sizeof(kBlazeLocs) / sizeof(kBlazeLocs[0]))};
+constexpr CalcPack kBlazePack{"BLAZE BLACK", 5, 5, 5, kBlazeMons, static_cast<int>(sizeof(kBlazeMons) / sizeof(kBlazeMons[0])), kBlazeTrainers, static_cast<int>(sizeof(kBlazeTrainers) / sizeof(kBlazeTrainers[0])), kBlazeLocIds, kBlazeLocs, static_cast<int>(sizeof(kBlazeLocs) / sizeof(kBlazeLocs[0])), nullptr, 0, kDrayano31Moves, static_cast<int>(sizeof(kDrayano31Moves) / sizeof(kDrayano31Moves[0]))};
 
 constexpr PackMon kVoltMons[] = {
 #include "calc/data/PackVoltMons.inc"
@@ -66,7 +66,7 @@ constexpr uint16_t kVoltLocIds[] = {
 constexpr PackLocation kVoltLocs[] = {
 #include "calc/data/PackVoltLocs.inc"
 };
-constexpr CalcPack kVoltPack{"VOLT WHITE", 5, 5, 5, kVoltMons, static_cast<int>(sizeof(kVoltMons) / sizeof(kVoltMons[0])), kVoltTrainers, static_cast<int>(sizeof(kVoltTrainers) / sizeof(kVoltTrainers[0])), kVoltLocIds, kVoltLocs, static_cast<int>(sizeof(kVoltLocs) / sizeof(kVoltLocs[0]))};
+constexpr CalcPack kVoltPack{"VOLT WHITE", 5, 5, 5, kVoltMons, static_cast<int>(sizeof(kVoltMons) / sizeof(kVoltMons[0])), kVoltTrainers, static_cast<int>(sizeof(kVoltTrainers) / sizeof(kVoltTrainers[0])), kVoltLocIds, kVoltLocs, static_cast<int>(sizeof(kVoltLocs) / sizeof(kVoltLocs[0])), nullptr, 0, kDrayano31Moves, static_cast<int>(sizeof(kDrayano31Moves) / sizeof(kDrayano31Moves[0]))};
 
 constexpr PackMon kVw2Mons[] = {
 #include "calc/data/PackVw2Mons.inc"

@@ -7,15 +7,15 @@
 
 namespace emulocke {
 
-int collectCalcMoves(uint8_t dmgGen, uint8_t chart, const Pokemon& atk, const Pokemon& def,
-    const uint16_t* moves, const Field& field, const int* pct, bool crit, CalcMoveLine* out) {
+int collectCalcMoves(uint8_t dmgGen, uint8_t chart, const CalcPack* pack, const Pokemon& atk,
+    const Pokemon& def, const uint16_t* moves, const Field& field, const int* pct, bool crit,
+    CalcMoveLine* out) {
     int n = 0;
     for (int i = 0; i < 4; ++i) {
-        const MoveRow* row = moveById(moves[i]);
-        if (!row) {
+        Move mv = packedMove(pack, moves[i]);
+        if (!mv.id) {
             continue;
         }
-        Move mv = moveFromRow(*row);
         mv.crit = crit;
         const DamageResult dmg = calculate(dmgGen, chart, atk, def, mv, field);
         CalcMoveLine& line = out[n++];

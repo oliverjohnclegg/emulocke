@@ -62,6 +62,7 @@ bool parsePk45(std::span<const uint8_t> raw, bool utf16Names, Mon& out) {
     if (raw.size() >= kPkPartyStatsEnd) {
         out.level = buf[0x8C];
         out.hp = load16(buf.data() + 0x8E);
+        out.pkHp = out.hp;
         out.maxHp = load16(buf.data() + 0x90);
         out.attack = load16(buf.data() + 0x92);
         out.defense = load16(buf.data() + 0x94);
