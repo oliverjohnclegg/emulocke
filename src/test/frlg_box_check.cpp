@@ -9,6 +9,7 @@
 #include "test/Check.hpp"
 
 #include <array>
+#include <cstdio>
 #include <cstring>
 #include <string>
 #include <vector>
@@ -65,6 +66,29 @@ void setSig(std::vector<uint8_t>& sav, uint32_t sig) {
 emulocke::GameSnapshot readSav(const std::vector<uint8_t>& sav) {
     emulocke::FrlgAdapter fr(emulocke::FrlgEdition::FireRed, 1);
     return fr.readSave(sav);
+}
+
+int boxedCount(const emulocke::GameSnapshot& snap) {
+    int n = 0;
+    for (const emulocke::PcBox& box : snap.boxes.boxes) {
+        for (const emulocke::Mon& mon : box.mons) {
+            if (mon.species != 0) {
+                ++n;
+            }
+        }
+    }
+    return n;
+}
+
+bool namedBoxMon(const emulocke::GameSnapshot& snap) {
+    for (const emulocke::PcBox& box : snap.boxes.boxes) {
+        for (const emulocke::Mon& mon : box.mons) {
+            if (std::strncmp(mon.nickname, "BOX ", 4) == 0) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 }  // namespace
@@ -125,4 +149,40 @@ void testFrlgBoxes() {
     REQUIRE(live.boxes.boxes[0].mons[1].species == 549);
     REQUIRE(live.boxes.boxes[0].mons[0].species != 281);
     REQUIRE(live.boxes.boxes[19].mons[0].species == 504);
+
+    emulocke::DecryptedMon pidgey = cfruMon(16, "PIDGEY");
+    pidgey.metLocation = 2;
+    packCfru(sealeo, pidgey);
+    std::memcpy(blocks.storage.data() + 4, sealeo.data(), sealeo.size());
+    emulocke::GameSnapshot met;
+    met.adapterId = "firered-us-1.1";
+    blocks.fileSignature = emulocke::kUnboundSignature210;
+    emulocke::fillSnapshotFromFrlg(blocks, met);
+    REQUIRE(met.boxes.boxes[0].mons[0].species == 16);
+    REQUIRE(met.boxes.boxes[0].mons[0].metLocation == 2);
+
+    emulocke::FrlgSaveBlocks names;
+    std::array<uint8_t, emulocke::kCfruBoxMonSize> namedSealeo{};
+    packCfru(namedSealeo, cfruMon(342, "SEALEO"));
+    std::memcpy(names.storage.data() + 4, namedSealeo.data(), namedSealeo.size());
+    for (int b = 0; b < emulocke::kCfruBoxCount; ++b) {
+        const std::size_t off = b < 14 ? emulocke::kFrlgBoxNameOff + static_cast<std::size_t>(b) * 9
+                                       : emulocke::kFrlgBoxNameOff - static_cast<std::size_t>(b - 13) * 9;
+        char label[8];
+        std::snprintf(label, sizeof label, "BOX %d", b + 1);
+        emulocke::encodeGen3Text(label, {names.storage.data() + off, 9});
+    }
+    std::memset(names.flash30.data(), 0xFF, names.flash30.size());
+    std::memset(names.flash31.data(), 0xFF, names.flash31.size());
+    emulocke::encodeGen3Text("BOX 25", {names.block2.data() + emulocke::kCfruBox25Off, 9});
+    emulocke::encodeGen3Text("BOX 20", {names.flash30.data() + emulocke::kCfruFlash30BoxOff, 9});
+    names.fileSignature = emulocke::kUnboundSignature210;
+    emulocke::GameSnapshot titled;
+    emulocke::fillSnapshotFromFrlg(names, titled);
+    REQUIRE(std::string(titled.boxes.boxes[0].name) == "BOX 1");
+    REQUIRE(boxedCount(titled) == 1);
+    REQUIRE(!namedBoxMon(titled));
+    emulocke::DecryptedMon fromName;
+    REQUIRE(!emulocke::decodeCfruBoxMon({names.storage.data() + emulocke::kFrlgBoxNameOff, emulocke::kCfruBoxMonSize},
+                                        fromName));
 }

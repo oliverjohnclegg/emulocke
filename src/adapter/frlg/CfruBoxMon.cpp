@@ -12,7 +12,10 @@ bool packedSlot(const uint8_t* p) {
     if (species == 0 || species > 4095) {
         return false;
     }
-    if (p[18] > 7) {
+    if (p[18] < 1 || p[18] > 7) {
+        return false;
+    }
+    if ((p[19] & 2) == 0) {
         return false;
     }
     return load32(p + 32) <= 1640000u;
@@ -21,15 +24,12 @@ bool packedSlot(const uint8_t* p) {
 }  // namespace
 
 bool decodeCfruBoxMon(std::span<const uint8_t> raw, DecryptedMon& out) {
-    if (raw.size() < kCfruBoxMonSize) {
+    if (raw.size() < kCfruBoxMonSize || !packedSlot(raw.data())) {
         return false;
     }
     out = DecryptedMon{};
     pullHeader(raw.data(), out);
     out.species = load16(raw.data() + 28);
-    if (out.species == 0) {
-        return false;
-    }
     out.heldItem = load16(raw.data() + 30);
     out.experience = load32(raw.data() + 32);
     out.ball = raw[38];

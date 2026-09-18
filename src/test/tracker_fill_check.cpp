@@ -68,6 +68,16 @@ void testTrackerFill() {
     emulocke::applyTrackerFill(ubLog, *unbound, ubSnap);
     REQUIRE(ubLog.caught("starter").species == 398);
 
+    emulocke::TrackerLog ubBoxes;
+    emulocke::GameSnapshot boxed;
+    boxed.ok = true;
+    boxed.boxes.boxes[0].mons[0].species = 396;
+    boxed.boxes.boxes[0].mons[0].personality = 44;
+    boxed.boxes.boxes[0].mons[0].metLocation = 2;
+    emulocke::applyTrackerFill(ubBoxes, *unbound, boxed);
+    REQUIRE(ubBoxes.caught("route-1").species == 396);
+    REQUIRE(ubBoxes.caught("route-1").personality == 44);
+
     const uint16_t brockFlag = emulocke::kFlagDefeatedBrock;
     pallet.progress.flags[brockFlag / 8] =
         static_cast<uint8_t>(pallet.progress.flags[brockFlag / 8] | (1u << (brockFlag % 8)));

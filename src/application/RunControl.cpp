@@ -2,6 +2,7 @@
 
 #include "emu/Paths.hpp"
 #include "run/Catalog.hpp"
+#include "run/SavePeek.hpp"
 #include "tracker/Difficulty.hpp"
 #include "ui/KitFocus.hpp"
 
@@ -213,6 +214,10 @@ void Application::loadRun(const std::string& id) {
         kitFocus_ = {};
         kitFocus_.tab = KitTab::Tracker;
         kitFocus_.pendingTab = 1;
+        if (const Run* loaded = runStore_->find(id)) {
+            syncTracker(savePeek_->get(*runStore_, *loaded));
+            persistTracker();
+        }
     } else {
         activeRunId_.clear();
         trackerLog_ = {};
