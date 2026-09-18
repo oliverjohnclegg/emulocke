@@ -1,12 +1,10 @@
 #include "ui/CalculatorDraw.hpp"
+#include "ui/CalculatorMoveLine.hpp"
 
-#include "calc/Calculate.hpp"
 #include "calc/Dex.hpp"
 #include "calc/KoChance.hpp"
-#include "ui/Theme.hpp"
 
 #include <imgui.h>
-#include <cstdio>
 
 namespace emulocke {
 
@@ -19,23 +17,21 @@ void drawCalcKo(CalcSession& session, uint8_t dmgGen, uint8_t chart, const Pokem
     if (!row) {
         return;
     }
-    Move mv = moveFromRow(*row);
-    mv.crit = session.sideCrit(foeAtk);
     const Pokemon& atk = foeAtk ? foe : player;
     const Pokemon& def = foeAtk ? player : foe;
-    const DamageResult dmg = calculate(dmgGen, chart, atk, def, mv, foeAtk ? intoUs : intoFoe);
+    const CalcHit hit = evalCalcHit(dmgGen, chart, atk, def, moveFromRow(*row),
+        foeAtk ? intoUs : intoFoe, session.sideCrit(foeAtk));
     char line[72];
-    koChance(line, sizeof line, dmg, def.hp);
+    koChance(line, sizeof line, hit.dmg, def.hp);
     if (!line[0]) {
         return;
     }
     ImGui::Dummy(ImVec2(0, 12));
-    const bool ko = dmg.ohko(def.hp);
     calcAlignCenter(ImGui::CalcTextSize(line).x);
-    if (ko) {
-        ImGui::TextColored(ImVec4(196 / 255.f, 43 / 255.f, 43 / 255.f, 1.f), "%s", line);
-    } else {
+    if (hit.dmg.immune || hit.dmg.max <= 0) {
         ImGui::TextDisabled("%s", line);
+    } else {
+        ImGui::TextColored(ImGui::ColorConvertU32ToFloat4(calcKoInk(hit.band)), "%s", line);
     }
 }
 

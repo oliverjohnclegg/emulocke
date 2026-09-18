@@ -14,17 +14,12 @@ ImU32 ink(const CalcMoveLine& line) {
     if (line.blank) {
         return ImGui::GetColorU32(kDisabled);
     }
-    if (line.ohko) {
-        return IM_COL32(196, 43, 43, 255);
-    }
-    return ImGui::GetColorU32(kMetal);
+    return calcKoInk(line.band);
 }
 
 void dmgText(char* d, int n, const CalcMoveLine& line) {
     if (line.blank) {
         std::snprintf(d, n, "--");
-    } else if (line.ohko) {
-        std::snprintf(d, n, "100%%+");
     } else if (line.pmin == line.pmax) {
         std::snprintf(d, n, "%d%%", line.pmin);
     } else {
