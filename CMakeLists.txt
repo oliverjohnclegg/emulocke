@@ -302,6 +302,7 @@ add_executable(emulocke
     src/ui/CalculatorKit.cpp
     src/ui/CalculatorSearch.cpp
     src/ui/CalculatorStrip.cpp
+    src/ui/CalculatorWell.cpp
     src/ui/CalculatorMatchup.cpp
     src/ui/CalculatorHead.cpp
     src/ui/CalculatorMoves.cpp
@@ -310,6 +311,7 @@ add_executable(emulocke
     src/ui/CalculatorKo.cpp
     src/ui/CalculatorField.cpp
     src/ui/CalculatorStamp.cpp
+    src/ui/CalculatorStamps.cpp
     src/ui/CalculatorChip.cpp
     src/ui/Cheats.cpp
     src/ui/CheatsAdd.cpp

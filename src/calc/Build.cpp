@@ -106,6 +106,8 @@ void applyBattler(Pokemon& mon, const BattleBattler& b) {
     mon.speStage = b.stages[3];
     mon.spaStage = b.stages[4];
     mon.spdStage = b.stages[5];
+    mon.accStage = b.stages[6];
+    mon.evaStage = b.stages[7];
     if (b.level >= 1 && b.level <= 100) {
         mon.level = b.level;
     }

@@ -123,6 +123,18 @@ int main() {
     REQUIRE(fromPk.level == 6);
     REQUIRE(fromPk.maxHp == 21);
 
+    emulocke::Pokemon flat = emulocke::pokemonFromPack(snivyMon, blaze);
+    emulocke::Pokemon boosted = flat;
+    emulocke::BattleBattler ranks{};
+    ranks.stages[1] = 2;
+    ranks.stages[6] = 1;
+    emulocke::applyBattler(boosted, ranks);
+    REQUIRE(boosted.atkStage == 2);
+    REQUIRE(boosted.accStage == 1);
+    const emulocke::DamageResult flatHit = emulocke::calculate(5, 5, flat, def, vw, {});
+    const emulocke::DamageResult rankHit = emulocke::calculate(5, 5, boosted, def, vw, {});
+    REQUIRE(rankHit.max > flatHit.max);
+
     const emulocke::PackTrainer* eri = emulocke::packTrainer(*blaze, 8);
     REQUIRE(eri && std::strcmp(eri->name, "Eri") == 0);
     const emulocke::PackMon* azu = emulocke::trainerMon(*blaze, *eri, 3);

@@ -22,7 +22,9 @@ struct Hit {
     uint16_t spd{};
     uint16_t spe{};
     uint8_t level{};
+    int8_t stages[8]{};
     bool live{};
+    bool ranks{};
 };
 
 bool liveCore(const uint8_t* p) {
@@ -48,6 +50,10 @@ bool fromAddr(const LiveMemory& mem, uint32_t addr, uint16_t sp, uint16_t maxHp,
     hit.addr = addr;
     hit.hp = hp;
     hit.live = liveCore(buf.data());
+    hit.ranks = false;
+    for (int i = 0; i < 8; ++i) {
+        hit.stages[i] = 0;
+    }
     if (hit.live) {
         hit.liveMax = load16(buf.data() + 2);
         const uint8_t lv = buf[kBtlPokeparamLevel];
@@ -57,6 +63,7 @@ bool fromAddr(const LiveMemory& mem, uint32_t addr, uint16_t sp, uint16_t maxHp,
     } else {
         const uint16_t b = load16(buf.data() + 4);
         hit.liveMax = b >= 1 && b <= 999 ? b : maxHp;
+        hit.ranks = readBtlRanks(buf, 8, hit.stages);
     }
     return true;
 }
@@ -88,6 +95,50 @@ bool pullStats(const LiveMemory& mem, Hit& hit) {
     hit.spd = spd;
     hit.spe = spe;
     return true;
+}
+
+int stagedStat(int stat, int8_t stage) {
+    if (stage >= 0) {
+        return stat * (2 + stage) / 2;
+    }
+    return stat * 2 / (2 - stage);
+}
+
+bool statsAlreadyBoosted(uint16_t atk, uint16_t def, uint16_t spa, uint16_t spd, uint16_t spe,
+    const Hit& hit) {
+    if (!hit.ranks || !hit.spe) {
+        return false;
+    }
+    return hit.atk == static_cast<uint16_t>(stagedStat(atk, hit.stages[1])) &&
+        hit.def == static_cast<uint16_t>(stagedStat(def, hit.stages[2])) &&
+        hit.spa == static_cast<uint16_t>(stagedStat(spa, hit.stages[4])) &&
+        hit.spd == static_cast<uint16_t>(stagedStat(spd, hit.stages[5])) &&
+        hit.spe == static_cast<uint16_t>(stagedStat(spe, hit.stages[3]));
+}
+
+bool pullRanks(const LiveMemory& mem, Hit& hit) {
+    if (!hit.live || !hit.addr) {
+        return false;
+    }
+    const uint32_t addr = hit.addr + static_cast<uint32_t>(kBtlPokeparamRank);
+    if (!ndsRamRange(addr, 7)) {
+        return false;
+    }
+    std::array<uint8_t, 7> buf{};
+    if (!mem.read(addr, buf)) {
+        return false;
+    }
+    hit.ranks = readBtlRanks(buf, 0, hit.stages);
+    return hit.ranks;
+}
+
+void copyStages(BattleBattler& b, const Hit& hit) {
+    if (!hit.ranks) {
+        return;
+    }
+    for (int i = 0; i < 8; ++i) {
+        b.stages[i] = hit.stages[i];
+    }
 }
 
 bool isMirror(uint32_t earlier, uint32_t later) {
@@ -201,7 +252,8 @@ void stampMon(Mon& mon, const Hit& hit) {
     if (hit.live && hit.liveMax != 0) {
         mon.maxHp = hit.liveMax;
     }
-    if (hit.spe) {
+    if (hit.spe &&
+        !statsAlreadyBoosted(mon.attack, mon.defense, mon.spAttack, mon.spDefense, mon.speed, hit)) {
         mon.attack = hit.atk;
         mon.defense = hit.def;
         mon.spAttack = hit.spa;
@@ -217,6 +269,7 @@ Hit firstSlot(const LiveMemory& mem, uint32_t base, uint8_t slots, uint16_t sp, 
         Hit hit{};
         if (slotAt(mem, base, slot, sp, maxHp, seed, atk, def, hit)) {
             pullStats(mem, hit);
+            pullRanks(mem, hit);
             takeHit(best, hit);
         }
     }
@@ -250,6 +303,7 @@ void setPlayer(GameSnapshot& snap, const std::array<Hit, 6>& hits) {
     if (hits[use].level >= 1 && hits[use].level <= 100) {
         snap.battle.player.level = hits[use].level;
     }
+    copyStages(snap.battle.player, hits[use]);
 }
 
 void setFoes(GameSnapshot& snap, const std::array<Hit, 6>& hits) {
@@ -269,13 +323,19 @@ void setFoes(GameSnapshot& snap, const std::array<Hit, 6>& hits) {
         if (gDeadFoe & (1u << i)) {
             snap.battle.foeHp[i] = 0;
         }
-        if (hits[i].spe) {
+        if (hits[i].spe &&
+            !statsAlreadyBoosted(snap.battle.foeAtk[i], snap.battle.foeDef[i], snap.battle.foeSpa[i],
+                snap.battle.foeSpd[i], snap.battle.foeSpe[i], hits[i])) {
             snap.battle.foeAtk[i] = hits[i].atk;
             snap.battle.foeDef[i] = hits[i].def;
             snap.battle.foeSpa[i] = hits[i].spa;
             snap.battle.foeSpd[i] = hits[i].spd;
             snap.battle.foeSpe[i] = hits[i].spe;
         }
+    }
+    const uint8_t fIdx = snap.battle.foe.partyIndex;
+    if (fIdx < 6) {
+        copyStages(snap.battle.foe, hits[fIdx]);
     }
 }
 
@@ -329,6 +389,7 @@ void overlayScan(const LiveMemory& mem, GameSnapshot& snap) {
                 if (fromAddr(mem, here, sp, mon.maxHp, mon.hp, mon.attack, mon.defense, hit) &&
                     nearMax(hit, mon.maxHp)) {
                     pullStats(mem, hit);
+                    pullRanks(mem, hit);
                     takeHit(partyHit[p], hit);
                 }
             }
@@ -340,6 +401,7 @@ void overlayScan(const LiveMemory& mem, GameSnapshot& snap) {
                         snap.battle.foeAtk[f], snap.battle.foeDef[f], hit) &&
                     nearMax(hit, snap.battle.foeMaxHp[f])) {
                     pullStats(mem, hit);
+                    pullRanks(mem, hit);
                     takeHit(foeHit[f], hit);
                 }
             }

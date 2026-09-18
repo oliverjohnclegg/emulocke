@@ -112,11 +112,11 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
         ImGui::TableSetupColumn("b", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
-        drawCalcSideHead(pName, player, false);
+        drawCalcSideHead(pName, player, false, snap->battle.inBattle);
         const float abY = ImGui::GetItemRectMin().y;
         const float pSpeY = ImGui::GetCursorScreenPos().y;
         ImGui::TableSetColumnIndex(2);
-        drawCalcSideHead(fName, foe, true);
+        drawCalcSideHead(fName, foe, true, snap->battle.inBattle);
         const float fSpeY = ImGui::GetCursorScreenPos().y;
         const float speY = pSpeY > fSpeY ? pSpeY : fSpeY;
         ImGui::TableSetColumnIndex(0);

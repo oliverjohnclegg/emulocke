@@ -25,7 +25,9 @@ std::array<uint8_t, emulocke::kPk5PartySize> pk5(uint16_t species, uint32_t pid,
     emulocke::store16(plain.data() + 0x90, maxHp);
     emulocke::store16(plain.data() + 0x92, atk);
     emulocke::store16(plain.data() + 0x94, def);
+    emulocke::store16(plain.data() + 0x96, 8);
     emulocke::store16(plain.data() + 0x98, 8);
+    emulocke::store16(plain.data() + 0x9A, 8);
     std::array<uint8_t, emulocke::kPk5PartySize> pk{};
     REQUIRE(emulocke::encryptPk45(plain, pk));
     return pk;
@@ -67,6 +69,13 @@ void plantParam(std::vector<uint8_t>& ram, uint32_t addr, uint16_t species, uint
         p[24 + i] = 6;
     }
     p[24] = static_cast<uint8_t>(6 + atkStage);
+}
+
+void plantRanks(std::vector<uint8_t>& ram, uint32_t addr, const int8_t st[7]) {
+    uint8_t* p = ram.data() + (addr - 0x02000000) + emulocke::kBtlPokeparamRank;
+    for (int i = 0; i < 7; ++i) {
+        p[i] = static_cast<uint8_t>(6 + st[i]);
+    }
 }
 
 void plantParty(std::vector<uint8_t>& ram) {
@@ -238,6 +247,28 @@ void testGen5Battle() {
     REQUIRE(b.hp == 9);
     REQUIRE(b.stages[1] == 2);
 
+    std::array<uint8_t, 16> coil{};
+    emulocke::store16(coil.data(), 495);
+    emulocke::store16(coil.data() + 4, 22);
+    emulocke::store16(coil.data() + 6, 9);
+    for (int i = 0; i < 7; ++i) {
+        coil[8 + i] = 6;
+    }
+    coil[8] = 7;
+    coil[9] = 7;
+    coil[13] = 7;
+    REQUIRE(emulocke::readBtlPokeparam(coil, 495, 22, b));
+    REQUIRE(b.stages[1] == 1);
+    REQUIRE(b.stages[2] == 1);
+    REQUIRE(b.stages[6] == 1);
+
+    std::array<uint8_t, 16> zeroRank{};
+    emulocke::store16(zeroRank.data(), 495);
+    emulocke::store16(zeroRank.data() + 4, 22);
+    emulocke::store16(zeroRank.data() + 6, 9);
+    REQUIRE(emulocke::readBtlPokeparam(zeroRank, 495, 22, b));
+    REQUIRE(b.stages[1] == 0);
+
     std::vector<uint8_t> ram(0x400000, 0);
     plantParty(ram);
     plantParam(ram, 0x02100000, 495, 22, 0);
@@ -260,6 +291,8 @@ void testGen5Battle() {
     REQUIRE(snap.battle.foe.hp == 9);
     REQUIRE(snap.battle.foe.maxHp == 22);
     REQUIRE(snap.battle.foeCount == 1);
+    REQUIRE(snap.battle.player.stages[1] == 2);
+    REQUIRE(snap.battle.foe.stages[1] == -1);
     REQUIRE(snap.party.mons[0].hp == 22);
     REQUIRE(snap.party.mons[0].maxHp == 22);
 
@@ -408,7 +441,7 @@ void testGen5Battle() {
     REQUIRE(emulocke::fillGen5Live(mem, emulocke::kBwPartyLive, stale));
     REQUIRE(stale.battle.inBattle);
     REQUIRE(stale.battle.player.hp == 18);
-    REQUIRE(stale.battle.player.stages[1] == 0);
+    REQUIRE(stale.battle.player.stages[1] == 2);
 
     std::memcpy(ram.data() + (emulocke::kBwEnemyPartyLive - 0x02000000), pk5(495, 0x11112222).data(),
         emulocke::kPk5PartySize);
@@ -598,5 +631,37 @@ void testGen5Battle() {
     REQUIRE(vsSnap.battle.foe.species == 56);
     REQUIRE(vsSnap.battle.foe.hp == 22);
     REQUIRE(vsSnap.battle.foeHp[0] == 0);
+
+    emulocke::resetGen5Pokeparam();
+    std::vector<uint8_t> liveRank(0x400000, 0);
+    plantParty(liveRank);
+    plantLive(liveRank, 0x0226D6B0, 495, 24, 24);
+    plantLive(liveRank, 0x0226D6B0 + emulocke::kBtlPokeparamSize, 290, 20, 20);
+    const int8_t coilSt[7] = {1, 1, 0, 0, 0, 1, 0};
+    plantRanks(liveRank, 0x0226D6B0, coilSt);
+    const int8_t leerSt[7] = {0, -1, 0, 0, 0, 0, 0};
+    plantRanks(liveRank, 0x0226D6B0 + emulocke::kBtlPokeparamSize, leerSt);
+    emulocke::SpanMemory liveRankMem(0x02000000, liveRank);
+    emulocke::GameSnapshot liveRankSnap;
+    REQUIRE(emulocke::fillGen5Live(liveRankMem, emulocke::kBwPartyLive, liveRankSnap));
+    REQUIRE(liveRankSnap.battle.player.stages[1] == 1);
+    REQUIRE(liveRankSnap.battle.player.stages[2] == 1);
+    REQUIRE(liveRankSnap.battle.player.stages[6] == 1);
+    REQUIRE(liveRankSnap.battle.foe.stages[2] == -1);
+    REQUIRE(liveRankSnap.party.mons[0].attack == 11);
+
+    emulocke::resetGen5Pokeparam();
+    std::vector<uint8_t> baked(0x400000, 0);
+    plantParty(baked);
+    plantLive(baked, 0x0226D6B0, 495, 24, 24);
+    plantLive(baked, 0x0226D6B0 + emulocke::kBtlPokeparamSize, 290, 20, 20);
+    plantStats(baked, 0x0226D6B0, 22, 12, 8, 8, 8);
+    const int8_t bakedSt[7] = {2, 0, 0, 0, 0, 0, 0};
+    plantRanks(baked, 0x0226D6B0, bakedSt);
+    emulocke::SpanMemory bakedMem(0x02000000, baked);
+    emulocke::GameSnapshot bakedSnap;
+    REQUIRE(emulocke::fillGen5Live(bakedMem, emulocke::kBwPartyLive, bakedSnap));
+    REQUIRE(bakedSnap.battle.player.stages[1] == 2);
+    REQUIRE(bakedSnap.party.mons[0].attack == 11);
 }
 

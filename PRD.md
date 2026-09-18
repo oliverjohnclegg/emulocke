@@ -96,7 +96,7 @@ Native ImGui tab. Not a webview. Dynamic-Calc / Smogon math, restyled in graphit
 - Search trainers and locations. A location hit lists the trainers there. No species-first SETDEX.
 - `calcPack(catalogUuid, variant)` is the gate together with a live snapshot contract (party, PC, flags, map) and a tracker atlas whose encounters have mets and whose non-gym bosses have `defeat` or a gym index. No pack means the empty plate on Tracker, Pokémon, and Calculator. Fire Red and Leaf Green US 1.0/1.1 share one pack generated from pret. Ruby/Sapphire, Emerald, DPPt, HGSS, and BW/B2W2 ship packs generated from pret tables and local dumps. Radical Red 4.1 and Unbound 2.1.1.1 ship packs generated from the patched 32MB ROM trainer table. Inclement Emerald and Run and Bun stay unrepresented until expansion trainer tables exist. Dynamic-Calc Radical Red 3.02 is refused.
 - Pack carries `dmgGen`, `typeChart`, and `switchIn` of its own. Cartridge generation is not the default. CFRU is not gen 3.
-- Live FRLG and RSE battles fill `GameSnapshot.battle` (HP, stages, weather, enemy party). CFRU live battle structs stay zero until that title's pack exists; party HP still comes from the party snapshot.
+- Live FRLG, RSE, Gen 4, and Gen 5 battles fill `GameSnapshot.battle` (HP, stages, weather, enemy party). CFRU live battle structs stay zero until that title's pack exists; party HP still comes from the party snapshot.
 - `--preview-calc` opens the host on the FRLG pack with a fixture party so the tab can be exercised without a ROM.
 - Move rows color by KO band against current HP: guaranteed OHKO, rolled OHKO, crit OHKO, guaranteed 2HKO, rolled 2HKO. Damage % is always of max HP and is never rewritten to 100%+.
 
