@@ -1,5 +1,6 @@
 #include "adapter/frlg/FrlgLive.hpp"
 
+#include "adapter/frlg/CfruBoxes.hpp"
 #include "adapter/frlg/CfruExpanded.hpp"
 #include "adapter/frlg/FrlgBattle.hpp"
 #include "adapter/frlg/FrlgLayout.hpp"
@@ -97,7 +98,13 @@ void fillSnapshotFromFrlgLive(const LiveMemory& mem, GameSnapshot& snap) {
         std::array<uint8_t, kFrlgStorageSize> pc{};
         const uint32_t storage = livePtr(mem, kFrlgStoragePtr, kFrlgStorage, kFrlgStorageSize);
         if (copy(mem, storage, pc)) {
-            fillFrlgBoxes(pc, snap.boxes);
+            std::array<uint8_t, kCfruBoxMonSize> extra{};
+            if (cfruPackedStorage(pc) || (copy(mem, kCfruBox20Live, extra) && cfruPackedMon(extra))) {
+                fillCfruPackedBoxes(pc, snap.boxes);
+                fillCfruLiveExtraBoxes(mem, snap.boxes);
+            } else {
+                fillFrlgBoxes(pc, snap.boxes);
+            }
         }
         fillFrlgProgress(block1.data(), snap);
         snap.gyms.slots = kFrlgBadgeCount;

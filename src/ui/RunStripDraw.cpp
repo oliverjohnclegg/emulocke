@@ -1,11 +1,14 @@
 #include "ui/RunStripDraw.hpp"
 
+#include "adapter/HackSpecies.hpp"
 #include "application/Application.hpp"
 #include "cart/GameIndex.hpp"
 #include "poke/SpriteIndex.hpp"
 #include "ui/MediaFetch.hpp"
 #include "ui/PngCache.hpp"
 #include "ui/Theme.hpp"
+
+#include <cstring>
 
 #include <imgui.h>
 #include <algorithm>
@@ -37,14 +40,17 @@ void drawRunArt(Application& app, const CatalogTitle* title, ImVec2 p) {
     PngCache::drawNearest(app.pngs().get(*path).tex, p, ImVec2(kRunArtW, kRunArtH));
 }
 
-void drawRunParty(Application& app, const Party& party, ImVec2 p) {
+void drawRunParty(Application& app, const CatalogTitle* title, const Party& party, ImVec2 p) {
     ImDrawList* dl = ImGui::GetWindowDrawList();
     for (int i = 0; i < 6; ++i) {
         const ImVec2 a(p.x + i * (kSockW + 4.f), p.y);
         const ImVec2 b(a.x + kSockW, a.y + kSockH);
         well(dl, a, b);
         const Mon& mon = party.mons[static_cast<std::size_t>(i)];
-        const SpeciesRef ref = app.species(mon.species);
+        const SpeciesRef ref =
+            title ? hackAwareSpecies(title->ext, mon.species, nullptr,
+                                     std::strcmp(title->uuid, kUnboundUuid) == 0)
+                  : app.species(mon.species);
         const char* slug = ref.slug && ref.slug[0] ? ref.slug : nullptr;
         const std::string fallback = slug ? std::string{} : speciesSlug(mon.speciesName);
         if (!slug) {

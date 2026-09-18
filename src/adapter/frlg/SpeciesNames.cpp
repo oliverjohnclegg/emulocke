@@ -16,4 +16,17 @@ const char* frlgSpeciesName(uint16_t species) {
     return "???";
 }
 
+const char* unboundSpeciesName(uint16_t species) {
+    if (species == 777 || (species >= 840 && species <= 843)) {
+        return "FLABEBE";
+    }
+    if (species >= 844 && species <= 848) {
+        return "FLOETTE";
+    }
+    if (species >= 849 && species <= 852) {
+        return "FLORGES";
+    }
+    return frlgSpeciesName(species);
+}
+
 }

@@ -8,6 +8,7 @@
 #include <cctype>
 #include <cstring>
 #include <string>
+#include <string_view>
 #include <unordered_set>
 #include <vector>
 
@@ -33,12 +34,30 @@ bool sameSpecies(uint16_t a, uint16_t b) {
     return false;
 }
 
+bool unboundAtlas(std::string_view id) {
+    return id == "unbound" || id == "unbound-expert";
+}
+
+uint16_t unboundDex(uint16_t species) {
+    const uint16_t n = unboundSpeciesRef(species).national;
+    return n ? n : species;
+}
+
 bool catchMatches(const TrackerStop& stop, const Mon& mon, const TrackerAtlas& atlas) {
     if (mon.species == 0 || mon.egg) {
         return false;
     }
     if (stop.catchKind == CatchKind::Starter) {
         const uint16_t species = trackerSpeciesId(atlas.id, mon.species);
+        if (unboundAtlas(atlas.id)) {
+            const uint16_t dex = unboundDex(species);
+            for (uint16_t id : atlas.starters) {
+                if (dex == id || sameStarterLine(dex, id)) {
+                    return true;
+                }
+            }
+            return false;
+        }
         if (atlas.starters.empty()) {
             return species == 1 || species == 4 || species == 7;
         }

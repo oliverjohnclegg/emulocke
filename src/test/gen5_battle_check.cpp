@@ -9,6 +9,7 @@
 
 #include <array>
 #include <cstring>
+#include <memory>
 #include <vector>
 
 namespace {
@@ -299,7 +300,8 @@ void testGen5Battle() {
     emulocke::store32(ram.data() + (0x02180000 - 0x02000000) + emulocke::kNdsBattleMonMaxHp, 22);
 
     emulocke::SpanMemory mem(0x02000000, ram);
-    emulocke::GameSnapshot snap;
+    const auto snapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& snap = *snapHeap;
     REQUIRE(emulocke::fillGen5Live(mem, emulocke::kBwPartyLive, snap));
     REQUIRE(snap.battle.inBattle);
     REQUIRE(snap.battle.player.species == 495);
@@ -316,7 +318,8 @@ void testGen5Battle() {
 
     plantParam(ram, 0x02100000, 495, 18, 0);
     plantParam(ram, 0x02100000 + emulocke::kBtlPokeparamSize, 290, 9, 0);
-    emulocke::GameSnapshot hurt;
+    const auto hurtHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& hurt = *hurtHeap;
     REQUIRE(emulocke::fillGen5Live(mem, emulocke::kBwPartyLive, hurt));
     REQUIRE(hurt.battle.player.hp == 18);
     REQUIRE(hurt.battle.foe.hp == 9);
@@ -330,7 +333,8 @@ void testGen5Battle() {
     plantParam(keep, 0x02240000 + emulocke::kBtlPokeparamSize, 290, 22, 0);
     emulocke::resetGen5Pokeparam();
     emulocke::SpanMemory keepMem(0x02000000, keep);
-    emulocke::GameSnapshot keepSnap;
+    const auto keepSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& keepSnap = *keepSnapHeap;
     REQUIRE(emulocke::fillGen5Live(keepMem, emulocke::kBwPartyLive, keepSnap));
     plantParam(keep, 0x02240000, 495, 18, 0);
     plantParam(keep, 0x02240000 + emulocke::kBtlPokeparamSize, 290, 9, 0);
@@ -355,7 +359,8 @@ void testGen5Battle() {
     plantLive(liveRam, 0x0226D6B0 + 7 * emulocke::kBtlPokeparamSize, 290, 20, 20);
     emulocke::resetGen5Pokeparam();
     emulocke::SpanMemory liveMem(0x02000000, liveRam);
-    emulocke::GameSnapshot liveSnap;
+    const auto liveSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& liveSnap = *liveSnapHeap;
     REQUIRE(emulocke::fillGen5Live(liveMem, emulocke::kBwPartyLive, liveSnap));
     REQUIRE(liveSnap.battle.player.hp == 24);
     REQUIRE(liveSnap.battle.player.maxHp == 24);
@@ -416,7 +421,8 @@ void testGen5Battle() {
     plantParam(defHit, 0x02240000, 495, 22, 0);
     plantParam(defHit, 0x02240000 + emulocke::kBtlPokeparamSize, 290, 22, 0);
     emulocke::SpanMemory defMem(0x02000000, defHit);
-    emulocke::GameSnapshot defSnap;
+    const auto defSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& defSnap = *defSnapHeap;
     REQUIRE(emulocke::fillGen5Live(defMem, emulocke::kBwPartyLive, defSnap));
     plantParam(defHit, 0x02240000, 495, 18, 0);
     plantParam(defHit, 0x02240000 + emulocke::kBtlPokeparamSize, 290, 16, 0);
@@ -431,7 +437,8 @@ void testGen5Battle() {
     plantParam(foeFirst, 0x02240000, 290, 22, 0);
     plantParam(foeFirst, 0x02240000 + emulocke::kBtlPokeparamSize, 495, 22, 0);
     emulocke::SpanMemory firstMem(0x02000000, foeFirst);
-    emulocke::GameSnapshot firstSnap;
+    const auto firstSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& firstSnap = *firstSnapHeap;
     REQUIRE(emulocke::fillGen5Live(firstMem, emulocke::kBwPartyLive, firstSnap));
     plantParam(foeFirst, 0x02240000, 290, 16, 0);
     plantParam(foeFirst, 0x02240000 + emulocke::kBtlPokeparamSize, 495, 18, 0);
@@ -445,7 +452,8 @@ void testGen5Battle() {
     plantParam(split, 0x02240000, 290, 22, 0);
     plantParam(split, 0x02240000 + emulocke::kBtlPokeparamSize, 495, 22, 0);
     emulocke::SpanMemory splitMem(0x02000000, split);
-    emulocke::GameSnapshot splitSnap;
+    const auto splitSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& splitSnap = *splitSnapHeap;
     REQUIRE(emulocke::fillGen5Live(splitMem, emulocke::kBwPartyLive, splitSnap));
     plantParam(split, 0x02240000, 290, 16, 0);
     plantParam(split, 0x02240000 + emulocke::kBtlPokeparamSize, 495, 18, 0);
@@ -455,7 +463,8 @@ void testGen5Battle() {
     REQUIRE(splitSnap.party.mons[0].hp == 22);
 
     ram[0x02100000 - 0x02000000 + 24] = 13;
-    emulocke::GameSnapshot stale;
+    const auto staleHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& stale = *staleHeap;
     REQUIRE(emulocke::fillGen5Live(mem, emulocke::kBwPartyLive, stale));
     REQUIRE(stale.battle.inBattle);
     REQUIRE(stale.battle.player.hp == 18);
@@ -463,7 +472,8 @@ void testGen5Battle() {
 
     std::memcpy(ram.data() + (emulocke::kBwEnemyPartyLive - 0x02000000), pk5(495, 0x11112222).data(),
         emulocke::kPk5PartySize);
-    emulocke::GameSnapshot copy;
+    const auto copyHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& copy = *copyHeap;
     REQUIRE(emulocke::fillGen5Live(mem, emulocke::kBwPartyLive, copy));
     REQUIRE(!copy.battle.inBattle);
 
@@ -475,7 +485,8 @@ void testGen5Battle() {
     emulocke::store16(junk.data() + 0x2000 + emulocke::kBtlPokeparamSize, 22);
     junk[0x3008] = 11;
     emulocke::SpanMemory junkMem(0x02000000, junk);
-    emulocke::GameSnapshot quiet;
+    const auto quietHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& quiet = *quietHeap;
     REQUIRE(emulocke::fillGen5Live(junkMem, emulocke::kBwPartyLive, quiet));
     REQUIRE(quiet.battle.inBattle);
     REQUIRE(quiet.battle.player.hp == 22);
@@ -492,7 +503,8 @@ void testGen5Battle() {
     plantParam(junkZero, 0x02240000, 495, 18, 0);
     plantParam(junkZero, 0x02240000 + emulocke::kBtlPokeparamSize, 290, 16, 0);
     emulocke::SpanMemory junkZeroMem(0x02000000, junkZero);
-    emulocke::GameSnapshot fromJunkZero;
+    const auto fromJunkZeroHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& fromJunkZero = *fromJunkZeroHeap;
     REQUIRE(emulocke::fillGen5Live(junkZeroMem, emulocke::kBwPartyLive, fromJunkZero));
     REQUIRE(fromJunkZero.battle.player.hp == 18);
     REQUIRE(fromJunkZero.battle.foe.hp == 16);
@@ -505,7 +517,8 @@ void testGen5Battle() {
     plantParam(staleZero, 0x02300000, 495, 18, 0);
     plantParam(staleZero, 0x02300000 + emulocke::kBtlPokeparamSize, 290, 16, 0);
     emulocke::SpanMemory staleZeroMem(0x02000000, staleZero);
-    emulocke::GameSnapshot fromStaleZero;
+    const auto fromStaleZeroHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& fromStaleZero = *fromStaleZeroHeap;
     REQUIRE(emulocke::fillGen5Live(staleZeroMem, emulocke::kBwPartyLive, fromStaleZero));
     REQUIRE(fromStaleZero.battle.player.hp == 18);
     REQUIRE(fromStaleZero.battle.foe.hp == 16);
@@ -518,7 +531,8 @@ void testGen5Battle() {
     plantParam(startHurt, 0x02240000, 495, 22, 0);
     plantParam(startHurt, 0x02240000 + emulocke::kBtlPokeparamSize, 290, 22, 0);
     emulocke::SpanMemory startHurtMem(0x02000000, startHurt);
-    emulocke::GameSnapshot fromStart;
+    const auto fromStartHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& fromStart = *fromStartHeap;
     REQUIRE(emulocke::fillGen5Live(startHurtMem, emulocke::kBwPartyLive, fromStart));
     REQUIRE(fromStart.battle.player.hp == 22);
     REQUIRE(fromStart.battle.foe.hp == 22);
@@ -533,7 +547,8 @@ void testGen5Battle() {
     const auto hurtFoe = pk5(290, 0xAABBCCDD, 22);
     std::memcpy(tagged.data() + 0x201000 + 32, hurtFoe.data(), hurtFoe.size());
     emulocke::SpanMemory taggedMem(0x02000000, tagged);
-    emulocke::GameSnapshot fromTag;
+    const auto fromTagHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& fromTag = *fromTagHeap;
     REQUIRE(emulocke::fillGen5Live(taggedMem, emulocke::kBwPartyLive, fromTag));
     REQUIRE(fromTag.battle.player.hp == 22);
     REQUIRE(fromTag.battle.foe.hp == 22);
@@ -560,7 +575,8 @@ void testGen5Battle() {
     emulocke::store16(pair + 556, 10);
     emulocke::store16(pair + 558, 16);
     emulocke::SpanMemory pinMem(0x02000000, pinRam);
-    emulocke::GameSnapshot pinned;
+    const auto pinnedHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& pinned = *pinnedHeap;
     REQUIRE(emulocke::fillGen5Live(pinMem, emulocke::kBwPartyLive, pinned));
     emulocke::store16(pair + 6, 12);
     emulocke::store16(pair + 554, 14);
@@ -584,7 +600,8 @@ void testGen5Battle() {
     plantParam(bench, 0x02240000, 495, 18, 0);
     plantParam(bench, 0x02240000 + emulocke::kBtlPokeparamSize, 290, 9, 0);
     emulocke::SpanMemory benchMem(0x02000000, bench);
-    emulocke::GameSnapshot fromBench;
+    const auto fromBenchHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& fromBench = *fromBenchHeap;
     REQUIRE(emulocke::fillGen5Live(benchMem, emulocke::kBwPartyLive, fromBench));
     REQUIRE(fromBench.battle.foe.species == 290);
     REQUIRE(fromBench.battle.foe.partyIndex == 0);
@@ -602,7 +619,8 @@ void testGen5Battle() {
     plantParam(steal, 0x02240000, 495, 18, 0);
     plantParam(steal, 0x02240000 + emulocke::kBtlPokeparamSize, 509, 17, 0);
     emulocke::SpanMemory stealMem(0x02000000, steal);
-    emulocke::GameSnapshot stolen;
+    const auto stolenHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& stolen = *stolenHeap;
     REQUIRE(emulocke::fillGen5Live(stealMem, emulocke::kBwPartyLive, stolen));
     REQUIRE(stolen.battle.foe.species == 290);
     REQUIRE(stolen.battle.foe.partyIndex == 0);
@@ -613,7 +631,8 @@ void testGen5Battle() {
     plantParam(ko, 0x02240000, 495, 22, 0);
     plantParam(ko, 0x02240000 + emulocke::kBtlPokeparamSize, 290, 22, 0);
     emulocke::SpanMemory koMem(0x02000000, ko);
-    emulocke::GameSnapshot koSnap;
+    const auto koSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& koSnap = *koSnapHeap;
     REQUIRE(emulocke::fillGen5Live(koMem, emulocke::kBwPartyLive, koSnap));
     plantParam(ko, 0x02240000, 495, 0, 0);
     plantParam(ko, 0x02240000 + emulocke::kBtlPokeparamSize, 290, 0, 0);
@@ -641,7 +660,8 @@ void testGen5Battle() {
     plantParam(vs, 0x02240000, 16, 22, 0);
     plantParam(vs, 0x02240000 + emulocke::kBtlPokeparamSize, 56, 22, 0);
     emulocke::SpanMemory vsMem(0x02000000, vs);
-    emulocke::GameSnapshot vsSnap;
+    const auto vsSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& vsSnap = *vsSnapHeap;
     REQUIRE(emulocke::fillGen5Live(vsMem, emulocke::kBwPartyLive, vsSnap));
     REQUIRE(vsSnap.battle.player.species == 16);
     REQUIRE(vsSnap.battle.player.hp == 22);
@@ -660,7 +680,8 @@ void testGen5Battle() {
     const int8_t leerSt[7] = {0, -1, 0, 0, 0, 0, 0};
     plantRanks(liveRank, 0x0226D6B0 + emulocke::kBtlPokeparamSize, leerSt);
     emulocke::SpanMemory liveRankMem(0x02000000, liveRank);
-    emulocke::GameSnapshot liveRankSnap;
+    const auto liveRankSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& liveRankSnap = *liveRankSnapHeap;
     REQUIRE(emulocke::fillGen5Live(liveRankMem, emulocke::kBwPartyLive, liveRankSnap));
     REQUIRE(liveRankSnap.battle.player.stages[1] == 1);
     REQUIRE(liveRankSnap.battle.player.stages[2] == 1);
@@ -677,7 +698,8 @@ void testGen5Battle() {
     const int8_t bakedSt[7] = {2, 0, 0, 0, 0, 0, 0};
     plantRanks(baked, 0x0226D6B0, bakedSt);
     emulocke::SpanMemory bakedMem(0x02000000, baked);
-    emulocke::GameSnapshot bakedSnap;
+    const auto bakedSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& bakedSnap = *bakedSnapHeap;
     REQUIRE(emulocke::fillGen5Live(bakedMem, emulocke::kBwPartyLive, bakedSnap));
     REQUIRE(bakedSnap.battle.player.stages[1] == 2);
     REQUIRE(bakedSnap.party.mons[0].attack == 11);
@@ -691,7 +713,8 @@ void testGen5Battle() {
     plantLive(school, schoolBase + 2 * emulocke::kBtlPokeparamSize, 498, 21, 21);
     plantStats(school, schoolBase + 2 * emulocke::kBtlPokeparamSize, 16, 12, 8, 8, 10);
     emulocke::SpanMemory schoolMem(0x02000000, school);
-    emulocke::GameSnapshot schoolSnap;
+    const auto schoolSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& schoolSnap = *schoolSnapHeap;
     REQUIRE(emulocke::fillGen5Live(schoolMem, emulocke::kBwPartyLive, schoolSnap));
     REQUIRE(schoolSnap.battle.player.species == 515);
     REQUIRE(schoolSnap.battle.player.hp == 24);
@@ -719,7 +742,8 @@ void testGen5Battle() {
     plantLive(moved, schoolBase, 515, 24, 24);
     plantLive(moved, schoolBase + emulocke::kBtlPokeparamSize, 396, 20, 20);
     emulocke::SpanMemory movedMem(0x02000000, moved);
-    emulocke::GameSnapshot movedSnap;
+    const auto movedSnapHeap = std::make_unique<emulocke::GameSnapshot>();
+    emulocke::GameSnapshot& movedSnap = *movedSnapHeap;
     REQUIRE(emulocke::fillGen5Live(movedMem, emulocke::kBwPartyLive, movedSnap));
     REQUIRE(movedSnap.battle.foe.species == 396);
     plantLive(moved, schoolBase, 515, 24, 24);

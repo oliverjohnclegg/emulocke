@@ -9,10 +9,6 @@
 namespace emulocke {
 namespace {
 
-bool unboundSignature(uint32_t sig) {
-    return sig == kUnboundSignature210 || sig == kUnboundSignature200 || sig == kUnboundSignature;
-}
-
 bool expandedFlag(const uint8_t* flags, uint16_t flag) {
     const uint16_t i = static_cast<uint16_t>(flag - 0x900);
     return (flags[i / 8] & static_cast<uint8_t>(1u << (flag % 8))) != 0;
@@ -33,7 +29,7 @@ uint16_t expandedVar(const uint8_t* vars, uint16_t id) {
 
 void fillFromBanks(GameSnapshot& snap, const uint8_t* flags, const uint8_t* vars, uint32_t signature) {
     const uint16_t unbound = expandedVar(vars, kUnboundDifficultyVar);
-    if (unboundSignature(signature)) {
+    if (unboundSave(signature)) {
         writeDifficultyCode(snap, static_cast<uint8_t>(unbound));
         return;
     }
@@ -66,6 +62,8 @@ void copyCfruParasite(const uint8_t* sector, uint16_t id, FrlgSaveBlocks& out) {
     } else if (id == 4) {
         std::memcpy(out.expandedFlags.data() + 0xCC, sector + 0xD98, 0x134);
         std::memcpy(out.expandedVars.data(), sector + 0xECC, 0x124);
+    } else if (id == 2) {
+        std::memcpy(out.sector2Tail.data(), sector + 0xF80, out.sector2Tail.size());
     } else if (id == 13) {
         std::memcpy(out.expandedVars.data() + 0x124, sector + 0x450, 0xDC);
     }

@@ -68,6 +68,63 @@ void testTrackerFill() {
     emulocke::applyTrackerFill(ubLog, *unbound, ubSnap);
     REQUIRE(ubLog.caught("starter").species == 398);
 
+    ubSnap.party.mons[0].species = 496;
+    emulocke::TrackerLog ubGible;
+    emulocke::applyTrackerFill(ubGible, *unbound, ubSnap);
+    REQUIRE(ubGible.caught("starter").species == 496);
+
+    ubSnap.party.mons[0].species = 497;
+    emulocke::TrackerLog ubGabite;
+    emulocke::applyTrackerFill(ubGabite, *unbound, ubSnap);
+    REQUIRE(ubGabite.caught("starter").species == 497);
+
+    ubSnap.party.mons[0].species = 247;
+    emulocke::TrackerLog ubPupitar;
+    emulocke::applyTrackerFill(ubPupitar, *unbound, ubSnap);
+    REQUIRE(ubPupitar.caught("starter").species == 247);
+
+    ubSnap.party.mons[0].species = 399;
+    emulocke::TrackerLog ubMetang;
+    emulocke::applyTrackerFill(ubMetang, *unbound, ubSnap);
+    REQUIRE(ubMetang.caught("starter").species == 399);
+
+    ubSnap.party.mons[0].species = 374;
+    emulocke::TrackerLog ubHuntail;
+    emulocke::applyTrackerFill(ubHuntail, *unbound, ubSnap);
+    REQUIRE(ubHuntail.caught("starter").species == 0);
+
+    emulocke::TrackerLog ubBoxes;
+    emulocke::GameSnapshot boxed;
+    boxed.ok = true;
+    boxed.boxes.boxes[0].mons[0].species = 396;
+    boxed.boxes.boxes[0].mons[0].personality = 44;
+    boxed.boxes.boxes[0].mons[0].metLocation = 0x65;
+    emulocke::applyTrackerFill(ubBoxes, *unbound, boxed);
+    REQUIRE(ubBoxes.caught("route-1").species == 396);
+    REQUIRE(ubBoxes.caught("route-1").personality == 44);
+
+    emulocke::TrackerLog ubFakeMet;
+    emulocke::GameSnapshot fakeMet;
+    fakeMet.ok = true;
+    fakeMet.party.count = 1;
+    fakeMet.party.mons[0].species = 396;
+    fakeMet.party.mons[0].personality = 45;
+    fakeMet.party.mons[0].metLocation = 2;
+    emulocke::applyTrackerFill(ubFakeMet, *unbound, fakeMet);
+    REQUIRE(ubFakeMet.caught("route-1").species == 0);
+
+    const emulocke::TrackerAtlas* unboundExpert = emulocke::trackerAtlas(emulocke::kUnboundUuid, "expert");
+    REQUIRE(unboundExpert != nullptr);
+    emulocke::TrackerLog ubBellin;
+    emulocke::GameSnapshot bellin;
+    bellin.ok = true;
+    bellin.party.count = 1;
+    bellin.party.mons[0].species = 396;
+    bellin.party.mons[0].personality = 46;
+    bellin.party.mons[0].metLocation = 0x59;
+    emulocke::applyTrackerFill(ubBellin, *unboundExpert, bellin);
+    REQUIRE(ubBellin.caught("bellin-town").species == 396);
+
     const uint16_t brockFlag = emulocke::kFlagDefeatedBrock;
     pallet.progress.flags[brockFlag / 8] =
         static_cast<uint8_t>(pallet.progress.flags[brockFlag / 8] | (1u << (brockFlag % 8)));

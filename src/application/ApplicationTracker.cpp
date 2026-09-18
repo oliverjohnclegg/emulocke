@@ -1,6 +1,7 @@
 #include "application/Application.hpp"
 
 #include "adapter/GameAdapter.hpp"
+#include "adapter/HackSpecies.hpp"
 #include "adapter/frlg/FrlgNames.hpp"
 #include "adapter/gen45/Names.hpp"
 #include "application/PreviewSuite.hpp"
@@ -58,19 +59,21 @@ const GameAdapter* Application::adapter() const {
 }
 
 SpeciesRef Application::species(uint16_t id) const {
+    const GameAdapter* live = adapter();
     if (!activeRunId_.empty() && runStore_) {
         if (const Run* run = runStore_->find(activeRunId_)) {
             if (const CatalogTitle* title = catalogByUuid(run->catalogUuid)) {
                 if (title->kind == TitleKind::Hack) {
-                    const SpeciesRef nat = nationalSpeciesRef(id);
-                    if (nat.slug && nat.slug[0] && std::strcmp(nat.slug, "???") != 0) {
-                        return nat;
+                    const SpeciesRef ref =
+                        hackAwareSpecies(title->ext, id, live, run->catalogUuid == kUnboundUuid);
+                    if (ref.slug && ref.slug[0] && std::strcmp(ref.slug, "???") != 0) {
+                        return ref;
                     }
                 }
             }
         }
     }
-    if (const GameAdapter* live = adapter()) {
+    if (live) {
         const SpeciesRef ref = live->species(id);
         if (ref.slug && ref.slug[0] && std::strcmp(ref.slug, "???") != 0) {
             return ref;

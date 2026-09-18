@@ -57,7 +57,7 @@ bool drawRunStrip(Application& app, const Run& run, bool focus) {
     }
     ImGui::SetCursorScreenPos(ImVec2(text.x, origin.y + kRunPad + 22.f));
     ImGui::TextDisabled("%s", meta);
-    drawRunParty(app, snap.party, ImVec2(text.x, origin.y + kRunPad + 46.f));
+    drawRunParty(app, title, snap.party, ImVec2(text.x, origin.y + kRunPad + 46.f));
     const ImVec2 retry(origin.x + w - kRunPad - kRunPlus, origin.y + kRunPad);
     const ImVec2 trash(retry.x - 4.f - kRunPlus, origin.y + kRunPad);
     ImGui::SetCursorScreenPos(trash);

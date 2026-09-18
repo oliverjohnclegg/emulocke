@@ -42,7 +42,7 @@
       "name": "Route 1",
       "catch": "met",
       "mets": [
-        2
+        101
       ]
     },
     {
@@ -51,7 +51,7 @@
       "name": "Bellin Town",
       "catch": "met",
       "mets": [
-        3
+        89
       ]
     },
     {
@@ -60,7 +60,7 @@
       "name": "Icicle Cave",
       "catch": "met",
       "mets": [
-        4
+        141
       ]
     },
     {
@@ -97,7 +97,7 @@
       "name": "Route 2",
       "catch": "met",
       "mets": [
-        5
+        102
       ]
     },
     {
@@ -106,7 +106,7 @@
       "name": "Dresco Town",
       "catch": "met",
       "mets": [
-        6
+        90
       ]
     },
     {
@@ -140,7 +140,7 @@
       "name": "Route 3",
       "catch": "met",
       "mets": [
-        9
+        103
       ]
     },
     {
@@ -149,7 +149,7 @@
       "name": "Flower Paradise",
       "catch": "met",
       "mets": [
-        10
+        136
       ]
     },
     {
@@ -158,7 +158,7 @@
       "name": "Route 4",
       "catch": "met",
       "mets": [
-        11
+        99
       ]
     },
     {
@@ -167,7 +167,7 @@
       "name": "Grim Woods",
       "catch": "met",
       "mets": [
-        12
+        126
       ]
     },
     {
@@ -176,7 +176,7 @@
       "name": "Cinder Volcano",
       "catch": "met",
       "mets": [
-        13
+        127
       ]
     },
     {
@@ -214,7 +214,7 @@
       "name": "Route 5",
       "catch": "met",
       "mets": [
-        15
+        105
       ]
     },
     {
@@ -223,7 +223,7 @@
       "name": "Crater Town",
       "catch": "met",
       "mets": [
-        16
+        91
       ]
     },
     {
@@ -232,7 +232,7 @@
       "name": "KBT Expressway",
       "catch": "met",
       "mets": [
-        17
+        134
       ]
     },
     {
@@ -303,7 +303,7 @@
       "name": "Valley Cave",
       "catch": "met",
       "mets": [
-        22
+        131
       ]
     },
     {
@@ -312,7 +312,7 @@
       "name": "Route 6",
       "catch": "met",
       "mets": [
-        23
+        106
       ]
     },
     {
@@ -321,7 +321,7 @@
       "name": "Route 7",
       "catch": "met",
       "mets": [
-        24
+        107
       ]
     },
     {
@@ -330,7 +330,7 @@
       "name": "Frost Mountain",
       "catch": "met",
       "mets": [
-        25
+        130
       ]
     },
     {
@@ -371,7 +371,7 @@
       "name": "Route 8",
       "catch": "met",
       "mets": [
-        27
+        108
       ]
     },
     {
@@ -380,7 +380,7 @@
       "name": "Blizzard City",
       "catch": "met",
       "mets": [
-        28
+        92
       ]
     },
     {
@@ -417,7 +417,7 @@
       "name": "Frozen Forest",
       "catch": "met",
       "mets": [
-        31
+        153
       ]
     },
     {
@@ -426,7 +426,7 @@
       "name": "Fallshore City",
       "catch": "met",
       "mets": [
-        32
+        94
       ]
     },
     {
@@ -463,7 +463,7 @@
       "name": "Route 11",
       "catch": "met",
       "mets": [
-        35
+        111
       ]
     },
     {
@@ -472,7 +472,7 @@
       "name": "Epidimy Town",
       "catch": "met",
       "mets": [
-        36
+        95
       ]
     },
     {
@@ -481,7 +481,7 @@
       "name": "Route 10",
       "catch": "met",
       "mets": [
-        37
+        100
       ]
     },
     {
@@ -490,7 +490,7 @@
       "name": "Auburn Waterway",
       "catch": "met",
       "mets": [
-        38
+        142
       ]
     },
     {
@@ -499,7 +499,7 @@
       "name": "Route 9",
       "catch": "met",
       "mets": [
-        39
+        109
       ]
     },
     {
@@ -508,7 +508,7 @@
       "name": "Tehl Town",
       "catch": "met",
       "mets": [
-        40
+        93
       ]
     },
     {
@@ -550,7 +550,7 @@
       "name": "Tarmigan Town",
       "catch": "met",
       "mets": [
-        43
+        96
       ]
     },
     {
@@ -590,7 +590,7 @@
       "name": "Thundercap Mt.",
       "catch": "met",
       "mets": [
-        46
+        138
       ]
     },
     {
@@ -631,7 +631,7 @@
       "name": "Route 12",
       "catch": "met",
       "mets": [
-        49
+        112
       ]
     },
     {
@@ -688,7 +688,7 @@
       "name": "Dehara City",
       "catch": "met",
       "mets": [
-        50
+        98
       ]
     },
     {
@@ -730,7 +730,7 @@
       "name": "Ruins of Void",
       "catch": "met",
       "mets": [
-        53
+        104
       ]
     },
     {
@@ -807,7 +807,7 @@
       "name": "Route 15",
       "catch": "met",
       "mets": [
-        56
+        115
       ]
     },
     {
@@ -816,7 +816,7 @@
       "name": "Route 13",
       "catch": "met",
       "mets": [
-        57
+        113
       ]
     },
     {
@@ -825,7 +825,7 @@
       "name": "Route 14",
       "catch": "met",
       "mets": [
-        58
+        114
       ]
     },
     {
@@ -834,7 +834,7 @@
       "name": "Lost Tunnel",
       "catch": "met",
       "mets": [
-        59
+        156
       ]
     },
     {
@@ -843,7 +843,7 @@
       "name": "Great Desert",
       "catch": "met",
       "mets": [
-        60
+        123
       ]
     },
     {
@@ -852,7 +852,7 @@
       "name": "Gurun Town",
       "catch": "met",
       "mets": [
-        61
+        122
       ]
     },
     {
@@ -861,7 +861,7 @@
       "name": "Vivill Woods",
       "catch": "met",
       "mets": [
-        62
+        140
       ]
     },
     {
@@ -870,7 +870,7 @@
       "name": "Vivill Town",
       "catch": "met",
       "mets": [
-        63
+        121
       ]
     },
     {
@@ -879,7 +879,7 @@
       "name": "Vivill Warehouse",
       "catch": "met",
       "mets": [
-        64
+        124
       ]
     },
     {
@@ -919,7 +919,7 @@
       "name": "Route 16",
       "catch": "met",
       "mets": [
-        66
+        116
       ]
     },
     {
@@ -928,7 +928,7 @@
       "name": "Antisis City",
       "catch": "met",
       "mets": [
-        67
+        120
       ]
     },
     {
@@ -937,7 +937,7 @@
       "name": "Antisis Sewers",
       "catch": "met",
       "mets": [
-        68
+        143
       ]
     },
     {
@@ -978,7 +978,7 @@
       "name": "Icy Hole",
       "catch": "met",
       "mets": [
-        71
+        157
       ]
     },
     {
@@ -987,7 +987,7 @@
       "name": "Seaport City",
       "catch": "met",
       "mets": [
-        72
+        119
       ]
     },
     {
@@ -996,7 +996,7 @@
       "name": "Polder Town",
       "catch": "met",
       "mets": [
-        73
+        144
       ]
     },
     {
@@ -1005,7 +1005,7 @@
       "name": "Safari Zone",
       "catch": "met",
       "mets": [
-        74
+        164
       ]
     },
     {
@@ -1047,7 +1047,7 @@
       "name": "Cootes Bog",
       "catch": "met",
       "mets": [
-        77
+        181
       ]
     },
     {
@@ -1056,7 +1056,7 @@
       "name": "Magnolia Town",
       "catch": "met",
       "mets": [
-        78
+        145
       ]
     },
     {
@@ -1113,7 +1113,7 @@
       "name": "Crystal Peak",
       "catch": "met",
       "mets": [
-        79
+        158
       ]
     },
     {
@@ -1217,7 +1217,7 @@
       "name": "Magnolia Fields",
       "catch": "met",
       "mets": [
-        82
+        182
       ]
     },
     {
@@ -1226,7 +1226,7 @@
       "name": "Redwood Village",
       "catch": "met",
       "mets": [
-        83
+        146
       ]
     },
     {
@@ -1267,7 +1267,7 @@
       "name": "Route 18",
       "catch": "met",
       "mets": [
-        86
+        118
       ]
     },
     {
@@ -1276,7 +1276,7 @@
       "name": "Victory Road",
       "catch": "met",
       "mets": [
-        87
+        132
       ]
     },
     {
@@ -1453,7 +1453,7 @@
       "name": "Tomb of Borrius",
       "catch": "met",
       "mets": [
-        95
+        192
       ]
     },
     {
@@ -1462,7 +1462,7 @@
       "name": "Rift Cave",
       "catch": "met",
       "mets": [
-        96
+        139
       ]
     },
     {
@@ -1471,7 +1471,7 @@
       "name": "Redwood Forest",
       "catch": "met",
       "mets": [
-        97
+        183
       ]
     },
     {
@@ -1480,7 +1480,7 @@
       "name": "Cliff Cave",
       "catch": "met",
       "mets": [
-        98
+        185
       ]
     },
     {
@@ -1489,7 +1489,7 @@
       "name": "Cube Corp.",
       "catch": "met",
       "mets": [
-        99
+        147
       ]
     },
     {

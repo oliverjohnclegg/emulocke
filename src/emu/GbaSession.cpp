@@ -6,13 +6,35 @@
 
 #include <mgba/core/core.h>
 #include <mgba/core/interface.h>
+#include <mgba/core/log.h>
 #include <mgba-util/audio-buffer.h>
 #include <mgba-util/vfs.h>
 #include <cstdlib>
 #include <cstring>
+#include <fcntl.h>
 #include <filesystem>
 
 namespace emulocke {
+namespace {
+
+void quietGbaLog(struct mLogger*, int, enum mLogLevel, const char*, va_list) {}
+
+void hushGbaLog() {
+    static mLogger logger{};
+    static bool set{};
+    if (set) {
+        return;
+    }
+    logger.log = quietGbaLog;
+    mLogSetDefaultLogger(&logger);
+    set = true;
+}
+
+#ifndef O_BINARY
+#define O_BINARY 0
+#endif
+
+}  // namespace
 
 std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const std::string& savePath) {
     auto bytes = readWholeFile(romPath, kMaxRomFile);
@@ -31,7 +53,8 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const s
     }
     mCoreInitConfig(session->core_, "emulocke");
     mCoreConfigSetDefaultValue(&session->core_->config, "skipBios", "1");
-    mCoreConfigSetDefaultValue(&session->core_->config, "idleOptimization", "detect");
+    mCoreConfigSetDefaultValue(&session->core_->config, "idleOptimization", "ignore");
+    mCoreConfigSetValue(&session->core_->config, "idleOptimization", "ignore");
     mCoreConfigSetDefaultIntValue(&session->core_->config, "frameskip", 0);
     session->core_->opts.skipBios = true;
     session->core_->opts.frameskip = 0;
@@ -48,11 +71,13 @@ std::unique_ptr<GbaSession> GbaSession::open(const std::string& romPath, const s
     session->core_->loadConfig(session->core_, &session->core_->config);
     session->core_->opts.skipBios = true;
     session->core_->opts.frameskip = 0;
-    session->core_->reset(session->core_);
-    auto save = readWholeFile(session->savePath_, kMaxSaveFile);
-    if (!save.empty()) {
-        session->core_->savedataRestore(session->core_, save.data(), save.size(), true);
+    hushGbaLog();
+    if (!savePath.empty()) {
+        if (VFile* saveVf = VFileOpen(savePath.c_str(), O_CREAT | O_RDWR | O_BINARY)) {
+            session->core_->loadSave(session->core_, saveVf);
+        }
     }
+    session->core_->reset(session->core_);
     mCoreCallbacks callbacks{};
     callbacks.context = session.get();
     callbacks.savedataUpdated = [](void* ctx) { static_cast<GbaSession*>(ctx)->flushSave(); };

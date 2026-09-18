@@ -139,6 +139,7 @@ target_include_directories(emulocke_calc PUBLIC src)
 
 add_library(emulocke_adapter STATIC
     src/adapter/Registry.cpp
+    src/adapter/HackSpecies.cpp
     src/adapter/gen3/Charset.cpp
     src/adapter/gen3/BoxCrypt.cpp
     src/adapter/gen3/BoxFields.cpp
@@ -147,6 +148,8 @@ add_library(emulocke_adapter STATIC
     src/adapter/gen3/BoxHeader.cpp
     src/adapter/frlg/FrlgSave.cpp
     src/adapter/frlg/CfruExpanded.cpp
+    src/adapter/frlg/CfruBoxMon.cpp
+    src/adapter/frlg/CfruBoxes.cpp
     src/adapter/frlg/FrlgFill.cpp
     src/adapter/frlg/FrlgLive.cpp
     src/adapter/frlg/FrlgBattle.cpp
@@ -478,7 +481,9 @@ add_executable(emulocke-adapter-check
     src/test/adapter_check.cpp
     src/test/gen3_codec_check.cpp
     src/test/frlg_adapter_check.cpp
+    src/test/frlg_species_check.cpp
     src/test/frlg_difficulty_check.cpp
+    src/test/frlg_box_check.cpp
     src/test/rse_adapter_check.cpp
     src/test/gen4_adapter_check.cpp
     src/test/gen4_battle_check.cpp
@@ -494,6 +499,13 @@ add_executable(emulocke-adapter-check
     src/run/BatteryWatch.cpp)
 target_include_directories(emulocke-adapter-check PRIVATE src)
 target_link_libraries(emulocke-adapter-check PRIVATE emulocke_adapter)
+if(WIN32)
+    if(MSVC)
+        target_link_options(emulocke-adapter-check PRIVATE /STACK:8388608)
+    else()
+        target_link_options(emulocke-adapter-check PRIVATE -Wl,--stack,8388608)
+    endif()
+endif()
 
 add_executable(emulocke-tracker-check
     src/test/tracker_check.cpp
