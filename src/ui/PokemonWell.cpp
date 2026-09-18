@@ -69,7 +69,7 @@ void drawMonWell(BoxSprites& sprites, const MonView& view, ImVec2 size, bool hpB
     if (copied(mon)) {
         dl->AddText(ImVec2(a.x + 3.f, a.y + 2.f), ImGui::GetColorU32(kMetal), "COPIED");
     }
-    if (ImGui::IsItemHovered() && ImGui::BeginTooltip()) {
+    if (ImGui::BeginItemTooltip()) {
         drawMonHover(view);
         ImGui::EndTooltip();
     }

@@ -1,6 +1,8 @@
 #include "ui/PokemonDraw.hpp"
 
+#include "calc/Nature.hpp"
 #include "poke/Dex.hpp"
+#include "ui/Theme.hpp"
 
 #include <cstring>
 #include <imgui.h>
@@ -39,7 +41,25 @@ void drawMonHover(const MonView& view) {
     const char* nature = natureName(mon.nature);
     ImGui::TextDisabled("NAT");
     ImGui::SameLine();
-    ImGui::TextUnformatted(nature && nature[0] ? nature : "--");
+    if (!nature || !nature[0]) {
+        ImGui::TextUnformatted("--");
+    } else {
+        ImGui::TextUnformatted(nature);
+        const int plus = naturePlus(mon.nature);
+        const int minus = natureMinus(mon.nature);
+        if (plus >= 0 && minus >= 0) {
+            ImGui::SameLine(0.f, 0.f);
+            ImGui::TextUnformatted(" (");
+            ImGui::SameLine(0.f, 0.f);
+            ImGui::TextColored(kStatUp, "+%s", natureStatAbbrev(plus));
+            ImGui::SameLine(0.f, 0.f);
+            ImGui::TextUnformatted(",");
+            ImGui::SameLine(0.f, 0.f);
+            ImGui::TextColored(kStatDown, "-%s", natureStatAbbrev(minus));
+            ImGui::SameLine(0.f, 0.f);
+            ImGui::TextUnformatted(")");
+        }
+    }
     ImGui::TextDisabled("EV");
     ImGui::SameLine();
     ImGui::Text("%u/%u/%u/%u/%u/%u", mon.evHp, mon.evAtk, mon.evDef, mon.evSpa, mon.evSpd, mon.evSpe);
