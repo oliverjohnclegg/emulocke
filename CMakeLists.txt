@@ -139,6 +139,7 @@ target_include_directories(emulocke_calc PUBLIC src)
 
 add_library(emulocke_adapter STATIC
     src/adapter/Registry.cpp
+    src/adapter/HackSpecies.cpp
     src/adapter/gen3/Charset.cpp
     src/adapter/gen3/BoxCrypt.cpp
     src/adapter/gen3/BoxFields.cpp
@@ -478,6 +479,7 @@ add_executable(emulocke-adapter-check
     src/test/adapter_check.cpp
     src/test/gen3_codec_check.cpp
     src/test/frlg_adapter_check.cpp
+    src/test/frlg_species_check.cpp
     src/test/frlg_difficulty_check.cpp
     src/test/rse_adapter_check.cpp
     src/test/gen4_adapter_check.cpp

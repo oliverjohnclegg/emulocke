@@ -1,5 +1,7 @@
 #include "adapter/frlg/FrlgNames.hpp"
 
+#include "adapter/gen45/Names.hpp"
+
 #include <cctype>
 #include <cstring>
 
@@ -15,6 +17,19 @@ struct Slot {
 
 constexpr uint16_t kSpeciesCap = 1600;
 Slot kSlots[kSpeciesCap];
+
+uint16_t nationalIdForSlug(const char* slug) {
+    if (!slug || !slug[0]) {
+        return 0;
+    }
+    for (uint16_t n = 1; n < 1026; ++n) {
+        const SpeciesRef nat = nationalSpeciesRef(n);
+        if (nat.slug && std::strcmp(nat.slug, slug) == 0) {
+            return n;
+        }
+    }
+    return 0;
+}
 
 void fillSlot(uint16_t species, Slot& slot) {
     const char* raw = frlgSpeciesName(species);
@@ -47,11 +62,7 @@ void fillSlot(uint16_t species, Slot& slot) {
     }
     slot.name[ni] = 0;
     slot.slug[si] = 0;
-    if (species >= 1 && species <= 251) {
-        slot.national = species;
-    } else if (species >= 277 && species <= 411) {
-        slot.national = static_cast<uint16_t>(species - 25);
-    }
+    slot.national = nationalIdForSlug(slot.slug);
     if (std::strcmp(raw, "???") == 0) {
         slot.name[0] = 0;
         slot.slug[0] = 0;

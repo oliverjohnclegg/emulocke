@@ -13,6 +13,7 @@
 
 void testGen3Codec();
 void testFrlgAdapter();
+void testFrlgSpecies();
 void testFrlgDifficulty();
 void testRseAdapter();
 void testGen4Adapter();
