@@ -65,6 +65,9 @@ void testGen4Battle() {
     emulocke::Cartridge dia;
     std::memcpy(dia.code, "ADAE", 4);
     dia.revision = 13;
+    emulocke::Cartridge pt;
+    std::memcpy(pt.code, "CPUE", 4);
+    pt.revision = 1;
     emulocke::SpanMemory mem(0x02000000, ram);
     const emulocke::GameSnapshot live = emulocke::adapterFor(dia)->readLive(mem);
     REQUIRE(live.ok);
@@ -76,4 +79,23 @@ void testGen4Battle() {
     REQUIRE(live.battle.foe.hp == 7);
     REQUIRE(live.battle.foe.stages[1] == 3);
     REQUIRE(live.battle.foeSpecies[0] == 399);
+
+    std::vector<uint8_t> ptRam(0x200000, 0);
+    emulocke::store32(ptRam.data() + (emulocke::kPtSavePtr - 0x02000000), 0x02001000);
+    ptRam[0x1000 + emulocke::kPtPartyFromSave - 4] = 1;
+    std::memcpy(ptRam.data() + 0x1000 + emulocke::kPtPartyFromSave, pika.data(), pika.size());
+    emulocke::store32(ptRam.data() + (0x02001000 + emulocke::kPtEnemyPtrOff - 0x02000000), heap);
+    ptRam[heap + emulocke::kPtEnemyPartyAdd - 0x02000000 - 4] = 1;
+    std::memcpy(ptRam.data() + (heap + emulocke::kPtEnemyPartyAdd - 0x02000000), foe.data(), foe.size());
+    const uint32_t ptFoeHp = 0x02001000 + emulocke::kPtFoeHpOff;
+    const uint32_t ptFoeMon = ptFoeHp - emulocke::kNdsBattleMonHp;
+    plantMon(ptRam, ptFoeMon - emulocke::kNdsBattleMonSize, 25, 11, 1);
+    plantMon(ptRam, ptFoeMon, 399, 7, 3);
+    emulocke::SpanMemory ptMem(0x02000000, ptRam);
+    const emulocke::GameSnapshot ptLive = emulocke::adapterFor(pt)->readLive(ptMem);
+    REQUIRE(ptLive.ok);
+    REQUIRE(ptLive.battle.inBattle);
+    REQUIRE(ptLive.battle.player.species == 25);
+    REQUIRE(ptLive.battle.foe.species == 399);
+    REQUIRE(ptLive.battle.foeSpecies[0] == 399);
 }

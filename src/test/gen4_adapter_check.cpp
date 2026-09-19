@@ -104,4 +104,21 @@ void testGen4Adapter() {
     REQUIRE(!live.battle.inBattle);
     REQUIRE(live.boxes.boxes[0].mons[0].species == 25);
     REQUIRE(std::string(live.overworld.mapName).find("MAP") == 0);
+
+    std::vector<uint8_t> ptRam(0x200000, 0);
+    emulocke::store32(ptRam.data() + (emulocke::kPtSavePtr - 0x02000000), 0x02001000);
+    ptRam[0x1000 + emulocke::kPtPartyFromSave - 4] = 1;
+    std::memcpy(ptRam.data() + 0x1000 + emulocke::kPtPartyFromSave, pk.data(), pk.size());
+    const uint32_t ptGeneral = 0x02001000 + emulocke::kPtPartyFromSave - emulocke::kPtParty;
+    std::memcpy(ptRam.data() + (ptGeneral - 0x02000000) + emulocke::kPtGeneral + 4, pk.data(),
+        emulocke::kPkStoredSize);
+    emulocke::store16(ptRam.data() + (ptGeneral - 0x02000000) + emulocke::kPtMap, 201);
+    ptRam[(ptGeneral - 0x02000000) + emulocke::kPtEventFlag] = 1;
+    ptRam[(ptGeneral - 0x02000000) + emulocke::kPtTrainer + 0x1A] = 1;
+    emulocke::SpanMemory ptMem(0x02000000, ptRam);
+    const emulocke::GameSnapshot ptLive = emulocke::adapterFor(pt)->readLive(ptMem);
+    REQUIRE(ptLive.ok);
+    REQUIRE(ptLive.party.count == 1);
+    REQUIRE(ptLive.party.mons[0].species == 25);
+    REQUIRE(std::string(ptLive.overworld.mapName).find("MAP") == 0);
 }
