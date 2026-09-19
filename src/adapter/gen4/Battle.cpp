@@ -58,6 +58,10 @@ void overlayFromFoeHp(const LiveMemory& mem, uint32_t foeHpAddr, GameSnapshot& s
         const uint8_t idx = snap.battle.foe.partyIndex;
         snap.battle.foe = b;
         snap.battle.foe.partyIndex = idx;
+        if (idx < 6) {
+            snap.battle.foeHp[idx] = b.hp;
+            snap.battle.foeMaxHp[idx] = b.maxHp;
+        }
     }
 }
 
@@ -87,6 +91,11 @@ void fillGen4Battle(const LiveMemory& mem, uint32_t partyAddr, const Gen4Layout&
         overlayFromFoeHp(mem, ptr + foeHpOff, snap);
     }
     bindBattleSlots(snap);
+    const uint8_t foeIdx = snap.battle.foe.partyIndex;
+    if (snap.battle.foe.maxHp && foeIdx < 6) {
+        snap.battle.foeHp[foeIdx] = snap.battle.foe.hp;
+        snap.battle.foeMaxHp[foeIdx] = snap.battle.foe.maxHp;
+    }
 }
 
 }

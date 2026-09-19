@@ -14,11 +14,15 @@
 
 namespace {
 
-std::array<uint8_t, emulocke::kPk4PartySize> pk4(uint16_t species, uint32_t pid) {
+std::array<uint8_t, emulocke::kPk4PartySize> pk4(uint16_t species, uint32_t pid, uint8_t ability = 0,
+    uint16_t move0 = 0, uint16_t move1 = 0) {
     std::array<uint8_t, emulocke::kPk4PartySize> plain{};
     emulocke::store32(plain.data(), pid);
     emulocke::store16(plain.data() + 8, species);
     emulocke::store32(plain.data() + 0x0C, 12345);
+    plain[0x15] = ability;
+    emulocke::store16(plain.data() + 0x28, move0);
+    emulocke::store16(plain.data() + 0x2A, move1);
     emulocke::encodeGen4Text("MON", {plain.data() + 0x48, 22});
     emulocke::encodeGen4Text("Juli", {plain.data() + 0x68, 16});
     plain[0x8C] = 5;
@@ -50,12 +54,12 @@ void testGen4Battle() {
     std::vector<uint8_t> ram(0x200000, 0);
     emulocke::store32(ram.data() + (emulocke::kDpSavePtr - 0x02000000), 0x02001000);
     ram[0x1000 + emulocke::kDpPartyFromSave - 4] = 1;
-    const auto pika = pk4(25, 0x12345678);
+    const auto pika = pk4(25, 0x12345678, 9, 84, 45);
     std::memcpy(ram.data() + 0x1000 + emulocke::kDpPartyFromSave, pika.data(), pika.size());
     const uint32_t heap = 0x02008000;
     emulocke::store32(ram.data() + (0x02001000 + emulocke::kDpEnemyPtrOff - 0x02000000), heap);
     ram[heap + emulocke::kDpEnemyPartyAdd - 0x02000000 - 4] = 1;
-    const auto foe = pk4(399, 0x99AABBCC);
+    const auto foe = pk4(399, 0x99AABBCC, 86, 33, 45);
     std::memcpy(ram.data() + (heap + emulocke::kDpEnemyPartyAdd - 0x02000000), foe.data(), foe.size());
     const uint32_t foeHp = 0x02001000 + emulocke::kDpFoeHpOff;
     const uint32_t foeMon = foeHp - emulocke::kNdsBattleMonHp;
@@ -65,6 +69,9 @@ void testGen4Battle() {
     emulocke::Cartridge dia;
     std::memcpy(dia.code, "ADAE", 4);
     dia.revision = 13;
+    emulocke::Cartridge pt;
+    std::memcpy(pt.code, "CPUE", 4);
+    pt.revision = 1;
     emulocke::SpanMemory mem(0x02000000, ram);
     const emulocke::GameSnapshot live = emulocke::adapterFor(dia)->readLive(mem);
     REQUIRE(live.ok);
@@ -76,4 +83,33 @@ void testGen4Battle() {
     REQUIRE(live.battle.foe.hp == 7);
     REQUIRE(live.battle.foe.stages[1] == 3);
     REQUIRE(live.battle.foeSpecies[0] == 399);
+    REQUIRE(live.battle.foeHp[0] == 7);
+    REQUIRE(live.battle.foeMaxHp[0] == 20);
+    REQUIRE(live.party.mons[0].abilityNum == 9);
+    REQUIRE(live.battle.foeMoves[0][0] == 33);
+    REQUIRE(live.battle.foeMoves[0][1] == 45);
+
+    std::vector<uint8_t> ptRam(0x200000, 0);
+    emulocke::store32(ptRam.data() + (emulocke::kPtSavePtr - 0x02000000), 0x02001000);
+    ptRam[0x1000 + emulocke::kPtPartyFromSave - 4] = 1;
+    std::memcpy(ptRam.data() + 0x1000 + emulocke::kPtPartyFromSave, pika.data(), pika.size());
+    emulocke::store32(ptRam.data() + (0x02001000 + emulocke::kPtEnemyPtrOff - 0x02000000), heap);
+    ptRam[heap + emulocke::kPtEnemyPartyAdd - 0x02000000 - 4] = 1;
+    std::memcpy(ptRam.data() + (heap + emulocke::kPtEnemyPartyAdd - 0x02000000), foe.data(), foe.size());
+    const uint32_t ptFoeHp = 0x02001000 + emulocke::kPtFoeHpOff;
+    const uint32_t ptFoeMon = ptFoeHp - emulocke::kNdsBattleMonHp;
+    plantMon(ptRam, ptFoeMon - emulocke::kNdsBattleMonSize, 25, 11, 1);
+    plantMon(ptRam, ptFoeMon, 399, 7, 3);
+    emulocke::SpanMemory ptMem(0x02000000, ptRam);
+    const emulocke::GameSnapshot ptLive = emulocke::adapterFor(pt)->readLive(ptMem);
+    REQUIRE(ptLive.ok);
+    REQUIRE(ptLive.battle.inBattle);
+    REQUIRE(ptLive.battle.player.species == 25);
+    REQUIRE(ptLive.battle.foe.species == 399);
+    REQUIRE(ptLive.battle.foeSpecies[0] == 399);
+    REQUIRE(ptLive.battle.foeHp[0] == 7);
+    REQUIRE(ptLive.battle.foeMaxHp[0] == 20);
+    REQUIRE(ptLive.party.mons[0].abilityNum == 9);
+    REQUIRE(ptLive.battle.foeMoves[0][0] == 33);
+    REQUIRE(ptLive.battle.foeMoves[0][1] == 45);
 }

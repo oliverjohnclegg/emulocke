@@ -41,6 +41,9 @@ bool fillFoePartyFromPk(const LiveMemory& mem, uint32_t addr, std::size_t pkSize
         snap.battle.foeSpa[i] = mon.spAttack;
         snap.battle.foeSpd[i] = mon.spDefense;
         snap.battle.foeSpe[i] = mon.speed;
+        for (int m = 0; m < 4; ++m) {
+            snap.battle.foeMoves[i][static_cast<std::size_t>(m)] = mon.moves[m];
+        }
         if (got == 0 || (snap.battle.foe.hp == 0 && mon.hp > 0)) {
             snap.battle.foe.species = mon.species;
             snap.battle.foe.hp = mon.hp;

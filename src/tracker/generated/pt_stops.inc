@@ -13,41 +13,46 @@ constexpr uint16_t kMet_pt_11[] = {58};
 constexpr uint16_t kMet_pt_12[] = {20};
 constexpr uint16_t kMet_pt_13[] = {47};
 constexpr uint16_t kMet_pt_14[] = {48};
-constexpr uint16_t kMet_pt_15[] = {9};
-constexpr uint16_t kMet_pt_16[] = {21};
-constexpr uint16_t kMet_pt_17[] = {65};
-constexpr uint16_t kMet_pt_18[] = {50};
-constexpr uint16_t kMet_pt_19[] = {23};
-constexpr uint16_t kMet_pt_20[] = {10};
-constexpr uint16_t kMet_pt_21[] = {24};
-constexpr uint16_t kMet_pt_22[] = {53};
-constexpr uint16_t kMet_pt_23[] = {25};
-constexpr uint16_t kMet_pt_24[] = {30};
-constexpr uint16_t kMet_pt_25[] = {12};
-constexpr uint16_t kMet_pt_26[] = {29};
-constexpr uint16_t kMet_pt_27[] = {73};
-constexpr uint16_t kMet_pt_28[] = {11};
-constexpr uint16_t kMet_pt_29[] = {52};
-constexpr uint16_t kMet_pt_30[] = {27};
-constexpr uint16_t kMet_pt_31[] = {28};
-constexpr uint16_t kMet_pt_32[] = {5};
-constexpr uint16_t kMet_pt_33[] = {49};
-constexpr uint16_t kMet_pt_34[] = {35};
-constexpr uint16_t kMet_pt_35[] = {36};
-constexpr uint16_t kMet_pt_36[] = {33};
-constexpr uint16_t kMet_pt_37[] = {7};
-constexpr uint16_t kMet_pt_38[] = {69};
-constexpr uint16_t kMet_pt_39[] = {26};
-constexpr uint16_t kMet_pt_40[] = {31};
-constexpr uint16_t kMet_pt_41[] = {32};
-constexpr uint16_t kMet_pt_42[] = {74};
-constexpr uint16_t kMet_pt_43[] = {78};
-constexpr uint16_t kMet_pt_44[] = {117};
-constexpr uint16_t kMet_pt_45[] = {37};
-constexpr uint16_t kMet_pt_46[] = {13};
-constexpr uint16_t kMet_pt_47[] = {38};
-constexpr uint16_t kMet_pt_48[] = {15};
-constexpr uint16_t kMet_pt_49[] = {64};
+constexpr uint16_t kMet_pt_15[] = {70};
+constexpr uint16_t kMet_pt_16[] = {9};
+constexpr uint16_t kMet_pt_17[] = {21};
+constexpr uint16_t kMet_pt_18[] = {65};
+constexpr uint16_t kMet_pt_19[] = {50};
+constexpr uint16_t kMet_pt_20[] = {23};
+constexpr uint16_t kMet_pt_21[] = {10};
+constexpr uint16_t kMet_pt_22[] = {24};
+constexpr uint16_t kMet_pt_23[] = {53};
+constexpr uint16_t kMet_pt_24[] = {25};
+constexpr uint16_t kMet_pt_25[] = {30};
+constexpr uint16_t kMet_pt_26[] = {12};
+constexpr uint16_t kMet_pt_27[] = {29};
+constexpr uint16_t kMet_pt_28[] = {66};
+constexpr uint16_t kMet_pt_29[] = {67};
+constexpr uint16_t kMet_pt_30[] = {73};
+constexpr uint16_t kMet_pt_31[] = {11};
+constexpr uint16_t kMet_pt_32[] = {52};
+constexpr uint16_t kMet_pt_33[] = {27};
+constexpr uint16_t kMet_pt_34[] = {28};
+constexpr uint16_t kMet_pt_35[] = {5};
+constexpr uint16_t kMet_pt_36[] = {49};
+constexpr uint16_t kMet_pt_37[] = {34};
+constexpr uint16_t kMet_pt_38[] = {35};
+constexpr uint16_t kMet_pt_39[] = {36};
+constexpr uint16_t kMet_pt_40[] = {33};
+constexpr uint16_t kMet_pt_41[] = {7};
+constexpr uint16_t kMet_pt_42[] = {69};
+constexpr uint16_t kMet_pt_43[] = {26};
+constexpr uint16_t kMet_pt_44[] = {31};
+constexpr uint16_t kMet_pt_45[] = {32};
+constexpr uint16_t kMet_pt_46[] = {74};
+constexpr uint16_t kMet_pt_47[] = {78};
+constexpr uint16_t kMet_pt_48[] = {117};
+constexpr uint16_t kMet_pt_49[] = {37};
+constexpr uint16_t kMet_pt_50[] = {13};
+constexpr uint16_t kMet_pt_51[] = {38};
+constexpr uint16_t kMet_pt_52[] = {54};
+constexpr uint16_t kMet_pt_53[] = {15};
+constexpr uint16_t kMet_pt_54[] = {64};
 constexpr uint16_t kStarters_pt[] = {387, 390, 393};
 constexpr emulocke::TrackerStop kStops_pt[] = {
     {"starter", emulocke::TrackerStopKind::Encounter, "Starter", "", emulocke::BossKind::None, emulocke::CatchKind::Starter, nullptr, 0, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
@@ -68,71 +73,71 @@ constexpr emulocke::TrackerStop kStops_pt[] = {
     {"floaroma-meadow", emulocke::TrackerStopKind::Encounter, "Floaroma Meadow", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_11, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"route-205", emulocke::TrackerStopKind::Encounter, "Route 205", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_12, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"valley-windworks", emulocke::TrackerStopKind::Encounter, "Valley Windworks", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_13, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"mars1", emulocke::TrackerStopKind::Boss, "Mars", "Valley Windoworks", emulocke::BossKind::EvilTeam, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_18, 2, 1475, 0, 0, 17, 1, false, "", "", false},
+    {"mars1", emulocke::TrackerStopKind::Boss, "Mars", "Valley Windworks", emulocke::BossKind::EvilTeam, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_18, 2, 1475, 0, 0, 17, 1, false, "", "", false},
     {"eterna-forest", emulocke::TrackerStopKind::Encounter, "Eterna Forest", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_14, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"the-old-chateau", emulocke::TrackerStopKind::Encounter, "The Old Chateau", "", emulocke::BossKind::None, emulocke::CatchKind::Met, nullptr, 0, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"eterna-city", emulocke::TrackerStopKind::Encounter, "Eterna City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_15, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"the-old-chateau", emulocke::TrackerStopKind::Encounter, "The Old Chateau", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_15, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"eterna-city", emulocke::TrackerStopKind::Encounter, "Eterna City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_16, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"gym-2", emulocke::TrackerStopKind::Boss, "Gardenia", "Eterna Gym", emulocke::BossKind::Gym, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_22, 3, 0, 0, 2, 22, 1, false, "", "", false},
     {"jup1", emulocke::TrackerStopKind::Boss, "Jupiter", "Eterna Building", emulocke::BossKind::EvilTeam, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_23, 2, 1586, 0, 0, 23, 1, false, "", "", false},
-    {"route-206", emulocke::TrackerStopKind::Encounter, "Route 206", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_16, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"wayward-cave", emulocke::TrackerStopKind::Encounter, "Wayward Cave", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_17, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"mt-coronet", emulocke::TrackerStopKind::Encounter, "Mt. Coronet", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_18, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"route-208", emulocke::TrackerStopKind::Encounter, "Route 208", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_19, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"hearthome-city", emulocke::TrackerStopKind::Encounter, "Hearthome City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_20, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-206", emulocke::TrackerStopKind::Encounter, "Route 206", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_17, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"wayward-cave", emulocke::TrackerStopKind::Encounter, "Wayward Cave", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_18, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"mt-coronet", emulocke::TrackerStopKind::Encounter, "Mt. Coronet", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_19, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-208", emulocke::TrackerStopKind::Encounter, "Route 208", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_20, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"hearthome-city", emulocke::TrackerStopKind::Encounter, "Hearthome City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_21, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"gym-3", emulocke::TrackerStopKind::Boss, "Fantina", "Hearthome Gym", emulocke::BossKind::Gym, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_29, 3, 0, 0, 3, 26, 1, false, "", "", false},
-    {"route-209", emulocke::TrackerStopKind::Encounter, "Route 209", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_21, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-209", emulocke::TrackerStopKind::Encounter, "Route 209", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_22, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"b3", emulocke::TrackerStopKind::Boss, "Barry", "Route 209", emulocke::BossKind::Rival, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_31, 10, 1650, 3, 0, 27, 1, false, "", "", false},
-    {"the-lost-tower", emulocke::TrackerStopKind::Encounter, "The Lost Tower", "", emulocke::BossKind::None, emulocke::CatchKind::Met, nullptr, 0, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"solaceon-ruins", emulocke::TrackerStopKind::Encounter, "Solaceon Ruins", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_22, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"route-210", emulocke::TrackerStopKind::Encounter, "Route 210", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_23, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"route-215", emulocke::TrackerStopKind::Encounter, "Route 215", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_24, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"veilstone-city", emulocke::TrackerStopKind::Encounter, "Veilstone City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_25, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"the-lost-tower", emulocke::TrackerStopKind::Encounter, "The Lost Tower", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_22, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"solaceon-ruins", emulocke::TrackerStopKind::Encounter, "Solaceon Ruins", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_23, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-210", emulocke::TrackerStopKind::Encounter, "Route 210", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_24, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-215", emulocke::TrackerStopKind::Encounter, "Route 215", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_25, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"veilstone-city", emulocke::TrackerStopKind::Encounter, "Veilstone City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_26, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"gym-4", emulocke::TrackerStopKind::Boss, "Maylene", "Veilstone Gym", emulocke::BossKind::Gym, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_37, 3, 0, 0, 4, 32, 1, false, "", "", false},
-    {"route-214", emulocke::TrackerStopKind::Encounter, "Route 214", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_26, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"ruin-maniacs-cave", emulocke::TrackerStopKind::Encounter, "Ruin Maniac's Cave", "", emulocke::BossKind::None, emulocke::CatchKind::Met, nullptr, 0, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"ruin-maniacs-tunnel", emulocke::TrackerStopKind::Encounter, "Ruin Maniac's Tunnel", "", emulocke::BossKind::None, emulocke::CatchKind::Met, nullptr, 0, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"valor-lakefront", emulocke::TrackerStopKind::Encounter, "Valor Lakefront", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_27, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"pastoria-city", emulocke::TrackerStopKind::Encounter, "Pastoria City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_28, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"great-marsh", emulocke::TrackerStopKind::Encounter, "Great Marsh", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_29, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-214", emulocke::TrackerStopKind::Encounter, "Route 214", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_27, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"ruin-maniacs-cave", emulocke::TrackerStopKind::Encounter, "Ruin Maniac's Cave", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_28, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"ruin-maniacs-tunnel", emulocke::TrackerStopKind::Encounter, "Ruin Maniac's Tunnel", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_29, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"valor-lakefront", emulocke::TrackerStopKind::Encounter, "Valor Lakefront", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_30, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"pastoria-city", emulocke::TrackerStopKind::Encounter, "Pastoria City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_31, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"great-marsh", emulocke::TrackerStopKind::Encounter, "Great Marsh", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_32, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"b4", emulocke::TrackerStopKind::Boss, "Barry", "Pastoria City", emulocke::BossKind::Rival, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_44, 10, 1653, 3, 0, 36, 1, false, "", "", false},
     {"gym-5", emulocke::TrackerStopKind::Boss, "Crasher Wake", "Pastoria Gym", emulocke::BossKind::Gym, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_45, 3, 0, 0, 5, 37, 1, false, "", "", false},
-    {"route-212", emulocke::TrackerStopKind::Encounter, "Route 212", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_30, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"route-213", emulocke::TrackerStopKind::Encounter, "Route 213", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_31, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"celestic-town", emulocke::TrackerStopKind::Encounter, "Celestic Town", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_32, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-212", emulocke::TrackerStopKind::Encounter, "Route 212", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_33, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-213", emulocke::TrackerStopKind::Encounter, "Route 213", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_34, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"celestic-town", emulocke::TrackerStopKind::Encounter, "Celestic Town", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_35, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"cyr1", emulocke::TrackerStopKind::Boss, "Cyrus", "Celestic Town", emulocke::BossKind::EvilTeam, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_49, 3, 2093, 0, 0, 36, 1, false, "", "", false},
-    {"fuego-ironworks", emulocke::TrackerStopKind::Encounter, "Fuego Ironworks", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_33, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"routes-219", emulocke::TrackerStopKind::Encounter, "Routes 219", "", emulocke::BossKind::None, emulocke::CatchKind::Met, nullptr, 0, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"route-220", emulocke::TrackerStopKind::Encounter, "Route 220", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_34, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"route-221", emulocke::TrackerStopKind::Encounter, "Route 221", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_35, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"route-218", emulocke::TrackerStopKind::Encounter, "Route 218", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_36, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"canalave-city", emulocke::TrackerStopKind::Encounter, "Canalave City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_37, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"fuego-ironworks", emulocke::TrackerStopKind::Encounter, "Fuego Ironworks", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_36, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"routes-219", emulocke::TrackerStopKind::Encounter, "Routes 219", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_37, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-220", emulocke::TrackerStopKind::Encounter, "Route 220", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_38, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-221", emulocke::TrackerStopKind::Encounter, "Route 221", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_39, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-218", emulocke::TrackerStopKind::Encounter, "Route 218", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_40, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"canalave-city", emulocke::TrackerStopKind::Encounter, "Canalave City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_41, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"b5", emulocke::TrackerStopKind::Boss, "Barry", "Canalave City", emulocke::BossKind::Rival, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_56, 11, 1656, 3, 0, 38, 1, false, "", "", false},
     {"gym-6", emulocke::TrackerStopKind::Boss, "Byron", "Canalave Gym", emulocke::BossKind::Gym, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_57, 3, 0, 0, 6, 41, 1, false, "", "", false},
-    {"iron-island", emulocke::TrackerStopKind::Encounter, "Iron Island", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_38, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"route-211", emulocke::TrackerStopKind::Encounter, "Route 211", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_39, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"iron-island", emulocke::TrackerStopKind::Encounter, "Iron Island", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_42, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-211", emulocke::TrackerStopKind::Encounter, "Route 211", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_43, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"sat1", emulocke::TrackerStopKind::Boss, "Saturn", "Valor Cavern", emulocke::BossKind::EvilTeam, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_60, 3, 227, 0, 0, 40, 1, false, "", "", false},
     {"mars2", emulocke::TrackerStopKind::Boss, "Mars", "Lake Verity", emulocke::BossKind::EvilTeam, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_61, 3, 1585, 0, 0, 40, 1, false, "", "", false},
-    {"route-216", emulocke::TrackerStopKind::Encounter, "Route 216", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_40, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"route-217", emulocke::TrackerStopKind::Encounter, "Route 217", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_41, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"acuity-lakefront", emulocke::TrackerStopKind::Encounter, "Acuity Lakefront", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_42, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"lake-acuity", emulocke::TrackerStopKind::Encounter, "Lake Acuity", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_43, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-216", emulocke::TrackerStopKind::Encounter, "Route 216", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_44, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-217", emulocke::TrackerStopKind::Encounter, "Route 217", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_45, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"acuity-lakefront", emulocke::TrackerStopKind::Encounter, "Acuity Lakefront", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_46, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"lake-acuity", emulocke::TrackerStopKind::Encounter, "Lake Acuity", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_47, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"gym-7", emulocke::TrackerStopKind::Boss, "Candice", "Snowpoint Gym", emulocke::BossKind::Gym, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_66, 4, 0, 0, 7, 44, 1, false, "", "", false},
     {"cyr2", emulocke::TrackerStopKind::Boss, "Cyrus", "Galactic HQ", emulocke::BossKind::EvilTeam, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_67, 3, 1583, 0, 0, 46, 1, false, "", "", false},
     {"sat2", emulocke::TrackerStopKind::Boss, "Saturn", "Galactic HQ", emulocke::BossKind::EvilTeam, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_68, 3, 90, 0, 0, 44, 1, false, "", "", false},
     {"mnj", emulocke::TrackerStopKind::Boss, "Mars & Jupiter", "Spear Pillar", emulocke::BossKind::EvilTeam, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_69, 6, 1587, 0, 0, 46, 1, false, "", "", false},
     {"cyr3", emulocke::TrackerStopKind::Boss, "Cyrus", "Distortion World", emulocke::BossKind::EvilTeam, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_70, 5, 1584, 0, 0, 48, 1, false, "", "", false},
-    {"distortion-world", emulocke::TrackerStopKind::Encounter, "Distortion World", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_44, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"route-222", emulocke::TrackerStopKind::Encounter, "Route 222", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_45, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"sunyshore-city", emulocke::TrackerStopKind::Encounter, "Sunyshore City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_46, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"distortion-world", emulocke::TrackerStopKind::Encounter, "Distortion World", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_48, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-222", emulocke::TrackerStopKind::Encounter, "Route 222", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_49, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"sunyshore-city", emulocke::TrackerStopKind::Encounter, "Sunyshore City", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_50, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"gym-8", emulocke::TrackerStopKind::Boss, "Volkner", "Sunyshore Gym", emulocke::BossKind::Gym, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_74, 4, 0, 0, 8, 50, 1, false, "", "", false},
-    {"route-223", emulocke::TrackerStopKind::Encounter, "Route 223", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_47, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"victory-road", emulocke::TrackerStopKind::Encounter, "Victory Road", "", emulocke::BossKind::None, emulocke::CatchKind::Met, nullptr, 0, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
-    {"pokemon-league", emulocke::TrackerStopKind::Encounter, "Pokémon League", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_48, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"route-223", emulocke::TrackerStopKind::Encounter, "Route 223", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_51, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"victory-road", emulocke::TrackerStopKind::Encounter, "Victory Road", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_52, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
+    {"pokemon-league", emulocke::TrackerStopKind::Encounter, "Pokémon League", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_53, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false},
     {"b6", emulocke::TrackerStopKind::Boss, "Barry", "Pokémon League", emulocke::BossKind::Rival, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_78, 12, 1659, 3, 0, 51, 1, false, "", "", false},
     {"e1", emulocke::TrackerStopKind::Boss, "Aaron", "Elite Four", emulocke::BossKind::EliteFour, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_79, 5, 1441, 0, 0, 53, 1, false, "", "", false},
     {"e2", emulocke::TrackerStopKind::Boss, "Bertha", "Elite Four", emulocke::BossKind::EliteFour, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_80, 5, 1442, 0, 0, 55, 1, false, "", "", false},
     {"e3", emulocke::TrackerStopKind::Boss, "Flint", "Elite Four", emulocke::BossKind::EliteFour, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_81, 5, 1443, 0, 0, 57, 1, false, "", "", false},
     {"e4", emulocke::TrackerStopKind::Boss, "Lucian", "Elite Four", emulocke::BossKind::EliteFour, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_82, 5, 1444, 0, 0, 59, 1, false, "", "", false},
     {"c", emulocke::TrackerStopKind::Boss, "Cynthia", "Champion", emulocke::BossKind::EliteFour, emulocke::CatchKind::None, nullptr, 0, kTeam_pt_83, 6, 1447, 0, 0, 62, 1, false, "", "", false},
-    {"snowpoint-temple", emulocke::TrackerStopKind::Encounter, "Snowpoint Temple", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_49, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false}
+    {"snowpoint-temple", emulocke::TrackerStopKind::Encounter, "Snowpoint Temple", "", emulocke::BossKind::None, emulocke::CatchKind::Met, kMet_pt_54, 1, nullptr, 0, 0, 0, 0, 0, 1, false, "", "", false}
 };

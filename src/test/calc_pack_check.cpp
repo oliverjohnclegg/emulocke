@@ -1,3 +1,4 @@
+#include "calc/Ability.hpp"
 #include "calc/Ai.hpp"
 #include "calc/Build.hpp"
 #include "calc/Pack.hpp"
@@ -60,7 +61,26 @@ int main() {
     REQUIRE(pt && pt->dmgGen == 4 && pt->trainerCount > 500);
     const emulocke::PackTrainer* roark = emulocke::packTrainer(*pt, 246);
     REQUIRE(roark);
+    REQUIRE(std::strcmp(roark->name, "Leader Roark") == 0);
+    REQUIRE(std::strcmp(roark->cls, "Leader") == 0);
+    REQUIRE(std::strcmp(roark->location, "Oreburgh Gym") == 0);
     REQUIRE(emulocke::pokemonFromPack(*emulocke::trainerMon(*pt, *roark, 0), pt).species != 0);
+    emulocke::Mon turtwig{};
+    turtwig.species = 387;
+    turtwig.level = 5;
+    turtwig.abilityNum = emulocke::kAbOvergrow;
+    turtwig.maxHp = 21;
+    turtwig.hp = 21;
+    REQUIRE(emulocke::pokemonFromSnap(turtwig, pt).ability == emulocke::kAbOvergrow);
+    emulocke::Mon pidgey{};
+    pidgey.species = 16;
+    pidgey.level = 4;
+    pidgey.abilityNum = 51;
+    REQUIRE(emulocke::pokemonFromSnap(pidgey, pt).ability == 51);
+    pidgey.abilityNum = 0;
+    REQUIRE(emulocke::pokemonFromSnap(pidgey, pt).ability == 51);
+    pidgey.abilityNum = 1;
+    REQUIRE(emulocke::pokemonFromSnap(pidgey, pt).ability == 77);
     REQUIRE(emulocke::calcPack(emulocke::kDiamondUsUuid, {})->dmgGen == 4);
     REQUIRE(emulocke::calcPack(emulocke::kHeartGoldUsUuid, {})->dmgGen == 4);
     REQUIRE(emulocke::calcPack(emulocke::kBlackUsUuid, {})->dmgGen == 5);

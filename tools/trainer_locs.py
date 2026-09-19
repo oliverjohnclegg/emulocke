@@ -54,6 +54,10 @@ def _fold(slugs):
     return [s.split("-", 1)[0] for s in slugs]
 
 
+def _norm(s):
+    return s.lower().replace("é", "e").replace("'", "")
+
+
 def _bags_equal(have, want):
     if sorted(have) == sorted(want):
         return True
@@ -109,7 +113,18 @@ def _hits_variant(have, want, common):
     return extra != want and _bags_equal(have, extra)
 
 
-def from_atlas(path, trainers, parties, names, species_names):
+def _story_trainers(cands, names):
+    return [
+        tid
+        for tid in cands
+        if "rematch" not in _norm(names[tid])
+        and "dummy" not in _norm(names[tid])
+        and "fight area" not in _norm(names[tid])
+        and "unused" not in _norm(names[tid])
+    ]
+
+
+def from_atlas(path, trainers, parties, names, species_names, loose=False):
     data = json.loads(Path(path).read_text(encoding="utf-8"))
     by_name = defaultdict(list)
     for tid, meta in enumerate(trainers):
@@ -123,10 +138,35 @@ def from_atlas(path, trainers, parties, names, species_names):
         if stop.get("kind") != "boss":
             continue
         locale = (stop.get("locale") or "").strip()
-        name = (stop.get("name") or "").strip().lower()
+        raw = (stop.get("name") or "").strip()
+        name = _norm(raw) if loose else raw.lower()
         if not locale or not name:
             continue
-        cands = by_name.get(name, [])
+        cands = list(by_name.get(name, []))
+        if loose and not cands:
+            tokens = name.replace("&", " ").split()
+            for key, ids in by_name.items():
+                words = _norm(key).split()
+                if name in words or (tokens and tokens[-1] in words):
+                    cands.extend(ids)
+            if not cands:
+                loc = _norm(locale)
+                for key, ids in by_name.items():
+                    if loc in _norm(key) and "rival" in _norm(key):
+                        cands.extend(ids)
+            cands = list(dict.fromkeys(cands))
+            live = _story_trainers(cands, names)
+            if len(live) == 1:
+                locs.setdefault(live[0], locale)
+                continue
+            placed = [tid for tid in live if _norm(locale) in _norm(names[tid])]
+            if len(placed) == 1:
+                locs.setdefault(placed[0], locale)
+                continue
+            if placed:
+                for tid in placed:
+                    locs.setdefault(tid, locale)
+                continue
         if len(cands) == 1:
             locs.setdefault(cands[0], locale)
             continue
@@ -143,20 +183,135 @@ def from_atlas(path, trainers, parties, names, species_names):
     return locs
 
 
+_ATLAS = {"Blaze": "blaze.json", "Pt": "pt.json"}
+
+_PT_CLASS = {
+    2: "Youngster",
+    3: "Lass",
+    4: "Camper",
+    5: "Picnicker",
+    6: "Bug Catcher",
+    7: "Aroma Lady",
+    8: "Twins",
+    9: "Hiker",
+    10: "Battle Girl",
+    11: "Fisherman",
+    12: "Cyclist",
+    13: "Cyclist",
+    14: "Black Belt",
+    15: "Artist",
+    16: "PKMN Breeder",
+    17: "PKMN Breeder",
+    18: "Cowgirl",
+    19: "Jogger",
+    20: "Pokefan",
+    21: "Pokefan",
+    22: "Poke Kid",
+    23: "Young Couple",
+    24: "Ace Trainer",
+    25: "Ace Trainer",
+    26: "Waitress",
+    27: "Veteran",
+    28: "Ninja Boy",
+    29: "Dragon Tamer",
+    30: "Bird Keeper",
+    31: "Double Team",
+    32: "Rich Boy",
+    33: "Lady",
+    34: "Gentleman",
+    35: "Socialite",
+    36: "Beauty",
+    37: "Collector",
+    38: "Policeman",
+    39: "Pokemon Ranger",
+    40: "Pokemon Ranger",
+    41: "Scientist",
+    42: "Swimmer",
+    43: "Swimmer",
+    44: "Tuber",
+    45: "Tuber",
+    46: "Sailor",
+    47: "Sis and Bro",
+    48: "Ruin Maniac",
+    49: "Psychic",
+    50: "Psychic",
+    51: "PI",
+    52: "Guitarist",
+    53: "Ace Trainer",
+    54: "Ace Trainer",
+    55: "Skier",
+    56: "Skier",
+    57: "Roughneck",
+    58: "Clown",
+    59: "Worker",
+    60: "School Kid",
+    61: "School Kid",
+    62: "Leader",
+    63: "Rival",
+    64: "Leader",
+    65: "Elite Four",
+    66: "Elite Four",
+    67: "Elite Four",
+    68: "Elite Four",
+    69: "Champion",
+    70: "Belle and Pa",
+    71: "Rancher",
+    72: "Commander",
+    73: "Galactic Grunt",
+    74: "Leader",
+    75: "Leader",
+    76: "Leader",
+    77: "Leader",
+    78: "Leader",
+    79: "Leader",
+    80: "Parasol Lady",
+    81: "Waiter",
+    82: "Interviewers",
+    83: "Cameraman",
+    84: "Reporter",
+    85: "Idol",
+    86: "Galactic Boss",
+    87: "Commander",
+    88: "Commander",
+    89: "Galactic Grunt",
+    90: "PKMN Trainer",
+    91: "PKMN Trainer",
+    92: "PKMN Trainer",
+    93: "PKMN Trainer",
+    94: "PKMN Trainer",
+    95: "PKMN Trainer",
+    96: "PKMN Trainer",
+    97: "Tower Tycoon",
+    99: "Hall Matron",
+    100: "Factory Head",
+    101: "Arcade Star",
+    102: "Castle Valet",
+}
+
+
 def overlay_locs(root, prefix, trainers, parties, names, files=None):
     locs = {}
-    if prefix != "Blaze":
+    atlas_name = _ATLAS.get(prefix)
+    if not atlas_name:
         return locs
-    npoint = Path("/tmp/blaze_npoint.json")
-    if npoint.exists():
-        locs.update(from_npoint(npoint))
-    atlas = Path(root) / "src/tracker/data/blaze.json"
+    if prefix == "Blaze":
+        npoint = Path("/tmp/blaze_npoint.json")
+        if npoint.exists():
+            locs.update(from_npoint(npoint))
+    atlas = Path(root) / "src/tracker/data" / atlas_name
     if atlas.exists():
         species_names = species_names_from_rom(files or {})
         if not species_names:
             species_names = species_names_from_nat(Path(root) / "src/calc/data/SpeciesNat.inc")
-        locs.update(from_atlas(atlas, trainers, parties, names, species_names))
+        locs.update(from_atlas(atlas, trainers, parties, names, species_names, loose=(prefix == "Pt")))
     return locs
+
+
+def pt_class_name(cls):
+    m = re.fullmatch(r"Class (\d+)", cls)
+    if not m:
+        return cls
+    return _PT_CLASS.get(int(m.group(1)), cls)
 
 
 _TRAINER_RE = re.compile(
@@ -245,13 +400,15 @@ def relabel_pack(root, prefix, atlas_rel):
         parties[tid] = mons[row["monOff"] : row["monOff"] + row["count"]]
     atlas = root / atlas_rel
     species_names = species_names_from_nat(out / "SpeciesNat.inc")
-    matched = from_atlas(atlas, trainers, parties, names, species_names)
+    matched = from_atlas(atlas, trainers, parties, names, species_names, loose=(prefix == "Pt"))
     lines = []
     for row in rows:
         loc = matched.get(row["id"], row["location"])
         row["location"] = loc
+        cls = pt_class_name(row["cls"]) if prefix == "Pt" else row["cls"]
+        row["cls"] = cls
         lines.append(
-            f'    {{{row["id"]}, "{c_escape(row["name"])}", "{c_escape(row["cls"])}", '
+            f'    {{{row["id"]}, "{c_escape(row["name"])}", "{c_escape(cls)}", '
             f'"{c_escape(loc)}", {row["count"]}, {row["monOff"]}, {row["mandatory"]}, {row["ai"]}}},'
         )
     trainers_path.write_text("\n".join(lines) + "\n")
@@ -262,6 +419,7 @@ def relabel_pack(root, prefix, atlas_rel):
 def main():
     root = Path(__file__).resolve().parents[1]
     relabel_pack(root, "Blaze", "src/tracker/data/blaze.json")
+    relabel_pack(root, "Pt", "src/tracker/data/pt.json")
 
 
 if __name__ == "__main__":

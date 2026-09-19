@@ -369,4 +369,15 @@ void testTrackerFill() {
     pidFaint.party.mons[0].maxHp = 24;
     emulocke::applyFaintDeath(pidLog, pidFaint);
     REQUIRE(pidLog.caught("starter").status == emulocke::EncounterStatus::Dead);
+
+    const emulocke::TrackerAtlas* pt = emulocke::trackerAtlas(emulocke::kPlatinumUsUuid, "");
+    REQUIRE(pt != nullptr);
+    emulocke::TrackerLog ptLog;
+    emulocke::GameSnapshot lake;
+    lake.ok = true;
+    lake.party.count = 1;
+    lake.party.mons[0].species = 387;
+    lake.party.mons[0].personality = 88;
+    emulocke::applyTrackerFill(ptLog, *pt, lake);
+    REQUIRE(ptLog.caught("starter").species == 387);
 }
