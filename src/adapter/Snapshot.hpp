@@ -135,6 +135,7 @@ struct BattleState {
     uint16_t foeSpd[6]{};
     uint16_t foeSpe[6]{};
     uint16_t foeSpecies[6]{};
+    uint16_t foeMoves[6][4]{};
     uint8_t foeLevel[6]{};
     uint8_t foeCount{};
 };

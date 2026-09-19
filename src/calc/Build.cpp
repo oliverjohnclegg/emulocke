@@ -68,7 +68,11 @@ Pokemon pokemonFromSnap(const Mon& mon, const CalcPack* pack) {
     if (!row) {
         return {};
     }
-    Pokemon out = fromRow(*row, mon.species, mon.level, mon.ivAtk, mon.nature, mon.abilityNum, ev);
+    const uint8_t slot = mon.abilityNum <= 1 ? mon.abilityNum : 0;
+    Pokemon out = fromRow(*row, mon.species, mon.level, mon.ivAtk, mon.nature, slot, ev);
+    if (mon.abilityNum > 1) {
+        out.ability = mon.abilityNum;
+    }
     if (mon.maxHp) {
         out.maxHp = mon.maxHp;
         out.hp = mon.hp;

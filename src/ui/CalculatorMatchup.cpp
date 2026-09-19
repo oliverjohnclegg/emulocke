@@ -15,6 +15,17 @@
 namespace emulocke {
 namespace {
 
+const uint16_t* calcFoeMoves(const GameSnapshot& snap, int slot, const uint16_t* packMoves) {
+    if (!snap.battle.inBattle || slot < 0 || slot >= 6) {
+        return packMoves;
+    }
+    const uint16_t* live = snap.battle.foeMoves[slot];
+    if (live[0] || live[1] || live[2] || live[3]) {
+        return live;
+    }
+    return packMoves;
+}
+
 void drawCalcSpe(int spe, int other, bool right) {
     char buf[8];
     std::snprintf(buf, sizeof buf, "%d", spe);
@@ -96,6 +107,7 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
             }
         }
     }
+    const uint16_t* foeMoves = calcFoeMoves(*snap, session.foeSlot(), foeSet->moves);
     const Field intoFoe = aimField(session.fieldState(), true);
     const Field intoUs = aimField(session.fieldState(), false);
     const int pSpe = finalSpeed(player, intoFoe);
@@ -134,7 +146,7 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
     }
     ImGui::Dummy(ImVec2(0, 8));
     int pct[4]{};
-    moveUsePct(pack->dmgGen, pack->typeChart, t->aiFlags, foe, player, foeSet->moves, intoUs, pct,
+    moveUsePct(pack->dmgGen, pack->typeChart, t->aiFlags, foe, player, foeMoves, intoUs, pct,
         pack);
     if (ImGui::BeginTable("calc-mv", 2,
             ImGuiTableFlags_NoPadInnerX | ImGuiTableFlags_SizingStretchSame, ImVec2(pane, 0))) {
@@ -148,14 +160,14 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
         drawCalcMoveCol(pack->dmgGen, pack->typeChart, player, foe, raw.moves, intoFoe, nullptr,
             session.sideCrit(false), false, session, row, act);
         ImGui::TableSetColumnIndex(1);
-        drawCalcMoveCol(pack->dmgGen, pack->typeChart, foe, player, foeSet->moves, intoUs, pct,
+        drawCalcMoveCol(pack->dmgGen, pack->typeChart, foe, player, foeMoves, intoUs, pct,
             session.sideCrit(true), true, session, row, act);
         ImGui::EndTable();
     }
     const float bot = ImGui::GetCursorScreenPos().y;
     ImGui::GetWindowDrawList()->AddLine(ImVec2(top.x + pane * 0.5f, top.y),
         ImVec2(top.x + pane * 0.5f, bot), ImGui::GetColorU32(kBorder), 1.f);
-    drawCalcKo(session, pack->dmgGen, pack->typeChart, player, foe, raw.moves, foeSet->moves,
+    drawCalcKo(session, pack->dmgGen, pack->typeChart, player, foe, raw.moves, foeMoves,
         intoFoe, intoUs);
 }
 
