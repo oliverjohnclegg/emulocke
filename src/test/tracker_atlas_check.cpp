@@ -170,6 +170,17 @@ void testTrackerAtlas() {
     REQUIRE(twinleaf != nullptr);
     REQUIRE(twinleaf->mets[0] == 1);
 
+    const emulocke::TrackerAtlas* plat = emulocke::trackerAtlas(emulocke::kPlatinumUsUuid, "");
+    const emulocke::TrackerStop* chateau = findStop(*plat, "the-old-chateau");
+    REQUIRE(chateau != nullptr);
+    REQUIRE(chateau->metCount == 1);
+    REQUIRE(chateau->mets[0] == 70);
+    REQUIRE(findStop(*plat, "the-lost-tower")->mets != nullptr);
+    REQUIRE(findStop(*plat, "ruin-maniacs-cave")->mets[0] == 66);
+    REQUIRE(findStop(*plat, "ruin-maniacs-tunnel")->mets[0] == 67);
+    REQUIRE(findStop(*plat, "routes-219")->mets[0] == 34);
+    REQUIRE(findStop(*plat, "victory-road")->mets[0] == 54);
+
     const emulocke::TrackerAtlas* hgss = emulocke::trackerAtlas(emulocke::kHeartGoldUsUuid, "");
     const emulocke::TrackerStop* bark = findStop(*hgss, "new-bark-town");
     REQUIRE(bark != nullptr);

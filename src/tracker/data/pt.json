@@ -217,7 +217,7 @@
       "id": "mars1",
       "kind": "boss",
       "name": "Mars",
-      "locale": "Valley Windoworks",
+      "locale": "Valley Windworks",
       "boss": "evilteam",
       "team": [
         {
@@ -245,7 +245,10 @@
       "id": "the-old-chateau",
       "kind": "encounter",
       "name": "The Old Chateau",
-      "catch": "met"
+      "catch": "met",
+      "mets": [
+        70
+      ]
     },
     {
       "id": "eterna-city",
@@ -431,7 +434,10 @@
       "id": "the-lost-tower",
       "kind": "encounter",
       "name": "The Lost Tower",
-      "catch": "met"
+      "catch": "met",
+      "mets": [
+        24
+      ]
     },
     {
       "id": "solaceon-ruins",
@@ -505,13 +511,19 @@
       "id": "ruin-maniacs-cave",
       "kind": "encounter",
       "name": "Ruin Maniac's Cave",
-      "catch": "met"
+      "catch": "met",
+      "mets": [
+        66
+      ]
     },
     {
       "id": "ruin-maniacs-tunnel",
       "kind": "encounter",
       "name": "Ruin Maniac's Tunnel",
-      "catch": "met"
+      "catch": "met",
+      "mets": [
+        67
+      ]
     },
     {
       "id": "valor-lakefront",
@@ -678,7 +690,10 @@
       "id": "routes-219",
       "kind": "encounter",
       "name": "Routes 219",
-      "catch": "met"
+      "catch": "met",
+      "mets": [
+        34
+      ]
     },
     {
       "id": "route-220",
@@ -1101,7 +1116,10 @@
       "id": "victory-road",
       "kind": "encounter",
       "name": "Victory Road",
-      "catch": "met"
+      "catch": "met",
+      "mets": [
+        54
+      ]
     },
     {
       "id": "pokemon-league",
