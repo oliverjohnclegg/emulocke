@@ -60,6 +60,9 @@ int main() {
     REQUIRE(pt && pt->dmgGen == 4 && pt->trainerCount > 500);
     const emulocke::PackTrainer* roark = emulocke::packTrainer(*pt, 246);
     REQUIRE(roark);
+    REQUIRE(std::strcmp(roark->name, "Leader Roark") == 0);
+    REQUIRE(std::strcmp(roark->cls, "Leader") == 0);
+    REQUIRE(std::strcmp(roark->location, "Oreburgh Gym") == 0);
     REQUIRE(emulocke::pokemonFromPack(*emulocke::trainerMon(*pt, *roark, 0), pt).species != 0);
     REQUIRE(emulocke::calcPack(emulocke::kDiamondUsUuid, {})->dmgGen == 4);
     REQUIRE(emulocke::calcPack(emulocke::kHeartGoldUsUuid, {})->dmgGen == 4);
