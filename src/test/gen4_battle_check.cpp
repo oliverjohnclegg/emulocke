@@ -83,6 +83,8 @@ void testGen4Battle() {
     REQUIRE(live.battle.foe.hp == 7);
     REQUIRE(live.battle.foe.stages[1] == 3);
     REQUIRE(live.battle.foeSpecies[0] == 399);
+    REQUIRE(live.battle.foeHp[0] == 7);
+    REQUIRE(live.battle.foeMaxHp[0] == 20);
     REQUIRE(live.party.mons[0].abilityNum == 9);
     REQUIRE(live.battle.foeMoves[0][0] == 33);
     REQUIRE(live.battle.foeMoves[0][1] == 45);
@@ -105,6 +107,8 @@ void testGen4Battle() {
     REQUIRE(ptLive.battle.player.species == 25);
     REQUIRE(ptLive.battle.foe.species == 399);
     REQUIRE(ptLive.battle.foeSpecies[0] == 399);
+    REQUIRE(ptLive.battle.foeHp[0] == 7);
+    REQUIRE(ptLive.battle.foeMaxHp[0] == 20);
     REQUIRE(ptLive.party.mons[0].abilityNum == 9);
     REQUIRE(ptLive.battle.foeMoves[0][0] == 33);
     REQUIRE(ptLive.battle.foeMoves[0][1] == 45);

@@ -73,13 +73,6 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
     Pokemon player = pokemonFromSnap(raw, pack);
     Pokemon foe = pokemonFromPack(*foeSet, pack);
     if (snap->battle.inBattle) {
-        if (session.partySlot() == snap->battle.player.partyIndex ||
-            raw.species == snap->battle.player.species) {
-            applyBattler(player, snap->battle.player);
-        }
-        if (session.foeSlot() == snap->battle.foe.partyIndex) {
-            applyBattler(foe, snap->battle.foe);
-        }
         const int fs = session.foeSlot();
         if (fs >= 0 && fs < 6 && snap->battle.foeMaxHp[fs]) {
             foe.maxHp = snap->battle.foeMaxHp[static_cast<std::size_t>(fs)];
@@ -105,6 +98,13 @@ void drawCalcMatchup(Application& app, CalcSession& session) {
             if (snap->battle.foeSpe[fs]) {
                 foe.spe = snap->battle.foeSpe[fs];
             }
+        }
+        if (session.partySlot() == snap->battle.player.partyIndex ||
+            raw.species == snap->battle.player.species) {
+            applyBattler(player, snap->battle.player);
+        }
+        if (session.foeSlot() == snap->battle.foe.partyIndex) {
+            applyBattler(foe, snap->battle.foe);
         }
     }
     const uint16_t* foeMoves = calcFoeMoves(*snap, session.foeSlot(), foeSet->moves);
